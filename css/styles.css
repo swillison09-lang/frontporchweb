@@ -268,8 +268,9 @@ a {
   align-items: center;
 }
 
-/* Text column */
+/* Text column — single column on mobile, becomes a 2-col grid on desktop */
 .hero-content {
+  width: 100%;
   max-width: 640px;
 }
 
@@ -324,18 +325,20 @@ a {
 }
 
 /*
-  Badge motif — large circle echoing the round logo.
-  Stacks below the bio on mobile; floats right on desktop (≥900px).
+  Badge motif — circular headshot.
+  Mobile: flows naturally between the bio block and the CTA buttons
+  (DOM order handles placement — no flex tricks needed).
+  Desktop (≥900px): CSS Grid on .hero-content lifts it into the right column.
 */
 .hero-badge {
   display: flex;
   justify-content: center;
-  order: 1; /* puts the photo after .hero-content in the column stack */
+  margin: 2rem 0 2.5rem;
 }
 
 .hero-badge-ring {
-  width: 220px;
-  height: 220px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   border: 2px solid var(--sage);
   display: flex;
@@ -379,15 +382,43 @@ a {
     padding: 7rem 0 6rem;
   }
 
+  /* On desktop .hero-inner no longer needs to be a row —
+     the two-column effect lives inside .hero-content via CSS Grid. */
   .hero-inner {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 4rem;
+    align-items: stretch;
   }
 
+  /*
+    CSS Grid inside .hero-content:
+      column 1 (1fr)  — eyebrow, headline, story, actions
+      column 2 (auto) — photo, spanning all rows, centered vertically
+
+    Named grid areas make the intent explicit and keep the photo in
+    the right column regardless of the exact row count.
+  */
   .hero-content {
-    flex: 1;
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "eyebrow  photo"
+      "headline photo"
+      "story    photo"
+      "actions  photo";
+    column-gap: 4rem;
+    align-items: start;
+  }
+
+  .hero-content > .eyebrow       { grid-area: eyebrow; }
+  .hero-content > .hero-headline  { grid-area: headline; }
+  .hero-content > .hero-story     { grid-area: story; }
+  .hero-content > .hero-actions   { grid-area: actions; }
+
+  .hero-content > .hero-badge {
+    grid-area: photo;
+    align-self: center;
+    margin: 0;
   }
 
   .hero-headline {
@@ -397,11 +428,6 @@ a {
   .hero-story {
     margin: 3.5rem 0 4.5rem;
     padding: 3rem 2.5rem;
-  }
-
-  .hero-badge {
-    order: 0; /* restore natural source order for side-by-side layout */
-    flex-shrink: 0;
   }
 
   .hero-badge-ring {
