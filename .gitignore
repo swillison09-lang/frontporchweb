@@ -1,0 +1,59 @@
+# ── Dependencies ──────────────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ── Secrets & local config ────────────────────────────────────────────────────
+.env
+.env.*
+.env.local
+.env.*.local
+*.secret
+secrets/
+
+# Wrangler auth (OAuth tokens — never commit)
+.wrangler/
+worker/.wrangler/
+
+# ── Worker build artifacts ────────────────────────────────────────────────────
+worker/dist/
+worker/build/
+dist/
+build/
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+wrangler-*.log
+
+# ── OS & editor junk ──────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+.vscode/
+!.vscode/extensions.json   # allow sharing recommended extensions
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.vim/
+
+# ── Claude Code project settings ─────────────────────────────────────────────
+# .claude/settings.local.json is machine-specific (allow-list for this machine)
+.claude/settings.local.json
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+*.tmp
+*.bak
+.cache/
+coverage/

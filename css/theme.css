@@ -1,0 +1,135 @@
+/* ============================================================
+   FRONT PORCH WEB, LLC — BRAND THEME
+   Colors and type pulled directly from the logo.
+   Drop this in as /css/theme.css and load it FIRST, before any
+   other stylesheet. Every page should use these variables —
+   never hardcode colors.
+   Tagline: "Websites Built on Trust"
+   ============================================================ */
+
+/* ---- Fonts ---- */
+/* Display = elegant serif (echoes the logo wordmark).
+   Body = clean, warm sans. Loaded from Google Fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Nunito+Sans:wght@400;600;700;800&display=swap');
+
+:root {
+  /* ---- Core brand colors (from the logo) ---- */
+  --cream:        #FBF8F3;  /* logo background / page background      */
+  --paper:        #FFFFFF;  /* cards, raised surfaces                  */
+  --navy:         #203036;  /* logo wordmark — primary text & dark BG  */
+  --door-navy:    #283C3D;  /* logo door — secondary dark, depth       */
+  --sage:         #717D68;  /* logo ring & tagline — primary accent    */
+  --sage-soft:    #9AA98C;  /* lighter sage — hovers, borders          */
+  --brass:        #B98C4A;  /* logo lantern — small warm accents only  */
+
+  /* ---- Working tints (derived, keep consistent) ---- */
+  --cream-deep:   #F0E9DC;  /* subtle section banding                  */
+  --ink-soft:     #5B5F54;  /* muted body text                         */
+  --line:         #E3D9C9;  /* hairline borders on cream               */
+
+  /* ---- Type ---- */
+  --display: 'Fraunces', Georgia, serif;
+  --body:    'Nunito Sans', system-ui, -apple-system, sans-serif;
+
+  /* ---- Shape & depth ---- */
+  --radius:   16px;
+  --radius-lg:24px;
+  --shadow:   0 18px 40px -22px rgba(32, 48, 54, .45);
+  --shadow-sm:0 6px 18px -10px rgba(32, 48, 54, .35);
+
+  /* ---- Layout ---- */
+  --maxw:   1180px;
+  --gutter: 1.4rem;
+}
+
+/* ---- Base element styling ---- */
+body {
+  background: var(--cream);
+  color: var(--navy);
+  font-family: var(--body);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--navy);
+}
+
+a { color: var(--sage); }
+
+/* ---- Reusable accents ---- */
+
+/* eyebrow label above headings */
+.eyebrow {
+  font-family: var(--body);
+  font-weight: 800;
+  font-size: .78rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+
+/* primary button — navy, like the logo door */
+.btn-primary {
+  background: var(--navy);
+  color: var(--cream);
+  font-family: var(--body);
+  font-weight: 800;
+  border: none;
+  border-radius: 999px;
+  padding: .9rem 1.7rem;
+  cursor: pointer;
+  transition: transform .12s ease, background .2s ease;
+}
+.btn-primary:hover { background: var(--door-navy); transform: translateY(-2px); }
+.btn-primary:focus-visible { outline: 3px solid var(--sage); outline-offset: 3px; }
+
+/* secondary button — sage outline */
+.btn-ghost {
+  background: transparent;
+  color: var(--sage);
+  font-family: var(--body);
+  font-weight: 800;
+  border: 2px solid var(--sage);
+  border-radius: 999px;
+  padding: .9rem 1.7rem;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.btn-ghost:hover { background: var(--sage); color: var(--cream); }
+.btn-ghost:focus-visible { outline: 3px solid var(--sage); outline-offset: 3px; }
+
+/* dark section (footer, accent bands) — navy like the logo door */
+.section-dark {
+  background: var(--navy);
+  color: var(--cream);
+}
+.section-dark h1, .section-dark h2, .section-dark h3 { color: var(--cream); }
+.section-dark .eyebrow { color: var(--sage-soft); }
+
+/* card surface */
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* circular logo-style framing — echoes the round badge */
+.badge-round {
+  border-radius: 50%;
+  border: 2px solid var(--sage);
+}
+
+/* ============================================================
+   USAGE NOTES
+   - Cream is the dominant background. Navy for text and the
+     occasional dark band. Sage is the accent — used sparingly.
+   - Brass is for tiny touches only (icons, dividers). Never a
+     background or large area.
+   - Keep generous white space; the logo reads calm and roomy,
+     the site should too.
+   ============================================================ */

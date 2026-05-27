@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<!--
+  Front Porch Web, LLC — Client Portal
+  Views: Auth card → Dashboard → Questionnaire (4-step multi-page form).
+  Auth uses Supabase (Google OAuth + email/password). See js/supabase-client.js.
+  Load order: theme.css → styles.css → main.js → supabase-client.js → portal.js
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal | Front Porch Web, LLC</title>
+  <link rel="icon" href="/assets/logo.png">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+
+<!-- ============================================================
+     NAV — logo left, back-to-home right
+     ============================================================ -->
+<nav class="navbar portal-nav" id="navbar">
+  <div class="container nav-inner">
+    <a href="/" class="nav-brand" aria-label="Front Porch Web home">
+      <img src="/assets/logo.png" alt="" class="nav-logo" aria-hidden="true">
+      <span class="nav-wordmark">Front Porch Web</span>
+    </a>
+    <a href="/" class="portal-back">&larr; Back to Home</a>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     UPLOAD PROGRESS OVERLAY — shown during submission while photos
+     are uploading to R2. Mounted once; portal.js shows / updates it.
+     ============================================================ -->
+<div class="upload-overlay hidden" id="uploadOverlay" role="dialog" aria-modal="true" aria-labelledby="uploadOverlayTitle">
+  <div class="upload-overlay-card">
+    <h3 id="uploadOverlayTitle">Uploading your photos…</h3>
+    <p class="upload-overlay-status" id="uploadOverlayStatus">Preparing…</p>
+    <div class="upload-overlay-bar" aria-hidden="true">
+      <div class="upload-overlay-bar-fill" id="uploadOverlayBarFill" style="width: 0%"></div>
+    </div>
+    <p class="upload-overlay-count" id="uploadOverlayCount"></p>
+    <div class="upload-overlay-error hidden" id="uploadOverlayError" role="alert"></div>
+    <div class="upload-overlay-actions hidden" id="uploadOverlayActions">
+      <button type="button" class="btn-ghost" id="uploadRetryBtn">Retry</button>
+      <button type="button" class="btn-ghost" id="uploadCancelBtn">Cancel &amp; go back</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     MAIN — three views: auth  |  dashboard  |  questionnaire
+     ============================================================ -->
+<main class="portal-main" id="portalMain">
+
+
+  <!-- ── STAGE: Auth card + Dashboard (narrow, 460 px) ──────── -->
+  <div class="portal-stage" id="portalStage">
+
+    <!-- AUTH CARD -->
+    <section id="authSection" aria-label="Sign in or create account">
+      <div class="auth-card card">
+
+        <div class="auth-card-head">
+          <img src="/assets/logo.png" alt="" class="auth-logo" aria-hidden="true">
+          <h1 class="auth-title" id="authTitle">Welcome back.</h1>
+          <p class="auth-sub" id="authSub">Sign in to your Front Porch Web portal.</p>
+        </div>
+
+        <button type="button" class="google-btn" id="googleBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="18" height="18" aria-hidden="true" focusable="false">
+            <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+            <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+            <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+            <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+
+        <div class="auth-divider" aria-hidden="true"><span>or</span></div>
+
+        <form id="emailAuthForm" novalidate>
+          <div class="form-group hidden" id="nameGroup">
+            <label for="authName">Full Name</label>
+            <input type="text" id="authName" name="name" autocomplete="name" placeholder="Your name">
+            <span class="field-error" id="nameError" aria-live="polite"></span>
+          </div>
+          <div class="form-group">
+            <label for="authEmail">Email</label>
+            <input type="email" id="authEmail" name="email" autocomplete="email" placeholder="you@example.com" required>
+            <span class="field-error" id="emailError" aria-live="polite"></span>
+          </div>
+          <div class="form-group">
+            <label for="authPassword">Password</label>
+            <input type="password" id="authPassword" name="password" autocomplete="current-password" placeholder="••••••••" required>
+            <span class="field-error" id="passwordError" aria-live="polite"></span>
+          </div>
+          <div class="form-group hidden" id="confirmGroup">
+            <label for="authConfirm">Confirm Password</label>
+            <input type="password" id="authConfirm" name="confirm_password" autocomplete="new-password" placeholder="••••••••">
+            <span class="field-error" id="confirmError" aria-live="polite"></span>
+          </div>
+          <span class="field-error field-error--form" id="formError" aria-live="polite"></span>
+          <button type="submit" class="btn-primary auth-submit" id="authSubmitBtn">Sign In</button>
+        </form>
+
+        <p class="auth-footer">
+          <span id="authToggleText">Need an account?</span>
+          <a href="#" class="auth-toggle-link" id="authToggleLink">Sign up</a>
+        </p>
+
+      </div>
+    </section><!-- /#authSection -->
+
+
+    <!-- DASHBOARD -->
+    <section id="portalDashboard" class="hidden" aria-label="Your portal dashboard">
+      <div class="dashboard-card card">
+        <div class="dashboard-head">
+          <img src="/assets/logo.png" alt="" class="dashboard-logo" aria-hidden="true">
+          <h2 class="dashboard-title">Hey, <span id="welcomeName">there</span>!&nbsp; 👋</h2>
+          <p class="dashboard-sub">
+            You are in your Front Porch Web client portal.<br>
+            Ready to get your project started?
+          </p>
+        </div>
+        <div class="dashboard-actions">
+          <button type="button" class="btn-primary" id="startQuestionnaireBtn">
+            Start My Website Questionnaire
+          </button>
+        </div>
+        <p class="dashboard-signout"><a href="#" id="signOutLink">Sign out</a></p>
+
+        <!--
+          TEMP TESTING — owner setup link
+          Reachable via /portal.html#setup or Ctrl+Shift+S as well.
+          REMOVE before launch (or gate behind a real owner-only check).
+        -->
+        <p class="dashboard-temp-admin">
+          <a href="/setup.html" class="temp-admin-link">
+            <span aria-hidden="true">⚙</span> Owner setup
+            <span class="temp-admin-shortcut">Ctrl+Shift+S</span>
+          </a>
+        </p>
+      </div>
+    </section><!-- /#portalDashboard -->
+
+  </div><!-- /#portalStage -->
+
+
+  <!-- ── QUESTIONNAIRE (wider, 640 px) ──────────────────────── -->
+  <!--
+    Shown when user clicks "Start My Website Questionnaire".
+    7-step form — answers collected in JS, no page reloads.
+  -->
+  <section id="questionnaireSection" class="hidden q-section" aria-label="Website questionnaire">
+
+    <a href="#" id="qExitBtn" class="q-exit-link">&larr; Back to dashboard</a>
+
+    <div class="q-wrap card">
+
+      <!-- ── Step indicator ── -->
+      <div class="q-steps" id="qSteps" role="list" aria-label="Form progress">
+
+        <div class="q-step active" data-step="1" role="listitem">
+          <div class="q-step-bubble"><span>1</span></div>
+          <p class="q-step-name">About You</p>
+        </div>
+        <div class="q-step-rail" data-rail="1"></div>
+
+        <div class="q-step upcoming" data-step="2" role="listitem">
+          <div class="q-step-bubble"><span>2</span></div>
+          <p class="q-step-name">Your Story</p>
+        </div>
+        <div class="q-step-rail" data-rail="2"></div>
+
+        <div class="q-step upcoming" data-step="3" role="listitem">
+          <div class="q-step-bubble"><span>3</span></div>
+          <p class="q-step-name">Style</p>
+        </div>
+        <div class="q-step-rail" data-rail="3"></div>
+
+        <div class="q-step upcoming" data-step="4" role="listitem">
+          <div class="q-step-bubble"><span>4</span></div>
+          <p class="q-step-name">Links</p>
+        </div>
+        <div class="q-step-rail" data-rail="4"></div>
+
+        <div class="q-step upcoming" data-step="5" role="listitem">
+          <div class="q-step-bubble"><span>5</span></div>
+          <p class="q-step-name">Colors</p>
+        </div>
+        <div class="q-step-rail" data-rail="5"></div>
+
+        <div class="q-step upcoming" data-step="6" role="listitem">
+          <div class="q-step-bubble"><span>6</span></div>
+          <p class="q-step-name">Photos</p>
+        </div>
+        <div class="q-step-rail" data-rail="6"></div>
+
+        <div class="q-step upcoming" data-step="7" role="listitem">
+          <div class="q-step-bubble"><span>7</span></div>
+          <p class="q-step-name">Review</p>
+        </div>
+        <div class="q-step-rail" data-rail="7"></div>
+
+        <div class="q-step upcoming" data-step="8" role="listitem">
+          <div class="q-step-bubble"><span>8</span></div>
+          <p class="q-step-name">Payment</p>
+        </div>
+
+      </div><!-- /.q-steps -->
+
+
+      <!-- ── STEP 1 — About You ── -->
+      <div id="qPanel1" class="q-panel">
+        <div class="q-panel-head">
+          <h2>Let us start with the basics.</h2>
+          <p class="q-panel-sub">No pressure — rough notes work great.</p>
+        </div>
+
+        <div class="form-group">
+          <label for="qName">Business, family, or athlete name <span class="req-star">*</span></label>
+          <input type="text" id="qName"
+            placeholder="e.g.  Greenwood Landscaping  ·  The Rivera Family  ·  Jordan Bennett">
+          <span class="field-error q-error" id="qNameError" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="qSiteType">Type of site <span class="req-star">*</span></label>
+          <select id="qSiteType">
+            <option value="">Choose one…</option>
+            <option value="local-business">Local business</option>
+            <option value="adoption-profile">Adoption profile</option>
+            <option value="recruiting-profile">College sports recruiting</option>
+            <option value="personal-other">Personal / other</option>
+          </select>
+          <span class="field-error q-error" id="qSiteTypeError" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="qEmail">Your email <span class="req-star">*</span></label>
+          <input type="email" id="qEmail" autocomplete="email"
+            placeholder="you@example.com" required>
+          <span class="field-error q-error" id="qEmailError" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="qPhone">Phone <span class="q-optional">(optional)</span></label>
+          <input type="tel" id="qPhone" autocomplete="tel"
+            placeholder="555-867-5309">
+        </div>
+      </div><!-- /#qPanel1 -->
+
+
+      <!-- ── STEP 2 — Tell Us About You ── -->
+      <div id="qPanel2" class="q-panel hidden">
+
+        <!-- GENERIC variant (local-business, personal-other) -->
+        <div class="q-flow q-flow-generic">
+          <div class="q-panel-head">
+            <h2>Tell us about yourself.</h2>
+            <p class="q-panel-sub">Bullet notes are perfect — we will write the polished copy&nbsp;later.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="qTagline">Tagline or what you do in one line</label>
+            <input type="text" id="qTagline"
+              placeholder="e.g.  Honest HVAC for the Cedar Valley  or  We built our family on love">
+          </div>
+
+          <div class="form-group">
+            <label for="qFacts">Key facts about you or your business</label>
+            <textarea id="qFacts" rows="4"
+              placeholder="- family-owned since 2009&#10;- free estimates, insured &amp; bonded&#10;- serve a 30-mile radius&#10;- 5-star Google rating"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="qServices">Services or main offerings <span class="q-optional">(one per line)</span></label>
+            <textarea id="qServices" rows="4"
+              placeholder="- lawn care &amp; edging&#10;- mulch &amp; landscape beds&#10;- tree trimming&#10;- seasonal clean-ups"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="qFeeling">What feeling or message should visitors get?</label>
+            <textarea id="qFeeling" rows="3"
+              placeholder="- we are trustworthy, not pushy&#10;- warm and personal, not corporate&#10;- show our dogs lol&#10;- we really love this community"></textarea>
+          </div>
+        </div><!-- /.q-flow-generic -->
+
+        <!-- ADOPTION variant -->
+        <div class="q-flow q-flow-adopt hidden">
+          <div class="q-panel-head">
+            <h2>Your family.</h2>
+            <p class="q-panel-sub">Tell us a little about yourselves — bullet notes are perfect for the parent facts.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="qaCity">City and State</label>
+            <input type="text" id="qaCity" placeholder="e.g.  Cedar Falls, Iowa">
+          </div>
+
+          <div class="form-group">
+            <label for="qaLetter">Letter to the birth mother / birth parents <span class="req-star">*</span></label>
+            <p class="q-help">Written in your own words — we will keep this letter verbatim on your site.</p>
+            <textarea id="qaLetter" rows="10"
+              placeholder="Dear Birth Mother,&#10;&#10;We cannot imagine what you are going through, and we hold so much respect for the love behind your decision..." required></textarea>
+            <span class="field-error q-error" id="qaLetterError" aria-live="polite"></span>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Adoptive Parent 1</h3>
+            <div class="form-group">
+              <label for="qaP1Name">Name</label>
+              <input type="text" id="qaP1Name" placeholder="e.g.  Sarah">
+            </div>
+            <div class="form-group">
+              <label for="qaP1Facts">3 to 5 short facts about them</label>
+              <textarea id="qaP1Facts" rows="5"
+                placeholder="- elementary school teacher&#10;- loves baking on Saturday mornings&#10;- volunteers at the animal shelter&#10;- closest thing to a superpower: making everyone feel welcome"></textarea>
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Adoptive Parent 2 <span class="q-optional">(optional — leave blank if single parent)</span></h3>
+            <div class="form-group">
+              <label for="qaP2Name">Name</label>
+              <input type="text" id="qaP2Name" placeholder="e.g.  Michael">
+            </div>
+            <div class="form-group">
+              <label for="qaP2Facts">3 to 5 short facts about them</label>
+              <textarea id="qaP2Facts" rows="5"
+                placeholder="- civil engineer who loves bridges&#10;- coaches little league on weekends&#10;- can fix just about anything&#10;- makes the best pancakes in the county"></textarea>
+            </div>
+          </div>
+        </div><!-- /.q-flow-adopt -->
+
+        <!-- RECRUITING variant — athlete basics + NCAA + academics -->
+        <div class="q-flow q-flow-recruit hidden">
+          <div class="q-panel-head">
+            <h2>Athlete basics, eligibility, and academics.</h2>
+            <p class="q-panel-sub">Coach-facing fields come first — grad year, sport, position. Optional detail is at the bottom.</p>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Coach-facing essentials</h3>
+            <p class="q-help">Graduation year is the #1 filter coaches use. Get this and sport/position right.</p>
+            <div class="form-group">
+              <label for="qrGradYear">Graduation year <span class="q-required-mark" aria-hidden="true">*</span></label>
+              <input type="number" id="qrGradYear" placeholder="e.g.  2027" min="2024" max="2035">
+            </div>
+            <div class="form-group">
+              <label for="qrPrimarySport">Primary sport</label>
+              <input type="text" id="qrPrimarySport" placeholder="e.g.  Football, Soccer, Lacrosse">
+            </div>
+            <div class="form-group">
+              <label for="qrPrimaryPositions">Primary position(s)</label>
+              <input type="text" id="qrPrimaryPositions" placeholder="e.g.  Quarterback / Safety">
+            </div>
+            <div class="form-group">
+              <label for="qrSecondaryPositions">Secondary position(s) <span class="q-optional">(optional)</span></label>
+              <input type="text" id="qrSecondaryPositions" placeholder="e.g.  Punter, Kick returner">
+            </div>
+            <div class="form-group">
+              <label for="qrHighSchool">High school name</label>
+              <input type="text" id="qrHighSchool" placeholder="e.g.  Cedar Falls High School">
+            </div>
+            <div class="form-group">
+              <label for="qrCity">City and state</label>
+              <input type="text" id="qrCity" placeholder="e.g.  Cedar Falls, Iowa">
+            </div>
+            <div class="form-group">
+              <label for="qrHeight">Height</label>
+              <input type="text" id="qrHeight" placeholder='e.g.  6&apos;1&quot;'>
+            </div>
+            <div class="form-group">
+              <label for="qrWeight">Weight</label>
+              <input type="text" id="qrWeight" placeholder="e.g.  185 lbs">
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">NCAA Eligibility Center</h3>
+            <p class="q-help q-ncaa-note">
+              Starting the 2026-27 academic year, the NCAA Eligibility Center is being applied
+              to all divisions, including Division III (previously D1 / D2 only). Register and
+              check current requirements at
+              <a href="https://eligibilitycenter.org" target="_blank" rel="noopener">eligibilitycenter.org</a>.
+              <strong>NCAA rules change &mdash; this form only collects what you have today; it
+              does not assert or guarantee eligibility status.</strong>
+            </p>
+            <div class="form-group">
+              <label for="qrNcaaIdStatus">Registration status</label>
+              <select id="qrNcaaIdStatus">
+                <option value="">&mdash; choose one &mdash;</option>
+                <option value="registered">Registered (have an ID)</option>
+                <option value="in-progress">Account started, not finalized</option>
+                <option value="not-yet">Not yet registered</option>
+                <option value="unsure">Not sure</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="qrNcaaId">NCAA Eligibility Center ID <span class="q-optional">(if registered)</span></label>
+              <input type="text" id="qrNcaaId" placeholder="e.g.  1234567890">
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Academics</h3>
+            <div class="form-group">
+              <label for="qrGpa">Overall GPA</label>
+              <input type="text" id="qrGpa" placeholder="e.g.  3.8 (weighted) / 4.2">
+            </div>
+            <div class="form-group">
+              <label for="qrCoreGpa">Core-course GPA <span class="q-optional">(if known)</span></label>
+              <p class="q-help">The NCAA recalculates GPA from roughly 16 approved core courses (English, math, science, social science, etc.). Some coaches request this separately from your overall GPA.</p>
+              <input type="text" id="qrCoreGpa" placeholder="e.g.  3.6 across core courses">
+            </div>
+            <div class="form-group">
+              <label for="qrSatScore">SAT score <span class="q-optional">(if taken)</span></label>
+              <input type="text" id="qrSatScore" placeholder="e.g.  1310 (R/W 660, M 650)">
+            </div>
+            <div class="form-group">
+              <label for="qrActScore">ACT score <span class="q-optional">(if taken)</span></label>
+              <input type="text" id="qrActScore" placeholder="e.g.  28 composite">
+            </div>
+            <div class="form-group">
+              <label for="qrTranscriptStatus">Official transcript available?</label>
+              <select id="qrTranscriptStatus">
+                <option value="">&mdash; choose one &mdash;</option>
+                <option value="yes">Yes &mdash; can be sent on request</option>
+                <option value="in-progress">In progress (counselor has been asked)</option>
+                <option value="not-yet">Not yet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="qrIntendedMajor">Intended major / academic interests</label>
+              <textarea id="qrIntendedMajor" rows="3"
+                placeholder="- Business&#10;- Engineering&#10;- Undecided, but interested in pre-med"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="qrAcademicHonors">Academic honors</label>
+              <textarea id="qrAcademicHonors" rows="3"
+                placeholder="- National Honor Society&#10;- Honor roll all four years&#10;- AP Scholar"></textarea>
+            </div>
+          </div>
+
+          <div class="q-subsection q-subsection-optional">
+            <h3 class="q-subsection-title">Optional detail</h3>
+            <p class="q-help">Skippable &mdash; leave blank if they do not apply.</p>
+            <div class="form-group">
+              <label for="qrClassRank">Class rank <span class="q-optional">(many schools no longer report this &mdash; leave blank if yours does not)</span></label>
+              <input type="text" id="qrClassRank" placeholder="e.g.  22 of 240 (top 10%)">
+            </div>
+            <div class="form-group">
+              <label for="qrJerseyNumber">Jersey number <span class="q-optional">(useful for tagging clips, otherwise minor)</span></label>
+              <input type="text" id="qrJerseyNumber" placeholder="e.g.  12">
+            </div>
+          </div>
+        </div><!-- /.q-flow-recruit -->
+
+      </div><!-- /#qPanel2 -->
+
+
+      <!-- ── STEP 3 — Style & Pages (generic) | Home & Pets (adoption) ── -->
+      <div id="qPanel3" class="q-panel hidden">
+
+        <!-- GENERIC variant -->
+        <div class="q-flow q-flow-generic">
+          <div class="q-panel-head">
+            <h2>Pages and vibe.</h2>
+            <p class="q-panel-sub">Pick everything you would like — we will scope it&nbsp;together.</p>
+          </div>
+
+          <div class="form-group">
+            <label>Pages or sections you would like</label>
+            <div class="checkbox-grid">
+              <label class="checkbox-label">
+                <input type="checkbox" name="qPages" value="Home" checked>
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span>Home</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="qPages" value="About">
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span>About</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="qPages" value="Services">
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span>Services</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="qPages" value="Gallery">
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span>Gallery</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="qPages" value="Blog">
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span>Blog</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="qPages" value="Contact">
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span>Contact</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="qPages" value="Fundraising">
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span>Fundraising</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="qPages" value="Other">
+                <span class="checkbox-custom" aria-hidden="true"></span>
+                <span>Other</span>
+              </label>
+            </div>
+            <p class="q-page-limit-msg" id="qPageLimitMsg" hidden aria-live="polite"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="qVibe">Overall vibe</label>
+            <select id="qVibe">
+              <option value="">Choose one…</option>
+              <option value="warm-friendly">Warm &amp; friendly</option>
+              <option value="clean-modern">Clean &amp; modern</option>
+              <option value="bold-energetic">Bold &amp; energetic</option>
+              <option value="elegant-calm">Elegant &amp; calm</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="qMustHaves">Anything to avoid, or absolute must-haves?</label>
+            <textarea id="qMustHaves" rows="3"
+              placeholder="- no stock photos of handshakes&#10;- must have a photo of our truck&#10;- keep it simple, not too busy&#10;- earthy, natural colors please"></textarea>
+          </div>
+        </div><!-- /.q-flow-generic -->
+
+        <!-- ADOPTION variant — home & pets -->
+        <div class="q-flow q-flow-adopt hidden">
+          <div class="q-panel-head">
+            <h2>Your home and pets.</h2>
+            <p class="q-panel-sub">Photos help birth parents picture life with your family. Notes are optional but helpful.</p>
+          </div>
+
+          <!-- Outside of home -->
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Outside of your home</h3>
+            <div class="form-group">
+              <label for="qaHomeOutsideNote">Notes <span class="q-optional">(optional)</span></label>
+              <textarea id="qaHomeOutsideNote" rows="2"
+                placeholder="- two-story craftsman with a big front porch&#10;- the maple tree is the best part in fall"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Photos</label>
+              <div class="file-upload-zone" id="qaZone_homeOutside">
+                <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                  <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p class="file-upload-text">Drag photos here or <button type="button" id="qaBtn_homeOutside" class="file-upload-button">choose files</button></p>
+              </div>
+              <input type="file" id="qaInput_homeOutside" accept="image/*" multiple hidden>
+              <p class="file-count-note" id="qaNote_homeOutside">No photos yet.</p>
+              <div class="photo-preview-grid" id="qaGrid_homeOutside"></div>
+            </div>
+          </div>
+
+          <!-- Nursery / inside -->
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Nursery or inside of your home</h3>
+            <div class="form-group">
+              <label for="qaHomeInsideNote">Notes <span class="q-optional">(optional)</span></label>
+              <textarea id="qaHomeInsideNote" rows="2"
+                placeholder="- nursery painted soft sage with a rocking chair from grandma&#10;- bookshelf already full of children's books"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Photos</label>
+              <div class="file-upload-zone" id="qaZone_homeInside">
+                <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                  <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p class="file-upload-text">Drag photos here or <button type="button" id="qaBtn_homeInside" class="file-upload-button">choose files</button></p>
+              </div>
+              <input type="file" id="qaInput_homeInside" accept="image/*" multiple hidden>
+              <p class="file-count-note" id="qaNote_homeInside">No photos yet.</p>
+              <div class="photo-preview-grid" id="qaGrid_homeInside"></div>
+            </div>
+          </div>
+
+          <!-- Neighborhood -->
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">A neighborhood feature</h3>
+            <div class="form-group">
+              <label for="qaNeighborhoodNote">Notes <span class="q-optional">(optional)</span></label>
+              <textarea id="qaNeighborhoodNote" rows="2"
+                placeholder="- the park three blocks over with a great little playground&#10;- our friendly neighbors with kids the same age"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Photos</label>
+              <div class="file-upload-zone" id="qaZone_neighborhood">
+                <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                  <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p class="file-upload-text">Drag photos here or <button type="button" id="qaBtn_neighborhood" class="file-upload-button">choose files</button></p>
+              </div>
+              <input type="file" id="qaInput_neighborhood" accept="image/*" multiple hidden>
+              <p class="file-count-note" id="qaNote_neighborhood">No photos yet.</p>
+              <div class="photo-preview-grid" id="qaGrid_neighborhood"></div>
+            </div>
+          </div>
+
+          <!-- Pets -->
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Your pets <span class="q-optional">(if any)</span></h3>
+            <div class="form-group">
+              <label for="qaPetsNote">Notes <span class="q-optional">(names, ages, personalities)</span></label>
+              <textarea id="qaPetsNote" rows="3"
+                placeholder="- Maggie, golden retriever, 4 years old, loves kids&#10;- Pickle, tabby cat, very chill"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Photos</label>
+              <div class="file-upload-zone" id="qaZone_pets">
+                <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                  <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p class="file-upload-text">Drag photos here or <button type="button" id="qaBtn_pets" class="file-upload-button">choose files</button></p>
+              </div>
+              <input type="file" id="qaInput_pets" accept="image/*" multiple hidden>
+              <p class="file-count-note" id="qaNote_pets">No photos yet.</p>
+              <div class="photo-preview-grid" id="qaGrid_pets"></div>
+            </div>
+          </div>
+
+        </div><!-- /.q-flow-adopt -->
+
+        <!-- RECRUITING variant — performance + measurables + schedule + goals -->
+        <div class="q-flow q-flow-recruit hidden">
+          <div class="q-panel-head">
+            <h2>Stats, measurables, and recruiting goals.</h2>
+            <p class="q-panel-sub">Lead with the numbers that show how you perform.</p>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Key stats and achievements</h3>
+            <p class="q-help">Sport-specific bullet notes. This is the first thing coaches scan.</p>
+            <div class="form-group">
+              <label for="qrKeyStats">Key stats and achievements</label>
+              <textarea id="qrKeyStats" rows="6"
+                placeholder="- 2,800 passing yards (Jr year)&#10;- 28 TD / 4 INT&#10;- 64% completion&#10;- 12 rushing TDs"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="qrAwards">Awards and honors</label>
+              <textarea id="qrAwards" rows="5"
+                placeholder="- All-Conference 1st team (Jr, Sr)&#10;- Team Captain&#10;- Offensive MVP 2025&#10;- All-State honorable mention"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="qrVarsityYears">Years on varsity</label>
+              <input type="text" id="qrVarsityYears" placeholder="e.g.  3 (started Sophomore year)">
+            </div>
+            <div class="form-group">
+              <label for="qrTeamAccomplishments">Team accomplishments</label>
+              <textarea id="qrTeamAccomplishments" rows="3"
+                placeholder="- District champs 2024&#10;- Regional finalists&#10;- 10-2 record (Jr year)"></textarea>
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Measurables &mdash; verified vs self-reported</h3>
+            <p class="q-help">
+              Mark each measurable as <strong>verified</strong> (combine, showcase, or third-party
+              tested) or <strong>self-reported</strong>. Coaches scrutinize unverified numbers
+              more carefully &mdash; being upfront builds trust. Leave any row blank if it does
+              not apply to your sport.
+            </p>
+            <div class="qr-measurables" role="group" aria-label="Measurables">
+              <div class="qr-meas-row qr-meas-header" aria-hidden="true">
+                <span>Measurement</span>
+                <span>Result</span>
+                <span>Status</span>
+                <span>Verified by / where</span>
+              </div>
+              <div class="qr-meas-row" data-meas-idx="0">
+                <input type="text" id="qrMeas0_name"  class="qr-meas-name"   placeholder="Measurement" value="40-yard dash">
+                <input type="text" id="qrMeas0_value" class="qr-meas-value"  placeholder="e.g.  4.65s">
+                <select id="qrMeas0_status" class="qr-meas-status">
+                  <option value="">— status —</option>
+                  <option value="verified">Verified</option>
+                  <option value="self">Self-reported</option>
+                </select>
+                <input type="text" id="qrMeas0_source" class="qr-meas-source" placeholder="e.g.  NSCA Combine, June 2025">
+              </div>
+              <div class="qr-meas-row" data-meas-idx="1">
+                <input type="text" id="qrMeas1_name"  class="qr-meas-name"   placeholder="Measurement" value="Vertical jump">
+                <input type="text" id="qrMeas1_value" class="qr-meas-value"  placeholder='e.g.  32&quot;'>
+                <select id="qrMeas1_status" class="qr-meas-status">
+                  <option value="">— status —</option>
+                  <option value="verified">Verified</option>
+                  <option value="self">Self-reported</option>
+                </select>
+                <input type="text" id="qrMeas1_source" class="qr-meas-source" placeholder="Where / by whom">
+              </div>
+              <div class="qr-meas-row" data-meas-idx="2">
+                <input type="text" id="qrMeas2_name"  class="qr-meas-name"   placeholder="Measurement" value="Bench press (185 lb)">
+                <input type="text" id="qrMeas2_value" class="qr-meas-value"  placeholder="e.g.  14 reps">
+                <select id="qrMeas2_status" class="qr-meas-status">
+                  <option value="">— status —</option>
+                  <option value="verified">Verified</option>
+                  <option value="self">Self-reported</option>
+                </select>
+                <input type="text" id="qrMeas2_source" class="qr-meas-source" placeholder="Where / by whom">
+              </div>
+              <div class="qr-meas-row" data-meas-idx="3">
+                <input type="text" id="qrMeas3_name"  class="qr-meas-name"   placeholder="Measurement (free text)">
+                <input type="text" id="qrMeas3_value" class="qr-meas-value"  placeholder="Result">
+                <select id="qrMeas3_status" class="qr-meas-status">
+                  <option value="">— status —</option>
+                  <option value="verified">Verified</option>
+                  <option value="self">Self-reported</option>
+                </select>
+                <input type="text" id="qrMeas3_source" class="qr-meas-source" placeholder="Where / by whom">
+              </div>
+              <div class="qr-meas-row" data-meas-idx="4">
+                <input type="text" id="qrMeas4_name"  class="qr-meas-name"   placeholder="Measurement (free text)">
+                <input type="text" id="qrMeas4_value" class="qr-meas-value"  placeholder="Result">
+                <select id="qrMeas4_status" class="qr-meas-status">
+                  <option value="">— status —</option>
+                  <option value="verified">Verified</option>
+                  <option value="self">Self-reported</option>
+                </select>
+                <input type="text" id="qrMeas4_source" class="qr-meas-source" placeholder="Where / by whom">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="qrCombineNotes">Other measurables / notes <span class="q-optional">(optional)</span></label>
+              <textarea id="qrCombineNotes" rows="3"
+                placeholder="- Sport-specific tests not listed above&#10;- Notes on where/when numbers were taken"></textarea>
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Upcoming schedule &mdash; where coaches can see you</h3>
+            <p class="q-help">Upcoming games, showcases, camps, or tournaments where a coach could watch you play in person. Dates and locations help.</p>
+            <div class="form-group">
+              <label for="qrUpcomingSchedule">Upcoming games, showcases, camps, tournaments</label>
+              <textarea id="qrUpcomingSchedule" rows="5"
+                placeholder="- Aug 23 — vs. West HS (home), 7pm&#10;- Sep 14 — Midwest Elite Showcase, Indianapolis&#10;- Oct 5 — vs. North HS (away)&#10;- Nov 2-3 — Position camp, Iowa City"></textarea>
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Recruiting goals</h3>
+            <div class="form-group">
+              <label for="qrDivisionsInterest">Divisions of interest</label>
+              <p class="q-help">e.g. D1, D2, D3, NAIA, JUCO &mdash; comma-separate.</p>
+              <input type="text" id="qrDivisionsInterest" placeholder="e.g.  D1, D2, NAIA">
+            </div>
+            <div class="form-group">
+              <label for="qrSchoolsInterest">Schools of interest</label>
+              <textarea id="qrSchoolsInterest" rows="4"
+                placeholder="- Iowa&#10;- Northern Iowa&#10;- Drake&#10;- Open to others"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="qrCampsAttended">Camps / showcases attended (history)</label>
+              <textarea id="qrCampsAttended" rows="3"
+                placeholder="- Iowa Elite Camp 2025&#10;- Midwest QB Showcase&#10;- Position-specific camp at UNI"></textarea>
+            </div>
+          </div>
+        </div><!-- /.q-flow-recruit -->
+
+      </div><!-- /#qPanel3 -->
+
+
+      <!-- ── STEP 4 — Links (generic) | Everyday & logistics (adoption) ── -->
+      <div id="qPanel4" class="q-panel hidden">
+
+        <!-- GENERIC variant -->
+        <div class="q-flow q-flow-generic">
+          <div class="q-panel-head">
+            <h2>Any links we should know about?</h2>
+            <p class="q-panel-sub">Totally optional — existing site, Facebook, Instagram, whatever you&nbsp;have.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="qWebsite">Current website (if any)</label>
+            <input type="url" id="qWebsite" placeholder="https://yoursite.com">
+          </div>
+
+          <div class="form-group">
+            <label for="qFacebook">Facebook</label>
+            <input type="url" id="qFacebook" placeholder="https://facebook.com/your-page">
+          </div>
+
+          <div class="form-group">
+            <label for="qInstagram">Instagram</label>
+            <input type="url" id="qInstagram" placeholder="https://instagram.com/your-handle">
+          </div>
+
+          <div class="form-group">
+            <label for="qOtherLinks">Any other links or notes</label>
+            <textarea id="qOtherLinks" rows="3"
+              placeholder="- YouTube: youtube.com/c/your-channel&#10;- Yelp: yelp.com/biz/your-biz&#10;- a site we love: example.com"></textarea>
+          </div>
+        </div><!-- /.q-flow-generic -->
+
+        <!-- ADOPTION variant — everyday moments, agency, fundraising, contact -->
+        <div class="q-flow q-flow-adopt hidden">
+          <div class="q-panel-head">
+            <h2>Everyday moments and logistics.</h2>
+            <p class="q-panel-sub">Snapshots of daily life, plus a few details about your adoption journey.</p>
+          </div>
+
+          <!-- Everyday moments -->
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Everyday moments</h3>
+            <p class="q-help">Pancakes on Sunday, hiking, a quiet evening with the dog — add a few photos and a short description for each.</p>
+            <div class="form-group">
+              <label>Photos</label>
+              <div class="file-upload-zone" id="qaZone_moments">
+                <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                  <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p class="file-upload-text">Drag photos here or <button type="button" id="qaBtn_moments" class="file-upload-button">choose files</button></p>
+              </div>
+              <input type="file" id="qaInput_moments" accept="image/*" multiple hidden>
+              <p class="file-count-note" id="qaNote_moments">No photos yet. Add a description to each one.</p>
+              <div class="photo-preview-grid" id="qaGrid_moments"></div>
+            </div>
+          </div>
+
+          <!-- Agency -->
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Adoption agency</h3>
+            <div class="form-group">
+              <label for="qaAgency">Agency name</label>
+              <input type="text" id="qaAgency" placeholder="e.g.  Hope's Promise Adoption">
+            </div>
+            <div class="form-group">
+              <label for="qaCaseworker">Caseworker <span class="q-optional">(if applicable)</span></label>
+              <input type="text" id="qaCaseworker" placeholder="e.g.  Jane Smith — jane@agency.org">
+            </div>
+          </div>
+
+          <!-- Fundraising -->
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Fundraising link <span class="q-optional">(optional)</span></h3>
+            <p class="q-help">GoFundMe or GiveSendGo. Your site will display this link prominently and track clicks/visits so you can see how it is performing.</p>
+            <div class="form-group">
+              <label for="qaFundraisingType">Platform</label>
+              <select id="qaFundraisingType">
+                <option value="">None / skip</option>
+                <option value="gofundme">GoFundMe</option>
+                <option value="givesendgo">GiveSendGo</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="qaFundraisingUrl">Link</label>
+              <input type="url" id="qaFundraisingUrl" placeholder="https://www.gofundme.com/your-campaign">
+            </div>
+          </div>
+
+          <!-- Adoption-specific contact info -->
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Adoption contact info <span class="q-optional">(only if different from your personal contact)</span></h3>
+            <p class="q-help">Some families use a separate email and phone for adoption inquiries. Leave blank to reuse the email and phone from Step 1.</p>
+            <div class="form-group">
+              <label for="qaContactEmail">Adoption email</label>
+              <input type="email" id="qaContactEmail" placeholder="hello@yourfamilyadoption.com">
+            </div>
+            <div class="form-group">
+              <label for="qaContactPhone">Adoption phone</label>
+              <input type="tel" id="qaContactPhone" placeholder="(555) 123-4567">
+            </div>
+          </div>
+
+          <!-- Anything else -->
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Anything else?</h3>
+            <div class="form-group">
+              <label for="qaAnythingElse">Notes for us <span class="q-optional">(optional)</span></label>
+              <textarea id="qaAnythingElse" rows="4"
+                placeholder="- a verse or quote that means a lot to us&#10;- something we want birth parents to know&#10;- a feature idea we have in mind"></textarea>
+            </div>
+          </div>
+        </div><!-- /.q-flow-adopt -->
+
+        <!-- RECRUITING variant — primary video, film, coaches, refs, social, contact, statement -->
+        <div class="q-flow q-flow-recruit hidden">
+          <div class="q-panel-head">
+            <h2>Highlight video, coaches, references, and contact.</h2>
+            <p class="q-panel-sub">This is the page coaches share around &mdash; make every link easy to find.</p>
+          </div>
+
+          <div class="q-subsection q-subsection-primary">
+            <h3 class="q-subsection-title">Primary highlight video</h3>
+            <p class="q-help">
+              Your single most important reel &mdash; the one a coach should watch first.
+              We will embed this prominently above the fold on your site.
+            </p>
+            <div class="form-group">
+              <label for="qrPrimaryHighlightVideo">Primary highlight video link</label>
+              <input type="url" id="qrPrimaryHighlightVideo"
+                placeholder="https://youtu.be/your-top-highlight  or  Hudl URL">
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Additional highlight media</h3>
+            <p class="q-help">Anything else you want a coach to see beyond the primary reel.</p>
+            <div class="form-group">
+              <label for="qrHighlightVideos">Additional highlight video links <span class="q-optional">(one per line)</span></label>
+              <textarea id="qrHighlightVideos" rows="3"
+                placeholder="https://youtu.be/another-reel&#10;https://www.hudl.com/video/season-edit"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="qrGameFilm">Game film links <span class="q-optional">(one per line)</span></label>
+              <textarea id="qrGameFilm" rows="3"
+                placeholder="https://www.hudl.com/video/full-game-1&#10;https://www.hudl.com/video/full-game-2"></textarea>
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">High school team &amp; coach</h3>
+            <div class="form-group">
+              <label for="qrHsHeadCoachName">Head coach &mdash; name</label>
+              <input type="text" id="qrHsHeadCoachName" placeholder="e.g.  Coach Tom Reilly">
+            </div>
+            <div class="form-group">
+              <label for="qrHsHeadCoachEmail">Head coach &mdash; email</label>
+              <input type="email" id="qrHsHeadCoachEmail" placeholder="coach@school.edu">
+            </div>
+            <div class="form-group">
+              <label for="qrHsHeadCoachPhone">Head coach &mdash; phone</label>
+              <input type="tel" id="qrHsHeadCoachPhone" placeholder="(555) 123-4567">
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title" id="qrClubSectionTitle">Club / Travel Team <span class="q-optional">(if applicable)</span></h3>
+            <div class="form-group">
+              <label for="qrClubTeamName" id="qrClubTeamNameLabel">Club / travel team name</label>
+              <input type="text" id="qrClubTeamName" placeholder="e.g.  Iowa Elite 7on7">
+            </div>
+            <div class="form-group">
+              <label for="qrClubCoachName" id="qrClubCoachNameLabel">Club / travel team coach &mdash; name</label>
+              <input type="text" id="qrClubCoachName" placeholder="e.g.  Coach Mike Ross">
+            </div>
+            <div class="form-group">
+              <label for="qrClubCoachEmail">Club coach &mdash; email</label>
+              <input type="email" id="qrClubCoachEmail" placeholder="coach@club.org">
+            </div>
+            <div class="form-group">
+              <label for="qrClubCoachPhone">Club coach &mdash; phone</label>
+              <input type="tel" id="qrClubCoachPhone" placeholder="(555) 234-5678">
+            </div>
+            <div class="form-group">
+              <label for="qrAdditionalReferences">Additional coach contacts <span class="q-optional">(position coach, strength coach, etc.)</span></label>
+              <textarea id="qrAdditionalReferences" rows="3"
+                placeholder="- Strength coach: Sarah Lee, sarah@school.edu&#10;- Position coach: Coach Diaz, (555) 555-0123"></textarea>
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Character references &mdash; beyond coaches</h3>
+            <p class="q-help">
+              Trainers, teachers, mentors, employers &mdash; non-coach references who can speak
+              to your work ethic and character. Two or three is plenty.
+            </p>
+            <div class="qr-references" role="group" aria-label="Character references">
+              <div class="qr-ref-row qr-ref-header" aria-hidden="true">
+                <span>Name</span>
+                <span>Role / relationship</span>
+                <span>Email</span>
+                <span>Phone</span>
+              </div>
+              <div class="qr-ref-row" data-ref-idx="0">
+                <input type="text"  id="qrRef0_name"  class="qr-ref-name"  placeholder="Name">
+                <input type="text"  id="qrRef0_role"  class="qr-ref-role"  placeholder="e.g.  English teacher, trainer">
+                <input type="email" id="qrRef0_email" class="qr-ref-email" placeholder="Email">
+                <input type="tel"   id="qrRef0_phone" class="qr-ref-phone" placeholder="Phone">
+              </div>
+              <div class="qr-ref-row" data-ref-idx="1">
+                <input type="text"  id="qrRef1_name"  class="qr-ref-name"  placeholder="Name">
+                <input type="text"  id="qrRef1_role"  class="qr-ref-role"  placeholder="Role / relationship">
+                <input type="email" id="qrRef1_email" class="qr-ref-email" placeholder="Email">
+                <input type="tel"   id="qrRef1_phone" class="qr-ref-phone" placeholder="Phone">
+              </div>
+              <div class="qr-ref-row" data-ref-idx="2">
+                <input type="text"  id="qrRef2_name"  class="qr-ref-name"  placeholder="Name">
+                <input type="text"  id="qrRef2_role"  class="qr-ref-role"  placeholder="Role / relationship">
+                <input type="email" id="qrRef2_email" class="qr-ref-email" placeholder="Email">
+                <input type="tel"   id="qrRef2_phone" class="qr-ref-phone" placeholder="Phone">
+              </div>
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Social &amp; online presence</h3>
+            <p class="q-help">Your built site is the central hub — put it in every social bio so coaches can land here.</p>
+            <div class="form-group">
+              <label for="qrInstagram">Instagram</label>
+              <input type="text" id="qrInstagram" placeholder="@handle or full URL">
+            </div>
+            <div class="form-group">
+              <label for="qrTwitter">X / Twitter</label>
+              <input type="text" id="qrTwitter" placeholder="@handle or full URL">
+            </div>
+            <div class="form-group">
+              <label for="qrTiktok">TikTok</label>
+              <input type="text" id="qrTiktok" placeholder="@handle or full URL">
+            </div>
+            <div class="form-group">
+              <label for="qrYoutube">YouTube</label>
+              <input type="text" id="qrYoutube" placeholder="Channel URL or @handle">
+            </div>
+            <div class="form-group">
+              <label for="qrHudl">Hudl profile</label>
+              <input type="url" id="qrHudl" placeholder="https://hudl.com/profile/...">
+            </div>
+            <div class="form-group">
+              <label for="qrOtherSocial">Other social / online</label>
+              <input type="text" id="qrOtherSocial" placeholder="Anything else relevant">
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Contact</h3>
+            <div class="form-group">
+              <label for="qrAthleteEmail">Athlete email</label>
+              <input type="email" id="qrAthleteEmail" placeholder="athlete@example.com">
+            </div>
+            <div class="form-group">
+              <label for="qrAthletePhone">Athlete phone</label>
+              <input type="tel" id="qrAthletePhone" placeholder="(555) 345-6789">
+            </div>
+            <div class="form-group">
+              <label for="qrParentName">Parent / guardian — name</label>
+              <input type="text" id="qrParentName" placeholder="e.g.  Mary Doe">
+            </div>
+            <div class="form-group">
+              <label for="qrParentEmail">Parent / guardian — email</label>
+              <input type="email" id="qrParentEmail" placeholder="parent@example.com">
+            </div>
+            <div class="form-group">
+              <label for="qrParentPhone">Parent / guardian — phone</label>
+              <input type="tel" id="qrParentPhone" placeholder="(555) 456-7890">
+            </div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Athlete statement</h3>
+            <p class="q-help">Written in the athlete's own words — we will keep this verbatim on the site.</p>
+            <div class="form-group">
+              <label for="qrAthleteStatement">Why you play, your goals, your work ethic <span class="req-star">*</span></label>
+              <textarea id="qrAthleteStatement" rows="8"
+                placeholder="I started playing because... What drives me is... My goal is to..." required></textarea>
+              <span class="field-error q-error" id="qrAthleteStatementError" aria-live="polite"></span>
+            </div>
+          </div>
+        </div><!-- /.q-flow-recruit -->
+
+      </div><!-- /#qPanel4 -->
+
+
+      <!-- ── STEP 5 — Color Palette ── -->
+      <div id="qPanel5" class="q-panel hidden">
+        <div class="q-panel-head">
+          <h2>What is your color style?</h2>
+          <p class="q-panel-sub">Pick a palette that feels right for your&nbsp;brand.</p>
+        </div>
+
+        <div class="form-group">
+          <label>Choose a color palette</label>
+          <div class="palette-picker">
+            <label class="palette-card">
+              <input type="radio" name="qPalette" value="Front Porch">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #FBF8F3;"></div>
+                <div class="swatch" style="background-color: #203036;"></div>
+                <div class="swatch" style="background-color: #717D68;"></div>
+                <div class="swatch" style="background-color: #283C3D;"></div>
+              </div>
+              <p class="palette-name">Front Porch</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+
+            <label class="palette-card">
+              <input type="radio" name="qPalette" value="Coastal">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #F7FAFC;"></div>
+                <div class="swatch" style="background-color: #21456B;"></div>
+                <div class="swatch" style="background-color: #6DA9C9;"></div>
+                <div class="swatch" style="background-color: #2D3A45;"></div>
+              </div>
+              <p class="palette-name">Coastal</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+
+            <label class="palette-card">
+              <input type="radio" name="qPalette" value="Garden">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #FAF7F0;"></div>
+                <div class="swatch" style="background-color: #3C5B47;"></div>
+                <div class="swatch" style="background-color: #D9A441;"></div>
+                <div class="swatch" style="background-color: #33291F;"></div>
+              </div>
+              <p class="palette-name">Garden</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+
+            <label class="palette-card">
+              <input type="radio" name="qPalette" value="Gallery">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #F4F4F5;"></div>
+                <div class="swatch" style="background-color: #27272A;"></div>
+                <div class="swatch" style="background-color: #E2563B;"></div>
+                <div class="swatch" style="background-color: #71717A;"></div>
+              </div>
+              <p class="palette-name">Gallery</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+
+            <label class="palette-card">
+              <input type="radio" name="qPalette" value="Lighthouse">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #F6F5F2;"></div>
+                <div class="swatch" style="background-color: #1B2A4A;"></div>
+                <div class="swatch" style="background-color: #D63B30;"></div>
+                <div class="swatch" style="background-color: #222831;"></div>
+              </div>
+              <p class="palette-name">Lighthouse</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+
+            <label class="palette-card">
+              <input type="radio" name="qPalette" value="Driftwood">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #F0EDE6;"></div>
+                <div class="swatch" style="background-color: #2F6E6A;"></div>
+                <div class="swatch" style="background-color: #C97B4A;"></div>
+                <div class="swatch" style="background-color: #2E3A38;"></div>
+              </div>
+              <p class="palette-name">Driftwood</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+
+            <label class="palette-card">
+              <input type="radio" name="qPalette" value="Rose Garden">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #FBF3EF;"></div>
+                <div class="swatch" style="background-color: #C97B86;"></div>
+                <div class="swatch" style="background-color: #C2A0A0;"></div>
+                <div class="swatch" style="background-color: #43313A;"></div>
+              </div>
+              <p class="palette-name">Rose Garden</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+
+            <label class="palette-card">
+              <input type="radio" name="qPalette" value="Lavender Fields">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #F4F1F7;"></div>
+                <div class="swatch" style="background-color: #9885B0;"></div>
+                <div class="swatch" style="background-color: #8FA088;"></div>
+                <div class="swatch" style="background-color: #352B3D;"></div>
+              </div>
+              <p class="palette-name">Lavender Fields</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+
+            <label class="palette-card">
+              <input type="radio" name="qPalette" value="Wildflower">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #FFFFFF;"></div>
+                <div class="swatch" style="background-color: #1FA2E0;"></div>
+                <div class="swatch" style="background-color: #2FBF4E;"></div>
+                <div class="swatch" style="background-color: #222431;"></div>
+              </div>
+              <p class="palette-name">Wildflower</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+
+            <label class="palette-card palette-dark">
+              <input type="radio" name="qPalette" value="Midnight">
+              <div class="palette-swatches">
+                <div class="swatch" style="background-color: #15171C;"></div>
+                <div class="swatch" style="background-color: #E8E6E1;"></div>
+                <div class="swatch" style="background-color: #5B8FF0;"></div>
+                <div class="swatch" style="background-color: #2B2F38;"></div>
+              </div>
+              <p class="palette-name">Midnight</p>
+              <div class="palette-check" aria-hidden="true">✓</div>
+            </label>
+          </div>
+        </div>
+      </div><!-- /#qPanel5 -->
+
+
+      <!-- ── STEP 6 — Photos ── -->
+      <div id="qPanel6" class="q-panel hidden">
+
+        <!-- Heading swaps per flow -->
+        <div class="q-panel-head q-flow q-flow-generic">
+          <h2>Any photos you would like to share?</h2>
+          <p class="q-panel-sub">Drag in a few favorites — storefront, team, products, family. We recommend 3–5. Totally optional.</p>
+        </div>
+        <div class="q-panel-head q-flow q-flow-adopt hidden">
+          <h2>Headshots and family portraits.</h2>
+          <p class="q-panel-sub">Photos of your family — headshots, portraits, or anything else that did not fit earlier. We will pair these with what you have already uploaded.</p>
+        </div>
+        <div class="q-panel-head q-flow q-flow-recruit hidden">
+          <h2>Photos for your profile.</h2>
+          <p class="q-panel-sub">A clean headshot, a few action shots, and team pictures — these are what coaches see first.</p>
+        </div>
+
+        <!-- GENERIC + ADOPTION: single uploader -->
+        <div class="q-flow q-flow-not-recruit">
+          <div class="form-group">
+            <label>Upload photos <span class="q-optional">(optional)</span></label>
+            <div class="file-upload-zone" id="qFileZone">
+              <svg class="file-upload-icon" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p class="file-upload-text">Drag photos here or <button type="button" id="qFileButton" class="file-upload-button">choose files</button></p>
+            </div>
+            <input type="file" id="qPhotoInput" accept="image/*" multiple hidden>
+          </div>
+
+          <p class="file-count-note" id="qPhotoNote">No photos yet. We recommend 3–5.</p>
+
+          <div class="photo-preview-grid" id="qPhotoGrid">
+            <!-- Thumbnails inserted here by JS -->
+          </div>
+        </div><!-- /.q-flow-not-recruit -->
+
+        <!-- RECRUITING variant — three categorized buckets -->
+        <div class="q-flow q-flow-recruit hidden">
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Headshot</h3>
+            <p class="q-help">One clean portrait — coaches expect this front-and-center.</p>
+            <div class="file-upload-zone" id="qrZone_headshot">
+              <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p class="file-upload-text">Drag photos here or <button type="button" id="qrBtn_headshot" class="file-upload-button">choose files</button></p>
+            </div>
+            <input type="file" id="qrInput_headshot" accept="image/*" multiple hidden>
+            <p class="file-count-note" id="qrNote_headshot">No photos yet.</p>
+            <div class="photo-preview-grid" id="qrGrid_headshot"></div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Action shots</h3>
+            <p class="q-help">In-game photos showing form, intensity, jersey number.</p>
+            <div class="file-upload-zone" id="qrZone_actionShots">
+              <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p class="file-upload-text">Drag photos here or <button type="button" id="qrBtn_actionShots" class="file-upload-button">choose files</button></p>
+            </div>
+            <input type="file" id="qrInput_actionShots" accept="image/*" multiple hidden>
+            <p class="file-count-note" id="qrNote_actionShots">No photos yet.</p>
+            <div class="photo-preview-grid" id="qrGrid_actionShots"></div>
+          </div>
+
+          <div class="q-subsection">
+            <h3 class="q-subsection-title">Team photos</h3>
+            <p class="q-help">Roster shots, team huddles, championship pics.</p>
+            <div class="file-upload-zone" id="qrZone_teamPhotos">
+              <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p class="file-upload-text">Drag photos here or <button type="button" id="qrBtn_teamPhotos" class="file-upload-button">choose files</button></p>
+            </div>
+            <input type="file" id="qrInput_teamPhotos" accept="image/*" multiple hidden>
+            <p class="file-count-note" id="qrNote_teamPhotos">No photos yet.</p>
+            <div class="photo-preview-grid" id="qrGrid_teamPhotos"></div>
+          </div>
+        </div><!-- /.q-flow-recruit -->
+
+      </div><!-- /#qPanel6 -->
+
+
+      <!-- ── STEP 7 — Review (client-facing only; the build prompt is OWNER-only) ── -->
+      <div id="qPanel7" class="q-panel hidden">
+        <div class="q-panel-head">
+          <h2>Almost done — review your brief.</h2>
+          <p class="q-panel-sub">Take a final look. Go back to make any changes, then click <strong>Next</strong> to choose your&nbsp;package.</p>
+        </div>
+
+        <!-- Summary of all answers, filled in by JS -->
+        <div id="qReviewSummary" class="review-summary"></div>
+      </div><!-- /#qPanel7 -->
+
+
+      <!-- ── STEP 8 — Payment ── -->
+      <div id="qPanel8" class="q-panel hidden">
+        <div class="q-panel-head">
+          <h2>Choose your package.</h2>
+          <p class="q-panel-sub">One-time investment — no subscriptions, no surprises.</p>
+        </div>
+
+        <!-- Tier cards rendered by initPaymentStep() in portal.js -->
+        <div class="tier-cards" id="qTierCards"></div>
+
+        <p class="tier-note">All packages include mobile-responsive design, custom domain setup, and Cloudflare Pages hosting.</p>
+
+        <!-- Page-count mismatch error — shown by qPaySubmit if cap is exceeded -->
+        <p class="q-tier-mismatch-err" id="qTierMismatchErr" hidden aria-live="polite"></p>
+      </div><!-- /#qPanel8 -->
+
+
+      <!-- ── Complete screen ── -->
+      <div id="qPanelComplete" class="q-panel hidden">
+        <div class="q-complete">
+          <div class="q-complete-icon" aria-hidden="true">🎉</div>
+          <h2>You are all set!</h2>
+          <p class="q-panel-sub">
+            Thank you, <strong id="qCompleteName">friend</strong>!
+            Your project request has been received —
+            we will be in touch within 1&nbsp;business&nbsp;day.
+          </p>
+          <p class="q-complete-payment-note">
+            Your first payment covers 50% of the total project cost.
+            The remaining 50% is due when your finished site is delivered
+            and you have approved every detail — not a moment before.
+          </p>
+          <!--
+            This panel is reused for three end-states (see qShowComplete in
+            portal.js):
+              • default — "brief received" (no-payment Submit flow)
+              • { paid: true }   — Stripe success-redirect lands here
+              • { noLink: true } — fallback when no Stripe link matched
+          -->
+          <a href="#" id="qExitBtn2" class="btn-ghost q-done-btn">← Back to dashboard</a>
+        </div>
+      </div><!-- /#qPanelComplete -->
+
+
+      <!-- ── Navigation bar: Back / Step counter / Next ── -->
+      <div class="q-nav" id="qNav">
+        <button type="button" id="qPrevBtn" class="btn-ghost q-prev-btn" disabled>
+          &larr; Back
+        </button>
+        <span id="qStepCounter" class="q-step-counter" aria-live="polite">Step 1 of 7</span>
+        <div class="q-nav-fwd">
+          <button type="button" id="qReturnBtn" class="btn-ghost hidden">
+            &larr; Return to review
+          </button>
+          <button type="button" id="qNextBtn" class="btn-primary">Next &rarr;</button>
+          <button type="button" id="qPayBtn" class="btn-primary hidden" disabled>
+            Pay &amp; Submit &nbsp;&#10003;
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /.q-wrap -->
+  </section><!-- /#questionnaireSection -->
+
+
+  <!-- ============================================================
+       OWNER VIEW — hidden by default; revealed when URL hash is
+       #admin. Lists build prompts saved from client submissions.
+       The client never sees this. localStorage only for now; a
+       Supabase + studio-email plug-in point lives in qSubmit().
+       ============================================================ -->
+  <section id="ownerAdminView" class="hidden" aria-label="Owner — Build Prompts">
+    <div class="admin-wrap">
+      <header class="admin-head">
+        <p class="admin-eyebrow">Owner View</p>
+        <h2>Build Prompts</h2>
+        <p class="admin-sub">
+          Generated from client submissions and stored in this browser's localStorage.
+          Click <em>Copy Prompt</em> to paste into Claude&nbsp;Code.
+        </p>
+      </header>
+
+      <div id="adminSubmissionsList" class="admin-list">
+        <!-- Filled by JS — renderAdminSubmissions() -->
+      </div>
+
+      <p class="admin-footer">
+        <a href="/portal.html" id="adminExitLink">← Exit owner view</a>
+      </p>
+    </div>
+  </section><!-- /#ownerAdminView -->
+
+
+</main>
+
+
+<!-- ============================================================
+     FOOTER — dark navy band, matches index.html
+     ============================================================ -->
+<footer class="site-footer section-dark">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <img src="/assets/logo.png" alt="Front Porch Web, LLC" class="footer-logo">
+      <p class="footer-biz-name">Front Porch Web, LLC</p>
+      <p class="footer-tagline">Websites Built on Trust</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="/#demos">Our Work</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/portal.html">Client Portal</a>
+      <a href="mailto:hello@frontporchweb.com">hello@frontporchweb.com</a>
+    </nav>
+    <div class="footer-social">
+      <a href="#" aria-label="Facebook" class="social-link">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Instagram" class="social-link">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2026 Front Porch Web, LLC. All rights reserved.</p>
+  </div>
+</footer>
+
+
+<script src="/js/main.js"></script>
+<!-- Supabase JS client (v2) via CDN, then our init wrapper. Must load BEFORE portal.js. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/supabase-client.js"></script>
+<!-- R2 uploader (uses sbClient for auth) — must load before portal.js -->
+<script src="/js/r2-upload.js"></script>
+<script src="/js/portal.js"></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<!--
+  Front Porch Web, LLC — Marketing hub / landing page
+  Continuous-scroll single page: Nav → Hero → Demos → How It Works → Pricing → Footer
+  All colors from /css/theme.css variables. Load theme.css before styles.css.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Front Porch Web, LLC | Websites Built on Trust</title>
+  <meta name="description" content="Front Porch Web builds beautiful, affordable custom websites for local businesses and families. Websites Built on Trust.">
+  <link rel="icon" href="/assets/logo.png">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+
+<!-- ============================================================
+     NAV — sticky; logo + wordmark left, links + CTA right
+     ============================================================ -->
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+
+    <a href="/" class="nav-brand" aria-label="Front Porch Web home">
+      <img src="/assets/logo.png" alt="" class="nav-logo" aria-hidden="true">
+      <span class="nav-wordmark">Front Porch Web</span>
+    </a>
+
+    <!-- Mobile hamburger -->
+    <button class="nav-toggle" id="navToggle"
+            aria-controls="navLinks" aria-expanded="false" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav-links" id="navLinks" role="list">
+      <li><a href="#demos">Demos</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="/portal.html">Start Your Project</a></li>
+      <li><a href="/portal.html" class="btn-primary nav-cta">Client Login</a></li>
+    </ul>
+
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     HERO — headline, tagline, dual CTAs, round badge motif
+     ============================================================ -->
+<header class="hero" id="top">
+  <div class="container hero-inner">
+
+    <div class="hero-content">
+      <p class="eyebrow">Websites Built on Trust</p>
+      <h1 class="hero-headline">
+        Beautiful websites<br>
+        for local businesses<br>
+        <em>and <span class="headline-accent">families.</span></em>
+      </h1>
+      <div class="hero-story">
+        <p class="hero-story-text">
+          Hi, I am Sean, a high school junior studying aviation and someone who loves learning about flight and technology. Being part of an adoptive family, I have heard about how much time and effort my mom put into building a website as we were waiting to grow our family. Hearing this story, along with my own love of technology, inspired me to create a platform where families and small organizations can more easily and economically share stories online.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <a href="/portal.html" class="btn-primary">Start Your Project</a>
+        <a href="#demos"       class="btn-ghost">See Our Work</a>
+      </div>
+    </div>
+
+    <!--
+      Badge motif — echoes the round logo badge.
+      Hidden on mobile; visible on tablet+.
+      Photo fills the circle; positioned with face in upper portion.
+    -->
+    <div class="hero-badge" aria-hidden="true">
+      <div class="hero-badge-ring">
+        <img src="/assets/sean.jpg" alt="" class="hero-badge-logo">
+      </div>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- ============================================================
+     DEMOS — responsive grid of project cards
+     Add more <article> cards here as new projects complete.
+     ============================================================ -->
+<section id="demos" class="section demos-section">
+  <div class="container">
+
+    <p class="eyebrow reveal">Our Work</p>
+    <h2 class="section-title reveal">Sites built for real people.</h2>
+    <p class="section-sub reveal">Every project is custom-built for your needs, without page builders or bloated templates.</p>
+    <p class="demos-sample-note reveal">These are sample sites created to demonstrate what Front Porch Web builds. The names, photos, and details are fictional — they do not represent real businesses or real clients.</p>
+
+    <div class="demos-grid">
+
+      <article class="demo-card card reveal">
+        <div class="demo-thumb">
+          <img src="/assets/demos/bennett-family.png" alt="The Bennett Family adoption profile website">
+        </div>
+        <div class="demo-body">
+          <h3>The Bennett Family</h3>
+          <p>A warm adoption profile for a loving Indianapolis family hoping to welcome a child home.</p>
+          <a href="demos/bennett-family-adoption.html" target="_blank" rel="noopener" class="demo-link">View Demo &rarr;</a>
+        </div>
+      </article>
+
+      <article class="demo-card card reveal">
+        <div class="demo-thumb">
+          <img src="/assets/demos/dunn-right.png" alt="Dunn Right Lawn Care website">
+        </div>
+        <div class="demo-body">
+          <h3>Dunn Right Lawn Care</h3>
+          <p>A clean, conversion-focused site for an Indianapolis lawn care and landscaping company.</p>
+          <a href="demos/dunn-right.html" target="_blank" rel="noopener" class="demo-link">View Demo &rarr;</a>
+        </div>
+      </article>
+
+      <article class="demo-card card reveal">
+        <div class="demo-thumb">
+          <img src="/assets/demos/hartman-plumbing.png" alt="Hartman Plumbing website">
+        </div>
+        <div class="demo-body">
+          <h3>Hartman Plumbing</h3>
+          <p>A trust-building site for a 24/7 emergency plumbing and drain service.</p>
+          <a href="demos/hartman-plumbing.html" target="_blank" rel="noopener" class="demo-link">View Demo &rarr;</a>
+        </div>
+      </article>
+
+      <article class="demo-card card demo-card--soon reveal">
+        <div class="demo-thumb demo-thumb--soon">
+          <span class="demo-soon-label">Coming Soon</span>
+        </div>
+        <div class="demo-body">
+          <h3>College Recruiting Profile</h3>
+          <p>A standout recruiting page for a student-athlete looking to get noticed by college coaches.</p>
+          <span class="demo-link demo-link--soon">In Progress</span>
+        </div>
+      </article>
+
+    </div><!-- /demos-grid -->
+  </div>
+</section>
+
+
+<!-- ============================================================
+     HOW IT WORKS — 3 steps
+     ============================================================ -->
+<section id="how-it-works" class="section how-section">
+  <div class="container">
+
+    <p class="eyebrow reveal">Simple Process</p>
+    <h2 class="section-title reveal">Up and running in three easy steps.</h2>
+
+    <div class="steps-grid">
+
+      <div class="step reveal">
+        <div class="step-num" aria-hidden="true">1</div>
+        <h3>Fill out our questionnaire</h3>
+        <p>Answer a few quick questions and upload your photos. No tech experience needed — just tell us your story.</p>
+      </div>
+
+      <div class="step reveal">
+        <div class="step-num" aria-hidden="true">2</div>
+        <h3>We build your site</h3>
+        <p>We build a custom website with modern tools and techniques. You will see a preview before anything goes live.</p>
+      </div>
+
+      <div class="step reveal">
+        <div class="step-num" aria-hidden="true">3</div>
+        <h3>Review &amp; launch</h3>
+        <p>You approve every detail. When you are happy, we publish and make sure everything runs fast and reliably.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     PRICING — Starter / Standard (featured) / Premium
+     To update prices: edit the .plan-price text values below.
+     ============================================================ -->
+<section id="pricing" class="section pricing-section">
+  <div class="container">
+
+    <p class="eyebrow reveal">Simple Pricing</p>
+    <h2 class="section-title reveal">Honest prices. No surprises.</h2>
+    <p class="section-sub reveal">All plans are a one-time fee. Hosting on Cloudflare Pages is always free.</p>
+
+    <div class="pricing-grid">
+
+      <!-- Starter -->
+      <div class="pricing-card card reveal">
+        <div class="pricing-top">
+          <p class="plan-name">Starter</p>
+          <p class="plan-price">$700</p>
+          <p class="plan-cycle">one-time</p>
+        </div>
+        <ul class="plan-features">
+          <li>Up to 3 pages</li>
+          <li>Mobile-responsive design</li>
+          <li>Custom domain setup</li>
+          <li>Contact form</li>
+          <li>1 round of revisions</li>
+          <li>Cloudflare Pages hosting</li>
+        </ul>
+        <a href="/portal.html" class="btn-ghost plan-btn">Get Started</a>
+      </div>
+
+      <!-- Standard — Most Popular -->
+      <div class="pricing-card card card-featured reveal">
+        <div class="pricing-top">
+          <span class="plan-badge">Most Popular</span>
+          <p class="plan-name">Standard</p>
+          <p class="plan-price">$1,200</p>
+          <p class="plan-cycle">one-time</p>
+        </div>
+        <ul class="plan-features">
+          <li>Up to 6 pages</li>
+          <li>Mobile-responsive design</li>
+          <li>Custom domain setup</li>
+          <li>Contact form + photo gallery</li>
+          <li>2 rounds of revisions</li>
+          <li>Cloudflare Pages hosting</li>
+          <li>Basic SEO setup</li>
+          <li>Social media links</li>
+        </ul>
+        <a href="/portal.html" class="btn-primary plan-btn">Get Started</a>
+      </div>
+
+      <!-- Premium -->
+      <div class="pricing-card card reveal">
+        <div class="pricing-top">
+          <p class="plan-name">Premium</p>
+          <p class="plan-price">$2,000</p>
+          <p class="plan-cycle">one-time</p>
+        </div>
+        <ul class="plan-features">
+          <li>Unlimited pages</li>
+          <li>Mobile-responsive design</li>
+          <li>Custom domain setup</li>
+          <li>Contact form + photo gallery</li>
+          <li>3 rounds of revisions</li>
+          <li>Cloudflare Pages hosting</li>
+          <li>Full SEO setup</li>
+          <li>Blog setup</li>
+          <li>Analytics integration</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="/portal.html" class="btn-ghost plan-btn">Get Started</a>
+      </div>
+
+    </div><!-- /pricing-grid -->
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER — dark navy band; logo, tagline, nav, social, copyright
+     ============================================================ -->
+<footer class="site-footer section-dark">
+  <div class="container footer-inner">
+
+    <div class="footer-brand">
+      <img src="/assets/logo.png" alt="Front Porch Web, LLC" class="footer-logo">
+      <p class="footer-biz-name">Front Porch Web, LLC</p>
+      <p class="footer-tagline">Websites Built on Trust</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="#demos">Our Work</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/portal.html">Start a Project</a>
+      <a href="mailto:hello@frontporchweb.com">hello@frontporchweb.com</a>
+    </nav>
+
+    <div class="footer-social">
+      <a href="#" aria-label="Facebook" class="social-link">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Instagram" class="social-link">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+    </div>
+
+    <p class="footer-copy">&copy; 2026 Front Porch Web, LLC. All rights reserved.</p>
+
+  </div>
+</footer>
+
+
+<script src="/js/main.js"></script>
+</body>
+</html>

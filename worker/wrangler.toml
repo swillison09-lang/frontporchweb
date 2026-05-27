@@ -1,0 +1,30 @@
+# ════════════════════════════════════════════════════════════════════════════
+#  Front Porch Web — Cloudflare Worker config
+#
+#  Deploy:   npx wrangler deploy
+#  Dev:      npx wrangler dev
+#
+#  IMPORTANT: this file contains NO secrets. The R2 bucket access is
+#  granted through the [[r2_buckets]] binding below at deploy time —
+#  the Worker never sees an Access Key.
+# ════════════════════════════════════════════════════════════════════════════
+
+name               = "frontporchweb-uploads"
+main               = "upload-worker.js"
+compatibility_date = "2024-12-01"
+
+# ─── R2 bucket binding ────────────────────────────────────────────────────
+# Inside the Worker code this shows up as `env.UPLOADS`.
+[[r2_buckets]]
+binding     = "UPLOADS"
+bucket_name = "frontporchweb-uploads"
+
+# ─── Non-secret env vars ──────────────────────────────────────────────────
+# These are public values — they appear unobfuscated in compiled Worker
+# bundles. Real secrets would go in `wrangler secret put NAME` instead.
+[vars]
+SUPABASE_URL             = "https://hxxtsthfqwyvkyuwnnsu.supabase.co"
+SUPABASE_PUBLISHABLE_KEY = "sb_publishable_PfXE01_bSpA1CnTKg7nbHA_5w7_iJJR"
+
+# Comma-separated allow-list. Update the production domain once deployed.
+ALLOWED_ORIGINS = "http://localhost:8000,http://127.0.0.1:5500,https://frontporchweb.com"

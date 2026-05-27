@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+  Front Porch Web, LLC — Owner Setup
+  Owner-only CRUD for business types & pricing tiers.
+  Persisted to localStorage; clients never see this page.
+  Load order: theme.css → styles.css → main.js → setup.js
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Setup (Owner Only) | Front Porch Web</title>
+  <link rel="icon" href="/assets/logo.png">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+
+<!-- ============================================================
+     NAV — same chrome as portal, "Back to Portal" return link
+     ============================================================ -->
+<nav class="navbar portal-nav" id="navbar">
+  <div class="container nav-inner">
+    <a href="/" class="nav-brand" aria-label="Front Porch Web home">
+      <img src="/assets/logo.png" alt="" class="nav-logo" aria-hidden="true">
+      <span class="nav-wordmark">Front Porch Web</span>
+    </a>
+    <a href="/portal.html" class="portal-back">&larr; Back to Portal</a>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     MAIN — owner setup page
+     ============================================================ -->
+<main class="portal-main">
+
+  <section class="setup-wrap">
+
+    <header class="setup-head">
+      <p class="setup-eyebrow">Owner only</p>
+      <h1>Business types &amp; questionnaire</h1>
+      <p class="setup-sub">
+        Per business type, define the pricing tiers, the photo / media
+        uploads expected, the links collected, and the questionnaire
+        fields specific to that type. The client questionnaire reads
+        from this config — Step&nbsp;8 shows the tiers, Step&nbsp;4 the
+        links, Step&nbsp;6 the photo categories, and Steps&nbsp;2–4 the
+        custom fields. Clients never see this page.
+      </p>
+    </header>
+
+    <div class="setup-actions">
+      <button type="button" class="btn-primary" id="addTypeBtn">+ Add new business type</button>
+      <button type="button" class="btn-ghost" id="reseedBtn"
+              title="Wipes your current saved types and restores the built-in defaults">
+        Reset to defaults
+      </button>
+    </div>
+
+    <!-- Cards rendered by js/setup.js -->
+    <div id="typesList" class="types-list"></div>
+
+  </section>
+
+</main>
+
+
+<!-- ============================================================
+     FOOTER — minimal; owner page
+     ============================================================ -->
+<footer class="setup-footer">
+  <div class="container">
+    <p>Owner-only setup &middot; data persists in this browser&#39;s localStorage.</p>
+  </div>
+</footer>
+
+
+<!-- Scripts -->
+<script src="/js/main.js"></script>
+<script src="/js/setup.js"></script>
+
+</body>
+</html>
