@@ -10,9 +10,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client Portal | Front Porch Web, LLC</title>
-  <link rel="icon" href="/assets/logo.png">
-  <link rel="stylesheet" href="/css/theme.css">
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
@@ -22,11 +22,11 @@
      ============================================================ -->
 <nav class="navbar portal-nav" id="navbar">
   <div class="container nav-inner">
-    <a href="/" class="nav-brand" aria-label="Front Porch Web home">
-      <img src="/assets/logo.png" alt="" class="nav-logo" aria-hidden="true">
+    <a href="index.html" class="nav-brand" aria-label="Front Porch Web home">
+      <img src="assets/logo.png" alt="" class="nav-logo" aria-hidden="true">
       <span class="nav-wordmark">Front Porch Web</span>
     </a>
-    <a href="/" class="portal-back">&larr; Back to Home</a>
+    <a href="index.html" class="portal-back">&larr; Back to Home</a>
   </div>
 </nav>
 
@@ -66,7 +66,7 @@
       <div class="auth-card card">
 
         <div class="auth-card-head">
-          <img src="/assets/logo.png" alt="" class="auth-logo" aria-hidden="true">
+          <img src="assets/logo.png" alt="" class="auth-logo" aria-hidden="true">
           <h1 class="auth-title" id="authTitle">Welcome back.</h1>
           <p class="auth-sub" id="authSub">Sign in to your Front Porch Web portal.</p>
         </div>
@@ -121,7 +121,7 @@
     <section id="portalDashboard" class="hidden" aria-label="Your portal dashboard">
       <div class="dashboard-card card">
         <div class="dashboard-head">
-          <img src="/assets/logo.png" alt="" class="dashboard-logo" aria-hidden="true">
+          <img src="assets/logo.png" alt="" class="dashboard-logo" aria-hidden="true">
           <h2 class="dashboard-title">Hey, <span id="welcomeName">there</span>!&nbsp; 👋</h2>
           <p class="dashboard-sub">
             You are in your Front Porch Web client portal.<br>
@@ -141,7 +141,7 @@
           REMOVE before launch (or gate behind a real owner-only check).
         -->
         <p class="dashboard-temp-admin">
-          <a href="/setup.html" class="temp-admin-link">
+          <a href="setup.html" class="temp-admin-link">
             <span aria-hidden="true">⚙</span> Owner setup
             <span class="temp-admin-shortcut">Ctrl+Shift+S</span>
           </a>
@@ -1385,7 +1385,7 @@
       </div>
 
       <p class="admin-footer">
-        <a href="/portal.html" id="adminExitLink">← Exit owner view</a>
+        <a href="portal.html" id="adminExitLink">← Exit owner view</a>
       </p>
     </div>
   </section><!-- /#ownerAdminView -->
@@ -1400,14 +1400,14 @@
 <footer class="site-footer section-dark">
   <div class="container footer-inner">
     <div class="footer-brand">
-      <img src="/assets/logo.png" alt="Front Porch Web, LLC" class="footer-logo">
+      <img src="assets/logo.png" alt="Front Porch Web, LLC" class="footer-logo">
       <p class="footer-biz-name">Front Porch Web, LLC</p>
       <p class="footer-tagline">Websites Built on Trust</p>
     </div>
     <nav class="footer-nav" aria-label="Footer navigation">
-      <a href="/#demos">Our Work</a>
-      <a href="/#pricing">Pricing</a>
-      <a href="/portal.html">Client Portal</a>
+      <a href="index.html#demos">Our Work</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="portal.html">Client Portal</a>
       <a href="mailto:hello@frontporchweb.com">hello@frontporchweb.com</a>
     </nav>
     <div class="footer-social">
@@ -1427,12 +1427,12 @@
 </footer>
 
 
-<script src="/js/main.js"></script>
+<script src="js/main.js"></script>
 <!-- Supabase JS client (v2) via CDN, then our init wrapper. Must load BEFORE portal.js. -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/js/supabase-client.js"></script>
+<script src="js/supabase-client.js"></script>
 <!-- R2 uploader (uses sbClient for auth) — must load before portal.js -->
-<script src="/js/r2-upload.js"></script>
-<script src="/js/portal.js"></script>
+<script src="js/r2-upload.js"></script>
+<script src="js/portal.js"></script>
 </body>
 </html>
