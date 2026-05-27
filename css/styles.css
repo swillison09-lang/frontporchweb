@@ -325,15 +325,17 @@ a {
 
 /*
   Badge motif — large circle echoing the round logo.
-  Hidden on mobile, decorative on desktop.
+  Stacks below the bio on mobile; floats right on desktop (≥900px).
 */
 .hero-badge {
-  display: none;
+  display: flex;
+  justify-content: center;
+  order: 1; /* puts the photo after .hero-content in the column stack */
 }
 
 .hero-badge-ring {
-  width: 300px;
-  height: 300px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   border: 2px solid var(--sage);
   display: flex;
@@ -398,7 +400,7 @@ a {
   }
 
   .hero-badge {
-    display: flex;
+    order: 0; /* restore natural source order for side-by-side layout */
     flex-shrink: 0;
   }
 
