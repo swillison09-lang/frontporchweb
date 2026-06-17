@@ -1,3 +1,5 @@
+cd ~/frontporchweb
+cat > demos/dunn-right.html << 'FRESHCUT_EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -310,3 +312,10 @@
 </script>
 </body>
 </html>
+FRESHCUT_EOF
+sed -i 's|<h3>Dunn Right Lawn Care</h3>|<h3>Fresh Cut Lawn Care</h3>|' index.html
+sed -i 's|A clean, conversion-focused site for an Indianapolis lawn care and landscaping company.|A clean, conversion-focused site for an Indianapolis lawn care company.|' index.html
+sed -i 's|alt="Dunn Right Lawn Care website"|alt="Fresh Cut Lawn Care website"|' index.html
+git add .
+git commit -m "Replace Dunn Right demo with Fresh Cut"
+git push
