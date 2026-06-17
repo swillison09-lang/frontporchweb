@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- ============================================================
+   DEMO SITE — FICTIONAL. Not a real person or athlete.
+   "Tyler Brooks" — a sample college baseball recruiting profile
+   built by Front Porch Web, LLC to demonstrate the kind of work
+   produced. All names, stats, schools, and details are invented.
+   ============================================================ -->
+<title>Tyler Brooks — 2027 SS/2B | Recruiting Profile</title>
+<meta name="description" content="Tyler Brooks — a fictional demo college baseball recruiting profile by Front Porch Web." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#11243A; --navy-deep:#0A1726; --steel:#2C4A6E;
+    --field:#1E7A5A; --chalk:#F7F9FB; --line:#E3E8EE;
+    --ink:#16202B; --muted:#5B6B7B; --white:#FFFFFF; --gold:#E0A93B;
+    --display:'Archivo',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--body);background:var(--chalk);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  h1,h2,h3{font-family:var(--display);line-height:1.04;font-weight:800;letter-spacing:-.01em;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 1.4rem;}
+
+  .sample-flag{background:var(--navy-deep);color:var(--gold);text-align:center;font-size:.78rem;font-weight:600;letter-spacing:.03em;padding:.45rem 1rem;}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;background:var(--navy);color:var(--white);border-bottom:1px solid rgba(255,255,255,.08);}
+  .nav-in{max-width:1080px;margin:0 auto;padding:.85rem 1.4rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+  .nav-name{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.02em;}
+  .nav-name span{color:var(--gold);}
+  nav.links{display:flex;gap:1.6rem;align-items:center;}
+  nav.links a{text-decoration:none;font-weight:600;font-size:.9rem;color:#C7D3E0;}
+  nav.links a:hover{color:var(--white);}
+  .nav-cta{background:var(--gold);color:var(--navy-deep);font-weight:700;padding:.5rem 1rem;border-radius:6px;text-decoration:none;font-size:.85rem;}
+  .burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:.3rem;}
+  .burger span{width:24px;height:2px;background:#C7D3E0;border-radius:2px;}
+
+  /* hero */
+  .hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-deep) 100%);color:var(--white);padding:3.5rem 0 3rem;}
+  .hero-grid{display:grid;grid-template-columns:300px 1fr;gap:2.5rem;align-items:center;}
+  .headshot{aspect-ratio:4/5;border-radius:14px;background:linear-gradient(rgba(10,23,38,.25),rgba(10,23,38,.55)),url('../assets/demos/baseball-hero.jpg');background-size:cover;background-position:center;display:flex;align-items:flex-end;justify-content:center;padding:1rem;text-align:center;color:#fff;font-size:.85rem;border:1px solid rgba(255,255,255,.12);}
+  .hero .pos{display:inline-block;background:rgba(224,169,59,.16);color:var(--gold);font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .8rem;border-radius:6px;}
+  .hero h1{font-size:clamp(2.6rem,6vw,4rem);font-weight:900;margin:.8rem 0 .3rem;}
+  .hero .tagline{color:#AFC0D2;font-size:1.05rem;max-width:46ch;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1.4rem;}
+  .hero-meta div{font-size:.92rem;}
+  .hero-meta .k{color:#7D90A6;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.1rem;}
+  .hero-meta .v{font-family:var(--display);font-weight:700;font-size:1.05rem;}
+  .hero-cta{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.6rem;}
+  .btn{display:inline-flex;align-items:center;gap:.4rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;padding:.8rem 1.4rem;text-decoration:none;font-size:.95rem;transition:transform .12s,background .15s;}
+  .btn-gold{background:var(--gold);color:var(--navy-deep);}
+  .btn-gold:hover{transform:translateY(-2px);}
+  .btn-ghost{background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,.3);}
+  .btn-ghost:hover{border-color:var(--white);}
+
+  /* quick-stat bar */
+  .statbar{background:var(--white);border-bottom:1px solid var(--line);}
+  .statbar .wrap{display:grid;grid-template-columns:repeat(4,1fr);}
+  .statbar .cell{padding:1.3rem 1rem;text-align:center;border-right:1px solid var(--line);}
+  .statbar .cell:last-child{border-right:none;}
+  .statbar .num{font-family:var(--display);font-weight:900;font-size:1.9rem;color:var(--navy);line-height:1;}
+  .statbar .lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:.35rem;}
+
+  section{padding:3.4rem 0;}
+  .eyebrow{font-family:var(--display);font-weight:700;color:var(--field);letter-spacing:.06em;text-transform:uppercase;font-size:.78rem;}
+  h2.big{font-size:clamp(1.7rem,3.5vw,2.4rem);margin:.4rem 0 1.3rem;color:var(--navy);}
+
+  /* metrics / measurables */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;}
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:1.6rem;}
+  .panel h3{font-size:1.05rem;color:var(--navy);margin-bottom:1rem;padding-bottom:.7rem;border-bottom:2px solid var(--line);}
+  table.metrics{width:100%;border-collapse:collapse;font-size:.95rem;}
+  table.metrics td{padding:.55rem 0;border-bottom:1px solid var(--line);}
+  table.metrics tr:last-child td{border-bottom:none;}
+  table.metrics td:first-child{color:var(--muted);}
+  table.metrics td:last-child{text-align:right;font-family:var(--display);font-weight:700;color:var(--navy);}
+
+  /* video */
+  .video-wrap{background:var(--navy-deep);border-radius:14px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.8rem;color:#9DB1C7;border:1px solid var(--line);}
+  .play{width:64px;height:64px;border-radius:50%;background:var(--gold);color:var(--navy-deep);display:grid;place-items:center;font-size:1.6rem;}
+  .vid-note{font-size:.85rem;}
+
+  /* academics + about */
+  .about-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:2.5rem;}
+  .about p{color:#3D4A57;margin-bottom:1rem;font-size:1rem;}
+  .acad{background:var(--navy);color:var(--white);border-radius:12px;padding:1.6rem;}
+  .acad h3{color:var(--gold);font-size:1rem;margin-bottom:1rem;}
+  .acad .row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:.95rem;}
+  .acad .row:last-child{border-bottom:none;}
+  .acad .row span:last-child{font-family:var(--display);font-weight:700;}
+
+  /* schedule */
+  .sched{background:var(--white);}
+  .sched ul{list-style:none;margin-top:1rem;}
+  .sched li{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0;border-bottom:1px solid var(--line);font-size:.95rem;flex-wrap:wrap;gap:.5rem;}
+  .sched li:last-child{border-bottom:none;}
+  .sched .ev{font-weight:600;color:var(--navy);}
+  .sched .dt{color:var(--muted);font-size:.88rem;}
+  .sched .loc{color:var(--field);font-weight:600;font-size:.85rem;}
+
+  /* contact */
+  .contact{background:linear-gradient(160deg,var(--field),#155E45);color:var(--white);text-align:center;}
+  .contact h2{color:var(--white);}
+  .contact p{color:#D6EFE6;max-width:48ch;margin:0 auto 1.5rem;}
+  .contact-cards{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:.5rem;}
+  .ccard{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:1.1rem 1.6rem;min-width:200px;}
+  .ccard .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:#A9D8C6;}
+  .ccard .v{font-family:var(--display);font-weight:700;font-size:1.05rem;margin-top:.2rem;}
+
+  footer{background:var(--navy-deep);color:#7D90A6;text-align:center;padding:2.2rem 1.4rem;font-size:.82rem;}
+
+  @media(max-width:820px){
+    .burger{display:flex;}
+    nav.links{position:absolute;top:100%;left:0;right:0;background:var(--navy);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s;}
+    nav.links.open{max-height:320px;padding:.5rem 0;}
+    nav.links a{padding:.8rem 1.4rem;}
+    .hero-grid{grid-template-columns:1fr;}
+    .headshot{max-width:240px;}
+    .statbar .wrap{grid-template-columns:1fr 1fr;}
+    .statbar .cell:nth-child(2){border-right:none;}
+    .statbar .cell:nth-child(1),.statbar .cell:nth-child(2){border-bottom:1px solid var(--line);}
+    .grid2,.about-grid{grid-template-columns:1fr;}
+    section{padding:2.6rem 0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="sample-flag">⚾ SAMPLE SITE — "Tyler Brooks" is a fictional demo recruiting profile by Front Porch Web. Not a real athlete.</div>
+
+<header class="nav">
+  <div class="nav-in">
+    <div class="nav-name">TYLER <span>BROOKS</span> · 2027</div>
+    <nav class="links" id="nav">
+      <a href="#measurables" onclick="closeNav()">Measurables</a>
+      <a href="#video" onclick="closeNav()">Film</a>
+      <a href="#academics" onclick="closeNav()">Academics</a>
+      <a href="#schedule" onclick="closeNav()">Schedule</a>
+      <a href="#contact" onclick="closeNav()">Contact</a>
+    </nav>
+    <a href="#contact" class="nav-cta">Contact</a>
+    <button class="burger" onclick="toggleNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="headshot"></div>
+      <div>
+        <span class="pos">SS / 2B · R/R</span>
+        <h1>Tyler Brooks</h1>
+        <p class="tagline">Class of 2027 middle infielder out of Carmel, Indiana. Contact-first hitter with plus range and a quick first step.</p>
+        <div class="hero-meta">
+          <div><span class="k">Grad Year</span><span class="v">2027</span></div>
+          <div><span class="k">Positions</span><span class="v">SS / 2B</span></div>
+          <div><span class="k">Bats / Throws</span><span class="v">Right / Right</span></div>
+          <div><span class="k">Height / Weight</span><span class="v">6'0" / 175</span></div>
+        </div>
+        <div class="hero-cta">
+          <a href="#video" class="btn btn-gold">▶ Watch Highlights</a>
+          <a href="#contact" class="btn btn-ghost">Contact Info</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK STAT BAR -->
+<div class="statbar">
+  <div class="wrap">
+    <div class="cell"><div class="num">6.7</div><div class="lbl">60-yd dash (sec)</div></div>
+    <div class="cell"><div class="num">88</div><div class="lbl">Inf velo (mph)</div></div>
+    <div class="cell"><div class="num">89</div><div class="lbl">Exit velo (mph)</div></div>
+    <div class="cell"><div class="num">3.9</div><div class="lbl">GPA</div></div>
+  </div>
+</div>
+
+<!-- MEASURABLES -->
+<section id="measurables">
+  <div class="wrap">
+    <span class="eyebrow">The Numbers</span>
+    <h2 class="big">Measurables &amp; performance.</h2>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Showcase Measurables</h3>
+        <table class="metrics">
+          <tr><td>60-Yard Dash</td><td>6.72 sec</td></tr>
+          <tr><td>Infield Velocity</td><td>88 mph</td></tr>
+          <tr><td>Exit Velocity</td><td>89 mph</td></tr>
+          <tr><td>Verified at</td><td>Prep Showcase '25</td></tr>
+        </table>
+      </div>
+      <div class="panel">
+        <h3>2025 Season (Junior)</h3>
+        <table class="metrics">
+          <tr><td>Batting Average</td><td>.372</td></tr>
+          <tr><td>On-Base %</td><td>.451</td></tr>
+          <tr><td>Stolen Bases</td><td>21</td></tr>
+          <tr><td>Fielding %</td><td>.961</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <span class="eyebrow">Game Film</span>
+    <h2 class="big">Highlight reel.</h2>
+    <div class="video-wrap">
+      <div class="play">▶</div>
+      <div class="vid-note">Embedded highlight video (YouTube / Hudl) goes here</div>
+    </div>
+    <p style="color:var(--muted);font-size:.9rem;margin-top:1rem;">A real profile links the athlete's full Hudl page and most recent showcase film. This demo uses a placeholder.</p>
+  </div>
+</section>
+
+<!-- ACADEMICS + ABOUT -->
+<section id="academics">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about">
+        <span class="eyebrow">Off the Field</span>
+        <h2 class="big">About Tyler.</h2>
+        <p>Tyler is a junior at Carmel High School and a three-year varsity starter at shortstop. He plays travel ball through the summer and fall and has been a team captain for the last two seasons.</p>
+        <p>Coaches describe him as a high-baseball-IQ infielder who makes the routine play look easy and brings energy to the dugout. He's looking for a program where he can contribute early and continue developing as a hitter at the next level.</p>
+      </div>
+      <div class="acad">
+        <h3>Academic Snapshot</h3>
+        <div class="row"><span>GPA (unweighted)</span><span>3.9</span></div>
+        <div class="row"><span>Class of</span><span>2027</span></div>
+        <div class="row"><span>Intended Major</span><span>Business</span></div>
+        <div class="row"><span>NCAA Eligibility ID</span><span>On file</span></div>
+        <div class="row"><span>Test Scores</span><span>Available</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="sched" id="schedule">
+  <div class="wrap">
+    <span class="eyebrow">Come See Me Play</span>
+    <h2 class="big">Upcoming schedule.</h2>
+    <ul>
+      <li><span class="ev">Midwest Prep Showcase</span> <span class="dt">June 28, 2026</span> <span class="loc">Grand Park, Westfield IN</span></li>
+      <li><span class="ev">Summer Travel — Bullpen Classic</span> <span class="dt">July 11–13, 2026</span> <span class="loc">LakePoint, GA</span></li>
+      <li><span class="ev">Fall Uncommitted Showcase</span> <span class="dt">Sept 20, 2026</span> <span class="loc">Indianapolis, IN</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="eyebrow" style="color:#A9D8C6;">Recruiting Contact</span>
+    <h2 class="big">Let's connect.</h2>
+    <p>Coaches — thanks for stopping by. Reach out anytime for film, transcripts, or showcase schedules.</p>
+    <div class="contact-cards">
+      <div class="ccard"><div class="k">Athlete Email</div><div class="v">tyler.brooks27@example.com</div></div>
+      <div class="ccard"><div class="k">Phone</div><div class="v">(555) 014-2027</div></div>
+      <div class="ccard"><div class="k">Travel Coach</div><div class="v">Coach Rivera · (555) 014-9090</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  ⚾ A fictional demo recruiting profile built by Front Porch Web, LLC. Not a real athlete — names, stats, schools, and details are invented.
+</footer>
+
+<script>
+  function toggleNav(){document.getElementById('nav').classList.toggle('open');}
+  function closeNav(){document.getElementById('nav').classList.remove('open');}
+</script>
+</body>
+</html>
