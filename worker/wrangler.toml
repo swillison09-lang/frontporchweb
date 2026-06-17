@@ -27,4 +27,4 @@ SUPABASE_URL             = "https://hxxtsthfqwyvkyuwnnsu.supabase.co"
 SUPABASE_PUBLISHABLE_KEY = "sb_publishable_PfXE01_bSpA1CnTKg7nbHA_5w7_iJJR"
 
 # Comma-separated allow-list. Update the production domain once deployed.
-ALLOWED_ORIGINS = "http://localhost:8000,http://127.0.0.1:5500,https://frontporchweb.com"
+ALLOWED_ORIGINS = "http://localhost:8000,http://127.0.0.1:5500,https://frontporchweb.com,https://frontporchweb.pages.dev,https://frontporchwebllc.com,https://www.frontporchwebllc.com"

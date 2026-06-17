@@ -3282,3 +3282,8 @@ a {
 }
 .upload-overlay-actions.hidden { display: none; }
 .upload-overlay-actions .btn-ghost { padding: .55rem 1.1rem; font-size: .9rem; }
+
+/* Nav Client Login button — force cream text over navy pill */
+.nav-links a.nav-cta {
+  color: var(--cream) !important;
+}
