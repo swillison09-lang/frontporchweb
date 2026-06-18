@@ -111,7 +111,7 @@ const ADOPT_PHOTO_CATEGORIES = ['homeOutside', 'homeInside', 'neighborhood', 'pe
 // Public base URL for client photos. Set this AFTER enabling public access
 // on the R2 bucket (or attaching images.frontporchwebllc.com). Must end with
 // a slash. Leave '' until then — prompts fall back to filenames so nothing breaks.
-const R2_PUBLIC_BASE = 'https://pub-da40e2d7ab1842f7ac31272683148811.r2.dev/';
+const R2_PUBLIC_BASE = 'https://images.frontporchwebllc.com/';
 
 // Best reference for a photo: real public URL when R2_PUBLIC_BASE is set,
 // otherwise the filename (current behavior).
