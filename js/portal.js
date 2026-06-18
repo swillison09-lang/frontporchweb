@@ -107,6 +107,18 @@ let qPhotoIdCounter = 0;
 
 // Adoption-flow photo buckets — one state object per category
 const ADOPT_PHOTO_CATEGORIES = ['homeOutside', 'homeInside', 'neighborhood', 'pets', 'moments'];
+
+// Public base URL for client photos. Set this AFTER enabling public access
+// on the R2 bucket (or attaching images.frontporchwebllc.com). Must end with
+// a slash. Leave '' until then — prompts fall back to filenames so nothing breaks.
+const R2_PUBLIC_BASE = '';
+
+// Best reference for a photo: real public URL when R2_PUBLIC_BASE is set,
+// otherwise the filename (current behavior).
+function photoRef(p) {
+  if (R2_PUBLIC_BASE && p.key) return R2_PUBLIC_BASE + p.key;
+  return p.filename || p.key || '(photo)';
+}
 const qaPhotoBuckets = ADOPT_PHOTO_CATEGORIES.reduce((acc, key) => {
   acc[key] = {}; // { fileId: { file, caption, objectUrl, fileId } }
   return acc;
@@ -1581,6 +1593,12 @@ function qGenerateBuildPrompt() {
   if (isAdopt && ad.city)    lines.push(`Family location: ${ad.city}`);
   if (isRecruit && rc.city)  lines.push(`Athlete location: ${rc.city}`);
   lines.push('');
+  if (R2_PUBLIC_BASE) {
+    lines.push('NOTE ON PHOTOS: photo entries below are REAL public image URLs.');
+    lines.push('Use them directly as <img src="..."> in the matching sections of the site,');
+    lines.push('honoring any caption as alt text / placement hint. Do not invent placeholders.');
+    lines.push('');
+  }
 
   // ── Client notes verbatim ──
   lines.push('═══════════════════════════════════════');
@@ -1628,7 +1646,7 @@ function qGenerateBuildPrompt() {
           lines.push(`Photos (${data.photos.length}):`);
           data.photos.forEach(p => {
             const cap = p.caption ? ` — "${p.caption}"` : '';
-            lines.push(`  - ${p.filename}${cap}`);
+            lines.push(`  - ${photoRef(p)}${cap}`);
           });
         }
         lines.push('');
@@ -1639,7 +1657,7 @@ function qGenerateBuildPrompt() {
       lines.push('EVERYDAY MOMENTS (each photo has its own description):');
       ad.moments.forEach(p => {
         const cap = p.caption ? ` — "${p.caption}"` : ' — (no description)';
-        lines.push(`  - ${p.filename}${cap}`);
+        lines.push(`  - ${photoRef(p)}${cap}`);
       });
       lines.push('');
     }
@@ -1860,7 +1878,7 @@ function qGenerateBuildPrompt() {
         lines.push(`  ${c.label} (${photos.length}):`);
         photos.forEach(p => {
           const cap = p.caption ? ` — "${p.caption}"` : '';
-          lines.push(`      - ${p.filename}${cap}`);
+          lines.push(`      - ${photoRef(p)}${cap}`);
         });
       });
       lines.push('');
@@ -2061,7 +2079,7 @@ function qGenerateBuildPrompt() {
         lines.push('Headshots / portraits / extras (from Step 6):');
         qData.photos.forEach(p => {
           const cap = p.caption ? ` — "${p.caption}"` : '';
-          lines.push(`  - ${p.filename}${cap}`);
+          lines.push(`  - ${photoRef(p)}${cap}`);
         });
       } else {
         lines.push('(no extra portraits — use photos from the family/home/moments sections above)');
@@ -2069,7 +2087,7 @@ function qGenerateBuildPrompt() {
     } else if (qData.photos && qData.photos.length) {
       qData.photos.forEach(p => {
         const cap = p.caption ? ` — "${p.caption}"` : '';
-        lines.push(`- ${p.filename}${cap}`);
+        lines.push(`- ${photoRef(p)}${cap}`);
       });
       lines.push('');
       lines.push('(Use the captions as guidance for where each photo belongs:');
