@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "title": "Front Porch Web, LLC — Websites Built on Trust",
+    "description": "Front Porch Web builds custom, mobile-friendly websites for local businesses, adoptive families, and student-athletes — honest prices, free hosting, no surprises."
+  },
+  "nav": {
+    "brand": "Front Porch Web",
+    "links": [
+      { "label": "About", "href": "#about" },
+      { "label": "Our Work", "href": "#work" },
+      { "label": "Process", "href": "#process" },
+      { "label": "Pricing", "href": "#pricing" },
+      { "label": "Client Login", "href": "portal.html" }
+    ],
+    "cta": { "label": "Start Your Project", "href": "portal.html" }
+  },
+  "hero": {
+    "eyebrow": "Websites Built on Trust",
+    "headline": "Beautiful websites for local businesses",
+    "headlineAccent": "and families.",
+    "sub": "Custom, mobile-friendly sites for businesses, adoptive families, and student-athletes — honest prices, no surprises.",
+    "primaryCta": { "label": "Start Your Project", "href": "portal.html" },
+    "secondaryCta": { "label": "See Our Work", "href": "#work" },
+    "note": "Simple monthly pricing · no surprises"
+  },
+  "values": [
+    { "title": "Honest prices. No surprises.", "body": "Straightforward monthly pricing, published right on this page. No hidden fees." },
+    { "title": "Built custom for you", "body": "Every site is designed around your story — custom pages, your own domain, mobile-friendly on every device." },
+    { "title": "You approve every detail", "body": "You see a full preview before anything goes live. Nothing publishes until you're happy." }
+  ],
+  "work": {
+    "eyebrow": "Our Work",
+    "heading": "Sites built for real people.",
+    "sub": "Every site starts with a real story — a family, a local crew, a student with a goal.",
+    "cards": [
+      {
+        "title": "The Bennett Family",
+        "tag": "Adoption Profile",
+        "description": "A warm adoption profile for a loving Indianapolis family hoping to welcome a child home.",
+        "href": "demos/bennett-family-adoption.html",
+        "theme": "family",
+        "image": "assets/demos/bennett-family.png",
+        "imageAlt": "The Bennett Family adoption profile website"
+      },
+      {
+        "title": "Fresh Cut Lawn Care",
+        "tag": "Local Business",
+        "description": "A clean, conversion-focused site for an Indianapolis lawn care company.",
+        "href": "demos/dunn-right.html",
+        "theme": "lawn",
+        "image": "assets/demos/dunn-right.png",
+        "imageAlt": "Fresh Cut Lawn Care website"
+      },
+      {
+        "title": "Hartman Plumbing",
+        "tag": "Local Business",
+        "description": "A trust-building site for a 24/7 emergency plumbing and drain service.",
+        "href": "demos/hartman-plumbing.html",
+        "theme": "plumbing",
+        "image": "assets/demos/hartman-plumbing.png",
+        "imageAlt": "Hartman Plumbing website"
+      },
+      {
+        "title": "College Recruiting Profile",
+        "tag": "Student-Athlete",
+        "description": "A standout recruiting page for a student-athlete looking to get noticed by college coaches.",
+        "href": "demos/recruiting.html",
+        "theme": "athlete",
+        "image": "assets/demos/baseball-hero.jpg",
+        "imageAlt": "College recruiting profile website"
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "Simple Process",
+    "heading": "Up and running in three easy steps.",
+    "steps": [
+      {
+        "title": "Fill out our questionnaire",
+        "body": "Answer a few quick questions and upload your photos. No tech experience needed — just tell us your story."
+      },
+      {
+        "title": "We build your site",
+        "body": "We build a custom website with modern tools and techniques. You will see a preview before anything goes live."
+      },
+      {
+        "title": "Review & launch",
+        "body": "You approve every detail. When you are happy, we publish and make sure everything runs fast and reliably."
+      }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Simple Pricing",
+    "heading": "Honest prices. No surprises.",
+    "sub": "Simple monthly plans. No surprises.",
+    "tiers": [
+      {
+        "name": "Starter",
+        "price": "$Dollars",
+        "term": "a month",
+        "features": ["Up to 3 pages", "Mobile-responsive design", "Custom domain", "Contact form", "1 revision"],
+        "cta": { "label": "Get Started", "href": "portal.html" },
+        "featured": false
+      },
+      {
+        "name": "Standard",
+        "price": "$Dollars",
+        "term": "a month",
+        "features": ["Up to 6 pages", "Mobile-responsive design", "Custom domain", "Contact form + gallery", "2 revisions", "Basic SEO", "Social links"],
+        "cta": { "label": "Get Started", "href": "portal.html" },
+        "featured": true
+      },
+      {
+        "name": "Premium",
+        "price": "$Dollars",
+        "term": "a month",
+        "features": ["Unlimited pages", "Mobile-responsive design", "Custom domain", "Contact form + gallery", "3 revisions", "Full SEO", "Blog", "Analytics", "Priority support"],
+        "cta": { "label": "Get Started", "href": "portal.html" },
+        "featured": false
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "Why \"Front Porch\"?",
+    "heading": "Websites Built on Trust",
+    "photo": "assets/sean.jpg",
+    "photoAlt": "Sean, founder of Front Porch Web",
+    "body": "Hi, I am Sean, a high school junior studying aviation and someone who loves learning about flight and technology. Being part of an adoptive family, I have heard about how much time and effort my mom put into building a website as we were waiting to grow our family. Hearing this story, along with my own love of technology, inspired me to create a platform where families and small organizations can more easily and economically share stories online.",
+    "signature": "— Sean, Founder"
+  },
+  "cta": {
+    "heading": "Ready to tell your story?",
+    "body": "Fill out the questionnaire, upload your photos, and see a full preview before anything goes live.",
+    "primaryCta": { "label": "Start Your Project", "href": "portal.html" },
+    "email": "frontporchwebllc@gmail.com"
+  },
+  "footer": {
+    "copyright": "© 2026 Front Porch Web, LLC. All rights reserved.",
+    "links": [
+      { "label": "Our Work", "href": "#work" },
+      { "label": "Pricing", "href": "#pricing" },
+      { "label": "Client Login", "href": "portal.html" }
+    ]
+  }
+}
