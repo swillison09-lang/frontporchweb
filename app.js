@@ -184,6 +184,14 @@
   document.querySelectorAll(".reveal").forEach(el => io.observe(el));
   io.observe(steps); // triggers the connecting-line draw via .in
 
+  /* iOS Safari can restore a page from the back-forward cache with CSS
+     animations frozen — restart them all when that happens */
+  window.addEventListener("pageshow", e => {
+    if (e.persisted && document.getAnimations) {
+      document.getAnimations().forEach(a => { try { a.cancel(); a.play(); } catch (err) {} });
+    }
+  });
+
   /* ---------- mobile menu ---------- */
   const burger = document.getElementById("nav-burger");
   burger.addEventListener("click", () => {
