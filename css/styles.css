@@ -672,7 +672,7 @@ a {
   border-top: 3px solid var(--sage);
 }
 
-/* Featured (Standard) card — navy accent, tinted background, elevated shadow */
+/* Featured (Standard) card — pine-green accent, tinted background, elevated shadow */
 .card-featured {
   border-top: 4px solid var(--door-navy);
   background: color-mix(in srgb, var(--door-navy) 4%, var(--paper));
@@ -3283,7 +3283,7 @@ a {
 .upload-overlay-actions.hidden { display: none; }
 .upload-overlay-actions .btn-ghost { padding: .55rem 1.1rem; font-size: .9rem; }
 
-/* Nav Client Login button — force cream text over navy pill */
+/* Nav Client Login button — force cream text over pine-green pill */
 .nav-links a.nav-cta {
   color: var(--cream) !important;
 }

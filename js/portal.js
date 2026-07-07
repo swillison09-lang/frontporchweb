@@ -38,9 +38,9 @@ const qData      = {};         // collects questionnaire answers
 const PALETTES = {
   'Front Porch': {
     cream: '#FBF8F3',
-    navy: '#203036',
+    navy: '#2F4A38',
     sage: '#717D68',
-    door: '#283C3D'
+    door: '#E9973E'
   },
   'Coastal': {
     white: '#F7FAFC',

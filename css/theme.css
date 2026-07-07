@@ -16,8 +16,8 @@
   /* ---- Core brand colors (from the logo) ---- */
   --cream:        #FBF8F3;  /* logo background / page background      */
   --paper:        #FFFFFF;  /* cards, raised surfaces                  */
-  --navy:         #203036;  /* logo wordmark — primary text & dark BG  */
-  --door-navy:    #283C3D;  /* logo door — secondary dark, depth       */
+  --navy:         #2F4A38;  /* primary text & dark BG — pine green, matches site  */
+  --door-navy:    #223829;  /* secondary dark accent — deeper pine green          */
   --sage:         #717D68;  /* logo ring & tagline — primary accent    */
   --sage-soft:    #9AA98C;  /* lighter sage — hovers, borders          */
   --brass:        #B98C4A;  /* logo lantern — small warm accents only  */
@@ -72,7 +72,7 @@ a { color: var(--sage); }
   color: var(--sage);
 }
 
-/* primary button — navy, like the logo door */
+/* primary button — pine green */
 .btn-primary {
   background: var(--navy);
   color: var(--cream);
@@ -102,7 +102,7 @@ a { color: var(--sage); }
 .btn-ghost:hover { background: var(--sage); color: var(--cream); }
 .btn-ghost:focus-visible { outline: 3px solid var(--sage); outline-offset: 3px; }
 
-/* dark section (footer, accent bands) — navy like the logo door */
+/* dark section (footer, accent bands) — pine green */
 .section-dark {
   background: var(--navy);
   color: var(--cream);
@@ -126,7 +126,7 @@ a { color: var(--sage); }
 
 /* ============================================================
    USAGE NOTES
-   - Cream is the dominant background. Navy for text and the
+   - Cream is the dominant background. Pine green for text and the
      occasional dark band. Sage is the accent — used sparingly.
    - Brass is for tiny touches only (icons, dividers). Never a
      background or large area.
