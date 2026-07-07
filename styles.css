@@ -398,9 +398,6 @@ main .btn-ghost:hover { border-color: var(--green-deep); background: rgba(47, 74
   transition: transform 4.5s ease-in-out;
 }
 .work-card:hover .mockup-shot { transform: translateY(calc(-100% + 183px)); }
-@media (prefers-reduced-motion: reduce) {
-  .work-card:hover .mockup-shot { transform: none; }
-}
 
 .mockup.family   { --m1: #e9a06b; --m2: #c96f52; --m3: #8e4a3f; }
 .mockup.lawn     { --m1: #8fbf6a; --m2: #4e8f4a; --m3: #2f5e33; }
@@ -488,12 +485,10 @@ main .btn-ghost:hover { border-color: var(--green-deep); background: rgba(47, 74
 .step:hover .step-num { transform: scale(1.08); border-color: var(--amber); }
 
 /* steps light up in sequence as the line reaches them — like porch steps at dusk */
-@media (prefers-reduced-motion: no-preference) {
-  .step-num { color: rgba(31, 42, 34, 0.35); }
-  .steps.in .step .step-num {
-    animation: stepLightOn 1s ease-out forwards;
-    animation-delay: calc(var(--d, 0s) * 4.5 + 0.25s);
-  }
+.step-num { color: rgba(31, 42, 34, 0.35); }
+.steps.in .step .step-num {
+  animation: stepLightOn 1s ease-out forwards;
+  animation-delay: calc(var(--d, 0s) * 4.5 + 0.25s);
 }
 @keyframes stepLightOn {
   0% {
@@ -694,19 +689,5 @@ main .btn-ghost:hover { border-color: var(--green-deep); background: rgba(47, 74
   .hero-content { padding: 175px 0 90px; }
 }
 
-/* ==========================================================
-   REDUCED MOTION
-   ========================================================== */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  /* stop movement, but let the lights keep a slow, gentle glow */
-  .porch-swing, .firefly, .star, .scroll-hint span, .sl-light { animation: none !important; }
-  .lamp-halo, .lamp-bulb, .light-pool, .cta-lamp, .sl-glow {
-    animation: bulbBreathe 6s ease-in-out infinite alternate !important;
-  }
-  .firefly { opacity: 0.6; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .steps-line-fill { transition: none; }
-  .layer { transform: none !important; }
-  * { transition-duration: 0.01ms !important; }
-}
+/* Animations run regardless of the device's reduce-motion setting
+   (owner's choice) — no prefers-reduced-motion gating. */

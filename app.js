@@ -114,10 +114,8 @@
     </div>`).join("");
 
   /* ==========================================================
-     Ambience: stars + fireflies (skipped for reduced motion)
+     Ambience: stars + fireflies
      ========================================================== */
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   const stars = document.getElementById("stars");
   const starCount = 70;
   let starHtml = "";
@@ -134,7 +132,7 @@
   stars.innerHTML = starHtml;
 
   function spawnFireflies(container, count, topMin, topSpan) {
-    if (!container || reduceMotion) return;
+    if (!container) return;
     let html = "";
     for (let i = 0; i < count; i++) {
       html += `<span class="firefly" style="
@@ -164,7 +162,7 @@
     requestAnimationFrame(() => {
       const y = window.scrollY;
       nav.classList.toggle("scrolled", y > hero.offsetHeight - 90);
-      if (!reduceMotion && y < hero.offsetHeight) {
+      if (y < hero.offsetHeight) {
         layers.forEach(l => {
           l.style.transform = `translateY(${(y * parseFloat(l.dataset.parallax)).toFixed(1)}px)`;
         });
