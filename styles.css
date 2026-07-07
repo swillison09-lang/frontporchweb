@@ -28,7 +28,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 
 body {
   font-family: var(--sans);
@@ -329,7 +329,7 @@ main .btn-ghost:hover { border-color: var(--green-deep); background: rgba(47, 74
    WORK — a dark stretch of the evening; cards glow like lit windows
    ========================================================== */
 .work {
-  position: relative;
+  position: relative; overflow: hidden;
   background: linear-gradient(180deg, var(--green-deep) 0%, var(--green-night) 100%);
   color: var(--cream);
 }
@@ -686,8 +686,11 @@ main .btn-ghost:hover { border-color: var(--green-deep); background: rgba(47, 74
     box-shadow: 0 24px 40px rgba(0, 0, 0, 0.3);
   }
   .nav.menu-open .nav-links a { padding: 12px 0; font-size: 17px; }
-  .porch-svg { display: none; }
-  .hero-content { padding: 130px 0 80px; }
+  /* on small screens the porch posts fall outside the crop; slide the
+     lamp and swing into the visible centre band so the scene survives */
+  .porch-lamp, .light-pool { transform: translateX(280px); }
+  .swing-pos { transform: translateX(-250px); }
+  .hero-content { padding: 175px 0 90px; }
 }
 
 /* ==========================================================
