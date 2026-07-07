@@ -240,6 +240,7 @@ main .btn-ghost:hover { border-color: var(--green-deep); background: rgba(47, 74
   50% { opacity: 1; transform: scale(1.06); }
 }
 .porch-swing {
+  transform-box: view-box; /* Safari: keep the px origin relative to the viewBox */
   transform-origin: 1130px 72px;
   animation: swing 7.5s ease-in-out infinite;
 }
@@ -698,8 +699,11 @@ main .btn-ghost:hover { border-color: var(--green-deep); background: rgba(47, 74
    ========================================================== */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .porch-swing, .lamp-halo, .lamp-bulb, .light-pool, .firefly, .star,
-  .scroll-hint span, .cta-lamp, .sl-glow, .sl-light { animation: none !important; }
+  /* stop movement, but let the lights keep a slow, gentle glow */
+  .porch-swing, .firefly, .star, .scroll-hint span, .sl-light { animation: none !important; }
+  .lamp-halo, .lamp-bulb, .light-pool, .cta-lamp, .sl-glow {
+    animation: bulbBreathe 6s ease-in-out infinite alternate !important;
+  }
   .firefly { opacity: 0.6; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .steps-line-fill { transition: none; }
