@@ -359,9 +359,10 @@
     .pcard li { font-size: 11px; padding: 2px 0; gap: 6px; }
   }
   @media (max-width: 460px) {
-    .classic-link { display: none; }
     .brand span { display: none; }
-    .nav-cta { font-size: 11px; padding: 8px 14px; }
+    .hud-right { gap: 10px; }
+    .nav-cta { font-size: 11px; padding: 8px 13px; }
+    .classic-link { font-size: 10.5px; padding: 7px 11px; letter-spacing: 0.08em; }
   }
 
   /* ---------- atmosphere overlays ---------- */
@@ -999,7 +1000,7 @@ addEventListener('scroll', () => {
     if (max <= 0) return;
     const p = scrollY / max;
     const cur = SNAPS[curIdx];
-    const TH = 0.008;                            // ignore tiny jitters
+    const TH = 34 / max;                         // ~34px: a gentle swipe advances
     let target = curIdx;
     if (p > cur + TH) {                          // scrolled down → go forward
       target = curIdx + 1;
@@ -1010,8 +1011,9 @@ addEventListener('scroll', () => {
       while (target > 0 && p <= (SNAPS[target] + SNAPS[target - 1]) / 2) target--;
     }
     target = Math.max(0, Math.min(SNAPS.length - 1, target));
-    // already settled on this section — don't re-snap (avoids a no-op loop)
-    if (target === curIdx && Math.abs(SNAPS[curIdx] * max - scrollY) < 4) return;
+    // Didn't cross into a new section (a small scroll, or at an edge): leave it
+    // where it is rather than yanking it back — that back-snap is the "hesitation".
+    if (target === curIdx) return;
     goToIndex(target);
   }, 110);
 }, { passive: true });
