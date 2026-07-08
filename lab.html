@@ -33,7 +33,7 @@
   a { color: inherit; }
 
   /* the tall scroll runway; the world is fixed behind it */
-  #runway { height: 700vh; }
+  #runway { height: 920vh; }
 
   #scene {
     position: fixed; inset: 0;
@@ -247,6 +247,92 @@
   }
   .classic-note a { pointer-events: auto; color: var(--amber-soft); }
 
+  /* ---------- top nav ---------- */
+  .hud-right { display: flex; align-items: center; gap: 14px; pointer-events: auto; }
+  .topnav { display: flex; align-items: center; gap: 16px; }
+  .topnav a {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.03em;
+    text-decoration: none; color: var(--cream-soft); cursor: pointer;
+    position: relative; transition: color 0.2s;
+  }
+  .topnav a:hover { color: var(--cream); }
+  .topnav a::after {
+    content: ""; position: absolute; left: 0; right: 100%; bottom: -4px;
+    height: 1.5px; background: var(--amber); transition: right 0.28s ease;
+  }
+  .topnav a:hover::after { right: 0; }
+  .nav-cta {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+    text-decoration: none; color: #241708;
+    background: linear-gradient(180deg, #f2a854, var(--amber) 60%, #C9741F);
+    padding: 9px 16px; border-radius: 999px;
+    box-shadow: 0 3px 14px rgba(201, 116, 31, 0.4);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201, 116, 31, 0.55); }
+
+  .inner.wide { max-width: 720px; }
+
+  /* ---------- about chapter (photo + story) ---------- */
+  .about-row { display: flex; gap: 22px; align-items: flex-start; margin-top: 16px; }
+  .about-photo {
+    flex: none; width: 116px; height: 116px; border-radius: 16px;
+    object-fit: cover; border: 4px solid rgba(250, 245, 236, 0.9);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); transform: rotate(-2deg);
+  }
+  .about-story { max-width: 50ch; }
+
+  /* ---------- glass cards (values + pricing) ---------- */
+  .gcard {
+    background: rgba(12, 18, 14, 0.5); backdrop-filter: blur(6px);
+    border: 1px solid rgba(250, 245, 236, 0.14); border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .value-cards { margin-top: 22px; display: flex; gap: 14px; }
+  .value-cards .gcard { flex: 1; }
+  .gcard h3 { font-family: var(--serif); font-weight: 600; font-size: 17px; margin-bottom: 5px; }
+  .gcard p { font-size: 13.5px; color: var(--cream-soft); line-height: 1.5; }
+
+  .price-cards {
+    margin-top: 22px; display: flex; gap: 14px;
+    width: min(720px, 86vw); overflow-x: auto; padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .price-cards::-webkit-scrollbar { display: none; }
+  .pcard {
+    flex: 0 0 208px;
+    background: rgba(12, 18, 14, 0.55); backdrop-filter: blur(6px);
+    border: 1px solid rgba(250, 245, 236, 0.14); border-radius: 16px;
+    padding: 20px;
+  }
+  .pcard.feat { border-color: rgba(233, 151, 62, 0.6); background: rgba(47, 74, 56, 0.55); }
+  .badge-feat {
+    display: inline-block; margin-bottom: 8px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #241708; background: var(--amber-soft); padding: 3px 9px; border-radius: 999px;
+  }
+  .pname { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber-soft); }
+  .pprice { font-family: var(--serif); font-weight: 500; font-size: 30px; margin: 6px 0 2px; }
+  .pprice span { font-size: 13px; color: var(--cream-soft); font-family: var(--sans); }
+  .pcard ul { list-style: none; margin-top: 12px; }
+  .pcard li { font-size: 12.5px; color: var(--cream-soft); padding: 4px 0; display: flex; gap: 7px; align-items: baseline; }
+  .pcard li::before { content: "\2713"; color: var(--amber); font-weight: 700; flex: none; }
+
+  .footer-line { margin-top: 22px; font-size: 12px; color: var(--cream-soft); }
+
+  @media (max-width: 980px) { .topnav { gap: 13px; } .topnav a { font-size: 12px; } }
+  @media (max-width: 680px) {
+    .topnav { display: none; }
+    .about-row { flex-direction: column; gap: 14px; }
+    .value-cards { flex-direction: column; }
+    .inner.wide { max-width: 100%; }
+  }
+  @media (max-width: 460px) {
+    .classic-link { display: none; }
+    .brand span { display: none; }
+    .nav-cta { font-size: 11px; padding: 8px 14px; }
+  }
+
   /* ---------- atmosphere overlays ---------- */
   .vignette {
     position: fixed; inset: 0; z-index: 20; pointer-events: none;
@@ -297,27 +383,74 @@
 <canvas id="scene"></canvas>
 
 <header class="hud-top">
-  <a class="brand" href="index.html">
+  <a class="brand" href="#top">
     <img src="assets/logo-nav.png?v=2" alt="Front Porch Web, LLC logo">
     <span>Front Porch Web</span>
   </a>
-  <a class="classic-link" href="index.html">Classic Site</a>
+  <div class="hud-right">
+    <nav class="topnav" aria-label="Sections">
+      <a class="nav-scroll" data-at="0.19">About</a>
+      <a class="nav-scroll" data-at="0.48">Our Work</a>
+      <a class="nav-scroll" data-at="0.63">Process</a>
+      <a class="nav-scroll" data-at="0.79">Pricing</a>
+      <a href="portal.html">Client Login</a>
+    </nav>
+    <a class="nav-cta" href="portal.html">Start Your Project</a>
+    <a class="classic-link" href="index.html">Classic Site</a>
+  </div>
 </header>
 
 <nav class="rail" id="rail" aria-label="Chapters"></nav>
 
 <div class="hint" id="hint">Scroll<span class="line"></span></div>
 
-<!-- chapters: fixed overlays whose opacity is driven by scroll progress -->
-<section class="chapter" data-start="0.00" data-end="0.13">
+<!-- chapters: fixed overlays whose opacity is driven by scroll progress.
+     Order matches the classic site: hero, about, trust, work, process, pricing, cta. -->
+
+<!-- 1 · HERO -->
+<section class="chapter" data-start="0.00" data-end="0.10">
   <div class="inner">
     <p class="eyebrow">Websites Built on Trust</p>
     <h1>Beautiful websites for local businesses <em>and families.</em></h1>
-    <p class="lede">An evening visit to the front porch. Scroll to walk up the path.</p>
+    <p class="lede">Custom, mobile-friendly sites for businesses, adoptive families, and student-athletes. Honest prices, no surprises.</p>
+    <div class="cta-row" style="justify-content:flex-start">
+      <a class="btn btn-amber" href="portal.html">Start Your Project</a>
+      <a class="btn btn-ghost nav-scroll" data-at="0.48">See Our Work</a>
+    </div>
+    <p class="footer-line">Simple monthly pricing &middot; no surprises</p>
   </div>
 </section>
 
-<section class="chapter align-left" data-start="0.17" data-end="0.33">
+<!-- 2 · ABOUT (Sean, second on the classic site) -->
+<section class="chapter" data-start="0.135" data-end="0.255">
+  <div class="inner wide">
+    <p class="eyebrow">Why &ldquo;Front Porch&rdquo;?</p>
+    <h2>Websites Built on Trust</h2>
+    <div class="about-row">
+      <img class="about-photo" src="assets/sean.jpg?v=2" alt="Sean, founder of Front Porch Web">
+      <div class="about-story">
+        <p class="lede" style="margin-top:0">Hi, I am Sean, a high school junior studying aviation and someone who loves learning about flight and technology. Being part of an adoptive family, I have heard about how much time and effort my mom put into building a website as we were waiting to grow our family. Hearing this story, along with my own love of technology, inspired me to create a platform where families and small organizations can more easily and economically share stories online.</p>
+        <p class="attrib">&mdash; Sean, Founder</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · TRUST POINTS -->
+<section class="chapter" data-start="0.285" data-end="0.40">
+  <div class="inner wide">
+    <p class="eyebrow">What you can count on</p>
+    <h2>Honest by <em>design.</em></h2>
+    <div class="value-cards">
+      <div class="gcard" data-sub="0"><h3>Honest prices. No surprises.</h3><p>Straightforward monthly pricing, published right on this page. No hidden fees.</p></div>
+      <div class="gcard" data-sub="1"><h3>Built custom for you</h3><p>Every site is designed around your story, with custom pages, your own domain, and a mobile-friendly layout on every device.</p></div>
+      <div class="gcard" data-sub="2"><h3>You approve every detail</h3><p>You see a full preview before anything goes live. Nothing publishes until you are happy.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · OUR WORK -->
+<section class="chapter align-left" data-start="0.43" data-end="0.55">
   <div class="inner">
     <p class="eyebrow">Our Work</p>
     <h2>Sites built for <em>real people.</em></h2>
@@ -326,12 +459,13 @@
       <li>The Bennett Family <span class="kind">Adoption Profile</span></li>
       <li>Fresh Cut Lawn Care <span class="kind">Local Business</span></li>
       <li>Hartman Plumbing <span class="kind">Local Business</span></li>
-      <li>Tyler Brooks <span class="kind">Recruiting Profile</span></li>
+      <li>College Recruiting Profile <span class="kind">Student-Athlete</span></li>
     </ul>
   </div>
 </section>
 
-<section class="chapter align-right" data-start="0.37" data-end="0.55">
+<!-- 5 · PROCESS -->
+<section class="chapter align-right" data-start="0.585" data-end="0.70">
   <div class="inner">
     <p class="eyebrow">Simple Process</p>
     <h2>Up and running in <em>three easy steps.</em></h2>
@@ -343,23 +477,34 @@
   </div>
 </section>
 
-<section class="chapter" data-start="0.59" data-end="0.72">
-  <div class="inner">
+<!-- 6 · PRICING -->
+<section class="chapter" data-start="0.73" data-end="0.86">
+  <div class="inner wide">
     <p class="eyebrow">Simple Pricing</p>
     <h2>Honest prices. <em>No surprises.</em></h2>
-    <p class="lede">Simple monthly plans: Starter, Standard, and Premium. You approve every detail before anything goes live.</p>
+    <div class="price-cards">
+      <div class="pcard">
+        <div class="pname">Starter</div>
+        <div class="pprice">$Dollars<span> a month</span></div>
+        <ul><li>Up to 3 pages</li><li>Mobile-responsive design</li><li>Custom domain</li><li>Contact form</li><li>1 revision</li></ul>
+      </div>
+      <div class="pcard feat">
+        <span class="badge-feat">Most Popular</span>
+        <div class="pname">Standard</div>
+        <div class="pprice">$Dollars<span> a month</span></div>
+        <ul><li>Up to 6 pages</li><li>Mobile-responsive design</li><li>Custom domain</li><li>Contact form + gallery</li><li>2 revisions</li><li>Basic SEO</li><li>Social links</li></ul>
+      </div>
+      <div class="pcard">
+        <div class="pname">Premium</div>
+        <div class="pprice">$Dollars<span> a month</span></div>
+        <ul><li>Unlimited pages</li><li>Mobile-responsive design</li><li>Custom domain</li><li>Contact form + gallery</li><li>3 revisions</li><li>Full SEO</li><li>Blog</li><li>Analytics</li><li>Priority support</li></ul>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="chapter align-right" data-start="0.75" data-end="0.86">
-  <div class="inner">
-    <p class="eyebrow">Why Front Porch</p>
-    <blockquote>A place where families and small organizations can more easily and economically share stories online.</blockquote>
-    <p class="attrib">— Sean, Founder</p>
-  </div>
-</section>
-
-<section class="chapter align-center" data-start="0.905" data-end="1.01">
+<!-- 7 · FINAL CTA -->
+<section class="chapter align-center" data-start="0.90" data-end="1.02">
   <div class="inner">
     <h2>Ready to tell <em>your story?</em></h2>
     <p class="lede">Fill out the questionnaire, upload your photos, and see a full preview before anything goes live.</p>
@@ -368,6 +513,7 @@
       <a class="btn btn-ghost" href="mailto:frontporchwebllc@gmail.com">frontporchwebllc@gmail.com</a>
     </div>
     <p class="classic-note">Prefer the classic site? <a href="index.html">Visit the homepage</a>.</p>
+    <p class="footer-line">&copy; 2026 Front Porch Web, LLC. All rights reserved.</p>
   </div>
 </section>
 
@@ -399,11 +545,12 @@ scrollTo(0, 0);
 const CFG = {
   chapters: [
     { label: 'Arrive',  at: 0.02 },
-    { label: 'Work',    at: 0.24 },
-    { label: 'Process', at: 0.45 },
-    { label: 'Pricing', at: 0.64 },
-    { label: 'About',   at: 0.80 },
-    { label: 'Begin',   at: 0.97 },
+    { label: 'About',   at: 0.19 },
+    { label: 'Trust',   at: 0.34 },
+    { label: 'Our Work', at: 0.49 },
+    { label: 'Process', at: 0.63 },
+    { label: 'Pricing', at: 0.79 },
+    { label: 'Begin',   at: 0.96 },
   ],
 };
 
@@ -773,6 +920,20 @@ const railBtns = CFG.chapters.map(c => {
   return b;
 });
 
+/* ---------- nav + hero jump links ---------- */
+document.querySelectorAll('.nav-scroll').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const at = parseFloat(a.dataset.at);
+    const max = document.documentElement.scrollHeight - innerHeight;
+    scrollTo({ top: at * max, behavior: 'smooth' });
+  });
+});
+document.querySelector('.brand').addEventListener('click', e => {
+  e.preventDefault();
+  scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 /* ---------- gentle mouse drift (desktop) ---------- */
 const mouse = { x: 0, y: 0 };
 addEventListener('pointermove', e => {
@@ -809,15 +970,15 @@ function frame() {
   camera.position.copy(V);
   camera.lookAt(G.x + mouse.x * 0.3, G.y - mouse.y * 0.2, G.z);
 
-  // lamp warms up as you approach (progress 0.25 → 0.6), then flickers
-  const approach = smooth(0.22, 0.55, p);
+  // lamp warms up as you approach, lit well before the porch chapters
+  const approach = smooth(0.18, 0.42, p);
   const lv = lampLevel(t);
   lamp.intensity = 2.4 * approach * lv;
   halo.material.opacity = 0.62 * approach * lv;
   bulb.material.color.setHex(lv > 0.7 ? 0xffd98f : 0x8a6a3a);
 
-  // door opens at the end and warm light floods out
-  const open = smooth(0.88, 0.985, p);
+  // door opens at the very end and warm light floods out
+  const open = smooth(0.905, 1.0, p);
   doorPivot.rotation.y = -open * 1.85;
   doorLight.intensity = open * 5.5;
   doorHalo.material.opacity = open * 0.85;
