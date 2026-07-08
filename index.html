@@ -964,24 +964,31 @@ window.__snap = p => {
 };
 
 /* ---------- scroll-snap to sections ----------
-   Never let the visitor come to rest in the empty space between chapters:
-   when scrolling stops, ease to the nearest section so a scroll always
-   lands on the next thing. */
+   Each scroll advances to the NEXT section in the direction you scrolled, and
+   settles there — so you never come to rest in the empty space between
+   chapters, and a scroll never yanks you backward. Because the runway is long,
+   snapping by direction (not nearest) is what makes it feel responsive. */
 const SNAPS = CFG.chapters.map(c => c.at);
-let snapping = false, snapIdle = 0, interacted = false;
-['wheel', 'touchstart', 'keydown'].forEach(ev =>
+let snapping = false, snapIdle = 0, snapDone = 0, interacted = false, curIdx = 0;
+['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(ev =>
   addEventListener(ev, () => { interacted = true; }, { passive: true }));
 
-function animateScrollTo(y, dur = 620) {
+// Jump the scroll instantly to the section; the camera + captions are already
+// eased by the progress lerp in the render loop, so the visual transition stays
+// smooth. (A custom or native *animated* scroll gets fought by the render loop
+// here; an instant set is reliable.)
+function animateScrollTo(y) {
   snapping = true;
-  const y0 = scrollY, dy = y - y0, t0 = performance.now();
-  (function step(now) {
-    const k = Math.min(1, (now - t0) / dur);
-    const e = 1 - Math.pow(1 - k, 3);          // easeOutCubic
-    scrollTo(0, y0 + dy * e);
-    if (k < 1) requestAnimationFrame(step);
-    else snapping = false;
-  })(performance.now());
+  clearTimeout(snapDone);
+  scrollTo(0, y);
+  snapDone = setTimeout(() => { snapping = false; }, 200);
+}
+
+// Ease to a specific section index and remember it as the current one.
+function goToIndex(i) {
+  curIdx = Math.max(0, Math.min(SNAPS.length - 1, i));
+  const max = document.documentElement.scrollHeight - innerHeight;
+  if (max > 0) animateScrollTo(SNAPS[curIdx] * max);
 }
 
 addEventListener('scroll', () => {
@@ -991,11 +998,22 @@ addEventListener('scroll', () => {
     const max = document.documentElement.scrollHeight - innerHeight;
     if (max <= 0) return;
     const p = scrollY / max;
-    let best = SNAPS[0];
-    for (const a of SNAPS) if (Math.abs(a - p) < Math.abs(best - p)) best = a;
-    const ty = best * max;
-    if (Math.abs(ty - scrollY) > 3) animateScrollTo(ty);
-  }, 150);
+    const cur = SNAPS[curIdx];
+    const TH = 0.008;                            // ignore tiny jitters
+    let target = curIdx;
+    if (p > cur + TH) {                          // scrolled down → go forward
+      target = curIdx + 1;
+      // if they scrolled far, keep going to the section they actually reached
+      while (target < SNAPS.length - 1 && p >= (SNAPS[target] + SNAPS[target + 1]) / 2) target++;
+    } else if (p < cur - TH) {                   // scrolled up → go back
+      target = curIdx - 1;
+      while (target > 0 && p <= (SNAPS[target] + SNAPS[target - 1]) / 2) target--;
+    }
+    target = Math.max(0, Math.min(SNAPS.length - 1, target));
+    // already settled on this section — don't re-snap (avoids a no-op loop)
+    if (target === curIdx && Math.abs(SNAPS[curIdx] * max - scrollY) < 4) return;
+    goToIndex(target);
+  }, 110);
 }, { passive: true });
 
 /* ---------- captions ---------- */
@@ -1033,30 +1051,33 @@ function updateCaptions(p) {
 
 /* ---------- rail ---------- */
 const rail = document.getElementById('rail');
-const railBtns = CFG.chapters.map(c => {
+const railBtns = CFG.chapters.map((c, i) => {
   const b = document.createElement('button');
   b.title = c.label;
   b.setAttribute('aria-label', c.label);
-  b.addEventListener('click', () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    scrollTo({ top: c.at * max, behavior: 'smooth' });
-  });
+  b.addEventListener('click', () => { interacted = true; goToIndex(i); });
   rail.appendChild(b);
   return b;
 });
 
 /* ---------- nav + hero jump links ---------- */
+const nearestSnapIndex = at => {
+  let best = 0;
+  for (let i = 0; i < SNAPS.length; i++)
+    if (Math.abs(SNAPS[i] - at) < Math.abs(SNAPS[best] - at)) best = i;
+  return best;
+};
 document.querySelectorAll('.nav-scroll').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
-    const at = parseFloat(a.dataset.at);
-    const max = document.documentElement.scrollHeight - innerHeight;
-    scrollTo({ top: at * max, behavior: 'smooth' });
+    interacted = true;
+    goToIndex(nearestSnapIndex(parseFloat(a.dataset.at)));
   });
 });
 document.querySelector('.brand').addEventListener('click', e => {
   e.preventDefault();
-  scrollTo({ top: 0, behavior: 'smooth' });
+  interacted = true;
+  goToIndex(0);
 });
 
 /* ---------- gentle mouse drift (desktop) ---------- */
