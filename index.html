@@ -963,6 +963,41 @@ window.__snap = p => {
   target = progress = p;
 };
 
+/* ---------- scroll-snap to sections ----------
+   Never let the visitor come to rest in the empty space between chapters:
+   when scrolling stops, ease to the nearest section so a scroll always
+   lands on the next thing. */
+const SNAPS = CFG.chapters.map(c => c.at);
+let snapping = false, snapIdle = 0, interacted = false;
+['wheel', 'touchstart', 'keydown'].forEach(ev =>
+  addEventListener(ev, () => { interacted = true; }, { passive: true }));
+
+function animateScrollTo(y, dur = 620) {
+  snapping = true;
+  const y0 = scrollY, dy = y - y0, t0 = performance.now();
+  (function step(now) {
+    const k = Math.min(1, (now - t0) / dur);
+    const e = 1 - Math.pow(1 - k, 3);          // easeOutCubic
+    scrollTo(0, y0 + dy * e);
+    if (k < 1) requestAnimationFrame(step);
+    else snapping = false;
+  })(performance.now());
+}
+
+addEventListener('scroll', () => {
+  if (snapping || !interacted) return;
+  clearTimeout(snapIdle);
+  snapIdle = setTimeout(() => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    if (max <= 0) return;
+    const p = scrollY / max;
+    let best = SNAPS[0];
+    for (const a of SNAPS) if (Math.abs(a - p) < Math.abs(best - p)) best = a;
+    const ty = best * max;
+    if (Math.abs(ty - scrollY) > 3) animateScrollTo(ty);
+  }, 150);
+}, { passive: true });
+
 /* ---------- captions ---------- */
 const chapters = [...document.querySelectorAll('.chapter')].map(el => ({
   el,
