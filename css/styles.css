@@ -1231,7 +1231,8 @@ a {
   flex-direction: column;
   align-items: center;
   gap: .35rem;
-  flex-shrink: 0;
+  flex: 0 0 74px;
+  width: 74px;
 }
 
 .q-step-bubble {
@@ -1297,6 +1298,7 @@ a {
 /* Hide labels on very small screens to keep indicator compact */
 @media (max-width: 400px) {
   .q-step-name { display: none; }
+  .q-step { flex-basis: 30px; width: 30px; }
   .q-step-bubble { width: 30px; height: 30px; font-size: .75rem; }
   .q-step-rail { margin-top: 14px; }
 }

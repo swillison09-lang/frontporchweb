@@ -165,7 +165,7 @@ function updateClubTeamLabels() {
   const coachNameLabel = document.getElementById('qrClubCoachNameLabel');
   if (sectionTitle)   sectionTitle.childNodes[0].textContent = label + ' ';
   if (teamNameLabel)  teamNameLabel.textContent = label + ' name';
-  if (coachNameLabel) coachNameLabel.textContent = label + ' coach — name';
+  if (coachNameLabel) coachNameLabel.textContent = label + ' coach name';
 }
 
 // Which questionnaire variant is active based on Step-1 site type.
@@ -486,7 +486,7 @@ async function persistSubmission({ submittedAt, buildPrompt, payment }) {
     const local = getLocalStorage(OWNER_PROMPTS_KEY, []);
     local.push({ ...qData, buildPrompt, submittedAt });
     setLocalStorage(OWNER_PROMPTS_KEY, local);
-    return { error: { message: 'Not signed in — submission saved locally only.' } };
+    return { error: { message: 'Not signed in. Submission saved locally only.' } };
   }
 
   const submissionId = (crypto.randomUUID?.() || `sub-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`);
@@ -678,7 +678,7 @@ async function handleEmailAuth(e) {
       // Default Supabase setting: email confirmation required.
       // A confirmation email has been sent; the user is not yet logged in.
       // (Owner can disable this in Dashboard → Auth → Sign In/Up → "Confirm email".)
-      showFormError('Almost there — check your email to confirm your account, then sign in.');
+      showFormError('Almost there. Check your email to confirm your account, then sign in.');
       restoreBtn();
       return;
     }
@@ -1303,7 +1303,7 @@ function qBuildSummaryHTML() {
     ].filter(([_, v]) => v);
     if (ncaaItems.length) {
       out.push('<div class="review-section"><div class="review-section-head"><h3>NCAA Eligibility Center</h3><a href="#" class="review-edit-link" data-step="2">Edit</a></div>');
-      out.push('<p class="review-subheading">Athlete-provided input only &mdash; NCAA rules change; verify at eligibilitycenter.org.</p>');
+      out.push('<p class="review-subheading">Athlete-provided input only. NCAA rules change; verify at eligibilitycenter.org.</p>');
       out.push('<dl class="review-dl">');
       ncaaItems.forEach(([k, v]) => out.push(`<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`));
       out.push('</dl></div>');
@@ -1311,7 +1311,7 @@ function qBuildSummaryHTML() {
 
     // Recruiting — Academics
     const TRANSCRIPT_LABELS = {
-      'yes':         'Yes — available',
+      'yes':         'Yes, available',
       'in-progress': 'In progress',
       'not-yet':     'Not yet',
     };
@@ -1440,7 +1440,7 @@ function qBuildSummaryHTML() {
     const refs = Array.isArray(rc.characterReferences) ? rc.characterReferences : [];
     if (refs.length) {
       out.push('<div class="review-section"><div class="review-section-head"><h3>Character References</h3><a href="#" class="review-edit-link" data-step="4">Edit</a></div>');
-      out.push('<p class="review-subheading">Beyond coaches &mdash; trainers, teachers, mentors.</p>');
+      out.push('<p class="review-subheading">Beyond coaches: trainers, teachers, mentors.</p>');
       out.push('<table class="review-meas-table"><thead><tr><th>Name</th><th>Role / relationship</th><th>Email</th><th>Phone</th></tr></thead><tbody>');
       refs.forEach(r => {
         out.push(
@@ -2332,7 +2332,7 @@ function renderTierCards(tiers) {
     const rawNum = parseFloat((tier.price || '').replace(/[^0-9.]/g, ''));
     const half   = Number.isFinite(rawNum) ? Math.round(rawNum / 2) : null;
     const splitLine = half !== null
-      ? `<p class="tier-split">${escapeHtml(tier.price)} total — $${half} now, $${half} on completion</p>`
+      ? `<p class="tier-split">${escapeHtml(tier.price)} total: $${half} now, $${half} on completion</p>`
       : '';
 
     card.innerHTML = `
@@ -2411,7 +2411,7 @@ async function qPaySubmit() {
       errEl.hidden = false;
       errEl.innerHTML =
         `Your <strong>${escapeHtml(mismatch.tierName)}</strong> package includes up to ` +
-        `<strong>${pg(mismatch.limit)}</strong> — you have selected ` +
+        `<strong>${pg(mismatch.limit)}</strong>. You have selected ` +
         `<strong>${pg(mismatch.count)}</strong>. Please ` +
         `<a href="#" class="q-mismatch-link" data-step="3">remove ${pg(mismatch.excess)}</a>` +
         ` or choose a larger package.`;
@@ -2585,7 +2585,7 @@ function qShowComplete(opts) {
     // signed-in user's display name (set by Supabase auth) so the greeting
     // isn't a generic "friend".
     const name = qData.name || currentUser?.name || 'friend';
-    if (heading) heading.textContent = 'Payment received — thank you!';
+    if (heading) heading.textContent = 'Payment received, thank you!';
     if (subEl) {
       subEl.innerHTML =
         `Thank you, <strong id="qCompleteName">${escapeHtml(name)}</strong>! ` +
@@ -2595,10 +2595,10 @@ function qShowComplete(opts) {
     if (noteEl) {
       noteEl.innerHTML =
         `The remaining 50% will be invoiced when your finished site is ` +
-        `delivered and you have approved every detail — not a moment before.`;
+        `delivered and you have approved every detail, not a moment before.`;
     }
   } else if (opts?.noLink) {
-    if (heading) heading.textContent = 'Brief received — we will follow up to take payment';
+    if (heading) heading.textContent = 'Brief received, we will follow up to take payment';
     if (subEl) {
       subEl.innerHTML =
         `Thank you, <strong id="qCompleteName">${escapeHtml(qData.name || 'friend')}</strong>! ` +

@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Front Porch Web, LLC — Websites Built on Trust",
-    "description": "Front Porch Web builds custom, mobile-friendly websites for businesses, adoptive families, and student-athletes — honest prices, no surprises."
+    "description": "Front Porch Web builds custom, mobile-friendly websites for businesses, adoptive families, and student-athletes. Honest prices, no surprises."
   },
   "nav": {
     "brand": "Front Porch Web",
@@ -18,20 +18,20 @@
     "eyebrow": "Websites Built on Trust",
     "headline": "Beautiful websites for local businesses",
     "headlineAccent": "and families.",
-    "sub": "Custom, mobile-friendly sites for businesses, adoptive families, and student-athletes — honest prices, no surprises.",
+    "sub": "Custom, mobile-friendly sites for businesses, adoptive families, and student-athletes. Honest prices, no surprises.",
     "primaryCta": { "label": "Start Your Project", "href": "portal.html" },
     "secondaryCta": { "label": "See Our Work", "href": "#work" },
     "note": "Simple monthly pricing · no surprises"
   },
   "values": [
     { "title": "Honest prices. No surprises.", "body": "Straightforward monthly pricing, published right on this page. No hidden fees." },
-    { "title": "Built custom for you", "body": "Every site is designed around your story — custom pages, your own domain, mobile-friendly on every device." },
-    { "title": "You approve every detail", "body": "You see a full preview before anything goes live. Nothing publishes until you're happy." }
+    { "title": "Built custom for you", "body": "Every site is designed around your story, with custom pages, your own domain, and a mobile-friendly layout on every device." },
+    { "title": "You approve every detail", "body": "You see a full preview before anything goes live. Nothing publishes until you are happy." }
   ],
   "work": {
     "eyebrow": "Our Work",
     "heading": "Sites built for real people.",
-    "sub": "Every site starts with a real story — a family, a local crew, a student with a goal.",
+    "sub": "Every site starts with a real story: a family, a local crew, a student with a goal.",
     "cards": [
       {
         "title": "The Bennett Family",
@@ -77,7 +77,7 @@
     "steps": [
       {
         "title": "Fill out our questionnaire",
-        "body": "Answer a few quick questions and upload your photos. No tech experience needed — just tell us your story."
+        "body": "Answer a few quick questions and upload your photos. No tech experience is needed, just tell us your story."
       },
       {
         "title": "We build your site",
