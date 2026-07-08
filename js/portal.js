@@ -476,6 +476,54 @@ function buildSubmissionRow({ submissionId, submittedAt, buildPrompt }) {
   };
 }
 
+// ┌──────────────────────────────────────────────────────────────────────────┐
+// │  EMAIL NOTIFICATION ON NEW ORDER                                          │
+// │  Paste your free Web3Forms access key below to turn this on. Get one at   │
+// │  https://web3forms.com  (enter frontporchwebllc@gmail.com, copy the key). │
+// │  When empty, notifications are simply skipped — nothing breaks.           │
+// │  Only a summary is emailed; the full brief stays in the portal/Supabase.  │
+// └──────────────────────────────────────────────────────────────────────────┘
+const NOTIFY_ACCESS_KEY = ''; // ← paste your Web3Forms access key here
+
+async function sendOrderNotification({ submissionId, submittedAt, savedToDb }) {
+  if (!NOTIFY_ACCESS_KEY) return; // not configured yet — skip quietly
+  const name     = currentUser?.name  || qData.contactName  || qData.name  || 'Unknown';
+  const email    = currentUser?.email || qData.contactEmail || qData.email || 'not provided';
+  const phone    = qData.phone || qData.contactPhone || 'not provided';
+  const siteType = SITE_TYPE_LABELS[qData.siteType] || qData.siteType || 'not specified';
+  const tier     = qData.payment?.tierName || qData.tier?.name || qData.tier || 'not selected';
+  const when     = new Date(submittedAt || Date.now()).toLocaleString();
+  const lines = [
+    'A new questionnaire was submitted on Front Porch Web.',
+    '',
+    `Name:       ${name}`,
+    `Email:      ${email}`,
+    `Phone:      ${phone}`,
+    `Site type:  ${siteType}`,
+    `Package:    ${tier}`,
+    `Submitted:  ${when}`,
+    `Reference:  ${submissionId}`,
+    savedToDb ? '' : '(Heads up: the database save reported an error — check the local backup.)',
+    '',
+    'Sign in to the client portal (Owner view) or Supabase to read the full brief.',
+  ].filter(l => l !== undefined);
+  try {
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: NOTIFY_ACCESS_KEY,
+        subject: `New Front Porch order: ${name} — ${siteType}`,
+        from_name: 'Front Porch Web',
+        replyto: email !== 'not provided' ? email : undefined,
+        message: lines.join('\n'),
+      }),
+    });
+  } catch (e) {
+    console.warn('Order notification email failed (the order itself was still saved):', e);
+  }
+}
+
 async function persistSubmission({ submittedAt, buildPrompt, payment }) {
   // Stash payment metadata onto qData so it travels with q_data and the
   // local backup — admin view reads s.q_data.payment.
@@ -515,6 +563,10 @@ async function persistSubmission({ submittedAt, buildPrompt, payment }) {
   const row = buildSubmissionRow({ submissionId, submittedAt, buildPrompt });
   const { error } = await sbClient.from('submissions').insert(row);
   if (error) console.error('Supabase submissions insert error:', error);
+
+  // Email the owner a heads-up that a new order came in (no-op until a key is set).
+  await sendOrderNotification({ submissionId, submittedAt, savedToDb: !error });
+
   return { error, submissionId };
 }
 
