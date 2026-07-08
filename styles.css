@@ -152,6 +152,22 @@ main .btn-ghost:hover { border-color: var(--green-deep); background: rgba(47, 74
 }
 .nav-links a:hover { opacity: 1; }
 .nav-links a:hover::after { right: 0; }
+
+/* "3D Experience" pill — mirrors the Classic Site button on the 3D page.
+   Uses currentColor so it adapts to the nav's transparent/scrolled states. */
+.nav-3d {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--sans); font-weight: 600; font-size: 13.5px;
+  letter-spacing: 0.02em; text-decoration: none; color: currentColor;
+  padding: 8px 16px; border: 1.5px solid currentColor; border-radius: 999px;
+  opacity: 0.82; white-space: nowrap; margin-left: 4px;
+  transition: opacity 0.25s ease, background 0.25s ease;
+}
+.nav-3d .nav-3d-star { color: var(--amber); }
+.nav-3d:hover { opacity: 1; background: rgba(233, 151, 62, 0.14); }
+/* small phones: logo only, so the 3D pill has room without wrapping the name */
+@media (max-width: 480px) { .brand-name { display: none; } }
+
 .nav-burger { display: none; }
 
 /* ==========================================================
@@ -663,8 +679,10 @@ main .btn-ghost:hover { border-color: var(--green-deep); background: rgba(47, 74
   .steps { grid-template-columns: 1fr; gap: 40px; }
   .steps-line { display: none; }
   .nav-links, .nav-cta-wrap { display: none; }
+  /* keep the 3D pill in the bar on mobile, compact, pushed to the right */
+  .nav-3d { margin-left: auto; margin-right: 8px; font-size: 12px; padding: 7px 13px; }
   .nav-burger {
-    display: flex; flex-direction: column; gap: 5px; margin-left: auto;
+    display: flex; flex-direction: column; gap: 5px;
     background: none; border: none; cursor: pointer; padding: 8px;
   }
   .nav-burger span {
