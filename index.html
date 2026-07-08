@@ -669,8 +669,8 @@ function makeSky() {
 makeSky();
 
 /* ---------- lights (warm family only, no blues) ---------- */
-scene.add(new THREE.HemisphereLight(0x2f4230, 0x0e130d, 0.9));
-const moon = new THREE.DirectionalLight(0xc4c8a6, 0.55);
+scene.add(new THREE.HemisphereLight(0x3a5240, 0x25301f, 1.2));
+const moon = new THREE.DirectionalLight(0xc4c8a6, 0.72);
 moon.position.set(-18, 26, 14);
 scene.add(moon);
 
@@ -684,8 +684,8 @@ scene.add(doorLight);
 
 /* ---------- materials ---------- */
 const M = {
-  ground: new THREE.MeshStandardMaterial({ color: 0x121b12, roughness: 1 }),
-  path:   new THREE.MeshStandardMaterial({ color: 0x40301c, roughness: 1 }),
+  ground: new THREE.MeshStandardMaterial({ color: 0x24321f, roughness: 1 }),
+  path:   new THREE.MeshStandardMaterial({ color: 0x7a5c37, roughness: 0.9, emissive: 0x201408, emissiveIntensity: 0.5 }),
   wall:   new THREE.MeshStandardMaterial({ color: 0xcdbb95, roughness: 0.9 }),
   roof:   new THREE.MeshStandardMaterial({ color: 0x1a2419, roughness: 0.95 }),
   wood:   new THREE.MeshStandardMaterial({ color: 0x4a3320, roughness: 0.9 }),
@@ -719,6 +719,30 @@ const M = {
     stones.setMatrixAt(i, m4);
   }
   scene.add(stones);
+}
+
+// warm lanterns lining the walk — light the path to the porch and cast soft pools
+{
+  const pathX = z => Math.sin(z * 0.24) * 1.15 + Math.sin(z * 0.07) * 0.7;
+  const postMat = new THREE.MeshStandardMaterial({ color: 0x2c2013, roughness: 1 });
+  [10, 20, 31, 43].forEach((z, i) => {
+    const side = i % 2 ? 1 : -1;                 // alternate sides of the walk
+    const x = pathX(z) + side * 1.45;
+    // low warm light pooling on the ground beside the path
+    const glow = new THREE.PointLight(0xffb15c, 3.2, 9, 2);
+    glow.position.set(x, 0.7, z);
+    scene.add(glow);
+    // little lantern: post + glowing bulb + soft halo sprite
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.05, 0.9, 6), postMat);
+    post.position.set(x, 0.45, z);
+    scene.add(post);
+    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.08, 10, 10), M.glowWarm);
+    bulb.position.set(x, 0.95, z);
+    scene.add(bulb);
+    const halo = makeGlowSprite(1.5, '#ffbf6e', 0.6);
+    halo.position.set(x, 0.95, z);
+    scene.add(halo);
+  });
 }
 
 /* ---------- the house ---------- */
