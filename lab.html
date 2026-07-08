@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Front Porch Web, LLC — An Evening Visit</title>
+<meta name="description" content="An animated evening visit to Front Porch Web. Scroll to walk up the path.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="assets/logo-nav.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF5EC;
+    --cream-soft: rgba(250, 245, 236, 0.72);
+    --pine: #2F4A38;
+    --night: #0a120e;
+    --amber: #E9973E;
+    --amber-soft: #F6C889;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Inter", -apple-system, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: auto; }
+  body {
+    background: var(--night);
+    color: var(--cream);
+    font-family: var(--sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+
+  /* the tall scroll runway; the world is fixed behind it */
+  #runway { height: 700vh; }
+
+  #scene {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+  }
+
+  /* ---------- loader ---------- */
+  #loader {
+    position: fixed; inset: 0; z-index: 60;
+    background: var(--night);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 14px;
+    transition: opacity 1s ease, visibility 1s;
+  }
+  #loader.done { opacity: 0; visibility: hidden; }
+  #loader .word {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(26px, 5vw, 44px); letter-spacing: 0.24em;
+    text-indent: 0.24em; color: var(--cream);
+  }
+  #loader .tag {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.3em;
+    text-transform: uppercase; text-indent: 0.3em; color: var(--amber-soft);
+  }
+  #loader .count {
+    margin-top: 26px;
+    font-family: var(--serif); font-size: 15px; font-style: italic;
+    color: var(--cream-soft); font-variant-numeric: tabular-nums;
+  }
+  #loader .bar {
+    width: min(220px, 50vw); height: 1px;
+    background: rgba(250, 245, 236, 0.14); overflow: hidden;
+  }
+  #loader .bar i {
+    display: block; height: 100%; width: 0%;
+    background: var(--amber);
+  }
+
+  /* ---------- HUD ---------- */
+  .hud-top {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px clamp(18px, 4vw, 44px);
+    pointer-events: none;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 11px;
+    text-decoration: none; pointer-events: auto;
+  }
+  .brand img {
+    width: 38px; height: 38px; border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(250, 245, 236, 0.16), 0 2px 10px rgba(0, 0, 0, 0.4);
+  }
+  .brand span {
+    font-family: var(--serif); font-weight: 600; font-size: 17px;
+    letter-spacing: 0.02em;
+  }
+  .classic-link {
+    pointer-events: auto;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; text-decoration: none;
+    color: var(--cream-soft);
+    padding: 9px 16px; border: 1px solid rgba(250, 245, 236, 0.25);
+    border-radius: 999px;
+    transition: color 0.25s, border-color 0.25s, background 0.25s;
+  }
+  .classic-link:hover { color: var(--cream); border-color: rgba(250, 245, 236, 0.7); background: rgba(250, 245, 236, 0.06); }
+
+  /* progress rail */
+  .rail {
+    position: fixed; right: clamp(14px, 3vw, 30px); top: 50%;
+    transform: translateY(-50%); z-index: 40;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .rail button {
+    width: 26px; height: 26px; border: none; background: none;
+    cursor: pointer; display: grid; place-items: center; padding: 0;
+  }
+  .rail button::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(250, 245, 236, 0.32);
+    transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+  }
+  .rail button.on::before {
+    background: var(--amber);
+    box-shadow: 0 0 10px rgba(233, 151, 62, 0.8);
+    transform: scale(1.35);
+  }
+
+  .hint {
+    position: fixed; bottom: 26px; left: 50%;
+    transform: translateX(-50%); z-index: 40;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.32em;
+    text-transform: uppercase; text-indent: 0.32em;
+    color: var(--cream-soft);
+    opacity: 0; transition: opacity 1s ease 0.4s;
+    pointer-events: none;
+  }
+  .hint.show { opacity: 1; }
+  .hint .line {
+    width: 1px; height: 34px; overflow: hidden;
+    background: rgba(250, 245, 236, 0.15);
+    position: relative;
+  }
+  .hint .line::after {
+    content: ""; position: absolute; left: 0; top: -50%;
+    width: 100%; height: 50%; background: var(--amber);
+    animation: drip 1.8s ease-in-out infinite;
+  }
+  @keyframes drip {
+    0%   { top: -50%; }
+    100% { top: 110%; }
+  }
+
+  /* ---------- chapters ---------- */
+  .chapter {
+    position: fixed; inset: 0; z-index: 30;
+    display: flex; align-items: center;
+    padding: 0 clamp(22px, 7vw, 110px);
+    opacity: 0; pointer-events: none;
+  }
+  .chapter.align-right { justify-content: flex-end; text-align: right; }
+  .chapter.align-center { justify-content: center; text-align: center; }
+  .chapter .inner { max-width: 560px; }
+  .eyebrow {
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--amber-soft);
+    margin-bottom: 16px;
+  }
+  .chapter h1, .chapter h2 {
+    font-family: var(--serif); font-weight: 500;
+    line-height: 1.06; letter-spacing: -0.01em;
+    text-shadow: 0 2px 40px rgba(5, 9, 6, 0.8);
+    text-wrap: balance;
+  }
+  .chapter h1 { font-size: clamp(38px, 6.4vw, 74px); }
+  .chapter h2 { font-size: clamp(30px, 4.6vw, 54px); }
+  .chapter h1 em, .chapter h2 em { font-style: italic; color: var(--amber-soft); }
+  .chapter p.lede {
+    margin-top: 18px; font-size: clamp(15px, 1.7vw, 18px); line-height: 1.65;
+    color: var(--cream-soft); max-width: 46ch;
+    text-shadow: 0 1px 24px rgba(5, 9, 6, 0.8);
+  }
+  .chapter.align-right p.lede { margin-left: auto; }
+  .chapter.align-center p.lede { margin-inline: auto; }
+
+  .work-list { margin-top: 24px; list-style: none; }
+  .work-list li {
+    font-family: var(--serif); font-size: clamp(17px, 2.1vw, 23px);
+    padding: 9px 0; color: var(--cream);
+    border-bottom: 1px solid rgba(250, 245, 236, 0.14);
+    display: flex; justify-content: space-between; gap: 20px; align-items: baseline;
+  }
+  .work-list li:last-child { border-bottom: none; }
+  .work-list .kind {
+    font-family: var(--sans); font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber-soft);
+    white-space: nowrap;
+  }
+
+  .steps { margin-top: 26px; display: flex; flex-direction: column; gap: 18px; }
+  .step { display: flex; gap: 16px; align-items: baseline; justify-content: flex-end; }
+  .step .n {
+    font-family: var(--serif); font-style: italic; font-size: 15px;
+    color: var(--amber); flex: none;
+  }
+  .step .t { max-width: 40ch; }
+  .step .t b {
+    display: block; font-family: var(--serif); font-weight: 600;
+    font-size: clamp(17px, 2vw, 21px); margin-bottom: 3px;
+  }
+  .step .t span { font-size: 14px; color: var(--cream-soft); line-height: 1.55; }
+
+  blockquote {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: clamp(20px, 2.8vw, 30px); line-height: 1.45;
+    text-shadow: 0 2px 40px rgba(5, 9, 6, 0.8);
+  }
+  blockquote::before { content: "\201C"; color: var(--amber); }
+  blockquote::after { content: "\201D"; color: var(--amber); }
+  .attrib {
+    margin-top: 16px; font-family: var(--serif); font-style: italic;
+    font-size: 15px; color: var(--amber-soft);
+  }
+
+  .cta-row {
+    margin-top: 30px; display: flex; gap: 14px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  .btn {
+    pointer-events: auto;
+    display: inline-block; text-decoration: none;
+    font-weight: 600; font-size: 15px;
+    padding: 15px 30px; border-radius: 999px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.25s, border-color 0.25s;
+  }
+  .btn-amber {
+    background: linear-gradient(180deg, #f2a854, var(--amber) 55%, #C9741F);
+    color: #241708;
+    box-shadow: 0 4px 18px rgba(201, 116, 31, 0.45);
+  }
+  .btn-amber:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201, 116, 31, 0.6); }
+  .btn-ghost {
+    color: var(--cream); border: 1.5px solid rgba(250, 245, 236, 0.4);
+  }
+  .btn-ghost:hover { border-color: rgba(250, 245, 236, 0.9); transform: translateY(-2px); }
+  .classic-note {
+    margin-top: 22px; font-size: 13px; color: var(--cream-soft);
+  }
+  .classic-note a { pointer-events: auto; color: var(--amber-soft); }
+
+  /* ---------- atmosphere overlays ---------- */
+  .vignette {
+    position: fixed; inset: 0; z-index: 20; pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 52%, rgba(4, 8, 5, 0.55) 100%);
+  }
+  .grain {
+    position: fixed; inset: 0; z-index: 21; pointer-events: none; opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  #fallback {
+    position: fixed; inset: 0; z-index: 70; display: none;
+    background: var(--night); color: var(--cream);
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; text-align: center; padding: 30px;
+  }
+  #fallback.show { display: flex; }
+  #fallback h1 { font-family: var(--serif); font-weight: 500; }
+
+  @media (max-width: 700px) {
+    .rail { display: none; }
+    .classic-link { padding: 8px 12px; font-size: 10.5px; }
+    .chapter { padding: 0 24px; align-items: flex-end; padding-bottom: 20vh; }
+    .chapter.align-center { align-items: center; padding-bottom: 0; }
+    .step { justify-content: flex-start; }
+    .chapter.align-right { justify-content: flex-start; text-align: left; }
+    .chapter.align-right p.lede { margin-left: 0; }
+  }
+</style>
+<script>
+  // the visit always begins at the start of the path
+  history.scrollRestoration = 'manual';
+  addEventListener('load', () => scrollTo(0, 0));
+</script>
+<script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+
+<div id="loader">
+  <div class="word">FRONT PORCH</div>
+  <div class="tag">An Evening Visit</div>
+  <div class="count" id="loadCount">0</div>
+  <div class="bar"><i id="loadBar"></i></div>
+</div>
+
+<canvas id="scene"></canvas>
+
+<header class="hud-top">
+  <a class="brand" href="index.html">
+    <img src="assets/logo-nav.png?v=2" alt="Front Porch Web, LLC logo">
+    <span>Front Porch Web</span>
+  </a>
+  <a class="classic-link" href="index.html">Classic Site</a>
+</header>
+
+<nav class="rail" id="rail" aria-label="Chapters"></nav>
+
+<div class="hint" id="hint">Scroll<span class="line"></span></div>
+
+<!-- chapters: fixed overlays whose opacity is driven by scroll progress -->
+<section class="chapter" data-start="0.00" data-end="0.13">
+  <div class="inner">
+    <p class="eyebrow">Websites Built on Trust</p>
+    <h1>Beautiful websites for local businesses <em>and families.</em></h1>
+    <p class="lede">An evening visit to the front porch. Scroll to walk up the path.</p>
+  </div>
+</section>
+
+<section class="chapter align-left" data-start="0.17" data-end="0.33">
+  <div class="inner">
+    <p class="eyebrow">Our Work</p>
+    <h2>Sites built for <em>real people.</em></h2>
+    <p class="lede">Every site starts with a real story: a family, a local crew, a student with a goal.</p>
+    <ul class="work-list">
+      <li>The Bennett Family <span class="kind">Adoption Profile</span></li>
+      <li>Fresh Cut Lawn Care <span class="kind">Local Business</span></li>
+      <li>Hartman Plumbing <span class="kind">Local Business</span></li>
+      <li>Tyler Brooks <span class="kind">Recruiting Profile</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="chapter align-right" data-start="0.37" data-end="0.55">
+  <div class="inner">
+    <p class="eyebrow">Simple Process</p>
+    <h2>Up and running in <em>three easy steps.</em></h2>
+    <div class="steps">
+      <div class="step" data-sub="0"><span class="n">01</span><span class="t"><b>Fill out our questionnaire</b><span>Answer a few quick questions and upload your photos.</span></span></div>
+      <div class="step" data-sub="1"><span class="n">02</span><span class="t"><b>We build your site</b><span>You will see a full preview before anything goes live.</span></span></div>
+      <div class="step" data-sub="2"><span class="n">03</span><span class="t"><b>Review and launch</b><span>When you are happy, we publish.</span></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" data-start="0.59" data-end="0.72">
+  <div class="inner">
+    <p class="eyebrow">Simple Pricing</p>
+    <h2>Honest prices. <em>No surprises.</em></h2>
+    <p class="lede">Simple monthly plans: Starter, Standard, and Premium. You approve every detail before anything goes live.</p>
+  </div>
+</section>
+
+<section class="chapter align-right" data-start="0.75" data-end="0.86">
+  <div class="inner">
+    <p class="eyebrow">Why Front Porch</p>
+    <blockquote>A place where families and small organizations can more easily and economically share stories online.</blockquote>
+    <p class="attrib">— Sean, Founder</p>
+  </div>
+</section>
+
+<section class="chapter align-center" data-start="0.905" data-end="1.01">
+  <div class="inner">
+    <h2>Ready to tell <em>your story?</em></h2>
+    <p class="lede">Fill out the questionnaire, upload your photos, and see a full preview before anything goes live.</p>
+    <div class="cta-row">
+      <a class="btn btn-amber" href="portal.html">Start Your Project</a>
+      <a class="btn btn-ghost" href="mailto:frontporchwebllc@gmail.com">frontporchwebllc@gmail.com</a>
+    </div>
+    <p class="classic-note">Prefer the classic site? <a href="index.html">Visit the homepage</a>.</p>
+  </div>
+</section>
+
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<div id="fallback">
+  <h1>This little world needs WebGL.</h1>
+  <p>Your browser could not start the 3D scene.</p>
+  <a class="btn btn-amber" href="index.html">Visit the classic site</a>
+</div>
+
+<div id="runway"></div>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* ════════════════════════════════════════════════════════════
+   FRONT PORCH — AN EVENING VISIT
+   A scroll-driven walk up the path to the porch. Native page
+   scroll is the timeline; the camera and captions follow it.
+   Palette is locked to the site: pine night, cream, amber.
+   ════════════════════════════════════════════════════════════ */
+
+// the visit always begins at the start of the path
+history.scrollRestoration = 'manual';
+scrollTo(0, 0);
+
+const CFG = {
+  chapters: [
+    { label: 'Arrive',  at: 0.02 },
+    { label: 'Work',    at: 0.24 },
+    { label: 'Process', at: 0.45 },
+    { label: 'Pricing', at: 0.64 },
+    { label: 'About',   at: 0.80 },
+    { label: 'Begin',   at: 0.97 },
+  ],
+};
+
+const canvas = document.getElementById('scene');
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({
+    canvas, antialias: true, preserveDrawingBuffer: true,
+    powerPreference: 'high-performance',
+  });
+} catch (e) {
+  document.getElementById('fallback').classList.add('show');
+  document.getElementById('loader').classList.add('done');
+  throw e;
+}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x1d2718, 22, 95);
+
+const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 300);
+
+/* ---------- dusk sky dome (green-black up top, amber at the horizon) ---------- */
+function makeSky() {
+  const c = document.createElement('canvas');
+  c.width = 16; c.height = 512;
+  const g = c.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, 512);
+  grad.addColorStop(0.00, '#070d09');
+  grad.addColorStop(0.28, '#0c1510');
+  grad.addColorStop(0.48, '#1a2c1f');
+  grad.addColorStop(0.62, '#38442c');
+  grad.addColorStop(0.72, '#6b5a35');
+  grad.addColorStop(0.80, '#c08a45');
+  grad.addColorStop(0.87, '#e0a45c');
+  grad.addColorStop(0.93, '#8a5e33');
+  grad.addColorStop(1.00, '#171309');
+  g.fillStyle = grad; g.fillRect(0, 0, 16, 512);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const dome = new THREE.Mesh(
+    new THREE.SphereGeometry(140, 24, 18),
+    new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, fog: false })
+  );
+  scene.add(dome);
+}
+makeSky();
+
+/* ---------- lights (warm family only, no blues) ---------- */
+scene.add(new THREE.HemisphereLight(0x2f4230, 0x0e130d, 0.9));
+const moon = new THREE.DirectionalLight(0xc4c8a6, 0.55);
+moon.position.set(-18, 26, 14);
+scene.add(moon);
+
+const lamp = new THREE.PointLight(0xffb15c, 0, 13, 2);
+lamp.position.set(1.35, 2.62, 2.55);
+scene.add(lamp);
+
+const doorLight = new THREE.PointLight(0xffc46b, 0, 10, 2);
+doorLight.position.set(0, 1.7, 1.0);
+scene.add(doorLight);
+
+/* ---------- materials ---------- */
+const M = {
+  ground: new THREE.MeshStandardMaterial({ color: 0x121b12, roughness: 1 }),
+  path:   new THREE.MeshStandardMaterial({ color: 0x40301c, roughness: 1 }),
+  wall:   new THREE.MeshStandardMaterial({ color: 0xcdbb95, roughness: 0.9 }),
+  roof:   new THREE.MeshStandardMaterial({ color: 0x1a2419, roughness: 0.95 }),
+  wood:   new THREE.MeshStandardMaterial({ color: 0x4a3320, roughness: 0.9 }),
+  woodDark: new THREE.MeshStandardMaterial({ color: 0x2c2013, roughness: 0.95 }),
+  door:   new THREE.MeshStandardMaterial({ color: 0x2F4A38, roughness: 0.7 }),
+  pine:   new THREE.MeshStandardMaterial({ color: 0x142019, roughness: 1 }),
+  trunk:  new THREE.MeshStandardMaterial({ color: 0x241a10, roughness: 1 }),
+  glow:   new THREE.MeshBasicMaterial({ color: 0xf6c889 }),
+  glowWarm: new THREE.MeshBasicMaterial({ color: 0xffd98f }),
+};
+
+/* ---------- ground + winding path ---------- */
+{
+  const ground = new THREE.Mesh(new THREE.CircleGeometry(140, 40), M.ground);
+  ground.rotation.x = -Math.PI / 2;
+  scene.add(ground);
+}
+
+// path made of flat stones marching toward the porch
+{
+  const stone = new THREE.CylinderGeometry(0.42, 0.42, 0.05, 7);
+  const stones = new THREE.InstancedMesh(stone, M.path, 60);
+  const m4 = new THREE.Matrix4();
+  for (let i = 0; i < 60; i++) {
+    const z = 4.6 + i * 0.95;
+    const x = Math.sin(z * 0.24) * 1.15 + Math.sin(z * 0.07) * 0.7;
+    const s = 0.8 + ((i * 7919) % 13) / 13 * 0.5;
+    m4.makeRotationY(((i * 2654435) % 628) / 100);
+    m4.setPosition(x + (i % 2 ? 0.28 : -0.28), 0.03, z);
+    m4.scale(new THREE.Vector3(s, 1, s));
+    stones.setMatrixAt(i, m4);
+  }
+  scene.add(stones);
+}
+
+/* ---------- the house ---------- */
+const house = new THREE.Group();
+{
+  const body = new THREE.Mesh(new THREE.BoxGeometry(6.2, 3.4, 5), M.wall);
+  body.position.set(0, 1.7, -1);
+  house.add(body);
+
+  // gable roof: extruded triangle
+  const tri = new THREE.Shape();
+  tri.moveTo(-3.6, 0); tri.lineTo(3.6, 0); tri.lineTo(0, 2.1); tri.closePath();
+  const roof = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(tri, { depth: 5.8, bevelEnabled: false }), M.roof);
+  roof.position.set(0, 3.38, -3.9);
+  house.add(roof);
+
+  // porch platform + steps
+  const deck = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.34, 2.3), M.wood);
+  deck.position.set(0, 0.34, 2.6);
+  house.add(deck);
+  for (let i = 0; i < 3; i++) {
+    const st = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.14, 0.4), M.woodDark);
+    st.position.set(0, 0.36 - i * 0.14, 3.75 + i * 0.38);
+    house.add(st);
+  }
+
+  // porch roof + posts
+  const proof = new THREE.Mesh(new THREE.BoxGeometry(6.5, 0.18, 2.7), M.roof);
+  proof.position.set(0, 3.15, 2.6);
+  proof.rotation.x = 0.06;
+  house.add(proof);
+  [[-2.85, 3.6], [2.85, 3.6], [-2.85, 1.7], [2.85, 1.7]].forEach(([x, z]) => {
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.16, 2.7, 0.16), M.wood);
+    post.position.set(x, 1.85, z);
+    house.add(post);
+  });
+  // railings
+  [-1, 1].forEach(side => {
+    const rail = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.07, 0.07), M.wood);
+    rail.position.set(side * 2.0, 1.15, 3.6);
+    house.add(rail);
+  });
+
+  // windows either side of the door, softly lit
+  [-1.9, 1.9].forEach(x => {
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(1.0, 1.2, 0.05), M.woodDark);
+    frame.position.set(x, 1.85, 1.5);
+    house.add(frame);
+    const w = new THREE.Mesh(new THREE.PlaneGeometry(0.85, 1.05), M.glow);
+    w.position.set(x, 1.85, 1.56);
+    house.add(w);
+  });
+}
+scene.add(house);
+
+/* ---------- the door (opens at the end, hinged on the left) ---------- */
+const doorPivot = new THREE.Group();
+doorPivot.position.set(-0.58, 0, 1.53);
+const doorMesh = new THREE.Mesh(new THREE.BoxGeometry(1.16, 2.3, 0.09), M.door);
+doorMesh.position.set(0.58, 1.32, 0);
+const knob = new THREE.Mesh(new THREE.SphereGeometry(0.045, 10, 10),
+  new THREE.MeshStandardMaterial({ color: 0xB98C4A, roughness: 0.35, metalness: 0.7 }));
+knob.position.set(1.02, 1.28, 0.07);
+doorPivot.add(doorMesh, knob);
+scene.add(doorPivot);
+// warm interior glimpsed through the opening door
+const interior = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 2.4), M.glowWarm);
+interior.position.set(0, 1.35, 1.45);
+scene.add(interior);
+
+/* ---------- porch lamp + swing ---------- */
+const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 12), M.glowWarm);
+bulb.position.copy(lamp.position);
+scene.add(bulb);
+{
+  const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.5), M.woodDark);
+  cord.position.set(1.35, 2.9, 2.55);
+  scene.add(cord);
+  const shade = new THREE.Mesh(new THREE.ConeGeometry(0.17, 0.16, 12, 1, true), M.woodDark);
+  shade.position.set(1.35, 2.74, 2.55);
+  scene.add(shade);
+}
+function makeGlowSprite(size, color, opacity) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const g = c.getContext('2d');
+  const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grad.addColorStop(0, color + 'ff');
+  grad.addColorStop(0.35, color + '55');
+  grad.addColorStop(1, color + '00');
+  g.fillStyle = grad; g.fillRect(0, 0, 128, 128);
+  const tex = new THREE.CanvasTexture(c);
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: tex, transparent: true, opacity, depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  }));
+  s.scale.setScalar(size);
+  return s;
+}
+const halo = makeGlowSprite(2.6, '#ffb15c', 0.55);
+halo.position.copy(lamp.position);
+scene.add(halo);
+const doorHalo = makeGlowSprite(3.4, '#ffc46b', 0.0);
+doorHalo.position.set(0, 1.5, 1.8);
+scene.add(doorHalo);
+// last of the sunset, glowing low behind the house
+const dusk = makeGlowSprite(70, '#d99a52', 0.3);
+dusk.material.fog = false;
+dusk.position.set(-6, 3, -42);
+scene.add(dusk);
+
+const swing = new THREE.Group();
+{
+  const seat = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.07, 0.5), M.wood);
+  seat.position.set(0, -1.75, 0);
+  const back = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.5, 0.06), M.wood);
+  back.position.set(0, -1.5, -0.24);
+  const chainL = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 1.75), M.woodDark);
+  chainL.position.set(-0.68, -0.87, 0);
+  const chainR = chainL.clone(); chainR.position.x = 0.68;
+  swing.add(seat, back, chainL, chainR);
+}
+swing.position.set(-1.75, 3.05, 2.45);
+scene.add(swing);
+
+/* ---------- pines (instanced, kept off the path) ---------- */
+{
+  const N = 34;
+  const cone1 = new THREE.InstancedMesh(new THREE.ConeGeometry(1.1, 2.6, 7), M.pine, N);
+  const cone2 = new THREE.InstancedMesh(new THREE.ConeGeometry(0.78, 1.9, 7), M.pine, N);
+  const trunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.1, 0.15, 0.9, 6), M.trunk, N);
+  const m4 = new THREE.Matrix4();
+  let placed = 0, seed = 7;
+  const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  while (placed < N) {
+    const x = (rand() - 0.5) * 76;
+    const z = rand() * 66 - 4;
+    if (Math.abs(x) < 3.4 && z > 2) continue;                 // keep the path clear
+    if (Math.hypot(x, z) < 7.5) continue;                      // keep the yard clear
+    const s = 0.9 + rand() * 1.6;
+    m4.makeScale(s, s, s); m4.setPosition(x, 1.3 * s, z);
+    cone1.setMatrixAt(placed, m4);
+    m4.makeScale(s, s, s); m4.setPosition(x, 2.7 * s, z);
+    cone2.setMatrixAt(placed, m4);
+    m4.makeScale(s, s, s); m4.setPosition(x, 0.4 * s, z);
+    trunks.setMatrixAt(placed, m4);
+    placed++;
+  }
+  scene.add(cone1, cone2, trunks);
+}
+
+/* ---------- fireflies + stars ---------- */
+function makePoints(n, spread, sizePx, color, opacity) {
+  const pos = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) {
+    pos[i * 3]     = (Math.random() - 0.5) * spread[0];
+    pos[i * 3 + 1] = Math.random() * spread[1] + spread[2];
+    pos[i * 3 + 2] = Math.random() * spread[3] + spread[4];
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d');
+  const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grad.addColorStop(0, '#ffffff'); grad.addColorStop(0.3, color); grad.addColorStop(1, 'transparent');
+  g.fillStyle = grad; g.fillRect(0, 0, 64, 64);
+  const mat = new THREE.PointsMaterial({
+    size: sizePx, map: new THREE.CanvasTexture(c), transparent: true,
+    opacity, depthWrite: false, blending: THREE.AdditiveBlending,
+    color: new THREE.Color(color), sizeAttenuation: true,
+  });
+  return new THREE.Points(geo, mat);
+}
+const firefliesA = makePoints(60, [44, 2.4, 0.3, 52, 0], 0.22, '#ffd98f', 0.9);
+const firefliesB = makePoints(50, [30, 2.0, 0.4, 30, 0], 0.18, '#f6c889', 0.7);
+scene.add(firefliesA, firefliesB);
+const stars = makePoints(340, [220, 60, 34, 220, -110], 0.5, '#fdf3dd', 0.75);
+scene.add(stars);
+const ffBaseA = firefliesA.geometry.attributes.position.array.slice();
+const ffBaseB = firefliesB.geometry.attributes.position.array.slice();
+
+/* ---------- the walk: camera + gaze curves ---------- */
+const camPath = new THREE.CatmullRomCurve3([
+  new THREE.Vector3( 3.2, 2.6, 52),
+  new THREE.Vector3(-2.6, 2.2, 40),
+  new THREE.Vector3( 2.6, 2.0, 29),
+  new THREE.Vector3(-2.2, 1.9, 19),
+  new THREE.Vector3( 0.6, 1.9, 12),
+  new THREE.Vector3( 1.3, 1.9, 8.2),
+  new THREE.Vector3( 0.0, 1.72, 5.2),
+], false, 'centripetal', 0.4);
+
+const gazePath = new THREE.CatmullRomCurve3([
+  new THREE.Vector3( 0.0, 2.8, 0),
+  new THREE.Vector3( 0.0, 2.5, 0),
+  new THREE.Vector3( 0.0, 2.2, 0.6),
+  new THREE.Vector3(-1.2, 2.0, 1.6),
+  new THREE.Vector3( 1.35, 2.3, 2.4),
+  new THREE.Vector3( 0.0, 1.7, 1.5),
+  new THREE.Vector3( 0.0, 1.5, 1.55),
+], false, 'centripetal', 0.4);
+
+/* ---------- scroll plumbing (native scroll, lerped) ---------- */
+let target = 0, progress = 0;
+function readScroll() {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  target = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+}
+addEventListener('scroll', readScroll, { passive: true });
+readScroll();
+
+// debug/test hook: snap directly to a progress value
+window.__snap = p => {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  scrollTo(0, p * max);
+  target = progress = p;
+};
+
+/* ---------- captions ---------- */
+const chapters = [...document.querySelectorAll('.chapter')].map(el => ({
+  el,
+  start: parseFloat(el.dataset.start),
+  end: parseFloat(el.dataset.end),
+  subs: [...el.querySelectorAll('[data-sub]')],
+}));
+const smooth = (a, b, x) => {
+  const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+};
+function updateCaptions(p) {
+  for (const ch of chapters) {
+    const f = Math.min(0.05, (ch.end - ch.start) * 0.3);
+    const fadeIn = ch.start <= 0 ? 1 : smooth(ch.start, ch.start + f, p);
+    const a = fadeIn * (1 - smooth(ch.end - f, ch.end, p));
+    ch.el.style.opacity = a.toFixed(3);
+    ch.el.style.transform = `translateY(${(1 - a) * 26}px)`;
+    ch.el.style.pointerEvents = a > 0.6 ? 'auto' : 'none';
+    ch.subs.forEach((s, i) => {
+      const span = ch.end - ch.start;
+      const s0 = ch.start + span * (0.12 + i * 0.16);
+      const sa = smooth(s0, s0 + span * 0.12, p);
+      s.style.opacity = sa.toFixed(3);
+      s.style.transform = `translateX(${(1 - sa) * 30}px)`;
+    });
+  }
+  railBtns.forEach((b, i) => {
+    const next = CFG.chapters[i + 1] ? CFG.chapters[i + 1].at : 2;
+    b.classList.toggle('on', p >= CFG.chapters[i].at - 0.06 && p < next - 0.06);
+  });
+}
+
+/* ---------- rail ---------- */
+const rail = document.getElementById('rail');
+const railBtns = CFG.chapters.map(c => {
+  const b = document.createElement('button');
+  b.title = c.label;
+  b.setAttribute('aria-label', c.label);
+  b.addEventListener('click', () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    scrollTo({ top: c.at * max, behavior: 'smooth' });
+  });
+  rail.appendChild(b);
+  return b;
+});
+
+/* ---------- gentle mouse drift (desktop) ---------- */
+const mouse = { x: 0, y: 0 };
+addEventListener('pointermove', e => {
+  if (e.pointerType === 'mouse') {
+    mouse.x = (e.clientX / innerWidth - 0.5) * 2;
+    mouse.y = (e.clientY / innerHeight - 0.5) * 2;
+  }
+});
+
+/* ---------- flicker table for the porch lamp (two stutters per cycle) ---------- */
+function lampLevel(t) {
+  const cyc = (t % 9) / 9;
+  let v = 0.88 + 0.09 * Math.sin(t * 0.7);
+  const dip = (c, w, d) => { if (Math.abs(cyc - c) < w) v *= d; };
+  dip(0.41, 0.006, 0.45); dip(0.425, 0.005, 0.55); dip(0.74, 0.006, 0.55);
+  return v;
+}
+
+/* ---------- main loop ---------- */
+const V = new THREE.Vector3(), G = new THREE.Vector3();
+const clock = new THREE.Clock();
+let firstFrame = false;
+
+function frame() {
+  const t = clock.getElapsedTime();
+  progress += (target - progress) * 0.06;
+  const p = Math.min(1, Math.max(0, progress));
+
+  // camera along the walk, with a whisper of handheld drift
+  camPath.getPointAt(p, V);
+  gazePath.getPointAt(p, G);
+  V.x += mouse.x * 0.25 + Math.sin(t * 0.5) * 0.04;
+  V.y += -mouse.y * 0.12 + Math.sin(t * 0.83) * 0.03;
+  camera.position.copy(V);
+  camera.lookAt(G.x + mouse.x * 0.3, G.y - mouse.y * 0.2, G.z);
+
+  // lamp warms up as you approach (progress 0.25 → 0.6), then flickers
+  const approach = smooth(0.22, 0.55, p);
+  const lv = lampLevel(t);
+  lamp.intensity = 2.4 * approach * lv;
+  halo.material.opacity = 0.62 * approach * lv;
+  bulb.material.color.setHex(lv > 0.7 ? 0xffd98f : 0x8a6a3a);
+
+  // door opens at the end and warm light floods out
+  const open = smooth(0.88, 0.985, p);
+  doorPivot.rotation.y = -open * 1.85;
+  doorLight.intensity = open * 5.5;
+  doorHalo.material.opacity = open * 0.85;
+
+  // swing sway + fireflies + star twinkle
+  swing.rotation.x = Math.sin(t * 0.8) * 0.055;
+  const posA = firefliesA.geometry.attributes.position;
+  for (let i = 0; i < posA.count; i++) {
+    posA.array[i * 3]     = ffBaseA[i * 3]     + Math.sin(t * 0.5 + i * 1.7) * 0.7;
+    posA.array[i * 3 + 1] = ffBaseA[i * 3 + 1] + Math.sin(t * 0.8 + i * 2.3) * 0.35;
+    posA.array[i * 3 + 2] = ffBaseA[i * 3 + 2] + Math.cos(t * 0.4 + i * 1.1) * 0.7;
+  }
+  posA.needsUpdate = true;
+  const posB = firefliesB.geometry.attributes.position;
+  for (let i = 0; i < posB.count; i++) {
+    posB.array[i * 3]     = ffBaseB[i * 3]     + Math.cos(t * 0.6 + i * 2.1) * 0.55;
+    posB.array[i * 3 + 1] = ffBaseB[i * 3 + 1] + Math.sin(t * 0.7 + i * 1.3) * 0.3;
+  }
+  posB.needsUpdate = true;
+  firefliesA.material.opacity = 0.55 + 0.4 * Math.sin(t * 1.9);
+  firefliesB.material.opacity = 0.5 + 0.4 * Math.sin(t * 2.3 + 2);
+  stars.material.opacity = 0.62 + 0.18 * Math.sin(t * 0.9);
+
+  updateCaptions(p);
+  renderer.render(scene, camera);
+  if (!firstFrame) { firstFrame = true; beginReveal(); }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ---------- loader reveal ---------- */
+function beginReveal() {
+  const count = document.getElementById('loadCount');
+  const bar = document.getElementById('loadBar');
+  const t0 = performance.now(), dur = 1400;
+  (function tick(now) {
+    const k = Math.min(1, (now - t0) / dur);
+    const eased = 1 - Math.pow(1 - k, 3);
+    count.textContent = Math.round(eased * 100);
+    bar.style.width = (eased * 100) + '%';
+    if (k < 1) requestAnimationFrame(tick);
+    else {
+      document.getElementById('loader').classList.add('done');
+      document.getElementById('hint').classList.add('show');
+    }
+  })(t0);
+}
+
+/* ---------- resize ---------- */
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  readScroll();
+});
+</script>
+</body>
+</html>
