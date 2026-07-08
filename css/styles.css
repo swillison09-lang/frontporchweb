@@ -1379,7 +1379,7 @@ a {
 .q-subsection-primary {
   border-left: 3px solid var(--door-navy);
   padding-left: 1.1rem;
-  background: linear-gradient(0deg, transparent, rgba(43, 62, 90, 0.04));
+  background: linear-gradient(0deg, transparent, rgba(47, 74, 56, 0.04));
 }
 .q-subsection-primary .q-subsection-title {
   color: var(--door-navy);
@@ -1387,7 +1387,7 @@ a {
 
 /* NCAA dated guidance note — clearly marked, light callout */
 .q-ncaa-note {
-  background: rgba(43, 62, 90, 0.05);
+  background: rgba(47, 74, 56, 0.05);
   border-left: 3px solid var(--sage);
   padding: .7rem .9rem;
   border-radius: 0 var(--radius) var(--radius) 0;
@@ -3210,7 +3210,7 @@ a {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(32, 48, 54, 0.6);
+  background: rgba(22, 36, 27, 0.6);
   backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
