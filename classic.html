@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Front Porch Web, LLC — Websites Built on Trust</title>
+<meta name="description" content="Front Porch Web builds custom, mobile-friendly websites for businesses, adoptive families, and student-athletes. Honest prices, no surprises.">
+<link rel="icon" type="image/png" href="assets/logo-nav.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=10">
+</head>
+<body>
+
+<a class="skip-link" href="#work">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="Front Porch Web home">
+      <img class="brand-logo" src="assets/logo-nav.png?v=2" alt="Front Porch Web, LLC logo">
+      <span class="brand-name" data-slot="nav.brand"></span>
+    </a>
+    <nav class="nav-links" id="nav-links" aria-label="Main"></nav>
+    <div class="nav-cta-wrap"><a class="btn btn-primary btn-sm" id="nav-cta" href="portal.html"></a></div>
+    <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ HERO: the front porch at dusk ============ -->
+<section class="hero" id="top">
+  <div class="hero-scene" aria-hidden="true">
+
+    <!-- far layer: sky -->
+    <div class="layer layer-sky" data-parallax="0.28">
+      <div class="sky-gradient"></div>
+      <div class="stars" id="stars"></div>
+    </div>
+
+    <!-- mid layer: horizon, treeline, fireflies -->
+    <div class="layer layer-mid" data-parallax="0.16">
+      <svg class="mid-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <linearGradient id="treeGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#1c2b22"/>
+            <stop offset="1" stop-color="#131f18"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#treeGrad)" d="M0,700 L0,640 Q40,596 70,632 Q95,586 130,622 Q160,570 200,616 Q235,588 265,624 Q300,576 345,620 Q375,592 410,626 Q450,572 495,618 Q530,590 560,622 Q600,578 645,620 Q680,594 715,626 Q755,574 800,618 Q835,590 865,622 Q905,578 950,620 Q985,592 1020,626 Q1060,572 1105,618 Q1140,588 1170,622 Q1205,576 1250,620 Q1285,592 1320,624 Q1355,580 1395,618 Q1420,596 1440,632 L1440,700 Z"/>
+        <rect x="0" y="694" width="1440" height="206" fill="#121b15"/>
+      </svg>
+      <div class="fireflies" id="fireflies"></div>
+    </div>
+
+    <!-- foreground: the porch itself -->
+    <div class="layer layer-porch" data-parallax="0.05">
+      <svg class="porch-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <linearGradient id="woodV" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#241a12"/>
+            <stop offset="0.55" stop-color="#31241a"/>
+            <stop offset="0.92" stop-color="#4a3320"/>
+            <stop offset="1" stop-color="#6b4826"/>
+          </linearGradient>
+          <linearGradient id="woodH" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#40301f"/>
+            <stop offset="0.5" stop-color="#2c2015"/>
+            <stop offset="1" stop-color="#1e150d"/>
+          </linearGradient>
+          <linearGradient id="floorGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3a2a1a"/>
+            <stop offset="1" stop-color="#17100a"/>
+          </linearGradient>
+          <radialGradient id="lampGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#ffc46b" stop-opacity="0.85"/>
+            <stop offset="0.35" stop-color="#ff9d3a" stop-opacity="0.32"/>
+            <stop offset="1" stop-color="#ff9d3a" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="floorPool" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#f7a94e" stop-opacity="0.22"/>
+            <stop offset="1" stop-color="#f7a94e" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- porch floor -->
+        <rect x="0" y="806" width="1440" height="94" fill="url(#floorGrad)"/>
+        <g stroke="#0d0906" stroke-width="2" opacity="0.6">
+          <line x1="0" y1="828" x2="1440" y2="822"/>
+          <line x1="0" y1="852" x2="1440" y2="848"/>
+          <line x1="0" y1="878" x2="1440" y2="876"/>
+        </g>
+        <ellipse cx="300" cy="850" rx="330" ry="60" fill="url(#floorPool)" class="light-pool"/>
+
+        <!-- top beam -->
+        <rect x="-20" y="0" width="1480" height="72" fill="url(#woodH)"/>
+        <rect x="-20" y="64" width="1480" height="12" fill="#4e3117" opacity="0.85"/>
+
+        <!-- left post + railing -->
+        <g>
+          <rect x="108" y="60" width="46" height="760" fill="url(#woodV)"/>
+          <rect x="98" y="60" width="66" height="18" fill="#3c2a18"/>
+          <rect x="98" y="742" width="66" height="14" fill="#170f09"/>
+          <!-- left railing -->
+          <rect x="-20" y="640" width="132" height="16" rx="4" fill="#3a2917"/>
+          <rect x="-20" y="770" width="132" height="12" fill="#241a10"/>
+          <g fill="#2c2013">
+            <rect x="-2" y="656" width="11" height="114"/>
+            <rect x="36" y="656" width="11" height="114"/>
+            <rect x="74" y="656" width="11" height="114"/>
+          </g>
+        </g>
+
+        <!-- right post + railing -->
+        <g>
+          <rect x="1286" y="60" width="46" height="760" fill="url(#woodV)"/>
+          <rect x="1276" y="60" width="66" height="18" fill="#3c2a18"/>
+          <rect x="1276" y="742" width="66" height="14" fill="#170f09"/>
+          <rect x="1328" y="640" width="132" height="16" rx="4" fill="#3a2917"/>
+          <rect x="1328" y="770" width="132" height="12" fill="#241a10"/>
+          <g fill="#2c2013">
+            <rect x="1355" y="656" width="11" height="114"/>
+            <rect x="1393" y="656" width="11" height="114"/>
+            <rect x="1431" y="656" width="11" height="114"/>
+          </g>
+        </g>
+
+        <!-- hanging porch light (left) -->
+        <g class="porch-lamp">
+          <circle cx="300" cy="238" r="190" fill="url(#lampGlow)" class="lamp-halo"/>
+          <line x1="300" y1="70" x2="300" y2="176" stroke="#0f0a06" stroke-width="5"/>
+          <path d="M270 176 h60 l10 34 h-80 Z" fill="#171009"/>
+          <path d="M262 210 h76 l-8 44 h-60 Z" fill="#221709" stroke="#3d2c16" stroke-width="2"/>
+          <circle cx="300" cy="236" r="15" fill="#ffd98f" class="lamp-bulb"/>
+          <path d="M276 254 h48 l-16 14 h-16 Z" fill="#171009"/>
+        </g>
+
+        <!-- porch swing (right); .swing-pos slides it into view on small screens -->
+        <g class="swing-pos">
+        <g class="porch-swing">
+          <line x1="1010" y1="72" x2="1042" y2="430" stroke="#0f0a06" stroke-width="4"/>
+          <line x1="1250" y1="72" x2="1218" y2="430" stroke="#0f0a06" stroke-width="4"/>
+          <g>
+            <rect x="1006" y="420" width="248" height="20" rx="8" fill="#3f2d19"/>
+            <rect x="1014" y="352" width="232" height="76" rx="10" fill="#31241a"/>
+            <g stroke="#211710" stroke-width="3">
+              <line x1="1044" y1="356" x2="1044" y2="424"/>
+              <line x1="1082" y1="356" x2="1082" y2="424"/>
+              <line x1="1120" y1="356" x2="1120" y2="424"/>
+              <line x1="1158" y1="356" x2="1158" y2="424"/>
+              <line x1="1196" y1="356" x2="1196" y2="424"/>
+              <line x1="1234" y1="356" x2="1234" y2="424"/>
+            </g>
+            <rect x="1006" y="436" width="248" height="12" rx="6" fill="#241a10"/>
+          </g>
+        </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- blend into page -->
+    <div class="hero-fade"></div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal" data-slot="hero.eyebrow"></p>
+    <h1 class="hero-headline reveal">
+      <span data-slot="hero.headline"></span>
+      <em class="accent" data-slot="hero.headlineAccent"></em>
+    </h1>
+    <p class="hero-sub reveal" data-slot="hero.sub"></p>
+    <div class="hero-ctas reveal">
+      <a class="btn btn-primary btn-lg" id="hero-cta-primary" href="portal.html"></a>
+      <a class="btn btn-ghost btn-lg" id="hero-cta-secondary" href="#work"></a>
+    </div>
+    <p class="hero-note reveal" data-slot="hero.note"></p>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true"><span></span></div>
+</section>
+
+<main>
+  <!-- about — Sean's story, right after the hero -->
+  <section class="about section" id="about">
+    <div class="container about-card reveal">
+      <div class="about-glow" aria-hidden="true"></div>
+      <div class="about-layout">
+        <figure class="about-photo">
+          <img id="about-photo" src="" alt="" loading="lazy">
+        </figure>
+        <div class="about-text">
+          <p class="eyebrow" data-slot="about.eyebrow"></p>
+          <h2 class="section-heading" data-slot="about.heading"></h2>
+          <p class="about-body" data-slot="about.body"></p>
+          <p class="about-signature" data-slot="about.signature"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- values strip -->
+  <section class="values" aria-label="What you can count on">
+    <div class="container values-grid" id="values-grid"></div>
+  </section>
+
+  <!-- our work -->
+  <section class="work section has-lights" id="work">
+    <svg class="string-lights" viewBox="0 0 1440 110" aria-hidden="true">
+      <defs>
+        <radialGradient id="slGlow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#ffc46b" stop-opacity="0.7"/>
+          <stop offset="0.4" stop-color="#ff9d3a" stop-opacity="0.25"/>
+          <stop offset="1" stop-color="#ff9d3a" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <path class="sl-wire" d="M0,12 Q120,78 240,14 Q360,80 480,12 Q600,78 720,14 Q840,80 960,12 Q1080,78 1200,14 Q1320,80 1440,12" fill="none"/>
+      <g class="sl-bulb" style="--i:0" transform="translate(120,45)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb" style="--i:1" transform="translate(360,46)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb" style="--i:2" transform="translate(600,45)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb sl-flicker" style="--i:3" transform="translate(840,46)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb" style="--i:4" transform="translate(1080,45)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb" style="--i:5" transform="translate(1320,46)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+    </svg>
+    <div class="container">
+      <p class="eyebrow reveal" data-slot="work.eyebrow"></p>
+      <h2 class="section-heading reveal" data-slot="work.heading"></h2>
+      <p class="section-sub reveal" data-slot="work.sub"></p>
+      <div class="work-grid" id="work-grid"></div>
+    </div>
+  </section>
+
+  <!-- process -->
+  <section class="process section" id="process">
+    <div class="container">
+      <p class="eyebrow reveal" data-slot="process.eyebrow"></p>
+      <h2 class="section-heading reveal" data-slot="process.heading"></h2>
+      <div class="steps" id="steps">
+        <div class="steps-line" aria-hidden="true"><div class="steps-line-fill" id="steps-line-fill"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- pricing -->
+  <section class="pricing section" id="pricing">
+    <div class="container">
+      <p class="eyebrow reveal" data-slot="pricing.eyebrow"></p>
+      <h2 class="section-heading reveal" data-slot="pricing.heading"></h2>
+      <p class="section-sub reveal" data-slot="pricing.sub"></p>
+      <div class="pricing-grid" id="pricing-grid"></div>
+    </div>
+  </section>
+
+  <!-- final cta -->
+  <section class="cta-band has-lights" id="contact">
+    <svg class="string-lights" viewBox="0 0 1440 110" aria-hidden="true">
+      <path class="sl-wire" d="M0,12 Q120,78 240,14 Q360,80 480,12 Q600,78 720,14 Q840,80 960,12 Q1080,78 1200,14 Q1320,80 1440,12" fill="none"/>
+      <g class="sl-bulb" style="--i:2" transform="translate(120,45)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb" style="--i:4" transform="translate(360,46)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb sl-flicker" style="--i:0" transform="translate(600,45)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb" style="--i:1" transform="translate(840,46)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb" style="--i:5" transform="translate(1080,45)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+      <g class="sl-bulb" style="--i:3" transform="translate(1320,46)"><line x1="0" y1="0" x2="0" y2="11"/><rect x="-3.5" y="9" width="7" height="6" rx="2"/><circle class="sl-glow" cy="20" r="20"/><circle class="sl-light" cy="20" r="6.5"/></g>
+    </svg>
+    <div class="cta-lamp" aria-hidden="true"></div>
+    <div class="fireflies" id="cta-fireflies" aria-hidden="true"></div>
+    <div class="container cta-inner">
+      <h2 class="cta-heading reveal" data-slot="cta.heading"></h2>
+      <p class="cta-body reveal" data-slot="cta.body"></p>
+      <div class="hero-ctas reveal">
+        <a class="btn btn-primary btn-lg" id="cta-primary" href="portal.html"></a>
+        <a class="btn btn-ghost btn-lg" id="cta-email" href="#"></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <a class="brand brand-footer" href="#top">
+      <img class="brand-logo" src="assets/logo-nav.png?v=2" alt="Front Porch Web, LLC logo">
+      <span data-slot="nav.brand"></span>
+    </a>
+    <nav class="footer-links" id="footer-links" aria-label="Footer"></nav>
+    <p class="footer-copy" data-slot="footer.copyright"></p>
+  </div>
+</footer>
+
+<script src="app.js?v=5"></script>
+</body>
+</html>
