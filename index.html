@@ -1037,10 +1037,12 @@ function updateCaptions(p) {
     ch.el.style.pointerEvents = a > 0.6 ? 'auto' : 'none';
     ch.subs.forEach((s, i) => {
       const span = ch.end - ch.start;
-      const s0 = ch.start + span * (0.12 + i * 0.16);
-      const sa = smooth(s0, s0 + span * 0.12, p);
+      // reveal all staggered items early, so every one is fully shown before
+      // the section's snap point (last item finishes at ~33% of the section)
+      const s0 = ch.start + span * (0.08 + i * 0.09);
+      const sa = smooth(s0, s0 + span * 0.07, p);
       s.style.opacity = sa.toFixed(3);
-      s.style.transform = `translateX(${(1 - sa) * 30}px)`;
+      s.style.transform = `translateX(${(1 - sa) * 26}px)`;
     });
   }
   railBtns.forEach((b, i) => {
