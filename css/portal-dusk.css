@@ -1,0 +1,307 @@
+/* ============================================================
+   PORTAL — DUSK THEME
+   Reskins the client portal + questionnaire to match the 3D
+   evening-visit homepage: night pine background, glass cards,
+   cream text, amber accents. Loaded AFTER theme.css/styles.css;
+   overrides only — no markup or logic changes.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --dusk-night:  #0a120e;
+  --dusk-deep:   #14241a;
+  --dusk-cream:  #FAF5EC;
+  --dusk-soft:   rgba(250, 245, 236, 0.72);
+  --dusk-faint:  rgba(250, 245, 236, 0.45);
+  --dusk-line:   rgba(250, 245, 236, 0.16);
+  --dusk-glass:  rgba(12, 18, 14, 0.55);
+  --dusk-glass2: rgba(20, 30, 22, 0.65);
+  --dusk-amber:  #E9973E;
+  --dusk-amber-soft: #F6C889;
+  --dusk-amber-deep: #C9741F;
+  --dusk-pine:   #2F4A38;
+  --dusk-pine-deep: #223829;
+  --dusk-field:  rgba(250, 245, 236, 0.055);
+  --dusk-error:  #f0926b;
+}
+
+/* ---------- page ---------- */
+body {
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(233, 151, 62, 0.07), transparent 60%),
+    linear-gradient(180deg, #0c1711 0%, var(--dusk-night) 40%, #0b130e 100%);
+  background-attachment: fixed;
+  color: var(--dusk-soft);
+  font-family: 'Inter', 'Nunito Sans', system-ui, sans-serif;
+}
+/* film grain + vignette, same finish as the homepage */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(4, 8, 5, 0.5) 100%);
+}
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.portal-main, .navbar, .site-footer { position: relative; z-index: 1; }
+.portal-main { background: transparent; }
+
+h1, h2, h3, h4,
+.q-panel-head h2, .q-wrap h2, .q-wrap h3,
+.auth-card h1, .auth-card h2, .dashboard-card h1, .dashboard-card h2,
+.q-complete h2, .admin-head h1 { color: var(--dusk-cream); }
+
+a { color: var(--dusk-amber-soft); }
+
+/* ---------- nav ---------- */
+.navbar, .portal-nav {
+  background: rgba(10, 18, 14, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--dusk-line);
+  box-shadow: none;
+}
+.nav-wordmark { color: var(--dusk-cream); font-size: 1.5rem; }
+.nav-logo, .portal-nav .nav-logo {
+  width: 54px; height: 54px;
+  box-shadow: 0 0 0 1px var(--dusk-line), 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+.portal-back { color: var(--dusk-soft); }
+.portal-back:hover, .portal-back:focus-visible { color: var(--dusk-cream); }
+
+/* ---------- glass cards (auth, dashboard, questionnaire, admin) ---------- */
+.card, .auth-card, .dashboard-card, .q-wrap, .admin-wrap {
+  background: var(--dusk-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--dusk-line);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.auth-title, .dashboard-title { color: var(--dusk-cream); }
+.auth-sub, .dashboard-sub, .q-panel-sub, .q-help, .file-count-note,
+.tier-note, .admin-sub, .q-complete-payment-note { color: var(--dusk-soft); }
+.auth-divider { color: var(--dusk-faint); }
+.auth-divider::before, .auth-divider::after { background: var(--dusk-line); }
+.auth-footer, .admin-footer { color: var(--dusk-soft); }
+.auth-toggle-link { color: var(--dusk-amber-soft); }
+.auth-toggle-link:hover, .auth-toggle-link:focus-visible { color: var(--dusk-cream); }
+.google-btn {
+  background: rgba(250, 245, 236, 0.06);
+  border-color: var(--dusk-line);
+  color: var(--dusk-cream);
+}
+.google-btn:hover { background: rgba(250, 245, 236, 0.12); border-color: rgba(250, 245, 236, 0.4); }
+
+/* ---------- forms ---------- */
+label, .checkbox-label, .form-group label, .q-wrap label,
+.auth-card label, .dashboard-card label { color: var(--dusk-cream); }
+.q-optional { color: var(--dusk-faint); }
+.req-star { color: var(--dusk-amber); }
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="url"],
+input[type="password"], input[type="number"], textarea, select,
+.form-group input, .form-group textarea, .form-group select,
+.qr-meas-row input, .qr-meas-row select, .qr-ref-row input {
+  background: var(--dusk-field);
+  border: 1px solid var(--dusk-line);
+  color: var(--dusk-cream);
+  caret-color: var(--dusk-amber);
+}
+input::placeholder, textarea::placeholder { color: rgba(250, 245, 236, 0.35); }
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--dusk-amber);
+  box-shadow: 0 0 0 3px rgba(233, 151, 62, 0.22);
+  background: rgba(250, 245, 236, 0.08);
+}
+select { color-scheme: dark; }
+option { background: var(--dusk-deep); color: var(--dusk-cream); }
+
+.checkbox-custom {
+  background: var(--dusk-field);
+  border-color: var(--dusk-line);
+}
+.checkbox-label input:checked + .checkbox-custom,
+.checkbox-label input:checked ~ .checkbox-custom {
+  background: var(--dusk-amber);
+  border-color: var(--dusk-amber);
+}
+.checkbox-label input:focus-visible + .checkbox-custom { outline: 2px solid var(--dusk-amber); }
+
+.field-error, .q-error, .q-tier-mismatch-err, .upload-overlay-error { color: var(--dusk-error); }
+.q-tier-mismatch-err strong { color: var(--dusk-cream); }
+.q-tier-mismatch-err a { color: var(--dusk-amber-soft); }
+
+/* ---------- buttons ---------- */
+.btn-primary, .auth-submit, .q-nav-fwd, .q-done-btn {
+  background: linear-gradient(180deg, #f2a854, var(--dusk-amber) 55%, var(--dusk-amber-deep));
+  color: #241708;
+  border: none;
+  box-shadow: 0 3px 14px rgba(201, 116, 31, 0.4);
+}
+.btn-primary:hover, .auth-submit:hover, .q-nav-fwd:hover, .q-done-btn:hover {
+  background: linear-gradient(180deg, #f7b366, #f2a14c 55%, var(--dusk-amber));
+  box-shadow: 0 6px 22px rgba(201, 116, 31, 0.55);
+}
+.btn-primary:focus-visible, .btn-ghost:focus-visible { outline: 3px solid var(--dusk-amber-soft); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--dusk-cream);
+  border-color: rgba(250, 245, 236, 0.4);
+}
+.btn-ghost:hover { background: rgba(250, 245, 236, 0.1); color: var(--dusk-cream); border-color: rgba(250, 245, 236, 0.8); }
+
+.q-exit-link, .dashboard-signout a { color: var(--dusk-soft); }
+.q-exit-link:hover, .dashboard-signout a:hover { color: var(--dusk-cream); }
+.q-step-counter { color: var(--dusk-faint); }
+
+/* ---------- step indicator ---------- */
+.q-step-bubble {
+  background: rgba(250, 245, 236, 0.05);
+  border-color: var(--dusk-line);
+  color: var(--dusk-faint);
+}
+.q-step.active .q-step-bubble {
+  background: var(--dusk-amber);
+  border-color: var(--dusk-amber);
+  color: #241708;
+  box-shadow: 0 0 14px rgba(233, 151, 62, 0.55);
+}
+.q-step.done .q-step-bubble {
+  background: var(--dusk-pine);
+  border-color: var(--dusk-pine);
+  color: var(--dusk-cream);
+}
+.q-step.done:hover .q-step-bubble,
+.q-step.upcoming:hover .q-step-bubble {
+  background: var(--dusk-amber-deep);
+  border-color: var(--dusk-amber-deep);
+  color: var(--dusk-cream);
+}
+.q-step-name { color: var(--dusk-faint); }
+.q-step.active .q-step-name { color: var(--dusk-amber-soft); }
+.q-step.done .q-step-name { color: var(--dusk-soft); }
+.q-step-rail { background: var(--dusk-line); }
+.q-step-rail.done { background: var(--dusk-pine); }
+
+/* ---------- subsections ---------- */
+.q-subsection { border-color: var(--dusk-line); }
+.q-subsection-title { color: var(--dusk-cream); }
+.q-subsection-primary {
+  border-left-color: var(--dusk-amber);
+  background: linear-gradient(0deg, transparent, rgba(233, 151, 62, 0.05));
+}
+.q-subsection-primary .q-subsection-title { color: var(--dusk-amber-soft); }
+.q-ncaa-note {
+  background: rgba(250, 245, 236, 0.05);
+  border-left-color: var(--dusk-pine);
+  color: var(--dusk-soft);
+}
+.q-ncaa-note strong { color: var(--dusk-cream); }
+
+/* ---------- palette picker ---------- */
+.palette-card {
+  background: var(--dusk-glass2);
+  border-color: var(--dusk-line);
+}
+.palette-card:hover { border-color: rgba(250, 245, 236, 0.4); }
+.palette-card:has(input[type="radio"]:checked) {
+  border-color: var(--dusk-amber);
+  background: rgba(47, 74, 56, 0.45);
+  box-shadow: 0 0 0 1px var(--dusk-amber), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.palette-name { color: var(--dusk-cream); }
+.palette-check { color: var(--dusk-amber); }
+.swatch { border-color: rgba(0, 0, 0, 0.35); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
+.palette-dark { background: #1F2129; border-color: #3A3F4B; }
+.palette-dark:hover, .palette-dark:has(input[type="radio"]:checked) { border-color: var(--dusk-amber); }
+.palette-dark .palette-check { color: var(--dusk-amber); }
+
+/* ---------- photo upload ---------- */
+.file-upload-zone {
+  background: var(--dusk-field);
+  border-color: rgba(250, 245, 236, 0.3);
+  color: var(--dusk-soft);
+}
+.file-upload-zone:hover, .file-upload-zone.dragover {
+  border-color: var(--dusk-amber);
+  background: rgba(233, 151, 62, 0.07);
+}
+.file-upload-icon { color: var(--dusk-amber-soft); }
+.file-upload-button { color: var(--dusk-amber-soft); }
+.file-upload-button:hover { color: var(--dusk-cream); }
+.photo-preview-grid > * { border-color: var(--dusk-line); }
+
+/* ---------- measurables + references grids ---------- */
+.qr-meas-header span, .qr-ref-header span { color: var(--dusk-faint); }
+.qr-meas-row, .qr-ref-row { border-color: var(--dusk-line); }
+
+/* ---------- review summary ---------- */
+.review-summary { color: var(--dusk-soft); }
+.review-section {
+  background: var(--dusk-glass2);
+  border: 1px solid var(--dusk-line);
+}
+.review-section-head h3 { color: var(--dusk-cream); }
+.review-edit-link { color: var(--dusk-amber-soft); }
+.review-edit-link:hover { color: var(--dusk-cream); }
+.review-dl dt { color: var(--dusk-faint); }
+.review-dl dd { color: var(--dusk-cream); }
+.review-multiline { color: var(--dusk-soft); background: rgba(250, 245, 236, 0.04); border-color: var(--dusk-line); }
+.review-subheading { color: var(--dusk-amber-soft); }
+
+/* ---------- pricing tiers (step 8) ---------- */
+.tier-card {
+  background: var(--dusk-glass2);
+  border: 1px solid var(--dusk-line);
+  color: var(--dusk-soft);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+}
+.tier-card:hover { border-color: rgba(250, 245, 236, 0.4); }
+.tier-card.selected, .tier-card[aria-checked="true"] {
+  border-color: var(--dusk-amber);
+  box-shadow: 0 0 0 1px var(--dusk-amber), 0 14px 44px rgba(0, 0, 0, 0.45);
+  background: rgba(47, 74, 56, 0.5);
+}
+.tier-featured { background: rgba(47, 74, 56, 0.55); border-color: rgba(233, 151, 62, 0.55); }
+.tier-badge { background: var(--dusk-amber-soft); color: #241708; }
+.tier-name { color: var(--dusk-amber-soft); }
+.tier-price { color: var(--dusk-cream); }
+.tier-cycle, .tier-split { color: var(--dusk-soft); }
+.tier-features li { color: var(--dusk-soft); border-color: var(--dusk-line); }
+.tier-features li::before, .tier-features li::marker { color: var(--dusk-amber); }
+.tier-empty { color: var(--dusk-soft); }
+
+/* ---------- complete screen ---------- */
+.q-complete h2 { color: var(--dusk-cream); }
+.q-complete-icon { filter: drop-shadow(0 0 18px rgba(233, 151, 62, 0.5)); }
+
+/* ---------- admin (owner) view ---------- */
+.admin-eyebrow { color: var(--dusk-amber-soft); }
+.admin-list > * { background: var(--dusk-glass2); border-color: var(--dusk-line); }
+.temp-admin-link { color: var(--dusk-faint); }
+.temp-admin-link:hover { color: var(--dusk-cream); background: rgba(250, 245, 236, 0.06); }
+
+/* ---------- footer ---------- */
+.site-footer, .section-dark {
+  background: rgba(8, 14, 10, 0.85);
+  border-top: 1px solid var(--dusk-line);
+}
+.footer-tagline, .footer-copy, .footer-nav a { color: var(--dusk-soft); }
+.footer-nav a:hover { color: var(--dusk-cream); }
+.footer-biz-name { color: var(--dusk-cream); }
+.social-link { color: var(--dusk-soft); }
+.social-link:hover { color: var(--dusk-cream); }
+
+/* ---------- upload overlay (already dark; align the card) ---------- */
+.upload-overlay { background: rgba(6, 11, 8, 0.72); }
+.upload-overlay-card {
+  background: var(--dusk-deep);
+  border: 1px solid var(--dusk-line);
+  color: var(--dusk-cream);
+}
+.upload-overlay-card h3 { color: var(--dusk-cream); }
+.upload-overlay-status, .upload-overlay-count { color: var(--dusk-soft); }
+.upload-overlay-bar { background: rgba(250, 245, 236, 0.12); }
+.upload-overlay-bar-fill { background: var(--dusk-amber); }
