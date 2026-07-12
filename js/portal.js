@@ -222,19 +222,19 @@ const DEFAULT_TIERS_BY_TYPE = {
       features: ['Everything in Standard', 'Schedule & recruiting goals', 'Coach contact form'] },
   ],
   'adoption-profile': [
-    { id: 'fallback-essential', name: 'Essential', price: '$650',   badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$650',   badge: null,
       features: ['Single-page adoption profile', 'Mobile-friendly', 'Letter to birth parents'] },
-    { id: 'fallback-full',      name: 'Full',      price: '$1,000', badge: 'Most Popular',
+    { id: 'fallback-standard', name: 'Standard', price: '$1,000', badge: 'Most Popular',
       features: ['Full family story & photos', 'Our Journey / blog section', 'Basic SEO setup'] },
-    { id: 'fallback-complete',  name: 'Complete',  price: '$1,500', badge: null,
-      features: ['Everything in Full', 'Fundraising page integration', 'Priority support'] },
+    { id: 'fallback-premium',  name: 'Premium',  price: '$1,500', badge: null,
+      features: ['Everything in Standard', 'Fundraising page integration', 'Priority support'] },
   ],
   'personal-other': [
-    { id: 'fallback-simple',   name: 'Simple',   price: '$500',  badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$500',  badge: null,
       features: ['Single-page site', 'Mobile-friendly', 'Contact form'] },
     { id: 'fallback-standard', name: 'Standard', price: '$900',  badge: 'Most Popular',
       features: ['Multi-section site', 'Photo gallery', 'Basic SEO setup'] },
-    { id: 'fallback-plus',     name: 'Plus',     price: '$1,400', badge: null,
+    { id: 'fallback-premium',  name: 'Premium',  price: '$1,400', badge: null,
       features: ['Everything in Standard', 'Blog setup', 'Priority support'] },
   ],
 };
@@ -281,6 +281,17 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // │  case-insensitively against `qSelectedTier.name`, so owner edits to    │
 // │  prices/ids in setup.html don't break this map — only renaming a tier  │
 // │  does.                                                                   │
+// │                                                                          │
+// │  TODO (owner, cosmetic only): the site now shows Starter/Standard/     │
+// │  Premium for every site type, but the 6 adoption + personal-other      │
+// │  Payment Links were originally created in Stripe under their old names │
+// │  (Essential/Full/Complete, Simple/Standard/Plus) — that's what a       │
+// │  customer briefly sees as the product title on Stripe's own checkout   │
+// │  page after clicking Pay. To match everywhere: in the Stripe           │
+// │  dashboard → Payment Links, open each of those 6 links → Edit →        │
+// │  rename the product/description to Starter, Standard, or Premium to   │
+// │  match the deposit amount (see the site-type comments above). This is  │
+// │  purely cosmetic — checkout works correctly either way.                 │
 // └──────────────────────────────────────────────────────────────────────────┘
 const STRIPE_TEST_MODE = true;
 const STRIPE_PAYMENT_LINKS = {
@@ -292,14 +303,18 @@ const STRIPE_PAYMENT_LINKS = {
   'recruiting-profile::starter': 'https://buy.stripe.com/test_5kQ8wPeVS66IcBF7aI6oo08',
   'recruiting-profile::standard':'https://buy.stripe.com/test_cNi5kDaFC66IeJNgLi6oo07',
   'recruiting-profile::premium': 'https://buy.stripe.com/test_3cIeVd6pmfHi6dh3Yw6oo06',
-  // Adoption profile — Essential/Full/Complete
-  'adoption-profile::essential': 'https://buy.stripe.com/test_5kQ9ATeVS8eQ0SX52A6oo05',
-  'adoption-profile::full':      'https://buy.stripe.com/test_8x2aEX3dabr21X10Mk6oo04',
-  'adoption-profile::complete':  'https://buy.stripe.com/test_8x200jcNK9iUatx0Mk6oo03',
-  // Personal / other — Simple/Standard/Plus
-  'personal-other::simple':      'https://buy.stripe.com/test_8x2cN58xu3YA59dgLi6oo02',
+  // Adoption profile — Starter/Standard/Premium
+  // (Stripe's own product names still say Essential/Full/Complete — rename
+  // those in the Stripe dashboard to match, see note below.)
+  'adoption-profile::starter':   'https://buy.stripe.com/test_5kQ9ATeVS8eQ0SX52A6oo05',
+  'adoption-profile::standard':  'https://buy.stripe.com/test_8x2aEX3dabr21X10Mk6oo04',
+  'adoption-profile::premium':   'https://buy.stripe.com/test_8x200jcNK9iUatx0Mk6oo03',
+  // Personal / other — Starter/Standard/Premium
+  // (Stripe's own product names still say Simple/Standard/Plus — rename
+  // those in the Stripe dashboard to match, see note below.)
+  'personal-other::starter':     'https://buy.stripe.com/test_8x2cN58xu3YA59dgLi6oo02',
   'personal-other::standard':    'https://buy.stripe.com/test_fZu4gz2961QsdFJ9iQ6oo01',
-  'personal-other::plus':        'https://buy.stripe.com/test_aFaaEX4he9iU59dfHe6oo00',
+  'personal-other::premium':     'https://buy.stripe.com/test_aFaaEX4he9iU59dfHe6oo00',
 };
 
 // Look up the Stripe Payment Link for a given (siteType, tier). Returns
