@@ -192,47 +192,68 @@ function isRecruitFlow()  { return getFlowVariant() === 'recruit'; }
 // └──────────────────────────────────────────────────────────────┘
 const BUSINESS_TYPES_KEY = 'frontporch_business_types';
 
-// Fallback tier set when localStorage is empty AND no business types
-// match the client's site type (e.g. setup.html was never opened).
-// Stripe Payment Links are matched via STRIPE_PAYMENT_LINKS below,
-// keyed by (siteType, tier name) — no per-tier link fields needed here.
-const DEFAULT_TIERS = [
-  {
-    id: 'fallback-starter',
-    name: 'Starter',
-    price: '$700',
-    badge: null,
-    features: ['Single-page site', 'Mobile-friendly', 'Contact form'],
-  },
-  {
-    id: 'fallback-standard',
-    name: 'Standard',
-    price: '$1,200',
-    badge: 'Most Popular',
-    features: ['Multi-section site', 'Gallery', 'Basic SEO setup'],
-  },
-  {
-    id: 'fallback-premium',
-    name: 'Premium',
-    price: '$2,000',
-    badge: null,
-    features: ['Everything in Standard', 'Blog setup', 'Online enquiry / booking'],
-  },
-];
+// Fallback tier sets when localStorage is empty AND no business types
+// match the client's site type (e.g. setup.html was never opened). This is
+// what nearly every real visitor sees, since setup.html's config only lives
+// in the owner's own browser and never syncs anywhere.
+//
+// One set PER SITE TYPE, because each site type's Stripe Payment Links (see
+// STRIPE_PAYMENT_LINKS below) already use different tier names and amounts.
+// Every `price` here is exactly 2x the real 50% deposit already configured
+// on the matching live link, so the number shown before checkout always
+// matches what Stripe actually charges. Tier `name` values match
+// STRIPE_PAYMENT_LINKS keys exactly (case-insensitive) so Pay & Submit
+// always finds a link — never edit a name here without updating the link map.
+const DEFAULT_TIERS_BY_TYPE = {
+  'local-business': [
+    { id: 'fallback-starter',  name: 'Starter',  price: '$700',   badge: null,
+      features: ['Single-page site', 'Mobile-friendly', 'Contact form'] },
+    { id: 'fallback-standard', name: 'Standard', price: '$1,200', badge: 'Most Popular',
+      features: ['Multi-section site', 'Gallery', 'Basic SEO setup'] },
+    { id: 'fallback-premium',  name: 'Premium',  price: '$2,000', badge: null,
+      features: ['Everything in Standard', 'Blog setup', 'Online enquiry / booking'] },
+  ],
+  'recruiting-profile': [
+    { id: 'fallback-starter',  name: 'Starter',  price: '$600',   badge: null,
+      features: ['Single-page recruiting profile', 'Mobile-friendly', 'Contact form'] },
+    { id: 'fallback-standard', name: 'Standard', price: '$1,000', badge: 'Most Popular',
+      features: ['Stats & highlight video section', 'Photo gallery', 'Basic SEO setup'] },
+    { id: 'fallback-premium',  name: 'Premium',  price: '$1,600', badge: null,
+      features: ['Everything in Standard', 'Schedule & recruiting goals', 'Coach contact form'] },
+  ],
+  'adoption-profile': [
+    { id: 'fallback-essential', name: 'Essential', price: '$650',   badge: null,
+      features: ['Single-page adoption profile', 'Mobile-friendly', 'Letter to birth parents'] },
+    { id: 'fallback-full',      name: 'Full',      price: '$1,000', badge: 'Most Popular',
+      features: ['Full family story & photos', 'Our Journey / blog section', 'Basic SEO setup'] },
+    { id: 'fallback-complete',  name: 'Complete',  price: '$1,500', badge: null,
+      features: ['Everything in Full', 'Fundraising page integration', 'Priority support'] },
+  ],
+  'personal-other': [
+    { id: 'fallback-simple',   name: 'Simple',   price: '$500',  badge: null,
+      features: ['Single-page site', 'Mobile-friendly', 'Contact form'] },
+    { id: 'fallback-standard', name: 'Standard', price: '$900',  badge: 'Most Popular',
+      features: ['Multi-section site', 'Photo gallery', 'Basic SEO setup'] },
+    { id: 'fallback-plus',     name: 'Plus',     price: '$1,400', badge: null,
+      features: ['Everything in Standard', 'Blog setup', 'Priority support'] },
+  ],
+};
 
 // Given a Step-1 site type value, find the matching owner-defined
-// business type's tiers. Falls back to the first defined type, then
-// to DEFAULT_TIERS if no types exist at all.
+// business type's tiers. Falls back to the first defined type, then to the
+// site-type-specific default set (or local-business's, if the site type
+// itself is somehow unrecognized) if no types exist at all.
 function getTiersForSiteType(siteType) {
+  const fallback = DEFAULT_TIERS_BY_TYPE[siteType] || DEFAULT_TIERS_BY_TYPE['local-business'];
   const types = getLocalStorage(BUSINESS_TYPES_KEY, []);
-  if (!Array.isArray(types) || !types.length) return DEFAULT_TIERS;
+  if (!Array.isArray(types) || !types.length) return fallback;
   const match = types.find(t =>
     Array.isArray(t.siteTypes) && t.siteTypes.includes(siteType)
   );
   const chosen = match || types[0];
   return (chosen && Array.isArray(chosen.tiers) && chosen.tiers.length)
     ? chosen.tiers
-    : DEFAULT_TIERS;
+    : fallback;
 }
 
 // Owner-only localStorage key for saved build prompts. Used as a LOCAL
