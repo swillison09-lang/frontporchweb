@@ -429,10 +429,17 @@
 
 <div id="loader">
   <div class="word">FRONT PORCH</div>
-  <div class="tag">An Evening Visit</div>
+  <div class="tag" id="loadTag">An Evening Visit</div>
   <div class="count" id="loadCount">0</div>
   <div class="bar"><i id="loadBar"></i></div>
 </div>
+<script>
+  (function () {
+    var h = new Date().getHours();
+    var tag = h < 12 ? 'A Morning Visit' : h < 17 ? 'An Afternoon Visit' : 'An Evening Visit';
+    document.getElementById('loadTag').textContent = tag;
+  })();
+</script>
 
 <canvas id="scene"></canvas>
 
