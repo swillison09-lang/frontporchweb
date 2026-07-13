@@ -93,10 +93,25 @@ a { color: var(--dusk-amber-soft); }
 .google-btn:hover { background: rgba(250, 245, 236, 0.12); border-color: rgba(250, 245, 236, 0.4); }
 
 /* ---------- forms ---------- */
-label, .checkbox-label, .form-group label, .q-wrap label,
+label, .form-group label, .q-wrap label,
 .auth-card label, .dashboard-card label { color: var(--dusk-cream); }
 .q-optional { color: var(--dusk-faint); }
 .req-star { color: var(--dusk-amber); }
+
+/* Page/section checkbox chips (Step 3 "Pages" grid, etc). The checked state
+   was still using its old near-white background — the exact spot flagged as
+   unreadable once selected. */
+.checkbox-label { color: var(--dusk-cream); background: transparent; }
+.checkbox-label:hover { background: rgba(250, 245, 236, 0.06); }
+.checkbox-custom { background: var(--dusk-field); border-color: var(--dusk-line); }
+.checkbox-label.is-checked {
+  background: rgba(233, 151, 62, 0.14);
+}
+.checkbox-label.is-checked .checkbox-custom {
+  background: var(--dusk-amber);
+  border-color: var(--dusk-amber);
+}
+.checkbox-label.is-checked .checkbox-custom::after { color: #241708; }
 
 input[type="text"], input[type="email"], input[type="tel"], input[type="url"],
 input[type="password"], input[type="number"], textarea, select,
@@ -232,6 +247,25 @@ option { background: var(--dusk-deep); color: var(--dusk-cream); }
 .file-upload-button { color: var(--dusk-amber-soft); }
 .file-upload-button:hover { color: var(--dusk-cream); }
 .photo-preview-grid > * { border-color: var(--dusk-line); }
+.photo-thumbnail-img { background: var(--dusk-field); }
+.photo-remove-btn, .photo-thumbnail-img:hover .photo-remove-btn {
+  background: rgba(10, 15, 11, 0.85);
+  color: var(--dusk-cream);
+}
+.photo-caption {
+  background: var(--dusk-field);
+  border-color: var(--dusk-line);
+  color: var(--dusk-cream);
+}
+.photo-caption::placeholder { color: rgba(250, 245, 236, 0.35); }
+
+/* Page-count / tier-mismatch warning banners */
+.q-tier-mismatch, .q-tier-mismatch-err {
+  background: rgba(233, 151, 62, 0.12);
+  border-color: rgba(233, 151, 62, 0.4);
+}
+.q-tier-mismatch a, .q-tier-mismatch-err a { color: var(--dusk-amber-soft); }
+.q-tier-mismatch a:hover, .q-tier-mismatch-err a:hover { color: var(--dusk-cream); }
 
 /* ---------- measurables + references grids ---------- */
 .qr-meas-header span, .qr-ref-header span { color: var(--dusk-faint); }
@@ -250,6 +284,17 @@ option { background: var(--dusk-deep); color: var(--dusk-cream); }
 .review-dl dd { color: var(--dusk-cream); }
 .review-multiline { color: var(--dusk-soft); background: rgba(250, 245, 236, 0.04); border-color: var(--dusk-line); }
 .review-subheading { color: var(--dusk-amber-soft); }
+.review-letter {
+  background: rgba(250, 245, 236, 0.05);
+  border-left-color: var(--dusk-amber);
+  color: var(--dusk-cream);
+}
+.review-photo-thumb { background: var(--dusk-field); }
+.review-chip {
+  background: rgba(47, 74, 56, 0.5);
+  color: var(--dusk-amber-soft);
+  border-color: rgba(233, 151, 62, 0.35);
+}
 
 /* ---------- pricing tiers (step 8) ---------- */
 .tier-card {
