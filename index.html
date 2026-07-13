@@ -400,11 +400,20 @@
     .chapter-pricing { align-items: center; padding-bottom: 0; }
     .chapter-pricing h2 { font-size: clamp(22px, 6.6vw, 30px); line-height: 1.12; margin-bottom: 12px; }
     .chapter-pricing .eyebrow { margin-bottom: 8px; }
+    /* about is text-heavy: use the full height and compact the story on phones */
+    .chapter-about { align-items: center; padding-bottom: 0; }
+    .chapter-about .about-photo { width: 78px; height: 78px; border-width: 3px; }
+    .chapter-about h2 { font-size: clamp(22px, 6.6vw, 30px); margin-bottom: 8px; }
+    .chapter-about .eyebrow { margin-bottom: 8px; }
+    .chapter-about .about-story p.lede { font-size: 13px; line-height: 1.5; margin-top: 8px; }
   }
   /* short phones: drop the big heading and tighten so all three tiers still fit */
   @media (max-width: 680px) and (max-height: 740px) {
     .chapter-pricing h2 { display: none; }
     .chapter-pricing .eyebrow { margin-bottom: 12px; }
+    .chapter-about h2 { display: none; }
+    .chapter-about .about-photo { display: none; }
+    .chapter-about .about-story p.lede { font-size: 12px; line-height: 1.45; }
     .price-cards { gap: 7px; margin-top: 6px; }
     .pcard { padding: 10px 13px; }
     .pcard ul { margin-top: 5px; }
@@ -488,7 +497,7 @@
 </section>
 
 <!-- 2 · ABOUT (Sean, second on the classic site) -->
-<section class="chapter" data-start="0.088" data-end="0.30">
+<section class="chapter chapter-about" data-start="0.088" data-end="0.30">
   <div class="inner wide">
     <p class="eyebrow">Why &ldquo;Front Porch&rdquo;?</p>
     <h2>Websites Built on Trust</h2>
@@ -496,6 +505,7 @@
       <img class="about-photo" src="assets/sean.jpg?v=2" alt="Sean, founder of Front Porch Web">
       <div class="about-story">
         <p class="lede" style="margin-top:0">Hi, I am Sean, a high school junior studying aviation and someone who loves learning about flight and technology. Being part of an adoptive family, I have heard about how much time and effort my mom put into building a website as we were waiting to grow our family. Hearing this story, along with my own love of technology, inspired me to create a platform where families and small organizations can more easily and economically share stories online.</p>
+        <p class="lede" style="margin-top:14px">I named it Front Porch because a front porch is where neighbors stop by, stories get shared, and trust is built one honest conversation at a time. That&rsquo;s how I want to work with you. You&rsquo;ll see the site before it goes live, you&rsquo;ll know the price before you commit, and you can always just ask me a question and get a straight answer. Whether you run a local business, are growing your family, or are a student chasing a goal, I&rsquo;d be honored to help you tell your story well.</p>
         <p class="attrib">&mdash; Sean, Founder</p>
       </div>
     </div>
