@@ -643,10 +643,13 @@ const CFG = {
 };
 
 const canvas = document.getElementById('scene');
+// Lighter render settings on phones/tablets: MSAA off and a lower pixel-ratio
+// cap cut the per-frame GPU work that makes the walk feel choppy on mobile.
+const isMobile = matchMedia('(max-width: 820px), (pointer: coarse)').matches;
 let renderer;
 try {
   renderer = new THREE.WebGLRenderer({
-    canvas, antialias: true, preserveDrawingBuffer: true,
+    canvas, antialias: !isMobile, preserveDrawingBuffer: true,
     powerPreference: 'high-performance',
   });
 } catch (e) {
@@ -654,7 +657,7 @@ try {
   document.getElementById('loader').classList.add('done');
   throw e;
 }
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.15;
@@ -1140,10 +1143,15 @@ function lampLevel(t) {
 const V = new THREE.Vector3(), G = new THREE.Vector3();
 const clock = new THREE.Clock();
 let firstFrame = false;
+let prevT = 0, lastCaptionP = -1, frameCount = 0;
 
 function frame() {
   const t = clock.getElapsedTime();
-  progress += (target - progress) * 0.06;
+  const dt = Math.min(0.05, t - prevT); prevT = t;
+  frameCount++;
+  // Frame-rate-independent easing: identical feel at 60fps, but stays consistent
+  // (not sluggish/floaty) when a phone dips to 30–40fps. Equivalent to *0.06/frame.
+  progress += (target - progress) * (1 - Math.pow(0.94, dt * 60));
   const p = Math.min(1, Math.max(0, progress));
 
   // camera along the walk, with a whisper of handheld drift
@@ -1169,24 +1177,31 @@ function frame() {
 
   // swing sway + fireflies + star twinkle
   swing.rotation.x = Math.sin(t * 0.8) * 0.055;
-  const posA = firefliesA.geometry.attributes.position;
-  for (let i = 0; i < posA.count; i++) {
-    posA.array[i * 3]     = ffBaseA[i * 3]     + Math.sin(t * 0.5 + i * 1.7) * 0.7;
-    posA.array[i * 3 + 1] = ffBaseA[i * 3 + 1] + Math.sin(t * 0.8 + i * 2.3) * 0.35;
-    posA.array[i * 3 + 2] = ffBaseA[i * 3 + 2] + Math.cos(t * 0.4 + i * 1.1) * 0.7;
+  // Firefly buffers re-upload to the GPU each time; on mobile update every other
+  // frame (they drift slowly enough that ~30fps is imperceptible) to halve the cost.
+  if (!isMobile || (frameCount & 1)) {
+    const posA = firefliesA.geometry.attributes.position;
+    for (let i = 0; i < posA.count; i++) {
+      posA.array[i * 3]     = ffBaseA[i * 3]     + Math.sin(t * 0.5 + i * 1.7) * 0.7;
+      posA.array[i * 3 + 1] = ffBaseA[i * 3 + 1] + Math.sin(t * 0.8 + i * 2.3) * 0.35;
+      posA.array[i * 3 + 2] = ffBaseA[i * 3 + 2] + Math.cos(t * 0.4 + i * 1.1) * 0.7;
+    }
+    posA.needsUpdate = true;
+    const posB = firefliesB.geometry.attributes.position;
+    for (let i = 0; i < posB.count; i++) {
+      posB.array[i * 3]     = ffBaseB[i * 3]     + Math.cos(t * 0.6 + i * 2.1) * 0.55;
+      posB.array[i * 3 + 1] = ffBaseB[i * 3 + 1] + Math.sin(t * 0.7 + i * 1.3) * 0.3;
+    }
+    posB.needsUpdate = true;
   }
-  posA.needsUpdate = true;
-  const posB = firefliesB.geometry.attributes.position;
-  for (let i = 0; i < posB.count; i++) {
-    posB.array[i * 3]     = ffBaseB[i * 3]     + Math.cos(t * 0.6 + i * 2.1) * 0.55;
-    posB.array[i * 3 + 1] = ffBaseB[i * 3 + 1] + Math.sin(t * 0.7 + i * 1.3) * 0.3;
-  }
-  posB.needsUpdate = true;
   firefliesA.material.opacity = 0.55 + 0.4 * Math.sin(t * 1.9);
   firefliesB.material.opacity = 0.5 + 0.4 * Math.sin(t * 2.3 + 2);
   stars.material.opacity = 0.62 + 0.18 * Math.sin(t * 0.9);
 
-  updateCaptions(p);
+  // Skip the per-frame caption style writes once the scroll has settled: when p
+  // is essentially unchanged there's nothing to repaint, which frees the main
+  // thread (a big cause of scroll jank alongside the inline-style thrash).
+  if (Math.abs(p - lastCaptionP) > 0.0004) { updateCaptions(p); lastCaptionP = p; }
   renderer.render(scene, camera);
   if (!firstFrame) { firstFrame = true; beginReveal(); }
   requestAnimationFrame(frame);
