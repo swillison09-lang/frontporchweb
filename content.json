@@ -16,17 +16,20 @@
   },
   "hero": {
     "eyebrow": "Websites Built on Trust",
-    "headline": "Beautiful websites for local businesses",
-    "headlineAccent": "and families.",
+    "headline": "Professional websites that help local businesses and families",
+    "headlineAccent": "earn trust online.",
     "sub": "Custom, mobile-friendly sites for businesses, adoptive families, and student-athletes. Honest prices, no surprises.",
     "primaryCta": { "label": "Start Your Project", "href": "portal.html" },
     "secondaryCta": { "label": "See Our Work", "href": "#work" },
     "note": "Simple one-time project pricing · no surprises"
   },
   "values": [
-    { "title": "Honest prices. No surprises.", "body": "Straightforward one-time project pricing, published right on this page. No hidden fees." },
-    { "title": "Built custom for you", "body": "Every site is designed around your story, with custom pages, your own domain, and a mobile-friendly layout on every device." },
-    { "title": "You approve every detail", "body": "You see a full preview before anything goes live. Nothing publishes until you are happy." }
+    { "title": "Honest pricing", "body": "Published right here — no hidden fees, ever." },
+    { "title": "Preview before launch", "body": "You see the full site before anything goes live." },
+    { "title": "No surprises", "body": "What we quote is what you pay." },
+    { "title": "Talk to the founder", "body": "You work with Sean directly, start to finish." },
+    { "title": "You own your website", "body": "It's yours to keep — take it anywhere, anytime." },
+    { "title": "Built around your story", "body": "Every site is designed for you, never from a template." }
   ],
   "work": {
     "eyebrow": "Sample Designs",
@@ -98,7 +101,7 @@
         "name": "Starter",
         "price": "from $250",
         "term": "one-time project",
-        "features": ["Up to 3 pages", "Mobile-responsive design", "Custom domain", "Contact form", "1 revision"],
+        "features": ["Up to 3 pages", "Looks great on every device", "Your own custom domain", "Contact form so customers can reach you", "1 round of revisions"],
         "cta": { "label": "Get Started", "href": "portal.html" },
         "featured": false
       },
@@ -106,7 +109,7 @@
         "name": "Standard",
         "price": "from $450",
         "term": "one-time project",
-        "features": ["Up to 6 pages", "Mobile-responsive design", "Custom domain", "Contact form + gallery", "2 revisions", "Basic SEO", "Social links"],
+        "features": ["Up to 6 pages", "Looks great on every device", "Your own custom domain", "Contact form + photo gallery", "2 rounds of revisions", "Get found on Google (SEO)", "Links to your social media"],
         "cta": { "label": "Get Started", "href": "portal.html" },
         "featured": true
       },
@@ -114,7 +117,7 @@
         "name": "Premium",
         "price": "from $700",
         "term": "one-time project",
-        "features": ["Unlimited pages", "Mobile-responsive design", "Custom domain", "Contact form + gallery", "3 revisions", "Full SEO", "Blog", "Analytics", "Priority support"],
+        "features": ["Unlimited pages", "Looks great on every device", "Your own custom domain", "Contact form + photo gallery", "3 rounds of revisions", "Full Google visibility (SEO)", "Built-in blog", "See how visitors find you (analytics)", "Priority support"],
         "cta": { "label": "Get Started", "href": "portal.html" },
         "featured": false
       }
