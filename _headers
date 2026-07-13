@@ -1,0 +1,13 @@
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://images.frontporchwebllc.com; connect-src 'self' https://hxxtsthfqwyvkyuwnnsu.supabase.co wss://hxxtsthfqwyvkyuwnnsu.supabase.co https://frontporchweb-uploads.swillison09.workers.dev https://api.web3forms.com; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'
+
+/admin.html
+  X-Robots-Tag: noindex, nofollow
+
+/setup.html
+  X-Robots-Tag: noindex, nofollow

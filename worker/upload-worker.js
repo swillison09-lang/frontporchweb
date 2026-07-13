@@ -60,6 +60,10 @@ function sanitizeSegment(name, fallback) {
   return safe || fallback;
 }
 
+// Photo uploads only. Caps storage abuse from an authenticated account.
+const MAX_FILE_BYTES = 15 * 1024 * 1024; // 15 MB — generous for a phone photo
+const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif', 'image/gif']);
+
 async function verifyUser(authHeader, env) {
   if (!authHeader || !authHeader.startsWith('Bearer ')) return null;
   const token = authHeader.slice(7).trim();
@@ -103,7 +107,13 @@ export default {
       return json({ error: 'Unauthorized — please sign in again.' }, 401, baseCors);
     }
 
-    // 2) Parse multipart form
+    // 2) Fast-reject oversized bodies before buffering them into memory
+    const declaredLength = Number(request.headers.get('content-length') || 0);
+    if (declaredLength && declaredLength > MAX_FILE_BYTES * 1.5) {
+      return json({ error: 'File is too large. Max 15 MB per photo.' }, 413, baseCors);
+    }
+
+    // 3) Parse multipart form
     let form;
     try {
       form = await request.formData();
@@ -125,8 +135,14 @@ export default {
     if (!/^[a-zA-Z0-9_-]{8,80}$/.test(submissionId)) {
       return json({ error: 'Invalid or missing submissionId.' }, 400, baseCors);
     }
+    if (file.size > MAX_FILE_BYTES) {
+      return json({ error: 'File is too large. Max 15 MB per photo.' }, 413, baseCors);
+    }
+    if (!ALLOWED_TYPES.has(file.type)) {
+      return json({ error: 'Only photo uploads (JPEG, PNG, WEBP, HEIC, GIF) are allowed.' }, 415, baseCors);
+    }
 
-    // 3) Build key and upload to R2
+    // 4) Build key and upload to R2
     //    Key layout: submissions/{user_id}/{submission_id}/{category}/{ts}-{filename}
     const ts  = Date.now();
     const key = `submissions/${user.id}/${submissionId}/${category}/${ts}-${filename}`;
