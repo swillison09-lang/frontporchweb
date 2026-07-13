@@ -206,35 +206,35 @@ const BUSINESS_TYPES_KEY = 'frontporch_business_types';
 // always finds a link — never edit a name here without updating the link map.
 const DEFAULT_TIERS_BY_TYPE = {
   'local-business': [
-    { id: 'fallback-starter',  name: 'Starter',  price: '$700',   badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$400',   badge: null,
       features: ['Single-page site', 'Mobile-friendly', 'Contact form'] },
-    { id: 'fallback-standard', name: 'Standard', price: '$1,200', badge: 'Most Popular',
+    { id: 'fallback-standard', name: 'Standard', price: '$750',   badge: 'Most Popular',
       features: ['Multi-section site', 'Gallery', 'Basic SEO setup'] },
-    { id: 'fallback-premium',  name: 'Premium',  price: '$2,000', badge: null,
+    { id: 'fallback-premium',  name: 'Premium',  price: '$1,200', badge: null,
       features: ['Everything in Standard', 'Blog setup', 'Online enquiry / booking'] },
   ],
   'recruiting-profile': [
-    { id: 'fallback-starter',  name: 'Starter',  price: '$600',   badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$250',   badge: null,
       features: ['Single-page recruiting profile', 'Mobile-friendly', 'Contact form'] },
-    { id: 'fallback-standard', name: 'Standard', price: '$1,000', badge: 'Most Popular',
+    { id: 'fallback-standard', name: 'Standard', price: '$450',   badge: 'Most Popular',
       features: ['Stats & highlight video section', 'Photo gallery', 'Basic SEO setup'] },
-    { id: 'fallback-premium',  name: 'Premium',  price: '$1,600', badge: null,
+    { id: 'fallback-premium',  name: 'Premium',  price: '$700',   badge: null,
       features: ['Everything in Standard', 'Schedule & recruiting goals', 'Coach contact form'] },
   ],
   'adoption-profile': [
-    { id: 'fallback-starter',  name: 'Starter',  price: '$650',   badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$300',   badge: null,
       features: ['Single-page adoption profile', 'Mobile-friendly', 'Letter to birth parents'] },
-    { id: 'fallback-standard', name: 'Standard', price: '$1,000', badge: 'Most Popular',
+    { id: 'fallback-standard', name: 'Standard', price: '$500',   badge: 'Most Popular',
       features: ['Full family story & photos', 'Our Journey / blog section', 'Basic SEO setup'] },
-    { id: 'fallback-premium',  name: 'Premium',  price: '$1,500', badge: null,
+    { id: 'fallback-premium',  name: 'Premium',  price: '$750',   badge: null,
       features: ['Everything in Standard', 'Fundraising page integration', 'Priority support'] },
   ],
   'personal-other': [
-    { id: 'fallback-starter',  name: 'Starter',  price: '$500',  badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$350',   badge: null,
       features: ['Single-page site', 'Mobile-friendly', 'Contact form'] },
-    { id: 'fallback-standard', name: 'Standard', price: '$900',  badge: 'Most Popular',
+    { id: 'fallback-standard', name: 'Standard', price: '$650',   badge: 'Most Popular',
       features: ['Multi-section site', 'Photo gallery', 'Basic SEO setup'] },
-    { id: 'fallback-premium',  name: 'Premium',  price: '$1,400', badge: null,
+    { id: 'fallback-premium',  name: 'Premium',  price: '$1,000', badge: null,
       features: ['Everything in Standard', 'Blog setup', 'Priority support'] },
   ],
 };
@@ -293,28 +293,24 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // │  match the deposit amount (see the site-type comments above). This is  │
 // │  purely cosmetic — checkout works correctly either way.                 │
 // └──────────────────────────────────────────────────────────────────────────┘
-const STRIPE_TEST_MODE = true;
+const STRIPE_TEST_MODE = false;
 const STRIPE_PAYMENT_LINKS = {
-  // Local business — Starter/Standard/Premium
-  'local-business::starter':     'https://buy.stripe.com/test_aFa28raFC66I8lp7aI6oo0b',
-  'local-business::standard':    'https://buy.stripe.com/test_cNi14nbJG8eQbxB2Us6oo0a',
-  'local-business::premium':     'https://buy.stripe.com/test_5kQ7sL9ByamY1X10Mk6oo09',
-  // Recruiting profile — Starter/Standard/Premium
-  'recruiting-profile::starter': 'https://buy.stripe.com/test_5kQ8wPeVS66IcBF7aI6oo08',
-  'recruiting-profile::standard':'https://buy.stripe.com/test_cNi5kDaFC66IeJNgLi6oo07',
-  'recruiting-profile::premium': 'https://buy.stripe.com/test_3cIeVd6pmfHi6dh3Yw6oo06',
-  // Adoption profile — Starter/Standard/Premium
-  // (Stripe's own product names still say Essential/Full/Complete — rename
-  // those in the Stripe dashboard to match, see note below.)
-  'adoption-profile::starter':   'https://buy.stripe.com/test_5kQ9ATeVS8eQ0SX52A6oo05',
-  'adoption-profile::standard':  'https://buy.stripe.com/test_8x2aEX3dabr21X10Mk6oo04',
-  'adoption-profile::premium':   'https://buy.stripe.com/test_8x200jcNK9iUatx0Mk6oo03',
-  // Personal / other — Starter/Standard/Premium
-  // (Stripe's own product names still say Simple/Standard/Plus — rename
-  // those in the Stripe dashboard to match, see note below.)
-  'personal-other::starter':     'https://buy.stripe.com/test_8x2cN58xu3YA59dgLi6oo02',
-  'personal-other::standard':    'https://buy.stripe.com/test_fZu4gz2961QsdFJ9iQ6oo01',
-  'personal-other::premium':     'https://buy.stripe.com/test_aFaaEX4he9iU59dfHe6oo00',
+  // Local business — Starter $200 / Standard $375 / Premium $600 (50% deposits)
+  'local-business::starter':     'https://buy.stripe.com/00w14n09xh1s8Pl4bU4Ni0c',
+  'local-business::standard':    'https://buy.stripe.com/4gM8wP3lJ8uW9TpeQy4Ni0d',
+  'local-business::premium':     'https://buy.stripe.com/28E4gzcWj4eGghNeQy4Ni0e',
+  // Recruiting profile — Starter $125 / Standard $225 / Premium $350
+  'recruiting-profile::starter': 'https://buy.stripe.com/cNi3cve0n8uW9Tp5fY4Ni0f',
+  'recruiting-profile::standard':'https://buy.stripe.com/eVq8wP9K73aC3v16k24Ni0g',
+  'recruiting-profile::premium': 'https://buy.stripe.com/5kQ14n4pN9z01mT4bU4Ni0h',
+  // Adoption profile — Starter $150 / Standard $250 / Premium $375
+  'adoption-profile::starter':   'https://buy.stripe.com/dRm14n7BZfXod5B7o64Ni0i',
+  'adoption-profile::standard':  'https://buy.stripe.com/14A8wP4pN8uWfdJ9we4Ni0j',
+  'adoption-profile::premium':   'https://buy.stripe.com/14A9ATf4rfXo5D96k24Ni0k',
+  // Personal / other — Starter $175 / Standard $325 / Premium $500
+  'personal-other::starter':     'https://buy.stripe.com/4gMfZh9K76mOfdJdMu4Ni0l',
+  'personal-other::standard':    'https://buy.stripe.com/5kQ5kD5tR5iK1mTbEm4Ni0m',
+  'personal-other::premium':     'https://buy.stripe.com/8x29ATcWjdPgfdJgYG4Ni0n',
 };
 
 // Look up the Stripe Payment Link for a given (siteType, tier). Returns
