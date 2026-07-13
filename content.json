@@ -21,10 +21,10 @@
     "sub": "Custom, mobile-friendly sites for businesses, adoptive families, and student-athletes. Honest prices, no surprises.",
     "primaryCta": { "label": "Start Your Project", "href": "portal.html" },
     "secondaryCta": { "label": "See Our Work", "href": "#work" },
-    "note": "Simple monthly pricing · no surprises"
+    "note": "Simple one-time project pricing · no surprises"
   },
   "values": [
-    { "title": "Honest prices. No surprises.", "body": "Straightforward monthly pricing, published right on this page. No hidden fees." },
+    { "title": "Honest prices. No surprises.", "body": "Straightforward one-time project pricing, published right on this page. No hidden fees." },
     { "title": "Built custom for you", "body": "Every site is designed around your story, with custom pages, your own domain, and a mobile-friendly layout on every device." },
     { "title": "You approve every detail", "body": "You see a full preview before anything goes live. Nothing publishes until you are happy." }
   ],
@@ -92,28 +92,28 @@
   "pricing": {
     "eyebrow": "Simple Pricing",
     "heading": "Honest prices. No surprises.",
-    "sub": "Simple monthly plans. No surprises.",
+    "sub": "Final pricing depends on your project type. 50% due upfront, 50% due on completion and your approval.",
     "tiers": [
       {
         "name": "Starter",
-        "price": "$Dollars",
-        "term": "a month",
+        "price": "from $250",
+        "term": "one-time project",
         "features": ["Up to 3 pages", "Mobile-responsive design", "Custom domain", "Contact form", "1 revision"],
         "cta": { "label": "Get Started", "href": "portal.html" },
         "featured": false
       },
       {
         "name": "Standard",
-        "price": "$Dollars",
-        "term": "a month",
+        "price": "from $450",
+        "term": "one-time project",
         "features": ["Up to 6 pages", "Mobile-responsive design", "Custom domain", "Contact form + gallery", "2 revisions", "Basic SEO", "Social links"],
         "cta": { "label": "Get Started", "href": "portal.html" },
         "featured": true
       },
       {
         "name": "Premium",
-        "price": "$Dollars",
-        "term": "a month",
+        "price": "from $700",
+        "term": "one-time project",
         "features": ["Unlimited pages", "Mobile-responsive design", "Custom domain", "Contact form + gallery", "3 revisions", "Full SEO", "Blog", "Analytics", "Priority support"],
         "cta": { "label": "Get Started", "href": "portal.html" },
         "featured": false
