@@ -32,7 +32,7 @@
   a { color: inherit; }
 
   /* the tall scroll runway; the world is fixed behind it */
-  #runway { height: 1080vh; }
+  #runway { height: 820vh; }
 
   #scene {
     position: fixed; inset: 0;
@@ -1149,9 +1149,9 @@ function frame() {
   const t = clock.getElapsedTime();
   const dt = Math.min(0.05, t - prevT); prevT = t;
   frameCount++;
-  // Frame-rate-independent easing: identical feel at 60fps, but stays consistent
-  // (not sluggish/floaty) when a phone dips to 30–40fps. Equivalent to *0.06/frame.
-  progress += (target - progress) * (1 - Math.pow(0.94, dt * 60));
+  // Frame-rate-independent easing: quicker catch-up so the scroll feels
+  // responsive rather than heavy, and consistent when a phone dips below 60fps.
+  progress += (target - progress) * (1 - Math.pow(0.90, dt * 60));
   const p = Math.min(1, Math.max(0, progress));
 
   // camera along the walk, with a whisper of handheld drift
