@@ -32,7 +32,7 @@
   a { color: inherit; }
 
   /* the tall scroll runway; the world is fixed behind it */
-  #runway { height: 920vh; }
+  #runway { height: 1080vh; }
 
   #scene {
     position: fixed; inset: 0;
@@ -453,7 +453,8 @@
       <a class="nav-scroll" data-at="0.19">About</a>
       <a class="nav-scroll" data-at="0.48">Our Work</a>
       <a class="nav-scroll" data-at="0.63">Process</a>
-      <a class="nav-scroll" data-at="0.79">Pricing</a>
+      <a class="nav-scroll" data-at="0.75">Pricing</a>
+      <a class="nav-scroll" data-at="0.875">Hosting</a>
       <a href="portal.html">Client Login</a>
     </nav>
     <a class="nav-cta" href="portal.html">Start Your Project</a>
@@ -540,7 +541,7 @@
 </section>
 
 <!-- 6 · PRICING -->
-<section class="chapter chapter-pricing" data-start="0.73" data-end="0.86">
+<section class="chapter chapter-pricing" data-start="0.71" data-end="0.81">
   <div class="inner wide">
     <p class="eyebrow">Simple Pricing</p>
     <h2>Honest prices. <em>No surprises.</em></h2>
@@ -566,8 +567,31 @@
   </div>
 </section>
 
-<!-- 7 · FINAL CTA -->
-<section class="chapter align-center" data-start="0.90" data-end="1.02">
+<!-- 7 · HOSTING & CARE PLAN -->
+<section class="chapter chapter-pricing" data-start="0.835" data-end="0.93">
+  <div class="inner wide">
+    <p class="eyebrow">After Launch</p>
+    <h2>Hosting &amp; <em>Care Plan.</em></h2>
+    <p class="lede" style="margin-inline:auto;max-width:54ch;text-align:center">Every site needs a home and a domain name. After your site launches, you choose:</p>
+    <div class="price-cards">
+      <div class="pcard">
+        <div class="pname">Take it with you</div>
+        <div class="pprice" style="font-size:20px">Yours to run<span> no ongoing cost to us</span></div>
+        <ul><li>We&rsquo;ll help you set up your own hosting and domain</li><li>The site is yours to run</li></ul>
+      </div>
+      <div class="pcard feat">
+        <span class="badge-feat">Most Popular</span>
+        <div class="pname">Let us handle it</div>
+        <div class="pprice">$25<span> a month</span></div>
+        <ul><li>Hosting, your domain, and keeping your site online</li><li>Small updates (text &amp; photo changes) whenever you need them</li><li>Cancel anytime &mdash; we&rsquo;ll hand the site over to you, or take it offline</li></ul>
+      </div>
+    </div>
+    <p style="max-width:62ch;margin:16px auto 0;text-align:center;font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--cream-soft);">Small updates means text and photo changes. New pages or a redesign are quoted separately.</p>
+  </div>
+</section>
+
+<!-- 8 · FINAL CTA -->
+<section class="chapter align-center" data-start="0.95" data-end="1.04">
   <div class="inner">
     <h2>Ready to tell <em>your story?</em></h2>
     <p class="lede">Fill out the questionnaire, upload your photos, and see a full preview before anything goes live.</p>
@@ -612,8 +636,9 @@ const CFG = {
     { label: 'Trust',   at: 0.34 },
     { label: 'Our Work', at: 0.49 },
     { label: 'Process', at: 0.63 },
-    { label: 'Pricing', at: 0.79 },
-    { label: 'Begin',   at: 0.96 },
+    { label: 'Pricing', at: 0.75 },
+    { label: 'Hosting', at: 0.875 },
+    { label: 'Begin',   at: 0.99 },
   ],
 };
 

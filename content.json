@@ -120,6 +120,28 @@
       }
     ]
   },
+  "hosting": {
+    "eyebrow": "After Launch",
+    "heading": "Hosting & Care Plan",
+    "intro": "Every site needs a home and a domain name. After your site launches, you choose:",
+    "note": "Small updates means text and photo changes. New pages or a redesign are quoted separately.",
+    "options": [
+      {
+        "name": "Take it with you",
+        "price": "",
+        "term": "no ongoing cost to us",
+        "features": ["We'll help you set up your own hosting and domain", "The site is yours to run"],
+        "featured": false
+      },
+      {
+        "name": "Let us handle it",
+        "price": "$25",
+        "term": "a month",
+        "features": ["Hosting, your domain, and keeping your site online", "Small updates (text and photo changes) whenever you need them", "Cancel anytime — we'll hand the site over to you, or take it offline"],
+        "featured": true
+      }
+    ]
+  },
   "about": {
     "eyebrow": "Why \"Front Porch\"?",
     "heading": "Websites Built on Trust",

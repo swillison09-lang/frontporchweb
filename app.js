@@ -113,6 +113,20 @@
       <a class="btn ${t.featured ? "btn-primary" : "btn-ghost"} btn-lg" href="${t.cta.href}">${t.cta.label}</a>
     </div>`).join("");
 
+  /* ---------- hosting & care plan ---------- */
+  const hostingGrid = document.getElementById("hosting-grid");
+  if (hostingGrid && c.hosting && Array.isArray(c.hosting.options)) {
+    hostingGrid.innerHTML = c.hosting.options.map((t, i) => `
+      <div class="price-card reveal ${t.featured ? "featured" : ""}" style="--d:${i * 0.12}s">
+        <div class="price-name">${t.name}</div>
+        ${t.price ? `<div class="price-amount">${t.price}</div>` : ""}
+        <div class="price-term">${t.term}</div>
+        <ul class="price-features">
+          ${t.features.map(f => `<li>${check}<span>${f}</span></li>`).join("")}
+        </ul>
+      </div>`).join("");
+  }
+
   /* ==========================================================
      Ambience: stars + fireflies
      ========================================================== */
