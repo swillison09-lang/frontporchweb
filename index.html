@@ -158,7 +158,19 @@
   }
   .chapter.align-right { justify-content: flex-end; text-align: right; }
   .chapter.align-center { justify-content: center; text-align: center; }
-  .chapter .inner { max-width: 560px; }
+  /* Safety net at every width: a centered section's content can otherwise
+     overflow equally above and below on a short window (a laptop with a
+     small taskbar-shrunk browser height, not just mobile) — bleeding up
+     behind the fixed header. Cap it and let it scroll internally instead. */
+  .chapter .inner {
+    max-width: 560px;
+    /* align-items:center splits any overflow evenly above/below, so the
+       visible top when clamped sits at clearance/2 — 180px keeps that
+       at 90px, clear of the 78px header, on any window height. */
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .eyebrow {
     font-size: 11.5px; font-weight: 700; letter-spacing: 0.28em;
     text-transform: uppercase; color: var(--amber-soft);
