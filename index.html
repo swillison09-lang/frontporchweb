@@ -158,18 +158,15 @@
   }
   .chapter.align-right { justify-content: flex-end; text-align: right; }
   .chapter.align-center { justify-content: center; text-align: center; }
-  /* Safety net at every width: a centered section's content can otherwise
-     overflow equally above and below on a short window (a laptop with a
-     small taskbar-shrunk browser height, not just mobile) — bleeding up
-     behind the fixed header. Cap it and let it scroll internally instead. */
-  .chapter .inner {
-    max-width: 560px;
-    /* align-items:center splits any overflow evenly above/below, so the
-       visible top when clamped sits at clearance/2 — 180px keeps that
-       at 90px, clear of the 78px header, on any window height. */
-    max-height: calc(100vh - 180px);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  .chapter .inner { max-width: 560px; }
+  /* Desktop safety net WITHOUT scrollbars: auto cross-axis margins center
+     the content exactly like align-items:center, but when it's taller than
+     the padded box they collapse to 0 and it anchors below the header
+     instead of bleeding up behind it. (An overflow-y:auto cap here hijacks
+     the wheel from the scroll-driven walk — never reintroduce it.) */
+  @media (min-width: 701px) {
+    .chapter { align-items: flex-start; padding-top: 92px; padding-bottom: 92px; }
+    .chapter .inner { margin-top: auto; margin-bottom: auto; }
   }
   .eyebrow {
     font-size: 11.5px; font-weight: 700; letter-spacing: 0.28em;
@@ -440,6 +437,42 @@
     .pcard { padding: 10px 13px; }
     .pcard ul { margin-top: 5px; }
     .pcard li { padding: 1px 0; }
+    .pprice { font-size: 20px; }
+  }
+  /* Short desktop windows (Windows laptops: taskbar + browser chrome often
+     leave only ~600-800px). Compact the type so every chapter fits between
+     the header and the bottom edge — all info stays, nothing scrolls. */
+  @media (min-width: 701px) and (max-height: 820px) {
+    .chapter h1 { font-size: clamp(30px, 4.8vw, 52px); }
+    .chapter h2 { font-size: clamp(24px, 3.6vw, 40px); }
+    .eyebrow { margin-bottom: 10px; }
+    .chapter p.lede { margin-top: 12px; font-size: 15px; line-height: 1.5; }
+    .about-row { margin-top: 16px; gap: 18px; }
+    .about-photo { width: 88px; height: 88px; }
+    .about-story p.lede { font-size: 13.5px; }
+    .attrib { margin-top: 10px; font-size: 14px; }
+    .work-list { margin-top: 14px; }
+    .work-list a { padding: 8px 0; }
+    .work-hint { margin-top: 10px; }
+    .value-cards { margin-top: 16px; }
+    .gcard { padding: 12px 14px; }
+    .steps { margin-top: 16px; gap: 12px; }
+    .price-cards { margin-top: 14px; }
+    .pcard { padding: 14px 16px; }
+    .pcard ul { margin-top: 8px; }
+    .pcard li { padding: 2px 0; font-size: 12px; }
+    .pprice { font-size: 24px; }
+    .cta-row { margin-top: 20px; }
+    .footer-line { margin-top: 14px; }
+  }
+  /* Very short desktop windows: one more notch down */
+  @media (min-width: 701px) and (max-height: 640px) {
+    .chapter h1 { font-size: clamp(26px, 4vw, 42px); }
+    .chapter h2 { font-size: clamp(22px, 3vw, 32px); }
+    .chapter p.lede { margin-top: 8px; font-size: 13.5px; }
+    .about-photo { display: none; }
+    .about-story p.lede { font-size: 12.5px; line-height: 1.45; }
+    .pcard li { padding: 1px 0; font-size: 11.5px; }
     .pprice { font-size: 20px; }
   }
 </style>
