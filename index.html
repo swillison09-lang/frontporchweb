@@ -392,16 +392,26 @@
     .rail { display: none; }
     .classic-link { padding: 8px 12px; font-size: 10.5px; }
     .chapter { padding: 0 24px; align-items: flex-end; padding-bottom: 20vh; }
+    /* Safety net: no matter how tall a section's content gets, it can never
+       render above this line (clears the fixed "Front Porch Web" header) —
+       it scrolls internally instead of bleeding up past the logo. */
+    .chapter .inner { max-height: calc(100vh - 20vh - 92px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .chapter.align-center { align-items: center; padding-bottom: 0; }
+    .chapter.align-center .inner { max-height: calc(100vh - 184px); }
     .step { justify-content: flex-start; }
     .chapter.align-right { justify-content: flex-start; text-align: left; }
     .chapter.align-right p.lede { margin-left: 0; }
-    /* pricing needs the full height for three stacked tiers */
-    .chapter-pricing { align-items: center; padding-bottom: 0; }
+    /* pricing needs the full height for three stacked tiers — anchor just
+       below the header instead of centering, so if it still doesn't fit,
+       the overflow grows downward (scrollable) instead of bleeding up
+       behind the logo like a centered block does. */
+    .chapter-pricing { align-items: flex-start; padding-top: 92px; padding-bottom: 16px; }
+    .chapter-pricing .inner { max-height: calc(100vh - 108px); }
     .chapter-pricing h2 { font-size: clamp(22px, 6.6vw, 30px); line-height: 1.12; margin-bottom: 12px; }
     .chapter-pricing .eyebrow { margin-bottom: 8px; }
-    /* about is text-heavy: use the full height and compact the story on phones */
-    .chapter-about { align-items: center; padding-bottom: 0; }
+    /* about is text-heavy: same anchor-below-header treatment, compact the story */
+    .chapter-about { align-items: flex-start; padding-top: 92px; padding-bottom: 16px; }
+    .chapter-about .inner { max-height: calc(100vh - 108px); }
     .chapter-about .about-photo { width: 78px; height: 78px; border-width: 3px; }
     .chapter-about h2 { font-size: clamp(22px, 6.6vw, 30px); margin-bottom: 8px; }
     .chapter-about .eyebrow { margin-bottom: 8px; }
