@@ -411,15 +411,23 @@
        overscroll-behavior:contain stops a hard/fast flick from bleeding past
        the inner scrollable's bottom edge into the outer page scroll in one
        motion — without it, a strong scroll on a tall section (e.g. Pricing)
-       can fling straight through and skip the section's snap point entirely. */
+       can fling straight through and skip the section's snap point entirely.
+       iOS Safari note: 100vh measures the LARGEST possible viewport (address
+       bar hidden), not what's actually visible, so on load (bar showing) it
+       can overstate real available space — content that "fits" the vh-based
+       budget can still get clipped below the real fold with no way to
+       scroll to it. 100dvh tracks the true visible viewport; declared
+       second so it overrides on the ~all current browsers that support it,
+       falling back to vh only on ancient browsers. */
     .chapter .inner {
       max-height: calc(100vh - 20vh - 92px);
+      max-height: calc(100dvh - 20dvh - 92px);
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
     }
     .chapter.align-center { align-items: center; padding-bottom: 0; }
-    .chapter.align-center .inner { max-height: calc(100vh - 184px); }
+    .chapter.align-center .inner { max-height: calc(100vh - 184px); max-height: calc(100dvh - 184px); }
     .step { justify-content: flex-start; }
     .chapter.align-right { justify-content: flex-start; text-align: left; }
     .chapter.align-right p.lede { margin-left: 0; }
@@ -428,13 +436,13 @@
        the overflow grows downward (scrollable) instead of bleeding up
        behind the logo like a centered block does. */
     .chapter-pricing { align-items: flex-start; padding-top: 92px; padding-bottom: 16px; }
-    .chapter-pricing .inner { max-height: calc(100vh - 108px); }
+    .chapter-pricing .inner { max-height: calc(100vh - 108px); max-height: calc(100dvh - 108px); }
     .chapter-pricing h2 { font-size: clamp(22px, 6.6vw, 30px); line-height: 1.12; margin-bottom: 12px; }
     .chapter-pricing .eyebrow { margin-bottom: 8px; }
     /* about is text-heavy: same anchor-below-header treatment, compact the story */
     .chapter-about { align-items: flex-start; padding-top: 92px; padding-bottom: 16px; }
-    .chapter-about .inner { max-height: calc(100vh - 108px); }
-    .chapter-about .about-photo { width: 78px; height: 78px; border-width: 3px; }
+    .chapter-about .inner { max-height: calc(100vh - 108px); max-height: calc(100dvh - 108px); }
+    .chapter-about .about-photo { width: 100px; height: 100px; border-width: 4px; }
     .chapter-about h2 { font-size: clamp(22px, 6.6vw, 30px); margin-bottom: 8px; }
     .chapter-about .eyebrow { margin-bottom: 8px; }
     .chapter-about .about-story p.lede { font-size: 13px; line-height: 1.5; margin-top: 8px; }
@@ -461,7 +469,7 @@
     .chapter-pricing h2 { display: none; }
     .chapter-pricing .eyebrow { margin-bottom: 12px; }
     .chapter-about h2 { display: none; }
-    .chapter-about .about-photo { width: 52px; height: 52px; border-width: 2px; }
+    .chapter-about .about-photo { width: 72px; height: 72px; border-width: 3px; }
     .chapter-about .about-row { gap: 12px; }
     .chapter-about .about-story p.lede { font-size: 12px; line-height: 1.42; }
     .chapter-about .about-story p.lede + p.lede { margin-top: 8px !important; }
@@ -477,7 +485,7 @@
   /* Very short phones (older/small Android, iPhone SE in landscape-ish
      heights): one more notch down. Photo still stays, just tiny. */
   @media (max-width: 680px) and (max-height: 600px) {
-    .chapter-about .about-photo { width: 40px; height: 40px; border-width: 2px; }
+    .chapter-about .about-photo { width: 56px; height: 56px; border-width: 2px; }
     .chapter-about .about-row { gap: 10px; }
     .chapter-about .about-story p.lede { font-size: 11px; line-height: 1.35; }
     .chapter-about .attrib { margin-top: 6px; font-size: 12px; }
