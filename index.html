@@ -425,9 +425,26 @@
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
+      /* Contrast panel: on phones the house's lit windows and lamp glow sit
+         right behind the caption text, and a text-shadow alone isn't enough.
+         Same frosted glass as the cards, so every caption stays readable.
+         Keep the padding small — it spends the same height budget the
+         zero-scroll tiers below were tuned against. */
+      background: rgba(8, 13, 10, 0.58);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(250, 245, 236, 0.10);
+      border-radius: 18px;
+      padding: 12px 14px 10px;
     }
     .chapter.align-center { align-items: center; padding-bottom: 0; }
     .chapter.align-center .inner { max-height: calc(100vh - 184px); max-height: calc(100dvh - 184px); }
+    /* hero: desktop-sized display type overflows the phone height budget once
+       the contrast panel's padding is added — scale it to the screen instead */
+    .chapter:first-of-type h1 { font-size: clamp(27px, 7.6vw, 34px); }
+    .chapter:first-of-type p.lede { margin-top: 12px; font-size: 14px; line-height: 1.5; }
+    .chapter:first-of-type .cta-row { margin-top: 16px; }
+    .chapter:first-of-type .footer-line { margin-top: 14px; font-size: 11px; }
     .step { justify-content: flex-start; }
     .chapter.align-right { justify-content: flex-start; text-align: left; }
     .chapter.align-right p.lede { margin-left: 0; }
@@ -468,6 +485,9 @@
      display:none, just smaller — per explicit feedback that it must appear
      on mobile and that trimming content is a last resort, not a first one. */
   @media (max-width: 680px) and (max-height: 740px) {
+    /* slim the contrast panel here — its padding spends the same height
+       budget these trims exist to reclaim */
+    .chapter .inner { padding: 8px 12px 6px; }
     .chapter-pricing h2 { display: none; }
     .chapter-pricing .eyebrow { margin-bottom: 6px; }
     .chapter-about h2 { display: none; }
