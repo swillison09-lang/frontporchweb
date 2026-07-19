@@ -505,6 +505,24 @@
     .pprice { font-size: 20px; }
     .pricing-note { margin-top: 8px; font-size: 11px; line-height: 1.35; }
     .chapter-pricing .lede { margin-top: 6px; font-size: 12.5px; }
+    /* Pricing and Sample Designs each ran ~60px long on 360x640 once the
+       feature wording grew ("All the sections your story needs", the longer
+       payment-terms line). Trimmed back so neither needs to scroll inside
+       itself, which fights the page's scroll-snap. */
+    .chapter-pricing .pcard { padding: 5px 12px; }
+    .chapter-pricing .pcard li { font-size: 11px; line-height: 1.22; }
+    .chapter-pricing .pname { font-size: 10.5px; }
+    .chapter-pricing .pprice { font-size: 18px; }
+    .chapter-pricing .pprice span { font-size: 10.5px; margin-top: 0; }
+    .chapter-pricing .price-cards { gap: 4px; }
+    .chapter-pricing .pricing-note { margin-top: 6px; font-size: 10.5px; line-height: 1.3; }
+    .chapter-work h2 { font-size: clamp(20px, 5.8vw, 26px); margin-bottom: 6px; }
+    .chapter-work .lede { font-size: 12.5px; line-height: 1.4; margin-top: 6px; }
+    .chapter-work .work-list { margin-top: 14px; }
+    .chapter-work .work-list a { padding: 7px 0; }
+    .chapter-work .w-name { font-size: 13.5px; }
+    .chapter-work .kind { font-size: 10.5px; }
+    .chapter-work .work-hint { margin-top: 8px; font-size: 11px; }
   }
   /* Very short phones (older/small Android, iPhone SE in landscape-ish
      heights): one more notch down. Photo still stays, just tiny. */
@@ -626,7 +644,7 @@
       <a class="btn btn-amber" href="portal.html">Start Your Project</a>
       <a class="btn btn-ghost nav-scroll" data-at="0.48">See Our Work</a>
     </div>
-    <p class="footer-line">Simple one-time project pricing &middot; no surprises</p>
+    <p class="footer-line">Simple one-time project pricing &middot; most sites ready to preview in 2&ndash;4 days</p>
   </div>
 </section>
 
@@ -663,7 +681,7 @@
 </section>
 
 <!-- 4 · OUR WORK -->
-<section class="chapter align-left" data-start="0.385" data-end="0.598">
+<section class="chapter chapter-work align-left" data-start="0.385" data-end="0.598">
   <div class="inner">
     <p class="eyebrow">Sample Designs</p>
     <h2>Explore sample <em>websites.</em></h2>
@@ -685,7 +703,7 @@
     <h2>Up and running in <em>three easy steps.</em></h2>
     <div class="steps">
       <div class="step" data-sub="0"><span class="n">01</span><span class="t"><b>Fill out our questionnaire</b><span>Answer a few quick questions and upload your photos.</span></span></div>
-      <div class="step" data-sub="1"><span class="n">02</span><span class="t"><b>We build your site</b><span>You will see a full preview before anything goes live.</span></span></div>
+      <div class="step" data-sub="1"><span class="n">02</span><span class="t"><b>We build your site</b><span>Ready to preview in 2&ndash;4 days. You see the full site before anything goes live.</span></span></div>
       <div class="step" data-sub="2"><span class="n">03</span><span class="t"><b>Review and launch</b><span>When you are happy, we publish.</span></span></div>
     </div>
   </div>
