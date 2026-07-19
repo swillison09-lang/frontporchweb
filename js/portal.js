@@ -275,15 +275,17 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // ┌──────────────────────────────────────────────────────────────────────────┐
 // │  STRIPE PAYMENT LINKS — 50% deposit per (site type, tier)                │
 // │                                                                          │
-// │  These are TEST-mode Payment Link URLs. To go live:                      │
-// │    1) Recreate the same 12 Payment Links in LIVE mode in the Stripe     │
-// │       dashboard, each with the matching deposit amount.                  │
-// │    2) Replace every URL below with its live equivalent.                  │
-// │    3) Flip STRIPE_TEST_MODE to false.                                    │
-// │    4) In each live Payment Link → "After payment" settings, set the     │
-// │       success URL to:                                                    │
-// │         https://YOUR-DOMAIN/portal.html?fpw=success&sid={CHECKOUT_SESSION_ID}
-// │       (the same redirect is already configured for the TEST links).     │
+// │  THESE ARE LIVE LINKS AND TAKE REAL MONEY.                              │
+// │                                                                          │
+// │  Verified 2026-07-19: all 12 resolve, none show a Stripe test banner,   │
+// │  and the sampled amounts match the deposits below exactly (Local        │
+// │  Business Starter $200 and Premium $600, Recruiting Starter $125,       │
+// │  Adoption Premium $375). Merchant reads "Front Porch Web, LLC" and the  │
+// │  product titles are already renamed to "<Type> — <Tier> (50% Deposit)". │
+// │                                                                          │
+// │  If you ever swap these for test links, flip STRIPE_TEST_MODE to true   │
+// │  as well — the flag does not change which URLs are used, it only tells  │
+// │  the recorded submission whether the charge was real.                    │
 // │                                                                          │
 // │  Keys are `{siteType}::{tierNameLowercase}`. Site types are the         │
 // │  canonical Step-1 values from SITE_TYPE_LABELS. Tier names are matched  │
@@ -291,16 +293,9 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // │  prices/ids in setup.html don't break this map — only renaming a tier  │
 // │  does.                                                                   │
 // │                                                                          │
-// │  TODO (owner, cosmetic only): the site now shows Starter/Standard/     │
-// │  Premium for every site type, but the 6 adoption + personal-other      │
-// │  Payment Links were originally created in Stripe under their old names │
-// │  (Essential/Full/Complete, Simple/Standard/Plus) — that's what a       │
-// │  customer briefly sees as the product title on Stripe's own checkout   │
-// │  page after clicking Pay. To match everywhere: in the Stripe           │
-// │  dashboard → Payment Links, open each of those 6 links → Edit →        │
-// │  rename the product/description to Starter, Standard, or Premium to   │
-// │  match the deposit amount (see the site-type comments above). This is  │
-// │  purely cosmetic — checkout works correctly either way.                 │
+// │  (The old TODO about renaming products from Essential/Full/Complete    │
+// │  has been done — checkout now shows e.g. "Adoption — Premium           │
+// │  (50% Deposit)".)                                                       │
 // └──────────────────────────────────────────────────────────────────────────┘
 const STRIPE_TEST_MODE = false;
 const STRIPE_PAYMENT_LINKS = {
@@ -1283,14 +1278,14 @@ function qRenderReview() {
   });
 }
 
-// Returns a mismatch descriptor if the selected tier's page cap is exceeded,
-// or null if there is no problem.
+// Returns a mismatch descriptor if the selected tier's section cap is
+// exceeded, or null if there is no problem.
 function qGetPageMismatch() {
   if (!qSelectedTier) return null;
   // Adoption + recruiting profiles use fixed structures, not user-selected
-  // pages — skip the cap check there.
+  // sections — skip the cap check there.
   if (isAdoptionFlow() || isRecruitFlow()) return null;
-  const limit     = getTierPageLimit(qSelectedTier);
+  const limit     = getTierSectionLimit(qSelectedTier);
   const pageCount = (qData.pages || []).length;
   if (limit !== null && pageCount > limit) {
     return { tierName: qSelectedTier.name, limit, count: pageCount, excess: pageCount - limit };
@@ -2351,13 +2346,18 @@ function initPageToggles() {
   });
 }
 
-// Returns max pages for a tier (null = unlimited).
-// Matches by tier name: Starter → 3, Standard → 6, anything else → null.
-function getTierPageLimit(tier) {
+// Returns the max number of sections a tier includes (null = no fixed cap).
+//
+// These MUST match the published pricing (content.json / index.html) and the
+// checkout tier features above — Starter 4, Standard 8. They previously said
+// 3 and 6, left over from when packages were sold by "pages"; the cap then
+// silently unchecked a client's fourth section and blocked checkout on a
+// package whose own card promised "up to 4 sections".
+function getTierSectionLimit(tier) {
   if (!tier) return null;
   const n = (tier.name || '').toLowerCase();
-  if (n.includes('starter'))  return 3;
-  if (n.includes('standard')) return 6;
+  if (n.includes('starter'))  return 4;
+  if (n.includes('standard')) return 8;
   return null;
 }
 
@@ -2368,7 +2368,7 @@ function updatePageLimitUI() {
   // checkboxes — skip cap enforcement entirely there.
   if (isAdoptionFlow() || isRecruitFlow()) return;
 
-  const limit      = getTierPageLimit(qSelectedTier);
+  const limit      = getTierSectionLimit(qSelectedTier);
   const checkboxes = Array.from(document.querySelectorAll('#qPanel3 input[name="qPages"]'));
   const msgEl      = document.getElementById('qPageLimitMsg');
 
@@ -2388,7 +2388,7 @@ function updatePageLimitUI() {
     msgEl.hidden   = false;
     msgEl.innerHTML =
       `<strong>${escapeHtml(qSelectedTier.name)}</strong> includes ` +
-      `up to <strong>${limit}</strong> page${limit !== 1 ? 's' : ''}.`;
+      `up to <strong>${limit}</strong> section${limit !== 1 ? 's' : ''}.`;
   }
 
   // Trim excess: uncheck boxes beyond the cap (keep first `limit` checked ones)
@@ -2514,10 +2514,10 @@ async function qSubmit() {
 async function qPaySubmit() {
   if (!qSelectedTier) return;
 
-  // Block payment if the chosen tier's page cap is exceeded
+  // Block payment if the chosen tier's section cap is exceeded
   const mismatch = qGetPageMismatch();
   if (mismatch) {
-    const pg = n => `${n} page${n !== 1 ? 's' : ''}`;
+    const pg = n => `${n} section${n !== 1 ? 's' : ''}`;
     const errEl = document.getElementById('qTierMismatchErr');
     if (errEl) {
       errEl.hidden = false;
