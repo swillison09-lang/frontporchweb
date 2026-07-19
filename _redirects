@@ -1,0 +1,9 @@
+# Cloudflare Pages redirect rules.
+# Format: <from>  <to>  <status>
+
+# Retire the deleted dress-rehearsal client site. The page was removed from the
+# repo, but Pages kept serving a stale copy of the directory URL (its own cache
+# sets s-maxage=604800, so a zone purge does not clear it). This rule takes
+# priority over the stale asset and sends visitors to the homepage. Safe to
+# delete once the cache has aged out.
+/clients/the-smith-family/*  /  301
