@@ -515,7 +515,7 @@ function buildSubmissionRow({ submissionId, submittedAt, buildPrompt }) {
 // │  When empty, notifications are simply skipped — nothing breaks.           │
 // │  Only a summary is emailed; the full brief stays in the portal/Supabase.  │
 // └──────────────────────────────────────────────────────────────────────────┘
-const NOTIFY_ACCESS_KEY = ''; // ← paste your Web3Forms access key here
+const NOTIFY_ACCESS_KEY = 'e4973906-4cae-4f83-82cc-e7137642699f';
 
 async function sendOrderNotification({ submissionId, submittedAt, savedToDb }) {
   if (!NOTIFY_ACCESS_KEY) return; // not configured yet — skip quietly
