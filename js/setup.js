@@ -66,9 +66,12 @@ const SEED_BUSINESS_TYPES = [
     siteTypes: ['local-business'],
     note: 'These clients are used to paying monthly — pair with managed hosting.',
     tiers: [
-      { id: 'professional-starter',  name: 'Starter',  price: '$700',   badge: null,            features: ['Single-page site', 'Mobile-friendly', 'Contact form'] },
-      { id: 'professional-standard', name: 'Standard', price: '$1,200', badge: 'Most Popular',  features: ['Multi-section site', 'Gallery', 'Basic SEO setup'] },
-      { id: 'professional-premium',  name: 'Premium',  price: '$2,000', badge: null,            features: ['Everything in Standard', 'Blog setup', 'Online enquiry / booking features'] },
+      // Wording mirrors the published pricing (content.json / index.html) and
+      // the checkout tiers in portal.js — scope is counted in sections, and
+      // Premium stays generous but finite rather than "unlimited".
+      { id: 'professional-starter',  name: 'Starter',  price: '$700',   badge: null,            features: ['Up to 4 sections', 'Mobile-friendly', 'Contact form', '1 round of revisions'] },
+      { id: 'professional-standard', name: 'Standard', price: '$1,200', badge: 'Most Popular',  features: ['Up to 8 sections', 'Photo gallery', 'Basic SEO setup', '2 rounds of revisions'] },
+      { id: 'professional-premium',  name: 'Premium',  price: '$2,000', badge: null,            features: ['All the sections you need', 'Blog you update yourself', 'Online enquiry / booking', '3 rounds of revisions'] },
     ],
     photoCategories: [
       { key: 'general', label: 'Storefront, team, products', helpText: 'A handful of favorites — we recommend 3 to 5.' },
@@ -95,7 +98,7 @@ const SEED_BUSINESS_TYPES = [
     note: '',
     tiers: [
       { id: 'personal-simple',   name: 'Simple',   price: '$500',   badge: null, features: ['Single-page personal site'] },
-      { id: 'personal-standard', name: 'Standard', price: '$900',   badge: null, features: ['Multi-section site with gallery'] },
+      { id: 'personal-standard', name: 'Standard', price: '$900',   badge: null, features: ['Up to 8 sections with gallery'] },
       { id: 'personal-plus',     name: 'Plus',     price: '$1,400', badge: null, features: ['Adds a blog / updates section'] },
     ],
     photoCategories: [
@@ -157,7 +160,7 @@ const SEED_BUSINESS_TYPES = [
     note: 'The athlete\'s recruiting site is the central hub a coach reaches from any social bio. Lead with grad year, sport/position, and the PRIMARY highlight video. NCAA fields are collected as athlete-provided input — never as eligibility guarantees (rules change; verify at eligibilitycenter.org). Mark measurables as verified vs self-reported.',
     tiers: [
       { id: 'recruiting-starter',  name: 'Starter',  price: '$600',   badge: null,            features: ['Single-page recruiting profile', 'Embedded highlight video', 'Stats and academics', 'Contact + coach info'] },
-      { id: 'recruiting-standard', name: 'Standard', price: '$1,000', badge: 'Most Popular',  features: ['Multi-section site', 'Photo gallery + multiple highlight videos', 'Social bio link block', 'Basic SEO so coaches find you'] },
+      { id: 'recruiting-standard', name: 'Standard', price: '$1,000', badge: 'Most Popular',  features: ['Up to 8 sections', 'Photo gallery + multiple highlight videos', 'Social bio link block', 'Basic SEO so coaches find you'] },
       { id: 'recruiting-premium',  name: 'Premium',  price: '$1,600', badge: null,            features: ['Everything in Standard', 'Game film library', 'News / season updates section', 'Custom domain + analytics'] },
     ],
     photoCategories: [
@@ -491,7 +494,7 @@ function renderTierEditor(tier, totalTiers) {
     </label>
     <label class="setup-label setup-label-inline">Features (one per line)</label>
     <textarea data-field="features" rows="4"
-              placeholder="Single-page site&#10;Mobile-friendly&#10;Contact form">${escapeHtml((tier.features || []).join('\n'))}</textarea>
+              placeholder="Up to 4 sections&#10;Mobile-friendly&#10;Contact form&#10;1 round of revisions">${escapeHtml((tier.features || []).join('\n'))}</textarea>
   `;
 
   return editor;

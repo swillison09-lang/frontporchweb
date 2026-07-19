@@ -205,37 +205,46 @@ const BUSINESS_TYPES_KEY = 'frontporch_business_types';
 // STRIPE_PAYMENT_LINKS keys exactly (case-insensitive) so Pay & Submit
 // always finds a link — never edit a name here without updating the link map.
 const DEFAULT_TIERS_BY_TYPE = {
+  // Feature wording must stay in step with the published pricing on the
+  // marketing site (content.json + index.html). A client reads those before
+  // buying and reads these at checkout — if they disagree, the promise they
+  // remember is the one from the pricing page.
+  //
+  // Sites are built as one page with anchored sections, so scope is counted in
+  // SECTIONS, not pages. Premium is deliberately "all the sections you need"
+  // rather than "unlimited": generous, but not an open-ended promise on a
+  // fixed fee.
   'local-business': [
     { id: 'fallback-starter',  name: 'Starter',  price: '$400',   badge: null,
-      features: ['Single-page site', 'Mobile-friendly', 'Contact form'] },
+      features: ['Up to 4 sections', 'Mobile-friendly', 'Contact form', '1 round of revisions'] },
     { id: 'fallback-standard', name: 'Standard', price: '$750',   badge: 'Most Popular',
-      features: ['Multi-section site', 'Gallery', 'Basic SEO setup'] },
+      features: ['Up to 8 sections', 'Photo gallery', 'Basic SEO setup', '2 rounds of revisions'] },
     { id: 'fallback-premium',  name: 'Premium',  price: '$1,200', badge: null,
-      features: ['Everything in Standard', 'Blog setup', 'Online enquiry / booking'] },
+      features: ['All the sections you need', 'Blog you update yourself', 'Online enquiry / booking', '3 rounds of revisions'] },
   ],
   'recruiting-profile': [
     { id: 'fallback-starter',  name: 'Starter',  price: '$250',   badge: null,
-      features: ['Single-page recruiting profile', 'Mobile-friendly', 'Contact form'] },
+      features: ['Up to 4 sections', 'Mobile-friendly', 'Coach contact form', '1 round of revisions'] },
     { id: 'fallback-standard', name: 'Standard', price: '$450',   badge: 'Most Popular',
-      features: ['Stats & highlight video section', 'Photo gallery', 'Basic SEO setup'] },
+      features: ['Up to 8 sections', 'Stats & highlight video', 'Photo gallery', '2 rounds of revisions'] },
     { id: 'fallback-premium',  name: 'Premium',  price: '$700',   badge: null,
-      features: ['Everything in Standard', 'Schedule & recruiting goals', 'Coach contact form'] },
+      features: ['All the sections you need', 'Blog you update yourself', 'Schedule & recruiting goals', '3 rounds of revisions'] },
   ],
   'adoption-profile': [
     { id: 'fallback-starter',  name: 'Starter',  price: '$300',   badge: null,
-      features: ['Single-page adoption profile', 'Mobile-friendly', 'Letter to birth parents'] },
+      features: ['Up to 4 sections', 'Mobile-friendly', 'Letter to birth parents', '1 round of revisions'] },
     { id: 'fallback-standard', name: 'Standard', price: '$500',   badge: 'Most Popular',
-      features: ['Full family story & photos', 'Our Journey / blog section', 'Basic SEO setup'] },
+      features: ['Up to 8 sections', 'Full family story & photos', 'Basic SEO setup', '2 rounds of revisions'] },
     { id: 'fallback-premium',  name: 'Premium',  price: '$750',   badge: null,
-      features: ['Everything in Standard', 'Fundraising page integration', 'Priority support'] },
+      features: ['All the sections you need', 'Blog you update yourself', 'Fundraising page integration', '3 rounds of revisions'] },
   ],
   'personal-other': [
     { id: 'fallback-starter',  name: 'Starter',  price: '$350',   badge: null,
-      features: ['Single-page site', 'Mobile-friendly', 'Contact form'] },
+      features: ['Up to 4 sections', 'Mobile-friendly', 'Contact form', '1 round of revisions'] },
     { id: 'fallback-standard', name: 'Standard', price: '$650',   badge: 'Most Popular',
-      features: ['Multi-section site', 'Photo gallery', 'Basic SEO setup'] },
+      features: ['Up to 8 sections', 'Photo gallery', 'Basic SEO setup', '2 rounds of revisions'] },
     { id: 'fallback-premium',  name: 'Premium',  price: '$1,000', badge: null,
-      features: ['Everything in Standard', 'Blog setup', 'Priority support'] },
+      features: ['All the sections you need', 'Blog you update yourself', 'Priority support', '3 rounds of revisions'] },
   ],
 };
 
