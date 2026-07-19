@@ -88,14 +88,14 @@
       },
       {
         "title": "Review & launch",
-        "body": "You approve every detail. When you are happy, we publish and make sure everything runs fast and reliably."
+        "body": "Once you are happy with it, we publish and make sure everything runs fast and reliably."
       }
     ]
   },
   "pricing": {
     "eyebrow": "Simple Pricing",
     "heading": "Honest prices. No surprises.",
-    "sub": "Final pricing depends on your project type. 50% due upfront, 50% due on completion and your approval.",
+    "sub": "Final pricing depends on your project type. 50% due upfront, 50% due on completion, before your site goes live.",
     "tiers": [
       {
         "name": "Starter",
