@@ -2514,6 +2514,21 @@ async function qSubmit() {
 async function qPaySubmit() {
   if (!qSelectedTier) return;
 
+  // Require terms acceptance before any money moves. The timestamp is stored
+  // on the submission (qData.termsAcceptedAt) so there is a record of what was
+  // agreed and when, rather than relying on memory if a client later disputes
+  // the refund terms.
+  const termsBox = document.getElementById('qAcceptTerms');
+  const termsErr = document.getElementById('qTermsErr');
+  if (termsBox && !termsBox.checked) {
+    if (termsErr) termsErr.hidden = false;
+    termsBox.focus();
+    termsBox.closest('.q-terms')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  if (termsErr) termsErr.hidden = true;
+  qData.termsAcceptedAt = new Date().toISOString();
+
   // Block payment if the chosen tier's section cap is exceeded
   const mismatch = qGetPageMismatch();
   if (mismatch) {
@@ -2702,7 +2717,7 @@ function qShowComplete(opts) {
       subEl.innerHTML =
         `Thank you, <strong id="qCompleteName">${escapeHtml(name)}</strong>! ` +
         `Your brief has been received and your 50% deposit is confirmed. ` +
-        `We will be in touch within 1&nbsp;business&nbsp;day.`;
+        `I will be in touch within 2&ndash;3&nbsp;business&nbsp;days.`;
     }
     if (noteEl) {
       noteEl.innerHTML =

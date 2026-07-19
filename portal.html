@@ -1307,9 +1307,23 @@
         <!-- Tier cards rendered by initPaymentStep() in portal.js -->
         <div class="tier-cards" id="qTierCards"></div>
 
-        <p class="tier-note">All packages include mobile-responsive design, custom domain setup, and Cloudflare Pages hosting.</p>
+        <!-- Do not say hosting is "included" here: the pricing page sells
+             hosting separately at $25/mo, and a client agreeing to this
+             wording at the moment of payment would rightly dispute the bill. -->
+        <p class="tier-note">All packages include mobile-responsive design and setup of your own custom domain. Keeping the site online after launch is separate &mdash; take the files and host it yourself at no further cost, or let me handle it for $25/month. <a href="/terms" target="_blank" rel="noopener">Full terms</a>.</p>
 
-        <!-- Page-count mismatch error — shown by qPaySubmit if cap is exceeded -->
+        <!-- Terms acceptance. Recorded onto the submission so there is a
+             record of what the client agreed to and when. -->
+        <label class="q-terms" for="qAcceptTerms">
+          <input type="checkbox" id="qAcceptTerms">
+          <span>I have read and agree to the
+            <a href="/terms" target="_blank" rel="noopener">Terms &amp; Refund Policy</a>
+            and the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.
+            I understand my deposit is refundable until work begins.</span>
+        </label>
+        <p class="q-terms-err" id="qTermsErr" hidden aria-live="polite">Please agree to the terms before continuing.</p>
+
+        <!-- Section-count mismatch error — shown by qPaySubmit if cap is exceeded -->
         <p class="q-tier-mismatch-err" id="qTierMismatchErr" hidden aria-live="polite"></p>
       </div><!-- /#qPanel8 -->
 
@@ -1322,7 +1336,7 @@
           <p class="q-panel-sub">
             Thank you, <strong id="qCompleteName">friend</strong>!
             Your project request has been received.
-            We will be in touch within 1&nbsp;business&nbsp;day.
+            I will be in touch within 2&ndash;3&nbsp;business&nbsp;days.
           </p>
           <p class="q-complete-payment-note">
             Your first payment covers 50% of the total project cost.

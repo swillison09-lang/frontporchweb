@@ -165,7 +165,9 @@
     "links": [
       { "label": "Our Work", "href": "#work" },
       { "label": "Pricing", "href": "#pricing" },
-      { "label": "Client Login", "href": "portal.html" }
+      { "label": "Client Login", "href": "portal.html" },
+      { "label": "Terms & Refunds", "href": "terms.html" },
+      { "label": "Privacy", "href": "privacy.html" }
     ]
   }
 }
