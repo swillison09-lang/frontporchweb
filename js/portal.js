@@ -517,6 +517,20 @@ function buildSubmissionRow({ submissionId, submittedAt, buildPrompt }) {
 // └──────────────────────────────────────────────────────────────────────────┘
 const NOTIFY_ACCESS_KEY = 'e4973906-4cae-4f83-82cc-e7137642699f';
 
+// Revision rounds included with each package. Source of truth is the published
+// pricing on the marketing site (content.json): Starter 1, Standard 2,
+// Premium 3. Custom tiers created in setup.html can use any name, so return
+// null for anything unrecognized rather than guessing a number Sean would then
+// have to honor.
+function revisionRoundsForTier(tierName) {
+  switch (String(tierName || '').trim().toLowerCase()) {
+    case 'starter':  return 1;
+    case 'standard': return 2;
+    case 'premium':  return 3;
+    default:         return null;
+  }
+}
+
 async function sendOrderNotification({ submissionId, submittedAt, savedToDb }) {
   if (!NOTIFY_ACCESS_KEY) return; // not configured yet — skip quietly
   const name     = currentUser?.name  || qData.contactName  || qData.name  || 'Unknown';
@@ -525,6 +539,10 @@ async function sendOrderNotification({ submissionId, submittedAt, savedToDb }) {
   const siteType = SITE_TYPE_LABELS[qData.siteType] || qData.siteType || 'not specified';
   const tier     = qData.payment?.tierName || qData.tier?.name || qData.tier || 'not selected';
   const when     = new Date(submittedAt || Date.now()).toLocaleString();
+  const rounds   = revisionRoundsForTier(tier);
+  const revisions = rounds === null
+    ? `not set for "${tier}" — check what this package includes`
+    : `${rounds} round${rounds === 1 ? '' : 's'} included`;
   const lines = [
     'A new questionnaire was submitted on Front Porch Web.',
     '',
@@ -533,6 +551,7 @@ async function sendOrderNotification({ submissionId, submittedAt, savedToDb }) {
     `Phone:      ${phone}`,
     `Site type:  ${siteType}`,
     `Package:    ${tier}`,
+    `Revisions:  ${revisions}`,
     `Submitted:  ${when}`,
     `Reference:  ${submissionId}`,
     savedToDb ? '' : '(Heads up: the database save reported an error — check the local backup.)',
