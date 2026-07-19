@@ -90,9 +90,15 @@
     background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;
   }
   section:nth-of-type(even) .parent{background:var(--card)}
-  .parent-photo{aspect-ratio:1/1;background:#e6e1d7}
+  /* Portrait-shaped and modestly sized: these headshots are portrait
+     orientation, so a square box would crop heads and upscale harder. */
+  .parent-photo{
+    aspect-ratio:3/4;background:#e6e1d7;width:100%;max-width:215px;
+    margin:24px auto 0;border-radius:12px;overflow:hidden;
+  }
   .parent-photo img{width:100%;height:100%;object-fit:cover}
-  .parent-body{padding:22px 24px 26px}
+  .parent-body{padding:18px 24px 26px;text-align:center}
+  .parent-body ul{text-align:left}
   .parent-body ul{list-style:none;margin-top:10px}
   .parent-body li{
     position:relative;padding-left:20px;margin-bottom:7px;font-size:15.5px;color:var(--soft);
@@ -211,11 +217,12 @@
         Indiapolis Indiana
       </span>
     </div>
-    <!-- Uncaptioned "extra" photo from the questionnaire: we don't know who is
-         pictured, so the alt text stays identity-neutral. -->
+    <!-- The one uncaptioned photo showing BOTH parents together — the only one
+         that matches "We're Ashley & Gabe". Also the widest source (393px), so
+         it is the sharpest choice for the hero. -->
     <div class="hero-photo">
-      <img src="https://images.frontporchwebllc.com/submissions/78a641c9-ef59-4f67-a02f-4a53eadb5b31/c9db29a2-4f4d-43c5-9a3d-6f269b5bdea2/photos/1781745705589-OIP.jpg"
-           alt="Family photo">
+      <img src="https://images.frontporchwebllc.com/submissions/78a641c9-ef59-4f67-a02f-4a53eadb5b31/c9db29a2-4f4d-43c5-9a3d-6f269b5bdea2/photos/1781745706910-OIP.jpg"
+           alt="Ashley and Gabe">
     </div>
   </div>
 </div>
@@ -246,6 +253,12 @@
     </div>
     <div class="parents">
       <article class="parent">
+        <!-- The single-woman headshot, matched to the parent with a woman's
+             name. Confirm with the family — see review notes. -->
+        <div class="parent-photo">
+          <img src="https://images.frontporchwebllc.com/submissions/78a641c9-ef59-4f67-a02f-4a53eadb5b31/c9db29a2-4f4d-43c5-9a3d-6f269b5bdea2/photos/1781745706321-OIP.jpg"
+               alt="Ashley">
+        </div>
         <div class="parent-body">
           <h3>Ashley</h3>
           <ul>
@@ -258,6 +271,10 @@
         </div>
       </article>
       <article class="parent">
+        <div class="parent-photo">
+          <img src="https://images.frontporchwebllc.com/submissions/78a641c9-ef59-4f67-a02f-4a53eadb5b31/c9db29a2-4f4d-43c5-9a3d-6f269b5bdea2/photos/1781745705589-OIP.jpg"
+               alt="Gabe">
+        </div>
         <div class="parent-body">
           <h3>Gabe</h3>
           <ul>
@@ -337,16 +354,6 @@ Loves people</p></div>
       <figure class="shot">
         <div class="shot-img"><img src="https://images.frontporchwebllc.com/submissions/78a641c9-ef59-4f67-a02f-4a53eadb5b31/c9db29a2-4f4d-43c5-9a3d-6f269b5bdea2/adopt-moments/1781745711300-OIP.jpg" alt="Enjoying the swimming pool"></div>
         <figcaption>Enjoying the swimming pool</figcaption>
-      </figure>
-    </div>
-    <!-- Extra photos the family uploaded without descriptions. Shown without
-         captions or names, since we can't know who or what is pictured. -->
-    <div class="gallery extras">
-      <figure class="shot">
-        <div class="shot-img"><img src="https://images.frontporchwebllc.com/submissions/78a641c9-ef59-4f67-a02f-4a53eadb5b31/c9db29a2-4f4d-43c5-9a3d-6f269b5bdea2/photos/1781745706321-OIP.jpg" alt="Family photo"></div>
-      </figure>
-      <figure class="shot">
-        <div class="shot-img"><img src="https://images.frontporchwebllc.com/submissions/78a641c9-ef59-4f67-a02f-4a53eadb5b31/c9db29a2-4f4d-43c5-9a3d-6f269b5bdea2/photos/1781745706910-OIP.jpg" alt="Family photo"></div>
       </figure>
     </div>
   </div>
