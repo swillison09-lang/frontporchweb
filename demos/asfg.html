@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- ============================================================
+   REDESIGN CONCEPT — an independent, unsolicited proposal for
+   The All-Star Financial Group (asfg.org), created by
+   Front Porch Web, LLC to demonstrate a possible new website.
+   This is NOT the official ASFG site. Member names, firms and
+   credentials are drawn from ASFG's public website for the
+   purpose of the proposal.
+   ============================================================ -->
+<title>The All-Star Financial Group — Website Redesign Concept · Front Porch Web</title>
+<meta name="description" content="A redesign concept for The All-Star Financial Group — a national society of peer-selected fiduciary advisors. An independent proposal by Front Porch Web." />
+<meta name="robots" content="noindex" />
+<style>
+  :root{
+    --ink:#0F1A2A;
+    --ink-2:#16233A;
+    --ink-3:#0A1320;
+    --paper:#F2EDE1;
+    --paper-2:#EAE3D3;
+    --brass:#C4A053;
+    --brass-deep:#9C7C34;
+    --brass-soft:#D8BE86;
+    --ink-text:#1C2430;
+    --muted-ink:#9BA6B4;
+    --muted-paper:#847C6C;
+    --line-paper:rgba(28,36,48,.16);
+    --line-ink:rgba(196,160,83,.24);
+    --serif:'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,Georgia,'Times New Roman',serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --mono:'SFMono-Regular',ui-monospace,'Cascadia Code',Consolas,'Courier New',monospace;
+    --wrap:1180px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink-text);
+    font-family:var(--sans);font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+  h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;text-wrap:balance;letter-spacing:.005em}
+  a{color:inherit}
+  .eyebrow{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--brass-deep);margin:0;
+  }
+  .ink .eyebrow{color:var(--brass)}
+  .rule{width:46px;height:1px;background:var(--brass);border:0;margin:0}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;background:rgba(15,26,42,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line-ink);
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brandmark{display:flex;align-items:center;gap:12px;color:var(--paper);text-decoration:none}
+  .monogram{
+    font-family:var(--serif);font-size:1.15rem;letter-spacing:.14em;color:var(--brass);
+    border:1px solid var(--line-ink);border-radius:50%;width:40px;height:40px;
+    display:grid;place-items:center;
+  }
+  .brandtext{display:flex;flex-direction:column;line-height:1.05}
+  .brandtext b{font-family:var(--serif);font-weight:400;font-size:1rem;color:var(--paper);letter-spacing:.02em}
+  .brandtext span{font-family:var(--mono);font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted-ink)}
+  nav.links{display:flex;align-items:center;gap:30px}
+  nav.links a{
+    font-family:var(--sans);font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted-ink);text-decoration:none;transition:color .2s;
+  }
+  nav.links a:hover{color:var(--paper)}
+  .btn{
+    font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
+    text-decoration:none;display:inline-block;padding:11px 22px;border-radius:2px;
+    background:var(--brass);color:var(--ink);border:1px solid var(--brass);
+    transition:background .2s,color .2s,transform .2s;font-weight:600;
+  }
+  .btn:hover{background:transparent;color:var(--brass)}
+  .btn.ghost{background:transparent;color:var(--brass);border-color:var(--line-ink)}
+  .btn.ghost:hover{border-color:var(--brass);background:var(--brass);color:var(--ink)}
+  @media(max-width:820px){nav.links a{display:none}}
+
+  /* ---------- HERO ---------- */
+  .hero{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+  .hero::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 90% at 82% -10%,rgba(196,160,83,.14),transparent 55%);
+  }
+  .hero-in{position:relative;z-index:2;padding:92px 0 76px;display:grid;grid-template-columns:1.55fr .9fr;gap:56px;align-items:center}
+  @media(max-width:900px){.hero-in{grid-template-columns:1fr;gap:40px;padding:64px 0 56px}}
+  .hero h1{
+    font-size:clamp(2.7rem,6.2vw,5.4rem);line-height:1.02;color:var(--paper);margin:22px 0 26px;letter-spacing:-.01em;
+  }
+  .hero h1 em{font-style:italic;color:var(--brass)}
+  .lede{font-size:1.15rem;color:#D8D2C4;max-width:44ch;margin:0 0 34px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .medallion{justify-self:center;width:min(320px,80%);aspect-ratio:1;display:grid;place-items:center;position:relative}
+  .medallion svg{width:100%;height:100%;filter:drop-shadow(0 8px 30px rgba(0,0,0,.4))}
+  @media(max-width:900px){.medallion{width:220px}}
+
+  /* ledger strip */
+  .ledger{border-top:1px solid var(--line-ink);position:relative;z-index:2;background:var(--ink-3)}
+  .ledger-in{display:grid;grid-template-columns:repeat(4,1fr)}
+  .ledger .cell{padding:26px 20px;border-right:1px solid var(--line-ink);text-align:center}
+  .ledger .cell:last-child{border-right:0}
+  .ledger .fig{font-family:var(--serif);font-size:2.1rem;color:var(--brass);line-height:1;font-variant-numeric:tabular-nums}
+  .ledger .lab{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-ink);margin-top:9px}
+  @media(max-width:640px){.ledger-in{grid-template-columns:repeat(2,1fr)}.ledger .cell:nth-child(2){border-right:0}.ledger .cell:nth-child(1),.ledger .cell:nth-child(2){border-bottom:1px solid var(--line-ink)}}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:96px 0}
+  @media(max-width:640px){section{padding:64px 0}}
+  .ink{background:var(--ink);color:var(--paper)}
+  .ink h2,.ink h3{color:var(--paper)}
+  .sec-head{max-width:62ch}
+  .sec-head h2{font-size:clamp(2rem,4vw,3.1rem);line-height:1.08;margin:16px 0 0}
+
+  /* purpose */
+  .purpose-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:52px;align-items:start}
+  @media(max-width:820px){.purpose-grid{grid-template-columns:1fr;gap:36px}}
+  .purpose-lead{font-family:var(--serif);font-size:1.5rem;line-height:1.5;color:var(--ink-text)}
+  .purpose-lead .drop{float:left;font-size:3.3rem;line-height:.82;padding:6px 12px 0 0;color:var(--brass-deep)}
+  .serves{margin:0;padding:0;list-style:none;columns:2;column-gap:34px}
+  .serves li{
+    break-inside:avoid;font-family:var(--sans);font-size:.98rem;padding:9px 0;border-bottom:1px solid var(--line-paper);
+    display:flex;gap:10px;align-items:baseline;
+  }
+  .serves li::before{content:"—";color:var(--brass-deep)}
+  .serves-h{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-paper);margin:0 0 8px}
+
+  /* compact / principles */
+  .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-ink);margin-top:54px;border:1px solid var(--line-ink)}
+  @media(max-width:820px){.principles{grid-template-columns:1fr}}
+  .principle{background:var(--ink);padding:38px 32px}
+  .principle .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:16px}
+  .principle h3{font-size:1.5rem;margin:0 0 12px}
+  .principle p{color:#C7C1B4;font-size:.98rem;margin:0}
+
+  /* ---------- REGISTER (signature) ---------- */
+  .reg-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .reg-note{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-paper)}
+  .register{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:18px;margin-top:46px;
+  }
+  .plate{
+    position:relative;background:var(--paper-2);border:1px solid var(--line-paper);border-radius:3px;
+    padding:26px 24px 24px;display:flex;flex-direction:column;
+    transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s;
+  }
+  .plate::before{
+    content:"";position:absolute;left:0;top:22px;bottom:22px;width:2px;background:var(--brass);
+    transform:scaleY(0);transform-origin:top;transition:transform .3s ease;
+  }
+  .plate:hover{transform:translateY(-5px);box-shadow:0 16px 40px -18px rgba(15,26,42,.45);border-color:rgba(196,160,83,.5)}
+  .plate:hover::before{transform:scaleY(1)}
+  .plate .idx{font-family:var(--mono);font-size:.72rem;color:var(--brass-deep);letter-spacing:.1em}
+  .plate .pname{font-family:var(--serif);font-size:1.32rem;line-height:1.15;margin:8px 0 0;color:var(--ink-text)}
+  .plate .firm{font-size:.94rem;margin:11px 0 2px;color:var(--ink-text);font-weight:600}
+  .plate .loc{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-paper)}
+  .plate .desc{font-size:.9rem;color:#5c5648;margin:13px 0 0;line-height:1.5}
+  .creds{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+  .cred{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;padding:3px 7px;border:1px solid var(--line-paper);border-radius:2px;color:var(--brass-deep)}
+  .plate.founder{background:linear-gradient(180deg,#171F1A00,#0000),var(--ink);border-color:var(--line-ink)}
+  .plate.founder .pname,.plate.founder .firm{color:var(--paper)}
+  .plate.founder .desc{color:#C7C1B4}
+  .plate.founder .idx{color:var(--brass)}
+  .plate.founder .cred{border-color:var(--line-ink);color:var(--brass-soft)}
+  .plate.founder::before{background:var(--brass);transform:scaleY(1)}
+  .founder-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin-bottom:2px}
+  .memoriam{font-family:var(--mono);font-size:.66rem;color:var(--muted-ink);letter-spacing:.06em;margin-top:10px}
+
+  /* credential lockup */
+  .credstrip{display:flex;flex-wrap:wrap;gap:0;justify-content:center;margin-top:52px;border-top:1px solid var(--line-paper);border-bottom:1px solid var(--line-paper)}
+  .credstrip span{font-family:var(--serif);font-size:1.05rem;color:var(--muted-paper);padding:16px 22px;letter-spacing:.04em}
+  .credstrip span+span{border-left:1px solid var(--line-paper)}
+
+  /* ---------- MEMBERSHIP ---------- */
+  .join-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:8px}
+  @media(max-width:820px){.join-grid{grid-template-columns:1fr;gap:40px}}
+  .criteria{list-style:none;margin:34px 0 0;padding:0;counter-reset:c}
+  .criteria li{counter-increment:c;padding:20px 0;border-top:1px solid var(--line-ink);display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:baseline}
+  .criteria li:last-child{border-bottom:1px solid var(--line-ink)}
+  .criteria li::before{content:counter(c,decimal-leading-zero);font-family:var(--mono);font-size:.8rem;color:var(--brass)}
+  .criteria b{font-family:var(--serif);font-size:1.2rem;font-weight:400;display:block;margin-bottom:4px;color:var(--paper)}
+  .criteria span{color:#C7C1B4;font-size:.95rem}
+  .join-card{background:var(--ink-2);border:1px solid var(--line-ink);border-radius:4px;padding:44px 38px;text-align:center}
+  .join-card .medallion{width:96px;margin:0 auto 20px}
+  .join-card h3{font-size:1.9rem;margin:0 0 12px}
+  .join-card p{color:#C7C1B4;font-size:.98rem;margin:0 0 26px}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink-3);color:var(--muted-ink);padding:64px 0 40px;border-top:1px solid var(--line-ink)}
+  .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-start;padding-bottom:34px;border-bottom:1px solid var(--line-ink)}
+  .foot-links{display:flex;gap:28px;flex-wrap:wrap}
+  .foot-links a{font-size:.85rem;text-decoration:none;color:var(--muted-ink);transition:color .2s}
+  .foot-links a:hover{color:var(--brass)}
+  .disclaimer{font-size:.76rem;line-height:1.7;color:#6B7686;max-width:78ch;margin:28px 0 0}
+  .disclaimer b{color:var(--brass-soft);font-weight:600;font-family:var(--serif)}
+  .foot-legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:26px;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:#5a6474}
+
+  /* reveal — progressive enhancement: visible by default, animated only with JS */
+  .js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .js .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}}
+  :focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+  /* concept ribbon */
+  .concept-ribbon{
+    background:var(--ink-3);color:var(--brass-soft);text-align:center;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;
+    padding:9px 16px;border-bottom:1px solid var(--line-ink);line-height:1.5;
+  }
+  .concept-ribbon strong{color:var(--paper);font-weight:600}
+  .concept-ribbon a{color:var(--brass);text-decoration:none;border-bottom:1px solid var(--line-ink)}
+  .concept-ribbon a:hover{color:var(--paper)}
+</style>
+</head>
+<body>
+
+<script>document.documentElement.className='js';</script>
+<div class="concept-ribbon">
+  Redesign concept &middot; an independent proposal for <strong>The All-Star Financial Group</strong> &middot; by <a href="https://frontporchwebllc.com" target="_blank" rel="noopener">Front Porch Web</a>
+</div>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brandmark" href="#top" aria-label="The All-Star Financial Group home">
+      <span class="monogram">A</span>
+      <span class="brandtext">
+        <b>The All-Star Financial Group</b>
+        <span>Peer-selected fiduciary advisors</span>
+      </span>
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="#purpose">Purpose</a>
+      <a href="#compact">The Compact</a>
+      <a href="#register">The Register</a>
+      <a href="#membership">Membership</a>
+    </nav>
+    <a class="btn" href="#membership">Apply</a>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="reveal in">
+      <p class="eyebrow">A national society of fiduciary advisors</p>
+      <h1>The advisors other<br>advisors <em>choose.</em></h1>
+      <p class="lede">A peer-selected group of fiduciary financial advisors who share expertise, education, and friendship — so that every client, and every practice, is the better for it.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#register">Meet the members</a>
+        <a class="btn ghost" href="#membership">Become a member</a>
+      </div>
+    </div>
+    <div class="medallion reveal in" aria-hidden="true">
+      <svg viewBox="0 0 100 100" role="img" aria-label="ASFG medallion">
+        <circle cx="50" cy="50" r="47" fill="none" stroke="var(--brass)" stroke-width="0.6" opacity="0.5"/>
+        <circle cx="50" cy="50" r="43" fill="none" stroke="var(--brass)" stroke-width="0.4" opacity="0.35"/>
+        <polygon points="50,14 57.5,38.7 83.4,38.7 62.5,53.9 70.3,78.5 50,63.4 29.7,78.5 37.5,53.9 16.6,38.7 42.5,38.7"
+          fill="none" stroke="var(--brass)" stroke-width="0.9" stroke-linejoin="round"/>
+        <polygon points="50,26 54.6,41.2 70.6,41.2 57.7,50.6 62.4,65.8 50,56.4 37.6,65.8 42.3,50.6 29.4,41.2 45.4,41.2"
+          fill="var(--brass)" opacity="0.12"/>
+      </svg>
+    </div>
+  </div>
+  <div class="ledger">
+    <div class="wrap"><div class="ledger-in">
+      <div class="cell"><div class="fig">20</div><div class="lab">Member advisors</div></div>
+      <div class="cell"><div class="fig">12</div><div class="lab">States represented</div></div>
+      <div class="cell"><div class="fig">2&times;</div><div class="lab">We meet · Jun &amp; Jan</div></div>
+      <div class="cell"><div class="fig">100%</div><div class="lab">Fiduciary standard</div></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- PURPOSE -->
+<section id="purpose">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Our purpose</p>
+      <h2>To elevate the client experience — by first elevating one another.</h2>
+    </div>
+    <div class="purpose-grid">
+      <p class="purpose-lead reveal"><span class="drop">W</span>e provide professional and personal support, information sharing, education, and friendship — to help elevate the client experience and the expertise at every member's business. ASFG itself keeps no clients and gives no advice; its members do, each through their own firm.</p>
+      <div class="reveal">
+        <p class="serves-h">Whom our members serve</p>
+        <ul class="serves">
+          <li>Closely-held businesses</li>
+          <li>Executives</li>
+          <li>Athletes</li>
+          <li>Entertainers</li>
+          <li>Artists</li>
+          <li>Entrepreneurs</li>
+          <li>Retirement plans</li>
+          <li>Endowments</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE COMPACT -->
+<section id="compact" class="ink">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">The compact</p>
+      <h2>What membership asks, and what it gives back.</h2>
+    </div>
+    <div class="principles reveal">
+      <div class="principle">
+        <span class="k">Peer-selected</span>
+        <h3>Admitted by those who&nbsp;know</h3>
+        <p>There is no buying your way in. Every member is nominated and vetted by the advisors already in the room — a standard higher than any brochure.</p>
+      </div>
+      <div class="principle">
+        <span class="k">Fiduciary, always</span>
+        <h3>One standard, no exceptions</h3>
+        <p>Membership is open only to fiduciary advisors. It is the single non-negotiable — the reason a place at this table means something.</p>
+      </div>
+      <div class="principle">
+        <span class="k">Give to the group</span>
+        <h3>Everyone contributes so all&nbsp;benefit</h3>
+        <p>Members give their time and expertise, meeting twice a year and sharing through a private network — so that each advisor feels connected, welcome, and supported.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE REGISTER -->
+<section id="register">
+  <div class="wrap">
+    <div class="reg-head reveal">
+      <div class="sec-head">
+        <p class="eyebrow">The register</p>
+        <h2>Our distinguished membership.</h2>
+      </div>
+      <p class="reg-note">Listed alphabetically · Est. credentials as held</p>
+    </div>
+
+    <div class="register" id="register-grid">
+      <article class="plate reveal"><div class="idx">01</div><h3 class="pname">Alan M. Rothstein</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Siena Private Wealth</div><div class="loc">Connecticut</div><p class="desc">Four decades in the profession; built a fee-only registered practice, merged in 2024.</p></article>
+      <article class="plate reveal"><div class="idx">02</div><h3 class="pname">Andrew B. Blackman</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Schulman Lobel LLP</div><div class="loc">New York</div><p class="desc">Business management for performing and creative artists, athletes and celebrities.</p></article>
+      <article class="plate reveal"><div class="idx">03</div><h3 class="pname">Ann D. Jevne</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AEP&reg;</span></div><div class="firm">GYL Financial Synergies</div><div class="loc">Connecticut</div><p class="desc">35+ years in public accounting; past president, Connecticut Society of CPAs.</p></article>
+      <article class="plate reveal"><div class="idx">04</div><h3 class="pname">Anthony Gennaoui</h3><div class="creds"><span class="cred">CFP&reg;</span></div><div class="firm">Droms Strauss Wealth Mgmt.</div><div class="loc">St. Louis, MO</div><p class="desc">Managing principal; chairs the firm's investment committee.</p></article>
+      <article class="plate reveal"><div class="idx">05</div><h3 class="pname">Carson McLean</h3><div class="creds"><span class="cred">CFP&reg;</span></div><div class="firm">Altruist Wealth Management</div><div class="loc">Charlotte, NC</div><p class="desc">Founder; retirement planning and tax-aware strategy, formerly at DFA.</p></article>
+      <article class="plate reveal"><div class="idx">06</div><h3 class="pname">Erin Itkoe</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AEP&reg;</span><span class="cred">CAP&reg;</span></div><div class="firm">Luminescent Wealth Mgmt.</div><div class="loc">Phoenix, AZ</div><p class="desc">President; serves on the AICPA Personal Financial Planning Executive Committee.</p></article>
+      <article class="plate reveal"><div class="idx">07</div><h3 class="pname">Gregory Desmond</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Desmond Wealth Management</div><div class="loc">Bay Area, CA</div><p class="desc">Personal CFO to his clients across tax, investments, retirement and estate.</p></article>
+      <article class="plate reveal founder"><div class="founder-tag">&#9733; Founding member</div><div class="idx">08</div><h3 class="pname">J. Ben Vernazza</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">TEP</span></div><div class="firm">Portfolio Diversification Institute</div><div class="loc">Aptos, CA</div><p class="desc">A founding member of ASFG and international tax specialist; a lifelong pilot who authored a CPA course on tax havens.</p><div class="memoriam">Founding member &middot; 1934&ndash;2026</div></article>
+      <article class="plate reveal"><div class="idx">09</div><h3 class="pname">Karen Goodfriend</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">MBA</span></div><div class="firm">WealthValues, LLC</div><div class="loc">Silicon Valley, CA</div><p class="desc">Guides clients through IPOs, acquisitions and equity comp; AICPA Distinguished Service Award.</p></article>
+      <article class="plate reveal"><div class="idx">10</div><h3 class="pname">Kelly A. Galardi</h3><div class="creds"><span class="cred">CPA</span></div><div class="firm">Kelly A. Galardi, CPA</div><div class="loc">Doylestown, PA</div><p class="desc">20+ years in public accounting; tax planning and IRS representation.</p></article>
+      <article class="plate reveal"><div class="idx">11</div><h3 class="pname">Liz L. Flores</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">The Oversight Group</div><div class="loc">San Jose, CA</div><p class="desc">Financial planning for 16 years; serves on CalCPA's Personal Financial Planning Committee.</p></article>
+      <article class="plate reveal"><div class="idx">12</div><h3 class="pname">Mackey McNeill</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Mackey Advisors</div><div class="loc">Cincinnati, OH</div><p class="desc">Founder of a leading women-owned firm; author, &ldquo;The Intersection of Joy and Money.&rdquo;</p></article>
+      <article class="plate reveal"><div class="idx">13</div><h3 class="pname">Marshall Rathmell</h3><div class="creds"><span class="cred">CFP&reg;</span><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">BCR Wealth Strategies</div><div class="loc">Birmingham, AL</div><p class="desc">Managing member of a fee-only fiduciary firm; Leadership Birmingham.</p></article>
+      <article class="plate reveal"><div class="idx">14</div><h3 class="pname">Martin J. Armbruster</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Savant Wealth Management</div><div class="loc">Indianapolis, IN</div><p class="desc">Advising clients since 1982; co-founded the practice that joined Savant in 2021.</p></article>
+      <article class="plate reveal founder"><div class="founder-tag">&#9733; Founding member</div><div class="idx">15</div><h3 class="pname">Mitchell Freedman</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">MFAC Financial Advisors</div><div class="loc">Los Angeles, CA</div><p class="desc">Multi-family office services with a specialty in performing and creative artists; a founding member and past VP of ASFG.</p><div class="memoriam">Founding member &middot; Past vice president</div></article>
+      <article class="plate reveal"><div class="idx">16</div><h3 class="pname">Ryan Genor</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">CLS Financial Advisors</div><div class="loc">Portland, OR</div><p class="desc">Combines financial and tax planning; a CPA since 2003.</p></article>
+      <article class="plate reveal"><div class="idx">17</div><h3 class="pname">Sheryl L. Rowling</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Rowling &amp; Associates</div><div class="loc">San Diego, CA</div><p class="desc">Editorial director at Morningstar; Accounting Today Top 100 and author.</p></article>
+      <article class="plate reveal"><div class="idx">18</div><h3 class="pname">Stephanie L. Willison</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AIF&reg;</span></div><div class="firm">Savant Wealth Management</div><div class="loc">Indianapolis, IN</div><p class="desc">Advising clients since 1999; co-founded WealthPoint before joining Savant.</p></article>
+      <article class="plate reveal"><div class="idx">19</div><h3 class="pname">Steven N. Strauss</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Droms Strauss Wealth Mgmt.</div><div class="loc">St. Louis, MO</div><p class="desc">Co-founder; a pioneer of personal financial planning software within the AICPA.</p></article>
+      <article class="plate reveal"><div class="idx">20</div><h3 class="pname">Tracy M. Bousky</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">MBA</span></div><div class="firm">The Mather Group</div><div class="loc">Chicago, IL</div><p class="desc">Kellogg MBA; former board chair of AgeOptions, with roots in audit and finance.</p></article>
+    </div>
+
+    <div class="credstrip reveal">
+      <span>CPA</span><span>PFS</span><span>CFP&reg;</span><span>AEP&reg;</span><span>CAP&reg;</span><span>AIF&reg;</span><span>TEP</span><span>MBA</span>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERSHIP -->
+<section id="membership" class="ink">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Become a member</p>
+      <h2>An environment where the top fiduciary advisors come together to learn and network.</h2>
+    </div>
+    <div class="join-grid">
+      <ol class="criteria reveal">
+        <li><div><b>Practice as a fiduciary</b><span>Membership is reserved for advisors who serve their clients under the fiduciary standard.</span></div></li>
+        <li><div><b>Be nominated by a member or officer</b><span>Applications are submitted through a referring member or one of the group's officers.</span></div></li>
+        <li><div><b>Submit your Form ADV</b><span>Provide your current Form ADV, where applicable, alongside your application.</span></div></li>
+        <li><div><b>Join the table</b><span>Approved members are welcomed into the private network and the twice-yearly meetings.</span></div></li>
+      </ol>
+      <div class="join-card reveal">
+        <div class="medallion" aria-hidden="true">
+          <svg viewBox="0 0 100 100"><polygon points="50,14 57.5,38.7 83.4,38.7 62.5,53.9 70.3,78.5 50,63.4 29.7,78.5 37.5,53.9 16.6,38.7 42.5,38.7" fill="none" stroke="var(--brass)" stroke-width="1.1" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Request an application</h3>
+        <p>If you share our standard and would value this circle, we would be glad to hear from you.</p>
+        <a class="btn" href="https://www.linkedin.com/groups/3739197/" target="_blank" rel="noopener">Fill out application</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a class="brandmark" href="#top">
+        <span class="monogram">A</span>
+        <span class="brandtext"><b>The All-Star Financial Group</b><span>A register of fiduciary advisors</span></span>
+      </a>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="#purpose">About ASFG</a>
+        <a href="#register">Members</a>
+        <a href="#membership">Become a Member</a>
+        <a href="https://www.linkedin.com/groups/3739197/" target="_blank" rel="noopener">Members Group ↗</a>
+      </nav>
+    </div>
+    <p class="disclaimer"><b>Please note.</b> The All-Star Financial Group (ASFG) is a group of fiduciary financial advisors who provide advice to clients through their own firms. ASFG itself provides no financial or investment advice and has no clients of its own. This website is limited to general information and is provided for informational purposes only, with no warranty as to the accuracy or completeness of any information posted. Past performance is no guarantee of future results.</p>
+    <div class="foot-legal">
+      <span>&copy; 2026 The All-Star Financial Group</span>
+      <span>Peer-selected · Fiduciary · Nationwide</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal:not(.in)').forEach(n=>io.observe(n));
+</script>
+</body>
+</html>
