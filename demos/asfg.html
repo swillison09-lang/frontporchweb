@@ -14,6 +14,7 @@
 <title>The All-Star Financial Group — Website Redesign Concept · Front Porch Web</title>
 <meta name="description" content="A redesign concept for The All-Star Financial Group — a national society of peer-selected fiduciary advisors. An independent proposal by Front Porch Web." />
 <meta name="robots" content="noindex" />
+<link rel="icon" type="image/png" href="/demos/asfg-assets/asfg-badge.png" />
 <style>
   :root{
     --ink:#0F1A2A;
@@ -64,6 +65,7 @@
     border:1px solid var(--line-ink);border-radius:50%;width:40px;height:40px;
     display:grid;place-items:center;
   }
+  .brandcrest{width:44px;height:44px;object-fit:contain;display:block;flex:0 0 auto}
   .brandtext{display:flex;flex-direction:column;line-height:1.05}
   .brandtext b{font-family:var(--serif);font-weight:400;font-size:1rem;color:var(--paper);letter-spacing:.02em}
   .brandtext span{font-family:var(--mono);font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted-ink)}
@@ -158,8 +160,8 @@
   .plate:hover{transform:translateY(-5px);box-shadow:0 16px 40px -18px rgba(15,26,42,.45);border-color:rgba(196,160,83,.5)}
   .plate:hover::before{transform:scaleY(1)}
   .portrait{width:100%;aspect-ratio:4/5;overflow:hidden;border-radius:2px;margin-bottom:18px;border:1px solid var(--line-paper);background:linear-gradient(180deg,var(--paper),var(--paper-2))}
-  .portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;filter:grayscale(.4) sepia(.12) contrast(1.03);transition:filter .45s ease,transform .45s ease}
-  .plate:hover .portrait img{filter:grayscale(0) sepia(0);transform:scale(1.035)}
+  .portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;transition:transform .45s ease}
+  .plate:hover .portrait img{transform:scale(1.035)}
   .plate.founder .portrait{border-color:var(--line-ink);background:linear-gradient(180deg,var(--ink-2),var(--ink-3))}
   .plate .idx{font-family:var(--mono);font-size:.72rem;color:var(--brass-deep);letter-spacing:.1em}
   .plate .pname{font-family:var(--serif);font-size:1.32rem;line-height:1.15;margin:8px 0 0;color:var(--ink-text)}
@@ -194,8 +196,8 @@
   }
   .officer:hover{transform:translateY(-5px);box-shadow:0 18px 44px -18px rgba(15,26,42,.55);border-color:rgba(196,160,83,.5)}
   .officer .oframe{aspect-ratio:1/1;overflow:hidden;background:linear-gradient(180deg,var(--ink-2),var(--ink-3));border-bottom:1px solid var(--line-ink)}
-  .officer .oframe img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block;filter:grayscale(.4) sepia(.12) contrast(1.03);transition:filter .45s ease,transform .45s ease}
-  .officer:hover .oframe img{filter:grayscale(0) sepia(0);transform:scale(1.035)}
+  .officer .oframe img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block;transition:transform .45s ease}
+  .officer:hover .oframe img{transform:scale(1.035)}
   .officer .obody{padding:22px 20px 26px;display:flex;flex-direction:column;align-items:center;gap:9px}
   .officer .otitle{font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--brass)}
   .officer .otitle::before,.officer .otitle::after{content:"·";margin:0 .5em;color:var(--brass-deep)}
@@ -258,7 +260,7 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brandmark" href="#top" aria-label="The All-Star Financial Group home">
-      <span class="monogram">A</span>
+      <img class="brandcrest" src="/demos/asfg-assets/asfg-badge.png" alt="The All-Star Financial Group crest" />
       <span class="brandtext">
         <b>The All-Star Financial Group</b>
         <span>Peer-selected fiduciary advisors</span>
@@ -463,7 +465,7 @@
   <div class="wrap">
     <div class="foot-top">
       <a class="brandmark" href="#top">
-        <span class="monogram">A</span>
+        <img class="brandcrest" src="/demos/asfg-assets/asfg-badge.png" alt="The All-Star Financial Group crest" />
         <span class="brandtext"><b>The All-Star Financial Group</b><span>A register of fiduciary advisors</span></span>
       </a>
       <nav class="foot-links" aria-label="Footer">
