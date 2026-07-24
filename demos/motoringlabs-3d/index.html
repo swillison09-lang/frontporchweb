@@ -3,6 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Motoring Labs — Gate-to-Gate Condition Intelligence (redesign concept)</title>
+<script>
+  // support.js checks window.__resources before reaching for unpkg.com, so
+  // pinning these to local copies means React/ReactDOM never touch the
+  // network. Files are byte-identical to what support.js already trusts —
+  // verified against its own baked-in SRI hashes before vendoring them here.
+  // Keeps this demo inside the site's normal CSP with no exceptions needed.
+  window.__resources = {
+    "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "./vendor/react.production.min.js",
+    "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "./vendor/react-dom.production.min.js"
+  };
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -55,12 +68,12 @@
 <div id="ml-progress" style="position:fixed; top:0; left:0; right:0; height:2px; background:var(--color-accent); transform:scaleX(0); transform-origin:left; z-index:50;"></div>
 
 <nav id="ml-nav" style="position:fixed; top:0; left:0; right:0; z-index:40; display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-6); height:64px; border-bottom:2px solid var(--color-divider); background:transparent; transition:background .3s ease;">
-  <a href="#top" style="display:flex; align-items:center;"><img src="https://www.motoringlabs.com/assets/logo.png" alt="Motoring Labs" style="height:30px; width:auto; display:block;"></a>
+  <a href="#top" style="display:flex; align-items:center;"><img src="assets/logo.png" alt="Motoring Labs" style="height:30px; width:auto; display:block;"></a>
   <div style="display:flex; align-items:center; gap:32px; font-size:13px; letter-spacing:0.08em;">
     <a href="#platform">PLATFORM</a>
     <a href="#value">WHY MOTORING</a>
     <a href="#how">HOW IT WORKS</a>
-    <button class="btn btn-primary" onClick="{{ openModal }}">Contact us</button>
+    <button class="btn btn-primary" data-ml-open-modal>Contact us</button>
   </div>
 </nav>
 
@@ -73,7 +86,7 @@
       <h1 data-rv="100" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(52px, 7.6vw, 128px); line-height:0.96; letter-spacing:-0.02em; margin:0 0 32px; color:var(--color-text);">Every truck.<br>Every trailer.<br><span style="color:var(--color-accent);">Proof of condition</span> at the gate.</h1>
       <p data-rv="220" style="font-size:18px; line-height:1.55; max-width:560px; color:var(--color-neutral-800); margin:0 0 32px;">Computer vision at your facility gates creates a claims-grade condition record for every asset that enters or exits. No apps. No walk-arounds. No arguments.</p>
       <div data-rv="320" style="display:flex; gap:var(--space-3); margin-bottom:64px;">
-        <button class="btn btn-primary" onClick="{{ openModal }}">Contact us</button>
+        <button class="btn btn-primary" data-ml-open-modal>Contact us</button>
         <a href="#value" class="btn btn-secondary">See the business case</a>
       </div>
     </div>
@@ -217,7 +230,7 @@
     <div style="max-width:1100px;">
       <h2 data-rv="0" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(44px, 6.4vw, 108px); line-height:0.98; letter-spacing:-0.02em; color:var(--color-bg); margin:0 0 32px;">See your gate become an evidence layer.</h2>
       <p data-rv="100" style="font-size:17px; color:var(--color-accent-100); max-width:520px; margin:0 0 32px; line-height:1.6;">Tell us about your operation. We'll come back with what a deployment looks like at your gates.</p>
-      <button data-rv="180" onClick="{{ openModal }}" style="font-family:var(--font-body); font-size:15px; font-weight:600; text-align:left; padding:14px 48px 14px 20px; background:var(--color-bg); color:var(--color-text); border:none; cursor:pointer;" style-hover="background:#040a14;">Contact us →</button>
+      <button data-rv="180" data-ml-open-modal style="font-family:var(--font-body); font-size:15px; font-weight:600; text-align:left; padding:14px 48px 14px 20px; background:var(--color-bg); color:var(--color-text); border:none; cursor:pointer;">Contact us →</button>
     </div>
   </section>
 
@@ -238,7 +251,7 @@
       <div>
         <div style="font-size:12px; letter-spacing:0.18em; color:var(--color-neutral-700); margin-bottom:var(--space-3);">COMPANY</div>
         <div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
-          <a href="#contact" onClick="{{ openModal }}">Contact Us</a>
+          <a href="#contact" data-ml-open-modal>Contact Us</a>
           <a href="https://www.linkedin.com/company/67482886" target="_blank">LinkedIn</a>
           <a href="https://www.motoringlabs.com/assets/privacy.html" target="_blank">Privacy Policy</a>
           <a href="https://www.motoringlabs.com/assets/terms.html" target="_blank">Terms &amp; Conditions</a>
@@ -255,144 +268,197 @@
 </div>
 <div style="position:fixed; right:var(--space-6); bottom:var(--space-4); z-index:30; font-size:11px; letter-spacing:0.18em; color:var(--color-neutral-700); pointer-events:none;"><span id="ml-sec">001</span> / 006</div>
 
-<!-- MODAL -->
-<sc-if value="{{ modalForm }}" hint-placeholder-val="{{ false }}">
-  <div class="dialog-backdrop" onClick="{{ closeModal }}" style="position:fixed; inset:0; z-index:70; display:flex; align-items:center; justify-content:center;">
-    <div class="dialog" onClick="{{ stop }}" style="width:min(460px, calc(100vw - 48px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);">
+<!-- MODAL
+     Rewritten as plain hidden-by-default markup toggled by vanilla JS
+     (see the script before </body>) instead of the DC-runtime's templated
+     sc-if/onClick bindings, which require compiling the page's inline
+     <script data-dc-script> logic via new Function() at runtime - blocked
+     under a CSP without 'unsafe-eval', which this site's does not grant. -->
+<div id="ml-modal-form" style="display:none; position:fixed; inset:0; z-index:70; align-items:center; justify-content:center;" data-ml-modal-backdrop>
+  <div class="dialog" style="width:min(460px, calc(100vw - 48px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);" data-ml-modal-panel>
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:var(--space-4);">
         <h3 style="font-family:var(--font-heading); font-weight:800; font-size:28px; margin:0;">Let's talk.</h3>
-        <button onClick="{{ closeModal }}" style="background:none; border:none; font-size:22px; cursor:pointer; color:var(--color-text); line-height:1;">×</button>
+        <button data-ml-close-modal style="background:none; border:none; font-size:22px; cursor:pointer; color:var(--color-text); line-height:1;">×</button>
       </div>
       <p style="font-size:14px; color:var(--color-neutral-700); margin:0 0 var(--space-4);">Tell us about your operation. We respond within one business day.</p>
-      <form onSubmit="{{ submit }}" style="display:flex; flex-direction:column; gap:var(--space-3);">
+      <form id="ml-contact-form" style="display:flex; flex-direction:column; gap:var(--space-3);">
         <div class="field"><label>Name</label><input class="input" type="text" required></div>
         <div class="field"><label>Company</label><input class="input" type="text" required></div>
         <div class="field"><label>Work email</label><input class="input" type="email" required></div>
         <div class="field"><label>What are you dealing with?</label><textarea class="input" rows="3" style="resize:vertical; font-family:var(--font-body);"></textarea></div>
         <button class="btn btn-primary" type="submit" style="margin-top:var(--space-2);">Send</button>
       </form>
-    </div>
   </div>
-</sc-if>
-<sc-if value="{{ modalSent }}" hint-placeholder-val="{{ false }}">
-  <div class="dialog-backdrop" onClick="{{ closeModal }}" style="position:fixed; inset:0; z-index:70; display:flex; align-items:center; justify-content:center;">
-    <div class="dialog" onClick="{{ stop }}" style="width:min(460px, calc(100vw - 48px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);">
+</div>
+<div id="ml-modal-sent" style="display:none; position:fixed; inset:0; z-index:70; align-items:center; justify-content:center;" data-ml-modal-backdrop>
+  <div class="dialog" style="width:min(460px, calc(100vw - 48px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);" data-ml-modal-panel>
       <div style="width:44px; height:44px; background:var(--color-accent); color:var(--color-bg); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:var(--space-4);">✓</div>
       <h3 style="font-family:var(--font-heading); font-weight:800; font-size:28px; margin:0 0 var(--space-2);">Sent.</h3>
       <p style="font-size:14px; color:var(--color-neutral-700); margin:0 0 var(--space-4);">We will get back to you within one business day.</p>
-      <button class="btn btn-secondary" onClick="{{ closeModal }}">Close</button>
+      <button class="btn btn-secondary" data-ml-close-modal>Close</button>
     </div>
   </div>
-</sc-if>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;introSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.5,&quot;max&quot;:3,&quot;step&quot;:0.5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
-class Component extends DCLogic {
-  state = { modal: false, sent: false };
 
-  renderVals() {
-    return {
-      modalForm: this.state.modal && !this.state.sent,
-      modalSent: this.state.modal && this.state.sent,
-      openModal: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ modal: true, sent: false }); },
-      closeModal: () => this.setState({ modal: false, sent: false }),
-      submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
-      stop: (e) => e.stopPropagation(),
-    };
+<!-- Plain vanilla replacement for the page's interactivity (modal, loader,
+     scroll reveals, count-up, scramble text, scroll progress/nav/section
+     counter). Functionally identical to the original inline <script
+     data-dc-script> Component - ported method-for-method - but declared as
+     ordinary top-level functions instead of a class the DC-runtime compiles
+     via new Function() at runtime, which needs 'unsafe-eval' in the CSP.
+     This site's CSP doesn't grant that, so the eval'd version silently failed
+     (page rendered, but the loader never hid and nothing was interactive). -->
+<script>
+(function () {
+  // The DC-runtime replaces <x-dc> and everything inside it (the whole page
+  // body) with a freshly React-rendered tree once React finishes loading -
+  // asynchronously, at an unpredictable time relative to this script tag
+  // reaching the parser. Attaching listeners to specific nodes now would
+  // attach them to the original nodes React is about to discard. Delegating
+  // from `document` sidesteps that entirely: document itself is never
+  // replaced, and matching happens against whatever the click target is at
+  // the moment of the click, long after React has settled.
+  function openModal(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    var sent = document.getElementById('ml-modal-sent');
+    var form = document.getElementById('ml-modal-form');
+    if (sent) sent.style.display = 'none';
+    if (form) form.style.display = 'flex';
   }
-
-  componentDidMount() {
-    const showSpeed = this.props.introSpeed ?? 1;
-    // loader: hide on scene ready (min 1.2s), fallback 4s
-    const loader = document.getElementById('ml-loader');
-    const t0 = performance.now();
-    let hidden = false;
-    const hide = () => {
-      if (hidden || !loader) return; hidden = true;
-      const wait = Math.max(0, 1200 / showSpeed - (performance.now() - t0));
-      setTimeout(() => {
-        loader.style.opacity = '0'; loader.style.visibility = 'hidden';
-        this.startReveals();
-      }, wait);
-    };
-    window.addEventListener('ml:ready', hide, { once: true });
-    setTimeout(hide, 4000);
-
-    // prep reveal targets
-    this.rvEls = Array.from(document.querySelectorAll('[data-rv]'));
-    this.rvEls.forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(26px)';
-      el.style.transition = 'opacity .9s cubic-bezier(.2,.6,.2,1), transform .9s cubic-bezier(.2,.6,.2,1)';
-    });
-
-    // scroll progress + nav bg + section counter
-    const bar = document.getElementById('ml-progress');
-    const nav = document.getElementById('ml-nav');
-    const onScroll = () => {
-      const d = document.documentElement;
-      const p = window.scrollY / Math.max(1, d.scrollHeight - window.innerHeight);
-      if (bar) bar.style.transform = 'scaleX(' + p + ')';
-      if (nav) nav.style.background = window.scrollY > 40 ? 'var(--color-bg)' : 'transparent';
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    const secLabel = document.getElementById('ml-sec');
-    const secObs = new IntersectionObserver(es => {
-      es.forEach(en => { if (en.isIntersecting && secLabel) secLabel.textContent = en.target.dataset.sec; });
-    }, { threshold: 0.4 });
-    document.querySelectorAll('[data-sec]').forEach(s => secObs.observe(s));
+  function closeModal() {
+    var form = document.getElementById('ml-modal-form');
+    var sent = document.getElementById('ml-modal-sent');
+    if (form) form.style.display = 'none';
+    if (sent) sent.style.display = 'none';
   }
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-ml-open-modal]')) { openModal(e); return; }
+    if (e.target.closest('[data-ml-close-modal]')) { closeModal(); return; }
+    // Backdrop click closes; a click that lands inside the dialog panel
+    // itself must not also count as a backdrop click.
+    if (e.target.closest('[data-ml-modal-backdrop]') && !e.target.closest('[data-ml-modal-panel]')) {
+      closeModal();
+    }
+  });
+  document.addEventListener('submit', function (e) {
+    if (e.target && e.target.id === 'ml-contact-form') {
+      e.preventDefault();
+      // Demo only: shows the "Sent" confirmation but does not actually
+      // transmit anywhere - there is no backend wired up to receive it.
+      openModal(); // ensures form panel exists in a known state first
+      document.getElementById('ml-modal-form').style.display = 'none';
+      document.getElementById('ml-modal-sent').style.display = 'flex';
+    }
+  });
 
-  startReveals() {
-    const io = new IntersectionObserver(es => {
-      es.forEach(en => {
+  // Everything below needs real references to elements the DC-runtime
+  // renders (the loader, the 3D canvas HUD, the reveal targets) - wait for
+  // #dc-root to exist, which only appears once boot() has actually replaced
+  // <x-dc> with the rendered tree, rather than racing it.
+  function whenBooted(fn) {
+    if (document.getElementById('dc-root')) { fn(); return; }
+    var tries = 0;
+    (function poll() {
+      if (document.getElementById('dc-root') || ++tries > 600) { fn(); return; } // ~10s cap
+      requestAnimationFrame(poll);
+    })();
+  }
+  whenBooted(initReveal);
+
+  function initReveal() {
+  var introSpeed = 1;
+
+  // loader: hide on scene ready (min 1.2s), fallback 4s
+  var loader = document.getElementById('ml-loader');
+  var t0 = performance.now();
+  var hidden = false;
+  function hide() {
+    if (hidden || !loader) return; hidden = true;
+    var wait = Math.max(0, 1200 / introSpeed - (performance.now() - t0));
+    setTimeout(function () {
+      loader.style.opacity = '0'; loader.style.visibility = 'hidden';
+      startReveals();
+    }, wait);
+  }
+  window.addEventListener('ml:ready', hide, { once: true });
+  setTimeout(hide, 4000);
+
+  // prep reveal targets
+  var rvEls = Array.from(document.querySelectorAll('[data-rv]'));
+  rvEls.forEach(function (el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(26px)';
+    el.style.transition = 'opacity .9s cubic-bezier(.2,.6,.2,1), transform .9s cubic-bezier(.2,.6,.2,1)';
+  });
+
+  // scroll progress + nav bg + section counter
+  var bar = document.getElementById('ml-progress');
+  var nav = document.getElementById('ml-nav');
+  function onScroll() {
+    var d = document.documentElement;
+    var p = window.scrollY / Math.max(1, d.scrollHeight - window.innerHeight);
+    if (bar) bar.style.transform = 'scaleX(' + p + ')';
+    if (nav) nav.style.background = window.scrollY > 40 ? 'var(--color-bg)' : 'transparent';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var secLabel = document.getElementById('ml-sec');
+  var secObs = new IntersectionObserver(function (es) {
+    es.forEach(function (en) { if (en.isIntersecting && secLabel) secLabel.textContent = en.target.dataset.sec; });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('[data-sec]').forEach(function (s) { secObs.observe(s); });
+
+  function startReveals() {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
         if (!en.isIntersecting) return;
-        const el = en.target;
+        var el = en.target;
         el.style.transitionDelay = (el.dataset.rv || 0) + 'ms';
         el.style.opacity = '1';
         el.style.transform = 'translateY(0)';
         io.unobserve(el);
-        el.querySelectorAll('[data-count]').forEach(c => this.countUp(c));
-        if (el.dataset.count !== undefined) this.countUp(el);
-        if (el.dataset.scramble !== undefined) this.scramble(el);
+        el.querySelectorAll('[data-count]').forEach(function (c) { countUp(c); });
+        if (el.dataset.count !== undefined) countUp(el);
+        if (el.dataset.scramble !== undefined) scramble(el);
       });
     }, { threshold: 0.2 });
-    this.rvEls.forEach(el => io.observe(el));
+    rvEls.forEach(function (el) { io.observe(el); });
   }
 
-  countUp(el) {
+  function countUp(el) {
     if (el.dataset.done) return; el.dataset.done = '1';
-    const target = parseFloat(el.dataset.count);
-    const dec = parseInt(el.dataset.dec || '0', 10);
-    const pre = el.dataset.pre || '', suf = el.dataset.suf || '';
-    const dur = 1400, s = performance.now();
-    const tick = (now) => {
-      const k = Math.min(1, (now - s) / dur);
-      const e = 1 - Math.pow(1 - k, 3);
+    var target = parseFloat(el.dataset.count);
+    var dec = parseInt(el.dataset.dec || '0', 10);
+    var pre = el.dataset.pre || '', suf = el.dataset.suf || '';
+    var dur = 1400, s = performance.now();
+    function tick(now) {
+      var k = Math.min(1, (now - s) / dur);
+      var e = 1 - Math.pow(1 - k, 3);
       el.textContent = pre + (target * e).toFixed(dec) + suf;
       if (k < 1) requestAnimationFrame(tick);
-    };
+    }
     requestAnimationFrame(tick);
   }
 
-  scramble(el) {
-    const finalText = el.textContent;
-    const chars = 'ABCDEFGHKMNPRSTX0123456789—';
-    const dur = 900, s = performance.now();
-    const tick = (now) => {
-      const k = Math.min(1, (now - s) / dur);
-      const solid = Math.floor(finalText.length * k);
-      let out = finalText.slice(0, solid);
-      for (let i = solid; i < finalText.length; i++) {
+  function scramble(el) {
+    var finalText = el.textContent;
+    var chars = 'ABCDEFGHKMNPRSTX0123456789—';
+    var dur = 900, s = performance.now();
+    function tick(now) {
+      var k = Math.min(1, (now - s) / dur);
+      var solid = Math.floor(finalText.length * k);
+      var out = finalText.slice(0, solid);
+      for (var i = solid; i < finalText.length; i++) {
         out += finalText[i] === ' ' ? ' ' : chars[(Math.random() * chars.length) | 0];
       }
       el.textContent = out;
       if (k < 1) requestAnimationFrame(tick); else el.textContent = finalText;
-    };
+    }
     requestAnimationFrame(tick);
   }
-}
+  } // end initReveal
+})();
 </script>
 </body>
 </html>

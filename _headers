@@ -11,13 +11,3 @@
 
 /setup.html
   X-Robots-Tag: noindex, nofollow
-
-# Demo only - a redesign concept built for a real company (not a Front Porch
-# Web client), sent privately rather than advertised. Needs its own CSP
-# because its runtime loads React from unpkg.com at runtime (exact version
-# pinned with SRI hashes baked into support.js) instead of bundling it, and
-# its nav hotlinks the real motoringlabs.com site's logo. Scoped to this path
-# only so the rest of the site's stricter CSP is untouched.
-/demos/motoringlabs-3d/*
-  X-Robots-Tag: noindex, nofollow
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://www.motoringlabs.com; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'
