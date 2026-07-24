@@ -352,31 +352,53 @@
   });
 
   // Everything below needs real references to elements the DC-runtime
-  // renders (the loader, the 3D canvas HUD, the reveal targets) - wait for
-  // #dc-root to exist, which only appears once boot() has actually replaced
-  // <x-dc> with the rendered tree, rather than racing it.
-  function whenBooted(fn) {
-    if (document.getElementById('dc-root')) { fn(); return; }
-    var tries = 0;
-    (function poll() {
-      if (document.getElementById('dc-root') || ++tries > 600) { fn(); return; } // ~10s cap
-      requestAnimationFrame(poll);
-    })();
+  // renders. Two hazards, confirmed by instrumenting a real run before
+  // writing this version:
+  //   1. #dc-root is created synchronously by boot() BEFORE
+  //      ReactDOM.createRoot(...).render(...) actually paints into it, so
+  //      polling for its mere existence can fire while it's still empty.
+  //   2. Even once content exists, the runtime commits a SECOND render
+  //      shortly after the first (observed ~4s in) that discards and
+  //      recreates the whole subtree - any DOM reference captured earlier,
+  //      including the one from bullet 1's fix, goes stale silently (no
+  //      error - the mutation just lands on an orphaned node nobody sees).
+  // The robust fix for both: never cache a node across time. Wait for the
+  // DOM to stop mutating (a MutationObserver quiet period) before doing
+  // anything, and re-query fresh at the exact moment each element is
+  // actually touched, everywhere below - not just once at setup.
+  function whenSettled(fn) {
+    var root = document.body;
+    var quiet = null;
+    var cap = setTimeout(finish, 10000); // absolute worst-case fallback
+    var mo = new MutationObserver(function () {
+      clearTimeout(quiet);
+      quiet = setTimeout(finish, 250);
+    });
+    mo.observe(root, { childList: true, subtree: true });
+    quiet = setTimeout(finish, 250);
+    var done = false;
+    function finish() {
+      if (done) return; done = true;
+      clearTimeout(cap); clearTimeout(quiet); mo.disconnect();
+      fn();
+    }
   }
-  whenBooted(initReveal);
+  whenSettled(initReveal);
 
   function initReveal() {
   var introSpeed = 1;
 
-  // loader: hide on scene ready (min 1.2s), fallback 4s
-  var loader = document.getElementById('ml-loader');
+  // loader: hide on scene ready (min 1.2s), fallback 4s. Re-fetches the
+  // element by id right before mutating it rather than trusting a
+  // reference captured at setup time - see the note above whenSettled.
   var t0 = performance.now();
   var hidden = false;
   function hide() {
-    if (hidden || !loader) return; hidden = true;
+    if (hidden) return; hidden = true;
     var wait = Math.max(0, 1200 / introSpeed - (performance.now() - t0));
     setTimeout(function () {
-      loader.style.opacity = '0'; loader.style.visibility = 'hidden';
+      var loader = document.getElementById('ml-loader');
+      if (loader) { loader.style.opacity = '0'; loader.style.visibility = 'hidden'; }
       startReveals();
     }, wait);
   }
@@ -384,28 +406,31 @@
   setTimeout(hide, 4000);
 
   // prep reveal targets
-  var rvEls = Array.from(document.querySelectorAll('[data-rv]'));
-  rvEls.forEach(function (el) {
+  document.querySelectorAll('[data-rv]').forEach(function (el) {
     el.style.opacity = '0';
     el.style.transform = 'translateY(26px)';
     el.style.transition = 'opacity .9s cubic-bezier(.2,.6,.2,1), transform .9s cubic-bezier(.2,.6,.2,1)';
   });
 
-  // scroll progress + nav bg + section counter
-  var bar = document.getElementById('ml-progress');
-  var nav = document.getElementById('ml-nav');
+  // scroll progress + nav bg + section counter - queried fresh on every
+  // scroll tick rather than cached, for the same reason.
   function onScroll() {
     var d = document.documentElement;
     var p = window.scrollY / Math.max(1, d.scrollHeight - window.innerHeight);
+    var bar = document.getElementById('ml-progress');
+    var nav = document.getElementById('ml-nav');
     if (bar) bar.style.transform = 'scaleX(' + p + ')';
     if (nav) nav.style.background = window.scrollY > 40 ? 'var(--color-bg)' : 'transparent';
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  var secLabel = document.getElementById('ml-sec');
   var secObs = new IntersectionObserver(function (es) {
-    es.forEach(function (en) { if (en.isIntersecting && secLabel) secLabel.textContent = en.target.dataset.sec; });
+    es.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var secLabel = document.getElementById('ml-sec');
+      if (secLabel) secLabel.textContent = en.target.dataset.sec;
+    });
   }, { threshold: 0.4 });
   document.querySelectorAll('[data-sec]').forEach(function (s) { secObs.observe(s); });
 
@@ -423,7 +448,7 @@
         if (el.dataset.scramble !== undefined) scramble(el);
       });
     }, { threshold: 0.2 });
-    rvEls.forEach(function (el) { io.observe(el); });
+    document.querySelectorAll('[data-rv]').forEach(function (el) { io.observe(el); });
   }
 
   function countUp(el) {
