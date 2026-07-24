@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/modernist-e829dc26-f183-4c99-a24b-3c3c5190be6f/styles.css">
+  <script src="_ds/modernist-e829dc26-f183-4c99-a24b-3c3c5190be6f/_ds_bundle.js"></script>
+  <script type="module" src="scene.js"></script>
+  <style>
+    :root {
+      --color-bg: #071125;
+      --color-text: #eaf2fc;
+      --color-accent: #3aa0ff;
+      --color-accent-100: #0b1a33;
+      --color-accent-200: #122a44;
+      --color-accent-300: #1d3a5c;
+      --color-accent-600: #6fd2ff;
+      --color-accent-700: #6fd2ff;
+      --color-accent-800: #a5e2ff;
+      --color-accent-900: #d1f0ff;
+      --color-neutral-100: #0b1a33;
+      --color-neutral-200: rgba(94,168,255,0.16);
+      --color-neutral-300: #122a44;
+      --color-neutral-700: #9db2cc;
+      --color-neutral-800: #c6d6ea;
+      --color-neutral-900: #eaf2fc;
+      --color-divider: rgba(94,168,255,0.32);
+    }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; overflow-x: hidden; background: var(--color-bg); }
+    a { color: var(--color-text); text-decoration: none; }
+    a:hover { color: var(--color-accent-600); }
+    @keyframes ml-bar { 0% { transform: scaleX(0); } 60% { transform: scaleX(0.7); } 100% { transform: scaleX(1); } }
+    @keyframes ml-blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.15; } }
+  </style>
+</helmet>
+
+<div id="ml-loader" style="position:fixed; inset:0; z-index:60; background:var(--color-bg); display:flex; flex-direction:column; justify-content:space-between; padding:var(--space-6); transition:opacity .7s ease, visibility .7s;">
+  <div style="font-family:var(--font-heading); font-weight:700; letter-spacing:0.14em; font-size:13px; color:var(--color-text);">MOTORING LABS</div>
+  <div>
+    <div style="font-family:var(--font-body); font-size:12px; letter-spacing:0.18em; color:var(--color-neutral-700); margin-bottom:12px;">INITIALIZING EVIDENCE LAYER</div>
+    <div style="height:2px; background:var(--color-neutral-200); overflow:hidden;">
+      <div style="height:2px; background:var(--color-accent); transform-origin:left; animation:ml-bar 1.6s cubic-bezier(.2,.6,.2,1) forwards;"></div>
+    </div>
+  </div>
+</div>
+
+<canvas id="ml-gl" style="position:fixed; inset:0; width:100vw; height:100vh; pointer-events:none; z-index:0;"></canvas>
+
+<div id="ml-progress" style="position:fixed; top:0; left:0; right:0; height:2px; background:var(--color-accent); transform:scaleX(0); transform-origin:left; z-index:50;"></div>
+
+<nav id="ml-nav" style="position:fixed; top:0; left:0; right:0; z-index:40; display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-6); height:64px; border-bottom:2px solid var(--color-divider); background:transparent; transition:background .3s ease;">
+  <a href="#top" style="display:flex; align-items:center;"><img src="https://www.motoringlabs.com/assets/logo.png" alt="Motoring Labs" style="height:30px; width:auto; display:block;"></a>
+  <div style="display:flex; align-items:center; gap:32px; font-size:13px; letter-spacing:0.08em;">
+    <a href="#platform">PLATFORM</a>
+    <a href="#value">WHY MOTORING</a>
+    <a href="#how">HOW IT WORKS</a>
+    <button class="btn btn-primary" onClick="{{ openModal }}">Contact us</button>
+  </div>
+</nav>
+
+<main id="top" style="position:relative; z-index:1;">
+
+  <!-- HERO -->
+  <section data-sec="001" style="min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; padding:120px var(--space-6) 0;">
+    <div style="max-width:1080px;">
+      <div data-rv="0" data-scramble style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); margin-bottom:var(--space-4); font-weight:600;">MOTORING LOGISIGHT — GATE-TO-GATE CONDITION INTELLIGENCE</div>
+      <h1 data-rv="100" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(52px, 7.6vw, 128px); line-height:0.96; letter-spacing:-0.02em; margin:0 0 32px; color:var(--color-text);">Every truck.<br>Every trailer.<br><span style="color:var(--color-accent);">Proof of condition</span> at the gate.</h1>
+      <p data-rv="220" style="font-size:18px; line-height:1.55; max-width:560px; color:var(--color-neutral-800); margin:0 0 32px;">Computer vision at your facility gates creates a claims-grade condition record for every asset that enters or exits. No apps. No walk-arounds. No arguments.</p>
+      <div data-rv="320" style="display:flex; gap:var(--space-3); margin-bottom:64px;">
+        <button class="btn btn-primary" onClick="{{ openModal }}">Contact us</button>
+        <a href="#value" class="btn btn-secondary">See the business case</a>
+      </div>
+    </div>
+    <div data-rv="400" style="display:grid; grid-template-columns:repeat(3, 1fr); border-top:2px solid var(--color-divider); padding:32px 0 var(--space-6);">
+      <div style="padding-right:32px;">
+        <div style="font-family:var(--font-heading); font-weight:800; font-size:44px; color:var(--color-text);"><span data-count="120" data-suf="+">0+</span></div>
+        <div style="font-size:13px; color:var(--color-neutral-700); line-height:1.5;">structured data points captured per scan, plus AI damage detection</div>
+      </div>
+      <div style="padding:0 32px; border-left:2px solid var(--color-divider);">
+        <div style="font-family:var(--font-heading); font-weight:800; font-size:44px; color:var(--color-text);">All sides + roof</div>
+        <div style="font-size:13px; color:var(--color-neutral-700); line-height:1.5;">scanned at normal gate speed, on every arrival and departure</div>
+      </div>
+      <div style="padding-left:32px; border-left:2px solid var(--color-divider);">
+        <div style="font-family:var(--font-heading); font-weight:800; font-size:44px; color:var(--color-text);">Seconds</div>
+        <div style="font-size:13px; color:var(--color-neutral-700); line-height:1.5;">from gate pass to time-stamped record in your TMS or YMS</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVIDENCE -->
+  <section id="platform" data-sec="002" style="min-height:130vh; display:flex; align-items:center; padding:var(--space-8) var(--space-6);">
+    <div style="max-width:620px;">
+      <div data-rv="0" style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); font-weight:600; margin-bottom:var(--space-4);">THE EVIDENCE LAYER</div>
+      <h2 data-rv="80" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(40px, 4.6vw, 76px); line-height:1; letter-spacing:-0.02em; margin:0 0 32px;">Not cameras.<br>Evidence.</h2>
+      <p data-rv="160" style="font-size:17px; line-height:1.6; color:var(--color-neutral-800); margin:0 0 var(--space-4);">Cameras record footage nobody reviews. Drivers do walk-arounds nobody trusts. When damage shows up, everyone points at everyone else and your company eats the claim.</p>
+      <p data-rv="220" style="font-size:17px; line-height:1.6; color:var(--color-neutral-800); margin:0 0 var(--space-6);">Motoring Logisight is different. Drive-through gate scanning documents the condition of every asset at every custody handoff. <strong>Objective. Time-stamped. Independently verifiable.</strong> The record exists before the dispute does.</p>
+      <div data-rv="300" style="display:grid; grid-template-columns:1fr 1fr; border-top:2px solid var(--color-divider); border-left:2px solid var(--color-divider);">
+        <div style="padding:var(--space-4); border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-weight:700; margin-bottom:6px;">Carriers &amp; Fleets</div>
+          <div style="font-size:13px; color:var(--color-neutral-700); line-height:1.5;">Stop absorbing damage claims you can't disprove.</div>
+        </div>
+        <div style="padding:var(--space-4); border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-weight:700; margin-bottom:6px;">Warehouses &amp; DCs</div>
+          <div style="font-size:13px; color:var(--color-neutral-700); line-height:1.5;">Prove condition at your dock, in and out.</div>
+        </div>
+        <div style="padding:var(--space-4); border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-weight:700; margin-bottom:6px;">Rental &amp; Leasing</div>
+          <div style="font-size:13px; color:var(--color-neutral-700); line-height:1.5;">Document every pickup and return automatically.</div>
+        </div>
+        <div style="padding:var(--space-4); border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-weight:700; margin-bottom:6px;">Private Fleets</div>
+          <div style="font-size:13px; color:var(--color-neutral-700); line-height:1.5;">Condition intelligence for manufacturers and retailers.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="value" data-sec="003" style="min-height:160vh; padding:var(--space-8) var(--space-6); display:flex; flex-direction:column; justify-content:center;">
+    <div style="max-width:1200px; margin-left:auto; width:min(720px, 100%);">
+      <div data-rv="0" style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); font-weight:600; margin-bottom:var(--space-4);">WHY MOTORING</div>
+      <h2 data-rv="80" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(36px, 4vw, 64px); line-height:1.02; letter-spacing:-0.02em; margin:0 0 var(--space-3);">Three problems.<br>One record fixes all of them.</h2>
+      <p data-rv="140" style="font-size:16px; color:var(--color-neutral-700); margin:0 0 var(--space-6); max-width:520px;">These are the numbers your CFO already knows. This is what a verified condition record does to them.</p>
+
+      <div data-rv="0" style="border-top:2px solid var(--color-divider); padding:32px 0; display:grid; grid-template-columns:64px 1fr; gap:var(--space-4);">
+        <div style="font-family:var(--font-heading); font-weight:800; font-size:20px; color:var(--color-accent);">01</div>
+        <div>
+          <h3 style="font-family:var(--font-heading); font-weight:800; font-size:26px; margin:0 0 var(--space-2);">Win damage disputes before they start.</h3>
+          <p style="font-size:15px; line-height:1.6; color:var(--color-neutral-800); margin:0 0 var(--space-3); max-width:560px;">Most claims get paid because nobody can prove where the damage happened. Logisight documents condition at every entry and exit — disputes resolve in minutes, not weeks. You only pay for damage that happened on your watch.</p>
+          <div style="font-family:var(--font-heading); font-weight:800; font-size:52px; color:var(--color-accent);"><span data-count="1.8" data-dec="1" data-pre="$" data-suf="B">$0B</span></div>
+          <div style="font-size:12px; letter-spacing:0.06em; color:var(--color-neutral-700);">paid every year by carriers for damage claims they cannot disprove (FreightWaves)</div>
+        </div>
+      </div>
+
+      <div data-rv="0" style="border-top:2px solid var(--color-divider); padding:32px 0; display:grid; grid-template-columns:64px 1fr; gap:var(--space-4);">
+        <div style="font-family:var(--font-heading); font-weight:800; font-size:20px; color:var(--color-accent);">02</div>
+        <div>
+          <h3 style="font-family:var(--font-heading); font-weight:800; font-size:26px; margin:0 0 var(--space-2);">Turn detention into billable fact.</h3>
+          <p style="font-size:15px; line-height:1.6; color:var(--color-neutral-800); margin:0 0 var(--space-3); max-width:560px;">Detention invoices get disputed because arrival and departure times are your word against theirs. Gate scans time-stamp every arrival and departure — detention becomes a line item with evidence attached.</p>
+          <div style="font-family:var(--font-heading); font-weight:800; font-size:52px; color:var(--color-accent);"><span data-count="15" data-pre="$" data-suf="B">$0B</span></div>
+          <div style="font-size:12px; letter-spacing:0.06em; color:var(--color-neutral-700);">lost by carriers annually to uncompensated detention time (ATRI)</div>
+        </div>
+      </div>
+
+      <div data-rv="0" style="border-top:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); padding:32px 0; display:grid; grid-template-columns:64px 1fr; gap:var(--space-4);">
+        <div style="font-family:var(--font-heading); font-weight:800; font-size:20px; color:var(--color-accent);">03</div>
+        <div>
+          <h3 style="font-family:var(--font-heading); font-weight:800; font-size:26px; margin:0 0 var(--space-2);">Give your insurer proof, not promises.</h3>
+          <p style="font-size:15px; line-height:1.6; color:var(--color-neutral-800); margin:0 0 var(--space-3); max-width:560px;">Physical damage premiums rose 18% this year. Documented pre-existing damage means fewer disputes, fewer claims on your record, and renewals negotiated from strength.</p>
+          <div style="font-family:var(--font-heading); font-weight:800; font-size:52px; color:var(--color-accent);"><span data-count="47" data-pre="+" data-suf="%">+0%</span></div>
+          <div style="font-size:12px; letter-spacing:0.06em; color:var(--color-neutral-700);">increase in insurance premiums per mile since 2010, and still climbing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how" data-sec="004" style="min-height:130vh; display:flex; flex-direction:column; justify-content:center; padding:var(--space-8) var(--space-6);">
+    <div style="max-width:1200px;">
+      <div data-rv="0" style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); font-weight:600; margin-bottom:var(--space-4);">HOW IT WORKS</div>
+      <h2 data-rv="80" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(40px, 5vw, 84px); line-height:1; letter-spacing:-0.02em; margin:0 0 var(--space-3);">Drive through.<br>That's the whole workflow.</h2>
+      <p data-rv="140" style="font-size:16px; color:var(--color-neutral-700); margin:0 0 var(--space-6);">No driver apps. No stopping. No behavior change at the gate.</p>
+      <div data-rv="200" style="display:grid; grid-template-columns:repeat(3, 1fr); border-top:2px solid var(--color-divider); border-left:2px solid var(--color-divider); max-width:1080px;">
+        <div style="padding:32px; border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-size:12px; letter-spacing:0.18em; color:var(--color-accent); font-weight:700; margin-bottom:var(--space-3);">01 — SCAN</div>
+          <h3 style="font-family:var(--font-heading); font-weight:800; font-size:22px; margin:0 0 var(--space-2);">Every arrival. Every departure.</h3>
+          <p style="font-size:14px; line-height:1.6; color:var(--color-neutral-800); margin:0;">Drive-through gate cameras capture all sides and the roof of every truck and trailer at normal gate speed. Nothing is missed and nobody slows down.</p>
+        </div>
+        <div style="padding:32px; border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-size:12px; letter-spacing:0.18em; color:var(--color-accent); font-weight:700; margin-bottom:var(--space-3);">02 — DETECT</div>
+          <h3 style="font-family:var(--font-heading); font-weight:800; font-size:22px; margin:0 0 var(--space-2);">AI trained on real fleets.</h3>
+          <p style="font-size:14px; line-height:1.6; color:var(--color-neutral-800); margin:0;">Proprietary damage detection models built for commercial vehicles flag new damage, changes in condition, and 120+ structured data points in real time at the edge.</p>
+        </div>
+        <div style="padding:32px; border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-size:12px; letter-spacing:0.18em; color:var(--color-accent); font-weight:700; margin-bottom:var(--space-3);">03 — SYNC</div>
+          <h3 style="font-family:var(--font-heading); font-weight:800; font-size:22px; margin:0 0 var(--space-2);">Straight into your systems.</h3>
+          <p style="font-size:14px; line-height:1.6; color:var(--color-neutral-800); margin:0;">Standards-based REST APIs push verified, time-stamped condition records into any TMS or YMS. Your team works where they already work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTERPRISE -->
+  <section data-sec="005" style="min-height:110vh; display:flex; align-items:center; padding:var(--space-8) var(--space-6);">
+    <div style="max-width:1080px; margin-left:auto; width:min(760px,100%);">
+      <div data-rv="0" style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); font-weight:600; margin-bottom:var(--space-4);">ENTERPRISE READY</div>
+      <h2 data-rv="80" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(36px, 4vw, 64px); line-height:1.02; letter-spacing:-0.02em; margin:0 0 var(--space-6);">Built for fleet-scale operations.</h2>
+      <div data-rv="160" style="display:grid; grid-template-columns:1fr 1fr; border-top:2px solid var(--color-divider); border-left:2px solid var(--color-divider);">
+        <div style="padding:32px; border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-weight:700; margin-bottom:var(--space-2);">Purpose-built detection models</div>
+          <div style="font-size:14px; color:var(--color-neutral-800); line-height:1.6;">Trained on commercial vehicle fleets, not consumer cars. Trucks, trailers, and the damage patterns that actually show up in claims.</div>
+        </div>
+        <div style="padding:32px; border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-weight:700; margin-bottom:var(--space-2);">Open integration</div>
+          <div style="font-size:14px; color:var(--color-neutral-800); line-height:1.6;">Standards-based REST APIs connect to any TMS, YMS, or claims system. No rip-and-replace, no proprietary lock-in.</div>
+        </div>
+        <div style="padding:32px; border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-weight:700; margin-bottom:var(--space-2);">Edge processing, cloud sync</div>
+          <div style="font-size:14px; color:var(--color-neutral-800); line-height:1.6;">Real-time processing at the gate with secure cloud synchronization. Records are available the moment the asset clears the scanner.</div>
+        </div>
+        <div style="padding:32px; border-right:2px solid var(--color-divider); border-bottom:2px solid var(--color-divider); background:var(--color-bg);">
+          <div style="font-weight:700; margin-bottom:var(--space-2);">Financing available</div>
+          <div style="font-size:14px; color:var(--color-neutral-800); line-height:1.6;">Hardware converts to a predictable monthly operating line through our equipment financing partner. No capex fight required.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA POSTER -->
+  <section id="contact" data-sec="006" style="background:var(--color-accent); padding:96px var(--space-6); position:relative;">
+    <div style="max-width:1100px;">
+      <h2 data-rv="0" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(44px, 6.4vw, 108px); line-height:0.98; letter-spacing:-0.02em; color:var(--color-bg); margin:0 0 32px;">See your gate become an evidence layer.</h2>
+      <p data-rv="100" style="font-size:17px; color:var(--color-accent-100); max-width:520px; margin:0 0 32px; line-height:1.6;">Tell us about your operation. We'll come back with what a deployment looks like at your gates.</p>
+      <button data-rv="180" onClick="{{ openModal }}" style="font-family:var(--font-body); font-size:15px; font-weight:600; text-align:left; padding:14px 48px 14px 20px; background:var(--color-bg); color:var(--color-text); border:none; cursor:pointer;" style-hover="background:#040a14;">Contact us →</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="border-top:2px solid var(--color-divider); padding:var(--space-6); background:var(--color-bg); position:relative; z-index:1;">
+    <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:var(--space-6); max-width:1200px;">
+      <div>
+        <div style="font-family:var(--font-heading); font-weight:700; letter-spacing:0.14em; font-size:14px; margin-bottom:var(--space-3);">MOTORING LABS</div>
+        <div style="font-size:13px; color:var(--color-neutral-700); max-width:280px; line-height:1.6;">Verified equipment condition intelligence for enterprise fleet operations.</div>
+      </div>
+      <div>
+        <div style="font-size:12px; letter-spacing:0.18em; color:var(--color-neutral-700); margin-bottom:var(--space-3);">CONTACT</div>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+          <a href="tel:8009981395">800-998-1395</a>
+          <div style="color:var(--color-neutral-800);">8001 S. Meridian St.<br>Indianapolis, IN 46217</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; letter-spacing:0.18em; color:var(--color-neutral-700); margin-bottom:var(--space-3);">COMPANY</div>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+          <a href="#contact" onClick="{{ openModal }}">Contact Us</a>
+          <a href="https://www.linkedin.com/company/67482886" target="_blank">LinkedIn</a>
+          <a href="https://www.motoringlabs.com/assets/privacy.html" target="_blank">Privacy Policy</a>
+          <a href="https://www.motoringlabs.com/assets/terms.html" target="_blank">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:2px solid var(--color-divider); margin-top:var(--space-6); padding-top:var(--space-4); font-size:12px; color:var(--color-neutral-700); letter-spacing:0.04em;">© 2026 Motoring Labs. All rights reserved. Motoring Logisight™ — Gate-to-Gate Condition Intelligence</div>
+  </footer>
+</main>
+
+<!-- HUD -->
+<div style="position:fixed; left:var(--space-6); bottom:var(--space-4); z-index:30; font-size:11px; letter-spacing:0.18em; color:var(--color-neutral-700); pointer-events:none;">
+  <span style="display:inline-block; width:8px; height:8px; background:var(--color-accent); margin-right:8px; animation:ml-blink 1.6s steps(1) infinite;"></span>GATE 04 — LIVE
+</div>
+<div style="position:fixed; right:var(--space-6); bottom:var(--space-4); z-index:30; font-size:11px; letter-spacing:0.18em; color:var(--color-neutral-700); pointer-events:none;"><span id="ml-sec">001</span> / 006</div>
+
+<!-- MODAL -->
+<sc-if value="{{ modalForm }}" hint-placeholder-val="{{ false }}">
+  <div class="dialog-backdrop" onClick="{{ closeModal }}" style="position:fixed; inset:0; z-index:70; display:flex; align-items:center; justify-content:center;">
+    <div class="dialog" onClick="{{ stop }}" style="width:min(460px, calc(100vw - 48px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:var(--space-4);">
+        <h3 style="font-family:var(--font-heading); font-weight:800; font-size:28px; margin:0;">Let's talk.</h3>
+        <button onClick="{{ closeModal }}" style="background:none; border:none; font-size:22px; cursor:pointer; color:var(--color-text); line-height:1;">×</button>
+      </div>
+      <p style="font-size:14px; color:var(--color-neutral-700); margin:0 0 var(--space-4);">Tell us about your operation. We respond within one business day.</p>
+      <form onSubmit="{{ submit }}" style="display:flex; flex-direction:column; gap:var(--space-3);">
+        <div class="field"><label>Name</label><input class="input" type="text" required></div>
+        <div class="field"><label>Company</label><input class="input" type="text" required></div>
+        <div class="field"><label>Work email</label><input class="input" type="email" required></div>
+        <div class="field"><label>What are you dealing with?</label><textarea class="input" rows="3" style="resize:vertical; font-family:var(--font-body);"></textarea></div>
+        <button class="btn btn-primary" type="submit" style="margin-top:var(--space-2);">Send</button>
+      </form>
+    </div>
+  </div>
+</sc-if>
+<sc-if value="{{ modalSent }}" hint-placeholder-val="{{ false }}">
+  <div class="dialog-backdrop" onClick="{{ closeModal }}" style="position:fixed; inset:0; z-index:70; display:flex; align-items:center; justify-content:center;">
+    <div class="dialog" onClick="{{ stop }}" style="width:min(460px, calc(100vw - 48px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);">
+      <div style="width:44px; height:44px; background:var(--color-accent); color:var(--color-bg); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:var(--space-4);">✓</div>
+      <h3 style="font-family:var(--font-heading); font-weight:800; font-size:28px; margin:0 0 var(--space-2);">Sent.</h3>
+      <p style="font-size:14px; color:var(--color-neutral-700); margin:0 0 var(--space-4);">We will get back to you within one business day.</p>
+      <button class="btn btn-secondary" onClick="{{ closeModal }}">Close</button>
+    </div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;introSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.5,&quot;max&quot;:3,&quot;step&quot;:0.5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+class Component extends DCLogic {
+  state = { modal: false, sent: false };
+
+  renderVals() {
+    return {
+      modalForm: this.state.modal && !this.state.sent,
+      modalSent: this.state.modal && this.state.sent,
+      openModal: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ modal: true, sent: false }); },
+      closeModal: () => this.setState({ modal: false, sent: false }),
+      submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+      stop: (e) => e.stopPropagation(),
+    };
+  }
+
+  componentDidMount() {
+    const showSpeed = this.props.introSpeed ?? 1;
+    // loader: hide on scene ready (min 1.2s), fallback 4s
+    const loader = document.getElementById('ml-loader');
+    const t0 = performance.now();
+    let hidden = false;
+    const hide = () => {
+      if (hidden || !loader) return; hidden = true;
+      const wait = Math.max(0, 1200 / showSpeed - (performance.now() - t0));
+      setTimeout(() => {
+        loader.style.opacity = '0'; loader.style.visibility = 'hidden';
+        this.startReveals();
+      }, wait);
+    };
+    window.addEventListener('ml:ready', hide, { once: true });
+    setTimeout(hide, 4000);
+
+    // prep reveal targets
+    this.rvEls = Array.from(document.querySelectorAll('[data-rv]'));
+    this.rvEls.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(26px)';
+      el.style.transition = 'opacity .9s cubic-bezier(.2,.6,.2,1), transform .9s cubic-bezier(.2,.6,.2,1)';
+    });
+
+    // scroll progress + nav bg + section counter
+    const bar = document.getElementById('ml-progress');
+    const nav = document.getElementById('ml-nav');
+    const onScroll = () => {
+      const d = document.documentElement;
+      const p = window.scrollY / Math.max(1, d.scrollHeight - window.innerHeight);
+      if (bar) bar.style.transform = 'scaleX(' + p + ')';
+      if (nav) nav.style.background = window.scrollY > 40 ? 'var(--color-bg)' : 'transparent';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const secLabel = document.getElementById('ml-sec');
+    const secObs = new IntersectionObserver(es => {
+      es.forEach(en => { if (en.isIntersecting && secLabel) secLabel.textContent = en.target.dataset.sec; });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-sec]').forEach(s => secObs.observe(s));
+  }
+
+  startReveals() {
+    const io = new IntersectionObserver(es => {
+      es.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        el.style.transitionDelay = (el.dataset.rv || 0) + 'ms';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        io.unobserve(el);
+        el.querySelectorAll('[data-count]').forEach(c => this.countUp(c));
+        if (el.dataset.count !== undefined) this.countUp(el);
+        if (el.dataset.scramble !== undefined) this.scramble(el);
+      });
+    }, { threshold: 0.2 });
+    this.rvEls.forEach(el => io.observe(el));
+  }
+
+  countUp(el) {
+    if (el.dataset.done) return; el.dataset.done = '1';
+    const target = parseFloat(el.dataset.count);
+    const dec = parseInt(el.dataset.dec || '0', 10);
+    const pre = el.dataset.pre || '', suf = el.dataset.suf || '';
+    const dur = 1400, s = performance.now();
+    const tick = (now) => {
+      const k = Math.min(1, (now - s) / dur);
+      const e = 1 - Math.pow(1 - k, 3);
+      el.textContent = pre + (target * e).toFixed(dec) + suf;
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  scramble(el) {
+    const finalText = el.textContent;
+    const chars = 'ABCDEFGHKMNPRSTX0123456789—';
+    const dur = 900, s = performance.now();
+    const tick = (now) => {
+      const k = Math.min(1, (now - s) / dur);
+      const solid = Math.floor(finalText.length * k);
+      let out = finalText.slice(0, solid);
+      for (let i = solid; i < finalText.length; i++) {
+        out += finalText[i] === ' ' ? ' ' : chars[(Math.random() * chars.length) | 0];
+      }
+      el.textContent = out;
+      if (k < 1) requestAnimationFrame(tick); else el.textContent = finalText;
+    };
+    requestAnimationFrame(tick);
+  }
+}
+</script>
+</body>
+</html>
