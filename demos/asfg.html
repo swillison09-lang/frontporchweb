@@ -249,6 +249,37 @@
   .concept-ribbon strong{color:var(--paper);font-weight:600}
   .concept-ribbon a{color:var(--brass);text-decoration:none;border-bottom:1px solid var(--line-ink)}
   .concept-ribbon a:hover{color:var(--paper)}
+
+  /* member bio: click affordance + modal */
+  .plate.clickable{cursor:pointer}
+  .plate .readbio{margin-top:16px;font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:inline-flex;align-items:center;gap:6px;transition:gap .2s ease;align-self:flex-start}
+  .plate .readbio::after{content:"\2192"}
+  .plate.founder .readbio{color:var(--brass-soft)}
+  .plate.clickable:hover .readbio{gap:11px;color:var(--brass)}
+  body.no-scroll{overflow:hidden}
+  .bio-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:flex-start;justify-content:center;padding:5vh 18px;background:rgba(8,13,20,.74);backdrop-filter:blur(6px);overflow-y:auto}
+  .bio-overlay.open{display:flex}
+  .bio-modal{background:var(--paper);color:var(--ink-text);max-width:760px;width:100%;border-radius:5px;box-shadow:0 30px 90px -20px rgba(0,0,0,.65);position:relative;overflow:hidden;animation:bioIn .32s cubic-bezier(.2,.7,.2,1)}
+  @keyframes bioIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.bio-modal{animation:none}}
+  .bio-close{position:absolute;top:14px;right:15px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-ink);background:rgba(0,0,0,.28);color:var(--paper);font-size:1.35rem;line-height:1;cursor:pointer;display:grid;place-items:center;z-index:3;transition:background .2s,color .2s}
+  .bio-close:hover{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+  .bio-head{display:flex;gap:22px;padding:30px 32px;background:var(--ink);align-items:center}
+  .bio-head img{width:104px;height:130px;object-fit:cover;object-position:50% 18%;border-radius:3px;border:1px solid var(--line-ink);flex:0 0 auto}
+  .bio-head .bh-name{font-family:var(--serif);font-weight:400;font-size:1.75rem;line-height:1.1;color:var(--paper);margin:0}
+  .bio-head .creds{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 8px}
+  .bio-head .cred{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;padding:3px 7px;border:1px solid var(--line-ink);border-radius:2px;color:var(--brass-soft)}
+  .bio-head .bh-firm{font-size:.92rem;color:#C7C1B4}
+  .bio-contact{display:flex;flex-wrap:wrap;gap:6px 22px;padding:14px 32px;background:var(--paper-2);border-bottom:1px solid var(--line-paper);font-family:var(--mono);font-size:.72rem;letter-spacing:.03em}
+  .bio-contact a,.bio-contact span{color:var(--brass-deep);text-decoration:none}
+  .bio-contact a:hover{color:var(--ink-text);text-decoration:underline}
+  .bio-body{padding:26px 32px 34px}
+  .bio-body p{margin:0 0 14px;font-size:1rem;line-height:1.72}
+  .bio-body p:last-child{margin-bottom:0}
+  .bio-body p.bio-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass-deep);margin:20px 0 8px}
+  .bio-body p.bio-item{margin:0 0 4px;padding-left:16px;position:relative;font-size:.96rem}
+  .bio-body p.bio-item::before{content:"\2013";position:absolute;left:0;color:var(--brass-deep)}
+  @media(max-width:560px){.bio-head{flex-direction:column;text-align:center;padding:26px 22px}.bio-head .creds{justify-content:center}.bio-body{padding:22px 22px 28px}.bio-contact{padding:14px 22px}}
 </style>
 </head>
 <body>
@@ -487,12 +518,78 @@
   </div>
 </footer>
 
+<div class="bio-overlay" id="bio-overlay" role="dialog" aria-modal="true" aria-label="Member biography">
+  <div class="bio-modal"></div>
+</div>
+
 <script>
   // scroll reveal
   const io = new IntersectionObserver((es)=>{
     es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
   },{threshold:.12});
   document.querySelectorAll('.reveal:not(.in)').forEach(n=>io.observe(n));
+</script>
+
+<script>
+  // member bio modal
+  (async function(){
+    let BIOS = null;
+    try { BIOS = await fetch('/demos/asfg-assets/asfg-bios.json').then(r=>r.ok?r.json():null); } catch(e){ BIOS = null; }
+    if(!BIOS) return; // no data -> plates remain static info cards
+    const overlay = document.getElementById('bio-overlay');
+    const modal = overlay.querySelector('.bio-modal');
+    let lastFocus = null;
+    const esc = s => { const d=document.createElement('div'); d.textContent=s==null?'':s; return d.innerHTML; };
+
+    function render(idx, plate){
+      const d = BIOS[idx]; if(!d) return;
+      const name = (plate.querySelector('.pname')||{}).textContent || '';
+      const creds = [...plate.querySelectorAll('.cred')].map(c=>c.outerHTML).join('');
+      const firm = (plate.querySelector('.firm')||{}).textContent || '';
+      const loc = (plate.querySelector('.loc')||{}).textContent || '';
+      const imgEl = plate.querySelector('.portrait img');
+      const img = imgEl ? imgEl.getAttribute('src') : '';
+      const c = [];
+      if(d.web){ const host = d.web.replace(/^https?:\/\//,'').replace(/\/$/,''); c.push('<a href="'+esc(d.web)+'" target="_blank" rel="noopener">'+esc(host)+'</a>'); }
+      if(d.email){ c.push('<a href="mailto:'+esc(d.email)+'">'+esc(d.email)+'</a>'); }
+      if(d.phone){ c.push('<span>'+esc(d.phone)+'</span>'); }
+      const body = (d.bio||[]).map(line=>{
+        if(/:$/.test(line)) return '<p class="bio-label">'+esc(line)+'</p>';
+        if(line.length < 70 && !/[.!?”"’]$/.test(line)) return '<p class="bio-item">'+esc(line)+'</p>';
+        return '<p>'+esc(line)+'</p>';
+      }).join('');
+      modal.innerHTML =
+        '<button class="bio-close" aria-label="Close biography">&times;</button>' +
+        '<div class="bio-head">' +
+          (img?'<img src="'+esc(img)+'" alt="'+esc(name)+'" />':'') +
+          '<div><h3 class="bh-name">'+esc(name)+'</h3>' +
+          (creds?'<div class="creds">'+creds+'</div>':'') +
+          '<div class="bh-firm">'+esc(firm)+(loc?' &middot; '+esc(loc):'')+'</div></div>' +
+        '</div>' +
+        (c.length?'<div class="bio-contact">'+c.join('')+'</div>':'') +
+        '<div class="bio-body">'+body+'</div>';
+      modal.querySelector('.bio-close').addEventListener('click', close);
+    }
+    function open(idx, plate){ lastFocus=document.activeElement; render(idx,plate); overlay.classList.add('open'); document.body.classList.add('no-scroll'); overlay.scrollTop=0; const cb=modal.querySelector('.bio-close'); if(cb) cb.focus(); }
+    function close(){ overlay.classList.remove('open'); document.body.classList.remove('no-scroll'); if(lastFocus && lastFocus.focus) lastFocus.focus(); }
+    overlay.addEventListener('click', e=>{ if(e.target===overlay) close(); });
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
+
+    document.querySelectorAll('#register-grid .plate').forEach(plate=>{
+      const idxEl = plate.querySelector('.idx'); if(!idxEl) return;
+      const idx = String(parseInt(idxEl.textContent,10));
+      if(!BIOS[idx]) return;
+      plate.classList.add('clickable');
+      plate.setAttribute('role','button');
+      plate.setAttribute('tabindex','0');
+      const nm = (plate.querySelector('.pname')||{}).textContent || 'member';
+      plate.setAttribute('aria-label','Read biography: '+nm);
+      const cue = document.createElement('div'); cue.className='readbio'; cue.textContent='Read bio';
+      plate.appendChild(cue);
+      plate.addEventListener('click', ()=>open(idx,plate));
+      plate.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(idx,plate); } });
+    });
+  })();
 </script>
 </body>
 </html>
