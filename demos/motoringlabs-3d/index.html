@@ -50,6 +50,50 @@
     a:hover { color: var(--color-accent-600); }
     @keyframes ml-bar { 0% { transform: scaleX(0); } 60% { transform: scaleX(0.7); } 100% { transform: scaleX(1); } }
     @keyframes ml-blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.15; } }
+
+    /* Mobile: the desktop layout below is all inline-styled multi-column
+       grids and a text-heavy nav sized for wide viewports. Nothing here
+       collapses on its own, so the worst offenders (nav links wrapping over
+       the logo, a 3-column stat strip whose middle cell wraps 4 lines deep,
+       three ~110px-wide "how it works" cards) get overridden with !important
+       since an inline style attribute otherwise wins over any stylesheet rule. */
+    @media (max-width: 860px) {
+      #ml-nav > div:last-child > a { display: none !important; }
+      #ml-nav > div:last-child { gap: 0 !important; }
+
+      section[data-sec="001"] > div[data-rv="400"] {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+      section[data-sec="001"] > div[data-rv="400"] > div {
+        padding: 24px 0 0 !important;
+        border-left: none !important;
+        border-top: 2px solid var(--color-divider);
+      }
+      section[data-sec="001"] > div[data-rv="400"] > div:first-child {
+        border-top: none !important;
+        padding-top: 0 !important;
+      }
+      section[data-sec="001"] > div[data-rv="400"] > div > div:first-child {
+        font-size: 32px !important;
+      }
+
+      section[data-sec="004"] div[data-rv="200"] {
+        grid-template-columns: 1fr !important;
+      }
+
+      footer > div:first-child {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      section[data-sec="002"] div[data-rv="300"],
+      section[data-sec="005"] div[data-rv="160"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
   </style>
 </helmet>
 
