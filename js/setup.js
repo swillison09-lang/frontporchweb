@@ -69,9 +69,9 @@ const SEED_BUSINESS_TYPES = [
       // Wording mirrors the published pricing (content.json / index.html) and
       // the checkout tiers in portal.js — scope is counted in sections, and
       // Premium stays generous but finite rather than "unlimited".
-      { id: 'professional-starter',  name: 'Starter',  price: '$700',   badge: null,            features: ['Up to 4 sections', 'Mobile-friendly', 'Contact form', '1 round of revisions'] },
-      { id: 'professional-standard', name: 'Standard', price: '$1,200', badge: 'Most Popular',  features: ['Up to 8 sections', 'Photo gallery', 'Basic SEO setup', '2 rounds of revisions'] },
-      { id: 'professional-premium',  name: 'Premium',  price: '$2,000', badge: null,            features: ['All the sections you need', 'Blog you update yourself', 'Online enquiry / booking', '3 rounds of revisions'] },
+      { id: 'professional-starter',  name: 'Starter',  price: '$250',   badge: null,            features: ['Up to 4 sections', 'Mobile-friendly', 'Contact form', '1 round of revisions'] },
+      { id: 'professional-standard', name: 'Standard', price: '$500',   badge: 'Most Popular',  features: ['Up to 8 sections', 'Photo gallery', 'Basic SEO setup', '2 rounds of revisions'] },
+      { id: 'professional-premium',  name: 'Premium',  price: '$750',   badge: null,            features: ['All the sections you need', 'Blog you update yourself', 'Online enquiry / booking', '3 rounds of revisions'] },
     ],
     photoCategories: [
       { key: 'general', label: 'Storefront, team, products', helpText: 'A handful of favorites — we recommend 3 to 5.' },
@@ -97,9 +97,11 @@ const SEED_BUSINESS_TYPES = [
     siteTypes: ['personal-other'],
     note: '',
     tiers: [
-      { id: 'personal-simple',   name: 'Simple',   price: '$500',   badge: null, features: ['Single-page personal site'] },
-      { id: 'personal-standard', name: 'Standard', price: '$900',   badge: null, features: ['Up to 8 sections with gallery'] },
-      { id: 'personal-plus',     name: 'Plus',     price: '$1,400', badge: null, features: ['Adds a blog / updates section'] },
+      // Names MUST be Starter/Standard/Premium — getStripeLinkFor() matches on
+      // tier name, so anything else returns null and Pay & Submit dead-ends.
+      { id: 'personal-starter',  name: 'Starter',  price: '$350',   badge: null,            features: ['Single-page personal site'] },
+      { id: 'personal-standard', name: 'Standard', price: '$650',   badge: 'Most Popular',  features: ['Up to 8 sections with gallery'] },
+      { id: 'personal-premium',  name: 'Premium',  price: '$1,000', badge: null,            features: ['Adds a blog / updates section'] },
     ],
     photoCategories: [
       { key: 'general', label: 'Photos to share', helpText: '3 to 5 favorites is plenty.' },
@@ -123,9 +125,11 @@ const SEED_BUSINESS_TYPES = [
     siteTypes: ['adoption-profile'],
     note: 'Many adoptive families are fundraising and money is tight — consider a lower rate or a build-plus-12-months-hosting bundle for them.',
     tiers: [
-      { id: 'adoption-essential', name: 'Essential', price: '$650',   badge: null,            features: ['Warm profile site', 'Photo gallery', 'Contact'] },
-      { id: 'adoption-full',      name: 'Full',      price: '$1,000', badge: 'Most Popular',  features: ['Adds journey blog / vlog feed', 'Fundraising section'] },
-      { id: 'adoption-complete',  name: 'Complete',  price: '$1,500', badge: null,            features: ['Adds editable family login', 'Admin features'] },
+      // Names MUST be Starter/Standard/Premium — getStripeLinkFor() matches on
+      // tier name, so anything else returns null and Pay & Submit dead-ends.
+      { id: 'adoption-starter',  name: 'Starter',  price: '$300',   badge: null,            features: ['Warm profile site', 'Photo gallery', 'Contact'] },
+      { id: 'adoption-standard', name: 'Standard', price: '$500',   badge: 'Most Popular',  features: ['Adds journey blog / vlog feed', 'Fundraising section'] },
+      { id: 'adoption-premium',  name: 'Premium',  price: '$750',   badge: null,            features: ['Adds editable family login', 'Admin features'] },
     ],
     photoCategories: [
       { key: 'homeOutside',  label: 'Outside of home',   helpText: 'Front of the house, yard, porch.' },
@@ -159,9 +163,9 @@ const SEED_BUSINESS_TYPES = [
     siteTypes: ['recruiting-profile'],
     note: 'The athlete\'s recruiting site is the central hub a coach reaches from any social bio. Lead with grad year, sport/position, and the PRIMARY highlight video. NCAA fields are collected as athlete-provided input — never as eligibility guarantees (rules change; verify at eligibilitycenter.org). Mark measurables as verified vs self-reported.',
     tiers: [
-      { id: 'recruiting-starter',  name: 'Starter',  price: '$600',   badge: null,            features: ['Single-page recruiting profile', 'Embedded highlight video', 'Stats and academics', 'Contact + coach info'] },
-      { id: 'recruiting-standard', name: 'Standard', price: '$1,000', badge: 'Most Popular',  features: ['Up to 8 sections', 'Photo gallery + multiple highlight videos', 'Social bio link block', 'Basic SEO so coaches find you'] },
-      { id: 'recruiting-premium',  name: 'Premium',  price: '$1,600', badge: null,            features: ['Everything in Standard', 'Game film library', 'News / season updates section', 'Custom domain + analytics'] },
+      { id: 'recruiting-starter',  name: 'Starter',  price: '$250',   badge: null,            features: ['Single-page recruiting profile', 'Embedded highlight video', 'Stats and academics', 'Contact + coach info'] },
+      { id: 'recruiting-standard', name: 'Standard', price: '$450',   badge: 'Most Popular',  features: ['Up to 8 sections', 'Photo gallery + multiple highlight videos', 'Social bio link block', 'Basic SEO so coaches find you'] },
+      { id: 'recruiting-premium',  name: 'Premium',  price: '$700',   badge: null,            features: ['Everything in Standard', 'Game film library', 'News / season updates section', 'Custom domain + analytics'] },
     ],
     photoCategories: [
       { key: 'headshot',    label: 'Headshot',    helpText: 'One clean portrait — coaches expect this front-and-center.' },
