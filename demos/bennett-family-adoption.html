@@ -298,6 +298,10 @@
     nav.links.open{max-height:420px;}
     nav.links a{padding:.9rem 1.4rem;width:100%;border-top:1px solid var(--cream-deep);}
     .hero-grid,.story-grid,.home-grid,.fund-grid,.contact-grid{grid-template-columns:1fr;}
+    /* 1fr floors at min-content, and the email address is unbreakable — the
+       card was forcing 369px on a 375px phone and the page sideways-scrolled. */
+    .contact-grid{grid-template-columns:minmax(0,1fr);}
+    .contact-card a{overflow-wrap:anywhere;}
     .parents,.why-grid{grid-template-columns:1fr;}
     .gallery-grid{grid-template-columns:repeat(2,1fr);}
     .post{grid-template-columns:1fr;}
@@ -312,6 +316,12 @@
     .hero-cta{flex-direction:column;}
     .hero-cta .btn{justify-content:center;}
     .brand span{display:none;}
+    /* brand + login button + hamburger summed past the viewport (396px on a
+       375px phone) and pushed the menu button half off-screen. Icon-only
+       login button and tighter spacing bring the row back under 375. */
+    .nav-inner{padding:.85rem 1rem;gap:.5rem;}
+    .gbtn{padding:.5rem .6rem;}
+    .gbtn #loginLabel{display:none;}
   }
 </style>
 </head>
