@@ -60,6 +60,10 @@
     @media (max-width: 860px) {
       #ml-nav > div:last-child > a { display: none !important; }
       #ml-nav > div:last-child { gap: 0 !important; }
+      /* At 390px the full-width logo (251px) and the Contact button (91px)
+         exactly consume the 342px between the nav's padding, leaving them
+         touching. Shrink the mark so the two never collide. */
+      #ml-nav img { height: 22px !important; }
 
       section[data-sec="001"] > div[data-rv="400"] {
         grid-template-columns: 1fr !important;
@@ -123,9 +127,14 @@
 
 <main id="top" style="position:relative; z-index:1;">
 
-  <!-- HERO -->
-  <section data-sec="001" style="min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; justify-content:flex-end; padding:120px var(--space-6) 0;">
-    <div style="max-width:1080px;">
+  <!-- HERO — the original Motoring Labs hero: looping truck video behind the
+       headline, opaque over the 3D scene. scene.js keeps the WebGL canvas at
+       opacity 0 through this section and fades it in as you scroll past, so
+       the 3D "starts" only after the hero. -->
+  <section data-sec="001" style="position:relative; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; justify-content:flex-end; padding:120px var(--space-6) 0; background:#040a14; overflow:hidden;">
+    <video id="ml-hero-video" autoplay muted loop playsinline preload="auto" src="assets/truck-hero.mp4" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.55;"></video>
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,10,20,0.55) 0%, rgba(4,10,20,0.25) 45%, rgba(4,10,20,0.92) 100%);"></div>
+    <div style="max-width:1080px; position:relative; z-index:1;">
       <div data-rv="0" data-scramble style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); margin-bottom:var(--space-4); font-weight:600;">MOTORING LOGISIGHT — GATE-TO-GATE CONDITION INTELLIGENCE</div>
       <h1 data-rv="100" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(52px, 7.6vw, 128px); line-height:0.96; letter-spacing:-0.02em; margin:0 0 32px; color:var(--color-text);">Every truck.<br>Every trailer.<br><span style="color:var(--color-accent);">Proof of condition</span> at the gate.</h1>
       <p data-rv="220" style="font-size:18px; line-height:1.55; max-width:560px; color:var(--color-neutral-800); margin:0 0 32px;">Computer vision at your facility gates creates a claims-grade condition record for every asset that enters or exits. No apps. No walk-arounds. No arguments.</p>
@@ -134,7 +143,7 @@
         <a href="#value" class="btn btn-secondary">See the business case</a>
       </div>
     </div>
-    <div data-rv="400" style="display:grid; grid-template-columns:repeat(3, 1fr); border-top:2px solid var(--color-divider); padding:32px 0 var(--space-6);">
+    <div data-rv="400" style="position:relative; z-index:1; display:grid; grid-template-columns:repeat(3, 1fr); border-top:2px solid var(--color-divider); padding:32px 0 var(--space-6);">
       <div style="padding-right:32px;">
         <div style="font-family:var(--font-heading); font-weight:800; font-size:44px; color:var(--color-text);"><span data-count="120" data-suf="+">0+</span></div>
         <div style="font-size:13px; color:var(--color-neutral-700); line-height:1.5;">structured data points captured per scan, plus AI damage detection</div>
@@ -395,6 +404,52 @@
     }
   });
 
+  // Hero video setup. Two traps, both confirmed by inspecting the rendered
+  // element rather than trusting the markup:
+  //
+  //   1. The DC-runtime renders this page through React, and React DROPS the
+  //      bare `loop` and `muted` attributes - the rendered <video> came out
+  //      with autoplay and playsinline but NO loop and NO muted. The video
+  //      therefore played once, hit its 9.2s end, and froze. They have to be
+  //      set as DOM PROPERTIES, not markup attributes. (The upstream site
+  //      works around the same thing by writing loop="{{ true }}".)
+  //   2. `muted` must be a property BEFORE play() or mobile Safari/Chrome
+  //      refuse to autoplay at all.
+  //
+  // configureVideo() is therefore called twice: immediately (so playback
+  // starts as early as possible) and again once the DOM stops mutating,
+  // because the runtime's second render pass replaces the <video> element
+  // outright and the replacement arrives unconfigured.
+  function configureVideo() {
+    var v = document.getElementById('ml-hero-video');
+    if (!v) return false;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    if (v.ended || v.paused) {
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+    return true;
+  }
+
+  // The runtime can swap the <video> for a fresh, unconfigured, paused copy at
+  // more or less any point during startup - waiting for a single "settled"
+  // moment and configuring once was measurably not enough (the element came
+  // back paused at t=0 well after the DOM had gone quiet). So instead of
+  // trying to predict the last render, just re-assert the configuration on a
+  // cheap interval through the whole startup window. configureVideo() only
+  // calls play() when the element is actually stopped, so a healthy video is
+  // left completely alone; once the element settles, loop=true carries it.
+  (function () {
+    var ticks = 0;
+    var id = setInterval(function () {
+      configureVideo();
+      if (++ticks > 60) clearInterval(id); // ~30s of startup cover, then stop
+    }, 500);
+    configureVideo();
+  })();
+
   // Everything below needs real references to elements the DC-runtime
   // renders. Two hazards, confirmed by instrumenting a real run before
   // writing this version:
@@ -427,7 +482,13 @@
       fn();
     }
   }
-  whenSettled(initReveal);
+  whenSettled(function () {
+    // Re-configure the hero video here too: by this point the runtime has
+    // finished its render passes, so this is the element that actually stays
+    // on screen. Without this the looping silently dies on the replacement.
+    configureVideo();
+    initReveal();
+  });
 
   function initReveal() {
   var introSpeed = 1;

@@ -1,4 +1,4 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+﻿import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
 const BG = 0x071125, INK = 0x9db2cc, RED = 0x6fd2ff, FAINT = 0x122a44;
 
@@ -206,12 +206,12 @@ function buildGate() {
 }
 
 const KEYS = [
-  { p: [15, 4.0, 30], t: [0, 2.6, 14] },   // hero: three-quarter, truck approaching
-  { p: [7.5, 2.4, 12], t: [0, 3.2, 0] },   // evidence: near the gate
-  { p: [0.01, 17, 4], t: [0, 1, -1] },     // why: overhead
-  { p: [-11, 3.2, -7], t: [0, 2.8, 0.5] }, // how: past the gate looking back
-  { p: [-19, 8, -22], t: [0, 2, -5] },     // enterprise: wide
-  { p: [-3, 2.2, -30], t: [0, 2.6, -12] }, // cta: truck departing
+  { p: [15, 4.0, 30], t: [0, 2.6, 14] },     // hero: three-quarter, truck approaching
+  { p: [8.5, 2.6, 13], t: [-2.5, 3.2, 0] }, // evidence: gate composed right of center (copy sits left)
+  { p: [4, 16, 5], t: [3.5, 1, -1] },        // why: overhead, truck composed left (copy sits right)
+  { p: [-11, 3.2, -7], t: [1.5, 2.6, 0.5] }, // how: past the gate looking back
+  { p: [-19, 8, -22], t: [-2.5, 2, -5] },    // enterprise: wide, scene composed left (copy sits right)
+  { p: [-3, 2.2, -30], t: [0, 2.6, -12] },   // cta: truck departing
 ];
 
 const ease = x => x * x * (3 - 2 * x);
@@ -258,11 +258,14 @@ function start() {
   const gate = buildGate();
   scene.add(gate);
 
-  let target = 0, prog = 0, mx = 0, my = 0;
+  let target = 0, prog = 0, mx = 0, my = 0, fade = 0;
   const readScroll = () => {
     const d = document.documentElement;
-    const max = Math.max(1, d.scrollHeight - window.innerHeight);
-    target = Math.min(1, Math.max(0, window.scrollY / max));
+    const hh = window.innerHeight; // hero occupies the first viewport â 3D starts after it
+    const max = Math.max(1, d.scrollHeight - window.innerHeight - hh);
+    target = Math.min(1, Math.max(0, (window.scrollY - hh) / max));
+    fade = Math.min(1, Math.max(0, (window.scrollY - hh * 0.45) / (hh * 0.5)));
+    renderer.domElement.style.opacity = fade.toFixed(3);
   };
   window.addEventListener('scroll', readScroll, { passive: true });
   window.addEventListener('pointermove', e => {
@@ -319,6 +322,8 @@ function start() {
     const k = ease(seg - i);
     A.fromArray(KEYS[i].p); B.fromArray(KEYS[i + 1].p); camPos.lerpVectors(A, B, k);
     A.fromArray(KEYS[i].t); B.fromArray(KEYS[i + 1].t); camTgt.lerpVectors(A, B, k);
+    // keep the truck in frame: pull the look-target 30% toward the truck itself
+    camTgt.z = camTgt.z * 0.7 + THREE.MathUtils.clamp(tz, -20, 16) * 0.3;
     camera.position.set(camPos.x + mx * 1.1, camPos.y - my * 0.7, camPos.z);
     camera.lookAt(camTgt);
 
