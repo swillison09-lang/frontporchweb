@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Site Editor — Schaefer Technologies</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/admin.css?v=1" />
+</head>
+<body>
+
+<header class="a-bar">
+  <div class="a-bar__brand">
+    <strong>SCHAEFER</strong> <span>Site Editor</span>
+  </div>
+  <div class="a-bar__actions">
+    <span class="a-bar__status" id="status">Loading…</span>
+    <button class="a-btn" id="btnReset" type="button">Reset to saved file</button>
+    <label class="a-btn" for="fileLoad">Load a JSON file…</label>
+    <input type="file" id="fileLoad" accept="application/json" hidden />
+    <button class="a-btn" id="btnPreview" type="button">Open live preview ↗</button>
+    <button class="a-btn a-btn--solid" id="btnDownload" type="button">Download content.json ↓</button>
+  </div>
+</header>
+
+<p class="a-note">
+  Every edit here changes the live preview instantly (autosaved to this browser). Nothing is published to the
+  real site until you click <strong>Download content.json</strong> and replace the file at
+  <code>schaefer-3d/data/content.json</code>, then redeploy. Images aren't uploaded here — add the image file to
+  the <code>schaefer-3d/img/</code> folder yourself, then reference its filename below (e.g. <code>img/my-photo.jpg</code>).
+</p>
+
+<main class="a-main" id="sections"></main>
+
+<footer class="a-footer">Schaefer Technologies — Site Editor. Works fully offline, no account or server required.</footer>
+
+<script src="js/admin.js?v=3" type="module"></script>
+</body>
+</html>

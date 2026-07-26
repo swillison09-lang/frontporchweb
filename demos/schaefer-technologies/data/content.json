@@ -1,0 +1,265 @@
+{
+  "hero": {
+    "overline": "Indianapolis, Indiana &nbsp;·&nbsp; Founded in 1932",
+    "titleLine1": "92&nbsp;years&nbsp;of",
+    "titleLine2": "doing&nbsp;it&nbsp;right.",
+    "sub": "Schaefer is an international manufacturer and distributor of quality <strong>capsule filling equipment</strong> — machines to fit the needs of the pharmaceutical, health, nutrition, cannabis, automotive and manufacturing industries.",
+    "ctaPrimaryLabel": "Explore Equipment",
+    "ctaPrimaryHref": "#equipment",
+    "ctaSecondaryLabel": "Connect With Us",
+    "ctaSecondaryHref": "#contact"
+  },
+  "legacy": {
+    "lead": "Located in our 60,000&nbsp;sq&nbsp;ft headquarters in Indianapolis, IN, Schaefer Technologies offers machines to fit the needs of the Pharmaceutical, Health, Nutrition, Cannabis, Automotive and Manufacturing industries. We are known for high quality products with great customer support — committed to Good Manufacturing Practices and to providing our customers with the best possible machines. Our most powerful tool? <strong>Commitment.</strong> The team and technology, brought together in a single entity.",
+    "photo": {
+      "src": "img/old-photo.jpg",
+      "alt": "Historic photo of the original Snodgrass & Schaefer shop at 2514 Bethel Ave.",
+      "caption": "Where it began — the original Snodgrass &amp; Schaefer shop, 2514 Bethel Ave. From the STI archives."
+    },
+    "stats": [
+      { "value": 92, "suffix": "yrs", "label": "Of doing it right — founded 1932" },
+      { "value": 60, "suffix": "k ft²", "label": "Indianapolis headquarters" },
+      { "value": 25, "suffix": "k cph", "label": "STI Model 10 — capsules per hour" },
+      { "value": 400, "suffix": "k cph", "label": "CP-4200 polisher throughput" }
+    ],
+    "timeline": [
+      { "year": "1932", "title": "Founded in Indianapolis", "body": "Schaefer Technologies, Inc. is founded — the start of 92 years of doing it right." },
+      { "year": "1952", "title": "Hamblen Gage opens", "body": "Hamblen Gage Corporation (HGC) goes into business, specializing in automated post-process measuring and gaging equipment." },
+      { "year": "2004", "title": "STI purchases HGC", "body": "STI purchases Hamblen Gage Corporation, bringing its automated post-process measuring and gaging expertise in-house." },
+      { "year": "Today", "title": "Worldwide reach", "body": "From the 60,000 sq ft Indianapolis headquarters, STI serves customers globally with international partners Operio Group." }
+    ]
+  },
+  "banner": {
+    "src": "img/homepage-machine.png",
+    "alt": "Softgel die rolls up close, forming and filling capsules",
+    "caption": "Softgel encapsulation — die rolls up close"
+  },
+  "divisions": [
+    {
+      "index": "A",
+      "image": "img/msg-m2.jpg",
+      "alt": "MSG_M2 MySoftGel encapsulation machine",
+      "title": "Pharmaceutical —<br />Nutraceutical",
+      "body": "Capsule filling machines for liquid, oil, paste, powder and pellets — built for cGMP environments.",
+      "items": [
+        "Softgel — MSG_M2 MySoftGel",
+        "Powder filling — STI Model 10 ver 5.1",
+        "Liquid filling — STI LF10 &amp; STI-Robofill",
+        "Banding — STI CB-15 &amp; Labtop Bander",
+        "Counting — STI 4C &amp; STI-4",
+        "Polishing — CP-4200",
+        "Barrier isolation — EnGuard Systems",
+        "Assay — Autoturb3"
+      ]
+    },
+    {
+      "index": "B",
+      "image": "img/rf1-vapes.png",
+      "alt": "Filling vape cartridges on STI equipment",
+      "title": "Cannabis<br />Equipment",
+      "body": "Filling equipment for vape cartridges, disposable pens &amp; capsules — plus packaging.",
+      "items": [
+        "RoboFill RF300 series liquid filler",
+        "RoboFill RF500 — robotic arm",
+        "STI RF-1 single-station filler",
+        "MSG_M2 softgel encapsulation",
+        "ProFiller 3600 manual filler",
+        "STI-4B rotary bagging machine",
+        "Counting &amp; polishing"
+      ]
+    },
+    {
+      "index": "C",
+      "image": "img/machining-hd.jpg",
+      "alt": "Machined stainless steel parts produced by STI",
+      "title": "Automated Gaging<br />&amp; Manufacturing",
+      "body": "Making gages since 1952 and work-holding fixtures since 1994 — we custom design and build Specialized Equipment, Automatic Gaging Systems, Hand-Held Attribute Gages and Automated Work-Holding Fixtures.",
+      "items": [
+        "Automated post-process gaging",
+        "Computerized shim selector gage",
+        "Post-process gages — pinions &amp; shafts",
+        "Work-holding fixtures — hydraulic, pneumatic, manual",
+        "Waterjet — virtually any material",
+        "Fabrication of steels incl. stainless",
+        "Custom specialty equipment"
+      ]
+    }
+  ],
+  "machinesIntro": {
+    "title": "The full line",
+    "body": "Every machine below is manufactured or distributed by STI — specs as published."
+  },
+  "machines": [
+    { "tag": "SOFTGEL", "image": "img/msg-m2.jpg", "alt": "MSG_M2 MySoftGel encapsulation machine", "title": "MSG_M2 MySoftGel", "body": "The most compact encapsulating system available on the market — designed for minimum material loss for small production batches. Servo-motor injection, PLC touch-screen controls, AISI 316L product contact parts." },
+    { "tag": "POWDER", "image": "img/model10.png", "alt": "STI Model 10 ver 5.1 capsule filling machine", "title": "STI Model 10 ver 5.1", "body": "Semi-automatic, high-speed powder capsule filler for powder and pellets. 18,000–25,000 capsules per hour, sizes 000 through 5. Quick change-over from size to size." },
+    { "tag": "LIQUID", "image": "img/lf10.jpg", "alt": "STI LF10 liquid capsule filling machine", "title": "STI LF10", "body": "Liquid capsule filler operating up to 15,000 cph — fills paste and oils into gelatin or vegetable (HPMC) capsules. Built-in heater and stirrer." },
+    { "tag": "LIQUID", "image": "img/rf500-trays.jpg", "alt": "STI-Robofill capsule trays — 4 × 100 capsule trays", "title": "STI-Robofill", "body": "Liquid capsule filling with fill weight tolerance ±2%. Capsule trays hold 300 capsules; stores up to 100 unique programs." },
+    { "tag": "CANNABIS", "image": "img/rf300.png", "alt": "STI RoboFill RF300 liquid filler", "title": "RoboFill RF300 Series", "body": "Versatile, expandable filling system for capsules, vape cartridges, disposable vape pens, bottles/tinctures and suppositories — from 1,400 cph to approx. 7,000 caps per hour." },
+    { "tag": "CANNABIS", "image": "img/rf500.png", "alt": "RoboFill liquid filling head in operation", "title": "RoboFill RF500", "body": "Features a 500mm × 500mm workspace and a robotic arm that automatically fills and cycles 100 to 300 capsules per tray." },
+    { "tag": "CANNABIS", "image": "img/rf1-vapes.png", "alt": "STI RF-1 filling vape cartridges", "title": "STI RF-1 Filler", "body": "Flexible, single-station, semi-automatic system for syringes, vape cartridges, pens, bottles/tinctures or suppositories. Tolerances ±1.5% free-flowing, ±3% viscous." },
+    { "tag": "MANUAL", "image": "img/profiller.jpg", "alt": "ProFiller 3600 manual capsule filler", "title": "ProFiller 3600", "body": "316 stainless steel, hand-held, 300-hole capsule filler for sizes 000–4, 00el and 2el." },
+    { "tag": "BANDING", "image": "img/cb15.jpg", "alt": "STI CB-15 capsule banding machine", "title": "STI CB-15", "body": "Capsule banding machine — bands up to 15,000* capsules per hour." },
+    { "tag": "BANDING", "image": "img/labtop-bander.jpg", "alt": "STI Labtop Bander capsule banding machine", "title": "STI Labtop Bander", "body": "Applies a tamper-evident band to the capsule cap/body joint — a pharmaceutically smooth, liquid-tight band. Perfect for low-volume runs, clinical trials, comparative or stability studies." },
+    { "tag": "BANDING", "image": "img/slat-loader.png", "alt": "STI-Slat Loader", "title": "STI-Slat Loader", "body": "Removes the labor-intensive process of manually orienting capsules — pairs with the STI Lab-Top Capsule Bander." },
+    { "tag": "COUNTING", "image": "img/sti-4c.png", "alt": "STI 4C capsule counter machine", "title": "STI 4C &amp; STI-4 Counters", "body": "Automatic electronic multi-channel counters for precise counting of capsules or tablets for bottle filling — 15 L hopper, 4-channel vibratory feeder, infrared sensor system, up to 100 recipes." },
+    { "tag": "PACKAGING", "image": "img/sti-4b.png", "alt": "STI-4B rotary bagging machine", "title": "STI-4B Bagging Machine", "body": "6-station rotary bagger with premade pouch loading magazine, vacuum pick and place, and integrated counting. Bags 3\"×6\" to 6.5\"×8\", up to 30 bags per minute." },
+    { "tag": "POLISHING", "image": "img/cp4200.png", "alt": "STI CP-4200 capsule polisher", "title": "CP-4200 Capsule Polisher", "body": "Manufactured in the USA — 400,000 capsule per hour throughput. Soft nylon rotary brush with vacuum removal; no chemicals or disposable products." },
+    { "tag": "ISOLATION", "image": "img/enguard.jpg", "alt": "EnGuard compounding isolator", "title": "EnGuard Barrier Isolation", "body": "Compounding isolators, the EnGuard VTC transport cart (maintains Class 100 conditions), cGMP sterile liquid filling isolation systems and a table-top isolator — HEPA filtered to ISO Class 5, 316L stainless." },
+    { "tag": "LAB / ASSAY", "image": "img/autoturb3.png", "alt": "Autoturb3 microbiological assay system", "title": "Autoturb3", "body": "Microbiological assay system designed to test and analyze the potency of antibiotics, vitamins and related substances." }
+  ],
+  "spotlight": [
+    {
+      "chip": "MICROBIOLOGICAL ASSAY",
+      "title": "Autoturb",
+      "titleAccent": "3",
+      "body": "Assays virtually all known antibiotics — plus vitamins including B12, Folic Acid, Niacinamide, Pyridoxine (B6), Pantothenic Acid and Panthenol. Reader &amp; diluter module with digital spectrophotometer turbidity readout.",
+      "image": "img/autoturb3.png",
+      "alt": "Autoturb3 microbiological assay system",
+      "cutout": false,
+      "ringVariant": ""
+    },
+    {
+      "chip": "CANNABIS LINE",
+      "title": "RoboFill",
+      "titleAccent": " RF300",
+      "body": "The latest technology for use with medical CBD oil as well as other oils, pastes and liquids — expandable from 1,400 to approx. 7,000 capsules per hour, storing up to 100 unique programs at ±2% fill weight tolerance.",
+      "image": "img/rf300.png",
+      "alt": "STI RoboFill RF300",
+      "cutout": true,
+      "ringVariant": "spotlight__rings--alt"
+    }
+  ],
+  "services": {
+    "intro": "Schaefer Technologies is proud to offer a wide range of services, including but not limited to: engineering, equipment validation, training and sales and technical support.",
+    "items": [
+      { "num": "01", "title": "Engineering", "body": "CAD design, customization of equipment for customer-specific requirements, process flow assistance — plus custom product holding trays, filling valve configurations and product vessels." },
+      { "num": "02", "title": "Equipment Validation", "body": "Validation for cGMP compliance: IQ (Installation), OQ (Operational), PQ (Performance) Qualifications, FAT (Factory Acceptance Test) and SAT (Site Acceptance)." },
+      { "num": "03", "title": "Training", "body": "Machine, maintenance, operational and programming training — available on-site or at our Indiana location." },
+      { "num": "04", "title": "Parts", "body": "Contact our Parts Specialist, Nathan Lawrence — submit your machine type, serial number and the parts you need." },
+      { "num": "05", "title": "Preventative Maintenance", "body": "Regular scheduled maintenance helps prevent unexpected failures that could cost your company time and money. PM plans for the Model 10, AutoTurb, LabTop Bander and RoboFill." },
+      { "num": "06", "title": "Service Manuals", "body": "Downloadable manuals: RoboFill RF300 &amp; RF500, STI Slat Loader, STI LF10, CP-4200, STI CB-15, Autoturb M3, LabTop Bander and STI Model 10." }
+    ],
+    "financingQuote": "Financing can be a major advantage for your operation, enabling you to get the equipment and service you need with terms to fit your business.",
+    "financingPartners": [
+      { "name": "PEAC Solutions", "body": "High-volume, small-ticket leases and loans — non-cannabis industry" },
+      { "name": "Envision Capital Group", "body": "Customized equipment financing — from vehicles to software to heavy machinery" }
+    ],
+    "manualsTitle": "Service Manuals",
+    "manualsBody": "Download the manual for your machine directly — hosted here, no account needed.",
+    "manuals": [
+      { "title": "STI Model 10 ver 5.1", "file": "manuals/model10-manual.pdf" },
+      { "title": "STI LF10 ver 2.1", "file": "manuals/lf10-manual.pdf" },
+      { "title": "RoboFill RF300 & RF500", "file": "manuals/robofill-rf300-rf500-manual.pdf" },
+      { "title": "STI CB-15", "file": "manuals/cb15-manual.pdf" },
+      { "title": "STI LabTop Bander ver 2.0", "file": "manuals/labtop-bander-manual.pdf" },
+      { "title": "STI-Slat Loader", "file": "manuals/slat-loader-manual.pdf" },
+      { "title": "CP-4200 Capsule Polisher", "file": "manuals/cp4200-manual.pdf" },
+      { "title": "Autoturb M3", "file": "manuals/autoturb-m3-manual.pdf" }
+    ]
+  },
+  "team": {
+    "members": [
+      { "initials": "TK", "name": "Tom Kidwell", "title": "Technical Sales Manager · Validation · Training — Operational and Programming" },
+      { "initials": "SR", "name": "Scott Rizzi", "title": "Engineering Support" },
+      { "initials": "NL", "name": "Nathan Lawrence", "title": "Parts Specialist" },
+      { "initials": "JH", "name": "Jake Hawkins", "title": "Pharmaceutical Equipment Sales — Mid West &amp; East Coast" },
+      { "initials": "JJ", "name": "Johan Jung", "title": "Pharmaceutical Equipment Sales — West Coast" }
+    ],
+    "partnerLabel": "Our International Partners",
+    "partnerHref": "https://www.operiogroup.com/",
+    "partnerImg": "img/operio.png",
+    "note": "Careers — applications accepted at our Indianapolis headquarters."
+  },
+  "news": [
+    { "date": "August 22, 2023", "title": "The State of Senior Living — Why Assisted Living Matters", "category": "Industry", "synopsis": "A look at why assisted living plays a critical role for America's aging population, and the tailored care senior communities provide.", "externalSource": true, "sourceNote": "This reads as syndicated industry content — it has no byline and no connection to Schaefer's own equipment business. Shown here as a summary only, not a full reproduction." },
+    { "date": "August 22, 2023", "title": "Stop 340B Abuse", "category": "Policy", "synopsis": "An advocacy piece on the 340B drug pricing program, noting that fewer than one in three Indiana 340B pharmacies serve medically underserved areas.", "externalSource": true, "sourceNote": "This reads as syndicated policy/advocacy content — it has no byline and doesn't mention Schaefer or its equipment. Shown here as a summary only, not a full reproduction." },
+    { "date": "November 15, 2022", "title": "SCHAEFER: The Best Kept Secret in Capsule Manufacturing", "category": "Company", "synopsis": "A profile of STI's decades-long run solving manufacturing and distribution challenges for the capsule industry since 1932.", "fullText": [
+      "Schaefer Technologies Inc. has been solving manufacturing and distribution challenges since 1932. As an engineering and equipment manufacturing company, we've dedicated ourselves to designing and providing manufacturing equipment that makes capsule filling easy, efficient, and effective.",
+      "After 90 years in the manufacturing industry, we understand the critical demand for efficiency and effective manufacturing processes. We also understand that one of the essential investments a capsule manufacturer can make is in equipment.",
+      "SOLUTIONS: How Can Manufacturers Minimize Waste and Maximize Performance?",
+      "The demand for quality capsule machine equipment is projected to increase by approximately 90 million dollars by 2027. As the needs of our manufacturing partners increase, we continue to provide innovative and effective machine equipment to minimize waste and maximize production, resulting in greater profitability.",
+      "Human error can lead to spills, inaccurate pouring, and decreased production rate. However, our equipment can help automate manufacturing operations with precision filling and fail-safe features to produce effective capsule positioning, filling, and locking.",
+      "Our machines provide manufacturers a choice of equipment capable of filling various capsule sizes and materials. Our machines are designed for product-switching capabilities to help manufacturers easily switch between liquids, pastes, or oil into gelatin or vegetable (HPMC) capsules.",
+      "STRATEGY: How Can Automation Make Manufacturing More Efficient?",
+      "Our highly advanced and sophisticated machinery can help manufacturing operators receive the highest protection while maximizing output. By minimizing user interaction with a compact design, our machines can automate the capsule-filling process, which translates into additional cost savings.",
+      "We offer manual, semi-automatic, and automatic types to fit your custom manufacturing needs. However, we understand that manufacturers have varying needs that require custom solutions. As a machine manufacturer, we offer custom machinery design services to help our manufacturing partners maximize operational efficiency.",
+      "Several of our machines feature a heated hopper and stirrer with a temperature sensor to prevent plugging and maintain a free material flow throughout production. This enables a versatile production capability for various capsule sizes and product viscosity.",
+      "SERVICE & SUPPORT: Skip Supply Chain Disruption",
+      "With 90 years of experience in the industry and regulatory environment, we have designed our machines to be easily operated, cleaned, and maintained. Our reliable support specialists can supply replacement or change parts, on-site field service and training, and toll-free technical support when problems arise.",
+      "Through our services, manufacturers aren't held back by supply chain shortages, shipping delays, or long periods of downtime. We're equipped and capable of responding to any machine needs to meet your critical scheduling.",
+      "In conclusion, we help manufacturers leverage new technologies to drive efficient production, streamline operation performance, and maximize capsule processing."
+    ] },
+    { "date": "August 1, 2022", "title": "Liquid-Fill Capsules — Benefits for Highly Potent API Formulation and Scale-Up", "category": "Technical", "synopsis": "Why liquid-fill capsules are gaining ground for highly potent APIs — over a quarter of drug products in development now involve highly potent or toxic active ingredients.", "externalSource": true, "sourceNote": "Originally published by American Pharmaceutical Review. Schaefer's own site only shows a short excerpt and links out to the original — so we can't reproduce the full piece here, only this summary." },
+    { "date": "July 13, 2022", "title": "Fostering Indiana's Biopharmaceutical Innovation Starts with Extending PDUFA", "category": "Policy", "synopsis": "A case for extending PDUFA (the Prescription Drug User Fee Act) to keep Indiana's biopharmaceutical sector competitive.", "externalSource": true, "sourceNote": "Written by Schaefer's president, Kevin Schaefer, but originally published by Inside Indiana Business (with Gerry Dick), a third-party media outlet — shown here as a summary only." },
+    { "date": "July 8, 2022", "title": "The Softgel Advantage", "category": "Technical", "synopsis": "Even something as routine as buying Tylenol has grown more complex — a look at how softgel capsules are shaping modern OTC and prescription dosing.", "externalSource": true, "sourceNote": "No byline is shown and it doesn't name specific Schaefer equipment — likely licensed or syndicated content. Shown here as a summary only, not a full reproduction." },
+    { "date": "August 16, 2021", "title": "Marijuana Legalization Map", "category": "Cannabis", "synopsis": "A state-by-state reference on cannabis legalization status — useful context for producers scaling cannabis dosing and packaging equipment.", "fullText": [
+      "This page on Schaefer's own site is just a state-by-state legalization map graphic — there's no article text to show beyond the title itself."
+    ] },
+    { "date": "January 25, 2021", "title": "Machine Manufacturer, Water Jet, Fabrication Manufacturer", "category": "Machining", "synopsis": "An overview of STI's in-house fabrication capabilities — stainless steel work, precision waterjet cutting, and gauge manufacturing.", "fullText": [
+      "Fabrication: Fabrication of Steels including Stainless Steel, Machining Manufacturer, Water Jet and Gauges.",
+      "Waterjet: Precision cutting and machining of virtually any material.",
+      "Machining — STI-Slat Loader: Specifically engineered to deliver value and reliability."
+    ] },
+    { "date": "January 25, 2021", "title": "Specialty Equipment", "category": "Machining", "synopsis": "Custom-built equipment examples from STI's shop floor, including test cell fixtures, semi-automatic assembly benches, heated dip tanks, and video carts.", "fullText": [
+      "Test Cell Fixture: Approximate 8 ft. Hexagon",
+      "Semi-Automatic Assembly Bench",
+      "Heated Dip Tank",
+      "Video Cart"
+    ] },
+    { "date": "January 25, 2021", "title": "Automated Gaging Solutions", "category": "Gaging", "synopsis": "How STI's computerized shim selector gage automates precision assembly for worm gear speed reducers, removing the need for highly skilled manual assemblers.", "fullText": [
+      "Computerized Shim Selector Gage for Worm Gearboxes: A computerized assembly procedure for worm gear speed reducers that eliminates the need for highly skilled assemblers – saving time and money by increasing assembly speed and accuracy.",
+      "Automated Pick and Place, Post Process Gaging System with HGS2000 Gaging Software: A One Stop Source for your Gauging Requirements. Fully automatic, manual load, Robotic Load, Pick & Place applications or hand held Attribute Gauges.",
+      "Post Process Gage to Check Pinions.",
+      "Post Process Gage to Check Shafts Dynamic or Static."
+    ] },
+    { "date": "January 22, 2021", "title": "Autoturb³", "category": "Lab / Assay", "synopsis": "Inside the Autoturb3 microbiological assay system — built by STI to test the potency of antibiotics and vitamins like B12, Folic Acid, and Pyridoxine (B6).", "fullText": [
+      "The Autoturb3 Microbiological Assay System is manufactured by STI (Schaefer Technologies, Inc.). It is designed to test and analyze the potency of antibiotics, vitamins and related substances. This system can be used to assay virtually all known antibiotics. The Autoturb3 can also assay many vitamins, including the following: B12, Folic Acid, Niacinamide, Pyridoxine (B6), Pantothenic Acid and Panthenol.",
+      "The complete system consists of 2 modules:",
+      "Reader and Diluter Module: Automatically prepares the required dilution of the sample and the standard reference substance with an inoculated liquid growth medium.",
+      "Spectrophotometer displaying a digital indication of turbidity of the killed suspension in each sample."
+    ] },
+    { "date": "January 22, 2021", "title": "Barrier Isolation", "category": "Pharma", "synopsis": "A look at STI's EnGuard table-top isolator, delivering an ISO Class 5 HEPA-filtered clean environment for smaller pharmacies and healthcare facilities.", "fullText": [
+      "Compounding Isolator: The EnGuard compounding isolator provides safe containment and eliminates cross contamination. These isolators are designed primarily for small volume processes including laboratory testing and clinical trial investigations. EnGuard compounding isolators are single chambers with ergonomic glove port access to areas where operator intervention is required. Process equipment can be removed using a sliding platform which makes maintenance, major changeovers and cleaning all much easier.",
+      "Transport Cart: The EnGuard VTC is designed to provide protection for both product and personnel. Typically, the transfer carts are used to move the aseptically filled vials, with partially seated stoppers, through non-controlled areas providing a class A / class 100 environment during the transport of the products. The 316L stainless steel interior and exterior provides cleanable surfaces that are finished to pharmaceutical cGMP standards. The vial transfer cart environment is HEPA filtered with unidirectional airflow, which can be either re-circulated or exhausted.",
+      "Sterile Liquid Filling: Schaefer Technologies, Inc / EnGuard Systems is your single source supplier for cGMP Sterile Liquid Filling Isolation Systems. Perfect for R&D, Clinical Trials, Pilot Plant and Small Batch Production.",
+      "Table Top Isolator: Need an ISO Class 5 Hepa Filtered clean room environment in a mini-isolator version to handle those smaller applications? The STI EnGuard Systems Table-Top Isolator is the answer. Designed for smaller pharmacies, physicians, and health care facilities. Features: 316L stainless construction, Isolator Hepa Filtered to ISO Class 5 levels, Positive or Negative pressure, docking station for transporting and introducing potent compounds, and (2) piece nitrile gloves for greater flexibility."
+    ] },
+    { "date": "January 22, 2021", "title": "Tablet & Capsule Counters", "category": "Equipment", "synopsis": "The STI-4 tablet and capsule counter — precise, high-speed counting for bottle filling across capsule and tablet types.", "fullText": [
+      "STI-4 Tablet Capsule Counter: The STI-4 Tablet Capsule Counter is manufactured for precise counting of all types of capsules, tablets for bottle filling. The machine consists of a 15 liter hopper, four channel vibratory feeder, infrared sensor system and the ability to program up to 100 recipes."
+    ] },
+    { "date": "January 22, 2021", "title": "Capsule Banding", "category": "Equipment", "synopsis": "The CB-15 bands the cap-and-body joint of filled capsules — a tamper-evident seal built for high-volume production.", "fullText": [
+      "STI-CB 15 Capsule Banding Machine: The CB-15 is designed to band the joint portions of the cap and body of the filled gelatin or non-gelatin capsules. The banding takes place as the capsules pass over two rollers that are partially immersed in gelatin or non-gelatin material, which is electrically heated and temperature controlled. The result is a smooth, liquid-tight band, which produces a seamless joined capsule. The result of this process is a banded capsule that prevents leakage of product, reduces oxidation of the product, minimizes odor problems, and most importantly, provides a tamper resistant band. The CB-15 has a maximum capacity of 15,000 capsules per hour.",
+      "STI LabTop Capsule Banding Machine: Simulates the banding process of a high-speed production banding machine. The machine is capable of producing approximately 100 banded capsules per hour making it perfect for low-volume runs for clinical trials, comparative studies, stability studies, etc. Once banded, the capsule is almost impossible to open and re-close without leaving evidence of tampering. The ease of changeover from one capsule to another also makes it possible to evaluate a variety of capsule and banding color combinations.",
+      "STI-Slat Loader: Designed to remove the labor intensive process of manually orientating and loading the filled gelatin or vegetable based (HPMC) capsules into the slats for the STI LabTop Bander."
+    ] },
+    { "date": "January 21, 2021", "title": "Capsule Fillers", "category": "Equipment", "synopsis": "A rundown of STI's capsule filling lineup — the Model 10, LF10, MSG_M2 softgel encapsulator, and RoboFill RF300.", "fullText": [
+      "STI's capsule filling lineup, as listed on their site: STI-Model 10 ver. 4.3, STI-Model 10 ver. 5.1, STI-LF10, SoftGel MSG M2, and STI-Robo Fill RF300."
+    ] },
+    { "date": "January 21, 2021", "title": "Change Parts for the STI Model 10", "category": "Parts", "synopsis": "A guide to commonly reordered change parts for the STI Model 10, for when a replacement piece is needed on the line.", "fullText": [
+      "We understand that sometimes a replacement part is needed, so take a look at pieces commonly reordered. All of these pieces can be purchased together as a kit.",
+      "Commonly reordered parts: Rectifier Block Assembly, Guide Chute, Rotation Module, Capsule Ring Sets, Peg Ring, Closing Pressure Plate, Feed Block."
+    ] }
+  ],
+  "contact": {
+    "phonePrimary": "800-435-7174",
+    "phonePrimaryHref": "tel:8004357174",
+    "phoneSecondary": "317-241-9444",
+    "phoneSecondaryHref": "tel:3172419444",
+    "note": "Feel free to contact us toll-free at anytime for sales, technical assistance and telephone support.",
+    "addressLines": ["Schaefer Technologies, Inc.", "4901 W. Raymond Street", "Indianapolis, IN 46241"],
+    "mapHref": "https://maps.google.com/?q=4901+W+Raymond+Street+Indianapolis+IN+46241",
+    "mapImg": "img/map.png"
+  },
+  "quickActions": [
+    { "label": "Order Parts", "title": "Nathan Lawrence — Parts Specialist", "sub": "800-435-7174 →", "href": "tel:8004357174", "external": false },
+    { "label": "Service Manuals", "title": "8 downloadable machine manuals", "sub": "Model 10 · RoboFill · LF10 · CP-4200 →", "href": "#manuals", "external": false },
+    { "label": "Request a Quote", "title": "Sales, validation &amp; service inquiries", "sub": "Talk to an engineer →", "href": "#contact", "external": false }
+  ],
+  "footer": {
+    "wordmark": "SCHAEFER",
+    "copyright": "© Schaefer Technologies, Inc. — Founded in 1932 ~ 92 Years of Doing it Right",
+    "address": "4901 W. Raymond Street, Indianapolis, IN 46241",
+    "partnerLabel": "Our International Partners — Operio Group",
+    "partnerHref": "https://www.operiogroup.com/"
+  }
+}
