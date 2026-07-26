@@ -1161,6 +1161,18 @@ let target = 0, progress = 0;
 function readScroll() {
   const max = document.documentElement.scrollHeight - innerHeight;
   target = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+  // The scroll hint's only job is to prompt the FIRST scroll. Past that it
+  // just collides with content (pricing fine print, footer), so hide it as
+  // soon as the reader has moved a meaningful amount, and bring it back if
+  // they return to the top.
+  const hint = document.getElementById('hint');
+  if (hint && hint.classList.contains('show') && scrollY > innerHeight * 0.4) {
+    hint.classList.remove('show');
+    hint.dataset.dismissed = '1';
+  } else if (hint && hint.dataset.dismissed && scrollY < 40) {
+    hint.classList.add('show');
+    delete hint.dataset.dismissed;
+  }
 }
 addEventListener('scroll', readScroll, { passive: true });
 readScroll();
