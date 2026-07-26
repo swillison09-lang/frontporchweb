@@ -215,11 +215,11 @@ const DEFAULT_TIERS_BY_TYPE = {
   // rather than "unlimited": generous, but not an open-ended promise on a
   // fixed fee.
   'local-business': [
-    { id: 'fallback-starter',  name: 'Starter',  price: '$400',   badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$250',   badge: null,
       features: ['Up to 4 sections', 'Mobile-friendly', 'Contact form', '1 round of revisions'] },
-    { id: 'fallback-standard', name: 'Standard', price: '$750',   badge: 'Most Popular',
+    { id: 'fallback-standard', name: 'Standard', price: '$500',   badge: 'Most Popular',
       features: ['Up to 8 sections', 'Photo gallery', 'Basic SEO setup', '2 rounds of revisions'] },
-    { id: 'fallback-premium',  name: 'Premium',  price: '$1,200', badge: null,
+    { id: 'fallback-premium',  name: 'Premium',  price: '$750',   badge: null,
       features: ['All the sections you need', 'Blog you update yourself', 'Online enquiry / booking', '3 rounds of revisions'] },
   ],
   'recruiting-profile': [
@@ -277,10 +277,11 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // │                                                                          │
 // │  THESE ARE LIVE LINKS AND TAKE REAL MONEY.                              │
 // │                                                                          │
-// │  Verified 2026-07-19: all 12 resolve, none show a Stripe test banner,   │
-// │  and the sampled amounts match the deposits below exactly (Local        │
-// │  Business Starter $200 and Premium $600, Recruiting Starter $125,       │
-// │  Adoption Premium $375). Merchant reads "Front Porch Web, LLC" and the  │
+// │  Verified 2026-07-26: the three local-business links were replaced when │
+// │  that tier moved to $250/$500/$750, and all three were opened and       │
+// │  confirmed live at $125 / $250 / $375 with the correct product names    │
+// │  and no test banner. The other nine were last checked 2026-07-19.       │
+// │  Merchant reads "Front Porch Web, LLC" and the                          │
 // │  product titles are already renamed to "<Type> — <Tier> (50% Deposit)". │
 // │                                                                          │
 // │  If you ever swap these for test links, flip STRIPE_TEST_MODE to true   │
@@ -299,10 +300,13 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // └──────────────────────────────────────────────────────────────────────────┘
 const STRIPE_TEST_MODE = false;
 const STRIPE_PAYMENT_LINKS = {
-  // Local business — Starter $200 / Standard $375 / Premium $600 (50% deposits)
-  'local-business::starter':     'https://buy.stripe.com/00w14n09xh1s8Pl4bU4Ni0c',
-  'local-business::standard':    'https://buy.stripe.com/4gM8wP3lJ8uW9TpeQy4Ni0d',
-  'local-business::premium':     'https://buy.stripe.com/28E4gzcWj4eGghNeQy4Ni0e',
+  // Local business — Starter $125 / Standard $250 / Premium $375 (50% deposits)
+  // Relinked 2026-07-26 when local-business pricing moved to $250/$500/$750.
+  // All three verified live at the correct amounts; the old $200/$375/$600
+  // links have been retired.
+  'local-business::starter':     'https://buy.stripe.com/3cI00j1dB12u6HdeQy4Ni0o',
+  'local-business::standard':    'https://buy.stripe.com/9B69ATaObaD4e9FaAi4Ni0p',
+  'local-business::premium':     'https://buy.stripe.com/6oU00j3lJ12u3v1cIq4Ni0q',
   // Recruiting profile — Starter $125 / Standard $225 / Premium $350
   'recruiting-profile::starter': 'https://buy.stripe.com/cNi3cve0n8uW9Tp5fY4Ni0f',
   'recruiting-profile::standard':'https://buy.stripe.com/eVq8wP9K73aC3v16k24Ni0g',
