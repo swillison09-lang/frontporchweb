@@ -98,17 +98,19 @@ Then open `js/r2-upload.js` and set `R2_UPLOAD_ENDPOINT` to that URL + `/upload`
 In `worker/wrangler.toml`, add your production domain to `ALLOWED_ORIGINS`:
 
 ```toml
-ALLOWED_ORIGINS = "http://localhost:8080,http://127.0.0.1:5500,https://frontporchweb.com"
+ALLOWED_ORIGINS = "http://localhost:8080,http://127.0.0.1:5500,https://frontporchwebllc.com"
 ```
 
 Redeploy: `wrangler deploy` again.
 
 #### c) Stripe
 
-All 12 Payment Links are already configured in `js/portal.js` in TEST mode. For each link in the Stripe dashboard, set **After payment → Redirect to**:
+All 12 Payment Links are configured in `js/portal.js` and are **LIVE, not test**
+(`STRIPE_TEST_MODE = false`) — they take real money. For each link in the Stripe
+dashboard, set **After payment → Redirect to**:
 
 ```
-https://frontporchweb.com/portal.html?fpw=success&sid={CHECKOUT_SESSION_ID}
+https://frontporchwebllc.com/portal.html?fpw=success&sid={CHECKOUT_SESSION_ID}
 ```
 
 (Use `{CHECKOUT_SESSION_ID}` literally — Stripe substitutes it.)
