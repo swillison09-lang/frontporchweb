@@ -107,7 +107,7 @@
       },
       {
         "name": "Standard",
-        "price": "from $450",
+        "price": "from $500",
         "term": "one-time project",
         "features": ["Up to 8 sections", "Looks great on every device", "Your own custom domain", "Contact form + photo gallery", "2 rounds of revisions", "Get found on Google (SEO)", "Links to your social media"],
         "cta": { "label": "Get Started", "href": "portal.html" },
@@ -115,7 +115,7 @@
       },
       {
         "name": "Premium",
-        "price": "from $700",
+        "price": "from $750",
         "term": "one-time project",
         "features": ["All the sections your story needs", "Looks great on every device", "Your own custom domain", "Contact form + photo gallery", "3 rounds of revisions", "Full Google visibility (SEO)", "Blog you update yourself", "See how visitors find you (analytics)", "Priority support"],
         "cta": { "label": "Get Started", "href": "portal.html" },
