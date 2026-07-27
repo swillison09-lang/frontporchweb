@@ -1,0 +1,42 @@
+# Front Porch Web, LLC — https://frontporchwebllc.com
+#
+# Everything here is meant to be crawled, including by AI assistants.
+#
+# Note on the owner-only pages (admin, blog-admin, setup): they are kept out
+# of search with a noindex meta tag on the page itself, NOT with a Disallow
+# here. Two reasons. A Disallow line would publish their location to anyone
+# who reads this file, and a blocked page can still get indexed as a bare URL
+# because the crawler never sees the noindex it was blocked from fetching.
+
+User-agent: *
+Allow: /
+
+# Named explicitly so it is clear these are welcome rather than overlooked.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://frontporchwebllc.com/sitemap.xml
