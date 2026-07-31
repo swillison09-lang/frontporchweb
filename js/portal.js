@@ -126,10 +126,19 @@ function darkenToContrast(hex, bg, target = CONTRAST_TARGET) {
   return { hex: out, adjusted };
 }
 
-// Build a full working palette from one or two colours the client owns.
-// Returns the same {name: hex} shape as the curated PALETTES entries so
-// everything downstream (review swatches, build prompt) works unchanged.
-function deriveBrandPalette(primaryHex, secondaryHex) {
+// Build a full working palette from however many colours the client owns.
+// Takes an array: [main, accent, ...supports]. Returns the same {name: hex}
+// shape as the curated PALETTES entries so everything downstream (review
+// swatches, build prompt) works unchanged.
+function deriveBrandPalette(brandHexes) {
+  const supplied = (Array.isArray(brandHexes) ? brandHexes : [brandHexes])
+    .map(h => (h || '').trim())
+    .filter(h => hexToRgb(h));
+
+  const primaryHex   = supplied[0];
+  const secondaryHex = supplied[1];
+  const extras       = supplied.slice(2);
+
   const primary = hexToRgb(primaryHex) ? primaryHex : '#2F4A38';
   const pHsl = rgbToHsl(hexToRgb(primary));
 
@@ -158,17 +167,34 @@ function deriveBrandPalette(primaryHex, secondaryHex) {
       }));
   const accent = darkenToContrast(rawAccent, bg);
 
+  // Colours past the second become supporting tones. They are held to the same
+  // contrast floor because a client who supplies five colours will expect to
+  // see them used, and anything used can end up carrying text.
+  const supports = extras.map((hex, i) => ({
+    key: `support${i + 1}`,
+    ...darkenToContrast(hex, bg),
+    original: hex.toUpperCase(),
+  }));
+
+  // Key order drives the swatch order shown to the client, so build it
+  // deliberately: page, headings, buttons, supporting tones, body text.
+  const colors = { bg, main: main.hex, accent: accent.hex };
+  supports.forEach(s => { colors[s.key] = s.hex; });
+  colors.text = text;
+
+  const ratio = hex => Math.round(contrastRatio(hex, bg) * 10) / 10;
+
   return {
-    colors: { bg, main: main.hex, accent: accent.hex, text },
-    adjustments: {
-      mainAdjusted:   main.adjusted,
-      accentAdjusted: accent.adjusted,
-      accentInvented: !hasSecondary,
-      mainOriginal:   primary.toUpperCase(),
-      accentOriginal: rawAccent.toUpperCase(),
-      mainRatio:      Math.round(contrastRatio(main.hex, bg) * 10) / 10,
-      accentRatio:    Math.round(contrastRatio(accent.hex, bg) * 10) / 10,
-    },
+    colors,
+    // One entry per colour we derived, so callers can report on any number of
+    // them without knowing how many there were.
+    derived: [
+      { key: 'main',   role: 'headings', original: primary.toUpperCase(),   final: main.hex,   adjusted: main.adjusted,   ratio: ratio(main.hex),   invented: false },
+      { key: 'accent', role: 'buttons',  original: rawAccent.toUpperCase(), final: accent.hex, adjusted: accent.adjusted, ratio: ratio(accent.hex), invented: !hasSecondary },
+      ...supports.map((s, i) => ({ key: s.key, role: `supporting ${i + 1}`, original: s.original, final: s.hex, adjusted: s.adjusted, ratio: ratio(s.hex), invented: false })),
+    ],
+    suppliedCount: supplied.length,
+    accentInvented: !hasSecondary,
   };
 }
 
@@ -182,6 +208,25 @@ function readBrandHex(textId, swatchId) {
   return swatchId ? (document.getElementById(swatchId)?.value || '') : '';
 }
 
+// Every brand-colour hex box currently on the page, in visual order: the two
+// fixed rows first, then any the client added.
+function brandHexInputs() {
+  return [
+    document.getElementById('qBrandPrimaryHex'),
+    document.getElementById('qBrandSecondaryHex'),
+    ...document.querySelectorAll('#qBrandExtraColors .brand-hex'),
+  ].filter(Boolean);
+}
+
+function collectBrandHexes() {
+  return brandHexInputs().map(input => {
+    const swatch = input.dataset.swatch ? document.getElementById(input.dataset.swatch) : null;
+    // Only the main colour falls back to its swatch; an untouched optional row
+    // means "no colour", not "the colour the picker happens to be showing".
+    return readBrandHex(input.id, input.id === 'qBrandPrimaryHex' ? (swatch?.id || null) : null);
+  }).filter(Boolean);
+}
+
 // Show the client exactly what their colours turn into, including any
 // darkening we had to do. Seeing the adjustment is the point: it is far less
 // surprising here than after the site is built.
@@ -190,34 +235,86 @@ function renderBrandPreview() {
   const note     = document.getElementById('qBrandPreviewNote');
   if (!swatches || !note) return;
 
-  const primary   = readBrandHex('qBrandPrimaryHex',   'qBrandPrimary');
-  const secondary = readBrandHex('qBrandSecondaryHex', null);
-  if (!primary) {
+  // An untouched optional row still renders a colour in its native picker, so
+  // dim it until it actually holds one. Otherwise it advertises a colour the
+  // derived palette is not using. Runs before the early return below so the
+  // state stays right even with no main colour yet.
+  brandHexInputs().forEach(input => {
+    if (input.id === 'qBrandPrimaryHex') return;
+    input.closest('.brand-color-row')?.classList.toggle('is-unset', !readBrandHex(input.id, null));
+  });
+
+  const hexes = collectBrandHexes();
+  if (!hexes.length) {
     swatches.innerHTML = '';
-    note.textContent   = 'Enter a hex code like #2F4A38 to see your palette.';
+    note.textContent   = 'Pick a color above, or paste a hex code like #1F6F4A, to see your palette.';
     return;
   }
 
-  const { colors, adjustments } = deriveBrandPalette(primary, secondary);
-  const roles = [
-    ['bg', 'page'], ['main', 'headings'], ['accent', 'buttons'], ['text', 'body'],
-  ];
-  swatches.innerHTML = roles
-    .map(([k, role]) => `<div class="swatch" style="background-color: ${colors[k]}" title="${role} — ${colors[k]}"></div>`)
-    .join('');
+  const { colors, derived, accentInvented } = deriveBrandPalette(hexes);
+  const labels = { bg: 'page', main: 'headings', accent: 'buttons', text: 'body' };
+  swatches.innerHTML = Object.entries(colors)
+    .map(([k, hex]) => {
+      const role = labels[k] || k.replace(/^support/, 'supporting ');
+      return `<div class="swatch" style="background-color: ${hex}" title="${role} — ${hex}"></div>`;
+    }).join('');
 
-  const tweaks = [];
-  if (adjustments.mainAdjusted)   tweaks.push('your main color');
-  if (adjustments.accentAdjusted && !adjustments.accentInvented) tweaks.push('your second color');
-
+  const deepened = derived.filter(d => d.adjusted && !d.invented).length;
   const parts = [];
-  parts.push(tweaks.length
-    ? `We deepened ${tweaks.join(' and ')} slightly so text stays readable on the page — same color, just enough contrast.`
+  parts.push(deepened
+    ? `We deepened ${deepened === 1 ? 'one of your colors' : `${deepened} of your colors`} slightly so text stays readable on the page — same color, just enough contrast.`
     : 'Your colors clear our readability checks as-is.');
-  if (adjustments.accentInvented) {
+  if (accentInvented) {
     parts.push('The third swatch is our suggested accent, picked to sit alongside your color. Add a second color above if you already have one.');
   }
   note.textContent = parts.join(' ');
+}
+
+// Append one more colour row. Unlimited by design — most brands stop at two,
+// but a client with a full style guide should not be told their brand is
+// too big for the form.
+let brandExtraSeq = 0;
+function addBrandColorRow(initialHex = '') {
+  const host = document.getElementById('qBrandExtraColors');
+  if (!host) return;
+  const n = ++brandExtraSeq;
+  const swatchId = `qBrandExtra${n}`;
+  const hexId    = `qBrandExtra${n}Hex`;
+
+  const group = document.createElement('div');
+  group.className = 'form-group';
+  group.innerHTML =
+    `<label for="${hexId}">Another color <span class="q-optional">(optional)</span></label>` +
+    `<div class="brand-color-row is-unset">` +
+      `<input type="color" id="${swatchId}" value="${initialHex || '#7A8B99'}" aria-label="Additional brand color swatch">` +
+      `<input type="text" id="${hexId}" class="brand-hex" value="${initialHex}" placeholder="#RRGGBB" spellcheck="false" maxlength="7" aria-label="Additional brand color hex code">` +
+      `<button type="button" class="btn-ghost brand-remove" aria-label="Remove this color">&times;</button>` +
+    `</div>`;
+  host.appendChild(group);
+
+  const swatch = group.querySelector(`#${swatchId}`);
+  const text   = group.querySelector(`#${hexId}`);
+  text.dataset.swatch = swatchId;
+  bindBrandColorPair(swatch, text);
+  group.querySelector('.brand-remove').addEventListener('click', () => {
+    group.remove();
+    renderBrandPreview();
+  });
+  text.focus();
+  renderBrandPreview();
+}
+
+// Keep a colour swatch and its hex box in step, and refresh the preview.
+function bindBrandColorPair(swatch, text) {
+  if (swatch) swatch.addEventListener('input', () => {
+    if (text) text.value = swatch.value.toUpperCase();
+    renderBrandPreview();
+  });
+  if (text) text.addEventListener('input', () => {
+    const v = text.value.trim();
+    if (/^#?[0-9a-f]{6}$/i.test(v) && swatch) swatch.value = v.startsWith('#') ? v : `#${v}`;
+    renderBrandPreview();
+  });
 }
 
 // Toggle between the curated picker and the brand-colour branch.
@@ -235,18 +332,13 @@ function initColorModeToggle() {
 
   document.querySelectorAll('input[name="qColorMode"]').forEach(r => r.addEventListener('change', apply));
 
-  // Keep the colour swatch and the hex text box in step with each other.
-  const pairs = [['qBrandPrimary', 'qBrandPrimaryHex'], ['qBrandSecondary', 'qBrandSecondaryHex']];
-  for (const [swatchId, textId] of pairs) {
-    const swatch = document.getElementById(swatchId);
-    const text   = document.getElementById(textId);
-    if (swatch) swatch.addEventListener('input', () => { if (text) text.value = swatch.value.toUpperCase(); renderBrandPreview(); });
-    if (text)   text.addEventListener('input', () => {
-      const v = text.value.trim();
-      if (/^#?[0-9a-f]{6}$/i.test(v) && swatch) swatch.value = v.startsWith('#') ? v : `#${v}`;
-      renderBrandPreview();
-    });
+  // The two fixed rows; any further ones are wired as they are created.
+  for (const [swatchId, textId] of [['qBrandPrimary', 'qBrandPrimaryHex'], ['qBrandSecondary', 'qBrandSecondaryHex']]) {
+    const text = document.getElementById(textId);
+    if (text) text.dataset.swatch = swatchId;
+    bindBrandColorPair(document.getElementById(swatchId), text);
   }
+  document.getElementById('qBrandAddColor')?.addEventListener('click', () => addBrandColorRow());
   document.getElementById('qBrandSource')?.addEventListener('input', renderBrandPreview);
 
   apply();
@@ -1894,13 +1986,14 @@ function qBuildSummaryHTML() {
     // When the colours came from the client's own brand, say so — and say
     // plainly if we deepened anything, so it is not a surprise later.
     if (qData.brand) {
-      const a = qData.brand.adjustments || {};
+      const supplied = qData.brand.supplied || [];
+      const deepened = (qData.brand.derived || []).filter(d => d.adjusted && !d.invented).length;
       const bits = [];
       if (qData.brand.source) bits.push(`From ${escapeHtml(qData.brand.source)}.`);
-      bits.push(`Your colors: ${escapeHtml(qData.brand.primary)}${qData.brand.secondary ? ' and ' + escapeHtml(qData.brand.secondary) : ''}.`);
-      if (a.mainAdjusted || a.accentAdjusted) {
-        bits.push('We deepened them slightly so text stays readable — same color, more contrast.');
+      if (supplied.length) {
+        bits.push(`Your color${supplied.length === 1 ? '' : 's'}: ${escapeHtml(supplied.join(', '))}.`);
       }
+      if (deepened) bits.push('We deepened them slightly so text stays readable — same color, more contrast.');
       out.push(`<p class="review-palette-note">${bits.join(' ')}</p>`);
     }
     out.push('</div>');
@@ -2448,20 +2541,19 @@ function qGenerateBuildPrompt() {
     // hexes are DERIVED from colours the client already owns, not picked off
     // a list, so they are not an axis left free for the build to reinterpret.
     if (qData.brand) {
-      const a = qData.brand.adjustments || {};
+      const derived  = qData.brand.derived || [];
+      const supplied = qData.brand.supplied || [];
       lines.push('');
       lines.push('DERIVED FROM THE CLIENT\'S OWN BRAND COLORS — DO NOT SUBSTITUTE.');
-      lines.push(`Client's colors as supplied: ${qData.brand.primary}${qData.brand.secondary ? ', ' + qData.brand.secondary : ''}`);
+      if (supplied.length) lines.push(`Client's colors as supplied: ${supplied.join(', ')}`);
       if (qData.brand.source) lines.push(`Where they come from: ${qData.brand.source}`);
-      if (a.mainAdjusted || a.accentAdjusted) {
-        lines.push(
-          `Adjusted for contrast: ${a.mainAdjusted ? `main ${a.mainOriginal} → ${qData.paletteColors.main} (${a.mainRatio}:1)` : ''}` +
-          `${a.mainAdjusted && a.accentAdjusted ? '; ' : ''}` +
-          `${a.accentAdjusted ? `accent ${a.accentOriginal} → ${qData.paletteColors.accent} (${a.accentRatio}:1)` : ''}`
-        );
+      const moved = derived.filter(d => d.adjusted && !d.invented);
+      if (moved.length) {
+        lines.push('Adjusted for contrast:');
+        moved.forEach(d => lines.push(`  ${d.key} (${d.role}): ${d.original} → ${d.final} (${d.ratio}:1)`));
         lines.push('Hue and saturation were preserved — only lightness moved. Keep it that way.');
       }
-      if (a.accentInvented) {
+      if (qData.brand.accentInvented) {
         lines.push(`The accent (${qData.paletteColors.accent}) is OURS, not theirs — the client gave`);
         lines.push('only one color, so this is a near-hue suggestion. Replace it with a');
         lines.push('better-considered accent if the design calls for one; it is the one');
@@ -3257,15 +3349,15 @@ function qSaveStep(step) {
       qData.colorMode = mode;
 
       if (mode === 'brand') {
-        const primary   = readBrandHex('qBrandPrimaryHex',   'qBrandPrimary');
-        const secondary = readBrandHex('qBrandSecondaryHex', null);
-        const derived   = deriveBrandPalette(primary, secondary);
+        const hexes   = collectBrandHexes();
+        const derived = deriveBrandPalette(hexes);
 
         qData.brand = {
-          primary,
-          secondary: secondary || null,
-          source: getVal('qBrandSource'),
-          adjustments: derived.adjustments,
+          supplied: hexes,                 // every colour the client gave, in order
+          primary:  hexes[0] || null,
+          source:   getVal('qBrandSource'),
+          derived:  derived.derived,
+          accentInvented: derived.accentInvented,
         };
         // Downstream (review swatches, build prompt, the build skill) reads
         // paletteChoice/paletteColors, so the derived set fills the same slots.

@@ -1242,20 +1242,30 @@
              site keeps their identity without dropping below the contrast
              floor. See deriveBrandPalette() in js/portal.js. -->
         <div id="qBrandBlock" class="hidden">
+          <p class="q-help">Tap a swatch to pick a color, or paste the hex code straight from your logo file if you have it. Add as many as your brand uses &mdash; most only need one or two.</p>
+
           <div class="form-group">
-            <label for="qBrandPrimary">Your main brand color</label>
+            <label for="qBrandPrimaryHex">Your main brand color</label>
             <div class="brand-color-row">
               <input type="color" id="qBrandPrimary" value="#2F4A38" aria-label="Main brand color swatch">
-              <input type="text" id="qBrandPrimaryHex" class="brand-hex" value="#2F4A38" spellcheck="false" maxlength="7" aria-label="Main brand color hex code">
+              <input type="text" id="qBrandPrimaryHex" class="brand-hex" value="#2F4A38" placeholder="#1F6F4A" spellcheck="false" maxlength="7" aria-label="Main brand color hex code">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="qBrandSecondary">A second color <span class="q-optional">(optional)</span></label>
-            <div class="brand-color-row">
+            <label for="qBrandSecondaryHex">A second color <span class="q-optional">(optional)</span></label>
+            <div class="brand-color-row is-unset">
               <input type="color" id="qBrandSecondary" value="#E9973E" aria-label="Second brand color swatch">
               <input type="text" id="qBrandSecondaryHex" class="brand-hex" value="" placeholder="leave blank if you only have one" spellcheck="false" maxlength="7" aria-label="Second brand color hex code">
             </div>
+          </div>
+
+          <!-- Any colours past the second are added here at runtime by
+               initColorModeToggle(). Most brands stop at two. -->
+          <div id="qBrandExtraColors"></div>
+
+          <div class="form-group">
+            <button type="button" id="qBrandAddColor" class="btn-ghost">+ Add another color</button>
           </div>
 
           <div class="form-group">

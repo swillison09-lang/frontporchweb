@@ -1951,6 +1951,24 @@ a {
   text-transform: uppercase;
 }
 
+/* A native colour input always renders *some* colour, so an untouched second
+   swatch reads as a real choice the client has made — and then the preview
+   below shows a different accent, because an empty hex box means "no second
+   colour". Dim the swatch while it is unset so it matches what is actually
+   being used. */
+.brand-color-row.is-unset input[type="color"] {
+  opacity: .3;
+  filter: grayscale(1);
+}
+
+.brand-remove {
+  flex: 0 0 auto;
+  padding: 0 .7rem;
+  font-size: 1.1rem;
+  line-height: 1;
+  min-height: 2.75rem;
+}
+
 /* The preview swatches are not inside a .palette-card, so the dimming that
    .palette-swatches applies until its radio is checked would never lift. */
 #qBrandPreviewSwatches {
