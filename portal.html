@@ -1087,9 +1087,17 @@
 
       <!-- ── STEP 5 — Color Palette ── -->
       <div id="qPanel5" class="q-panel hidden">
-        <div class="q-panel-head">
+        <div class="q-panel-head q-flow q-flow-generic">
           <h2>What is your color style?</h2>
           <p class="q-panel-sub">Pick a palette that feels right for your&nbsp;brand.</p>
+        </div>
+        <div class="q-panel-head q-flow q-flow-adopt hidden">
+          <h2>What colors feel like you?</h2>
+          <p class="q-panel-sub">Pick a palette for your profile, or choose your own&nbsp;colors.</p>
+        </div>
+        <div class="q-panel-head q-flow q-flow-recruit hidden">
+          <h2>What colors should your profile use?</h2>
+          <p class="q-panel-sub">Your school or club colors work well&nbsp;here.</p>
         </div>
 
         <div class="form-group">
@@ -1101,10 +1109,21 @@
               <p class="palette-mode-note">Palettes we have already tested.</p>
               <div class="palette-check" aria-hidden="true">&#10003;</div>
             </label>
+            <!-- One radio, three labels. Duplicating the input per flow would
+                 leave hidden radios in the same group, and the :checked lookup
+                 could match one the client cannot see. -->
             <label class="palette-card">
               <input type="radio" name="qColorMode" value="brand">
-              <p class="palette-name">Use my brand colors</p>
-              <p class="palette-mode-note">You already have a logo or sign.</p>
+              <p class="palette-name">
+                <span class="q-flow q-flow-generic">Use my brand colors</span>
+                <span class="q-flow q-flow-adopt hidden">Choose my own colors</span>
+                <span class="q-flow q-flow-recruit hidden">Use my team colors</span>
+              </p>
+              <p class="palette-mode-note">
+                <span class="q-flow q-flow-generic">You already have a logo or sign.</span>
+                <span class="q-flow q-flow-adopt hidden">Colors that feel right to you.</span>
+                <span class="q-flow q-flow-recruit hidden">Your school or club colors.</span>
+              </p>
               <div class="palette-check" aria-hidden="true">&#10003;</div>
             </label>
           </div>
@@ -1242,8 +1261,14 @@
              site keeps their identity without dropping below the contrast
              floor. See deriveBrandPalette() in js/portal.js. -->
         <div id="qBrandBlock" class="hidden">
-          <div class="form-group">
-            <label>Have a logo? <span class="q-optional">(optional)</span></label>
+          <!-- Hidden for adoption: a family does not have a logo, and asking
+               for one reads as a form built for somebody else. -->
+          <div class="form-group q-flow q-flow-not-adopt">
+            <label>
+              <span class="q-flow q-flow-generic">Have a logo?</span>
+              <span class="q-flow q-flow-recruit hidden">Have a team or school logo?</span>
+              <span class="q-optional">(optional)</span>
+            </label>
             <p class="q-help">Drop it in and we will read the colors straight off it. You can fix anything we get wrong before moving on &mdash; and we will use the file on your site.</p>
             <div class="file-upload-zone" id="qBrandLogoZone">
               <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
@@ -1262,10 +1287,18 @@
             <p class="palette-mode-note" id="qBrandLogoNote"></p>
           </div>
 
-          <p class="q-help">Or set them by hand: tap a swatch to pick a color, or paste the hex code straight from your logo file. Add as many as your brand uses &mdash; most only need one or two.</p>
+          <p class="q-help">
+            <span class="q-flow q-flow-generic">Or set them by hand: tap a swatch to pick a color, or paste the hex code straight from your logo file. Add as many as your brand uses &mdash; most only need one or two.</span>
+            <span class="q-flow q-flow-adopt hidden">Tap a swatch to pick a color, or paste a hex code if you have one. Add as many as you like &mdash; most people only need one or two.</span>
+            <span class="q-flow q-flow-recruit hidden">Or set them by hand: tap a swatch to pick a color, or paste the hex code if you know it. Add as many as your team uses &mdash; most only need one or two.</span>
+          </p>
 
           <div class="form-group">
-            <label for="qBrandPrimaryHex">Your main brand color</label>
+            <label for="qBrandPrimaryHex">
+              <span class="q-flow q-flow-generic">Your main brand color</span>
+              <span class="q-flow q-flow-adopt hidden">Your main color</span>
+              <span class="q-flow q-flow-recruit hidden">Your main team color</span>
+            </label>
             <div class="brand-color-row">
               <input type="color" id="qBrandPrimary" value="#2F4A38" aria-label="Main brand color swatch">
               <input type="text" id="qBrandPrimaryHex" class="brand-hex" value="#2F4A38" placeholder="#1F6F4A" spellcheck="false" maxlength="7" aria-label="Main brand color hex code">
@@ -1288,7 +1321,7 @@
             <button type="button" id="qBrandAddColor" class="btn-ghost">+ Add another color</button>
           </div>
 
-          <div class="form-group">
+          <div class="form-group q-flow q-flow-not-adopt">
             <label for="qBrandSource">Where do these colors come from? <span class="q-optional">(helps us match exactly)</span></label>
             <input type="text" id="qBrandSource" placeholder="our logo and the lettering on the truck">
           </div>

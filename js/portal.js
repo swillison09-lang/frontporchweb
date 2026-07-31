@@ -1756,7 +1756,21 @@ function applyFlowVariant() {
   document.querySelectorAll('.q-flow-recruit').forEach(el => el.classList.toggle('hidden', v !== 'recruit'));
   // Blocks shared by generic + adopt but NOT recruit (the Step 6 single uploader).
   document.querySelectorAll('.q-flow-not-recruit').forEach(el => el.classList.toggle('hidden', v === 'recruit'));
+  // Blocks shared by generic + recruit but NOT adopt (the Step 5 logo upload —
+  // a business has a logo and an athlete has a team crest; a family has neither).
+  document.querySelectorAll('.q-flow-not-adopt').forEach(el => el.classList.toggle('hidden', v === 'adopt'));
   updateClubTeamLabels();
+  updateBrandSourcePlaceholder(v);
+}
+
+// The "where do these colors come from?" prompt only makes sense with an
+// example the client recognises, and a jersey is not a truck.
+function updateBrandSourcePlaceholder(variant) {
+  const el = document.getElementById('qBrandSource');
+  if (!el) return;
+  el.placeholder = variant === 'recruit'
+    ? 'our school colors and the team jersey'
+    : 'our logo and the lettering on the truck';
 }
 
 
@@ -2754,9 +2768,18 @@ function qGenerateBuildPrompt() {
         lines.push('better-considered accent if the design calls for one; it is the one');
         lines.push('color here you are free to change.');
       }
-      lines.push('The site must visually match their existing logo/signage. If a');
-      lines.push('color has to shift further for legibility, note it for Sean rather');
-      lines.push('than quietly picking a different color.');
+      const st = qData.siteType || '';
+      if (st === 'adoption-profile') {
+        lines.push('These are colors the family chose for themselves, not a brand');
+        lines.push('identity — treat them as a preference to honor, not a spec to match.');
+      } else if (st === 'recruiting-profile') {
+        lines.push('These are the athlete\'s school or club colors. Coaches recognise');
+        lines.push('them on sight, so keep them accurate.');
+      } else {
+        lines.push('The site must visually match their existing logo/signage.');
+      }
+      lines.push('If a color has to shift further for legibility, note it for Sean');
+      lines.push('rather than quietly picking a different color.');
     }
   } else {
     lines.push('(no palette chosen — pick warm, trustworthy defaults)');
