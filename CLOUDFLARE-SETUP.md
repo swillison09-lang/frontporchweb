@@ -125,10 +125,10 @@ that comma-separated list and run `wrangler deploy` again.
 Before you ship:
 
 - [ ] Add your production domain to `ALLOWED_ORIGINS` in
-  `worker/wrangler.toml` (e.g. `https://frontporchweb.com`) and
+  `worker/wrangler.toml` (e.g. `https://frontporchwebllc.com`) and
   redeploy.
 - [ ] In Supabase Dashboard → **Authentication → URL Configuration →
-  Redirect URLs**, add `https://frontporchweb.com/portal.html`.
+  Redirect URLs**, add `https://frontporchwebllc.com/portal.html`.
 - [ ] Decide how the owner views uploaded photos. Two options:
   - **Option A (private bucket):** add a `/download?key=...` route to
     the Worker that streams the object after verifying the caller is the

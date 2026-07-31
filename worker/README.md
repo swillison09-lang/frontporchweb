@@ -58,7 +58,7 @@ This starts a local Worker on `http://localhost:8787`. Point
 the comma-separated value, then re-deploy. Examples:
 
 ```toml
-ALLOWED_ORIGINS = "http://localhost:5500,https://frontporchweb.com"
+ALLOWED_ORIGINS = "http://localhost:5500,https://frontporchwebllc.com"
 ```
 
 Only origins on this list will receive the `Access-Control-Allow-Origin`

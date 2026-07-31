@@ -22,7 +22,7 @@
     SUPABASE_URL                 e.g. https://hxxtsthfqwyvkyuwnnsu.supabase.co
     SUPABASE_PUBLISHABLE_KEY     the public/anon key (safe to expose)
     ALLOWED_ORIGINS              comma-separated list, e.g.
-                                   http://localhost:5500,https://frontporchweb.com
+                                   http://localhost:5500,https://frontporchwebllc.com
 
   Required binding (also wrangler.toml):
     UPLOADS                      R2 bucket binding → frontporchweb-uploads

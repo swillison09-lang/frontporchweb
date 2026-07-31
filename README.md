@@ -76,8 +76,8 @@ Add `http://localhost:8080` (or whatever port you use) to `worker/wrangler.toml`
 
 1. In your Supabase project → **SQL Editor** → paste the contents of `supabase-schema.sql` and run it. This creates the `submissions` table and RLS policies.
 2. In **Authentication → URL Configuration**:
-   - **Site URL:** `https://frontporchweb.com` (your production domain)
-   - **Redirect URLs:** add both `https://frontporchweb.com/portal.html` and `http://localhost:8080/portal.html` (for local dev)
+   - **Site URL:** `https://frontporchwebllc.com` (the production domain)
+   - **Redirect URLs:** add both `https://frontporchwebllc.com/portal.html` and `http://localhost:8080/portal.html` (for local dev)
 3. In **Authentication → Providers → Google**: paste your Google OAuth client ID and secret. (These stay in the Supabase dashboard — never in this repo.)
 
 #### b) Cloudflare Worker (R2 photo uploads)
@@ -138,7 +138,7 @@ The site is live at `your-project.pages.dev` in ~30 seconds.
 ### 3. Connect a custom domain
 
 1. In Cloudflare Pages → your project → **Custom domains** → **Set up a custom domain**.
-2. Enter `frontporchweb.com`.
+2. Enter `frontporchwebllc.com`.
 3. If your domain is already on Cloudflare DNS (recommended), it auto-provisions. Otherwise follow the DNS instructions Cloudflare shows.
 
 After the domain is connected:
@@ -180,7 +180,7 @@ On Pay & Submit: photos upload to R2, the full submission saves to Supabase, the
 The pricing tiers on Step 8 come from `setup.html` — an owner-only CRUD page. Navigate there directly:
 
 ```
-https://frontporchweb.com/setup.html
+https://frontporchwebllc.com/setup.html
 ```
 
 Business types and tier data are stored in `localStorage` under `frontporch_business_types`. Each business type maps to one or more Step-1 site types (`local-business`, `adoption-profile`, `recruiting-profile`, `personal-other`) and carries 2–4 pricing tiers with names that **must match** the Stripe Payment Link map in `js/portal.js` (case-insensitive) for payment redirect to work.
