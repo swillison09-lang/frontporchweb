@@ -1562,13 +1562,16 @@ function qBuildSummaryHTML() {
 
   if (isAdopt) {
     // Adoption — Family (letter + parents)
-    if (ad.letter || (ad.parent1 && (ad.parent1.name || ad.parent1.facts)) || (ad.parent2 && (ad.parent2.name || ad.parent2.facts))) {
+    if (ad.letter || ad.remember || (ad.parent1 && (ad.parent1.name || ad.parent1.facts)) || (ad.parent2 && (ad.parent2.name || ad.parent2.facts))) {
       out.push('<div class="review-section"><div class="review-section-head"><h3>Your Family</h3><a href="#" class="review-edit-link" data-step="2">Edit</a></div>');
       if (ad.letter) {
         out.push('<p class="review-subheading">Letter to birth parents</p>');
         out.push(`<blockquote class="review-letter">${escapeHtml(ad.letter)}</blockquote>`);
       }
       out.push('<dl class="review-dl">');
+      if (ad.remember) {
+        out.push(`<dt>One thing to remember</dt><dd class="review-multiline">${escapeHtml(ad.remember)}</dd>`);
+      }
       if (ad.parent1 && (ad.parent1.name || ad.parent1.facts)) {
         out.push(`<dt>Parent 1</dt><dd>${escapeHtml(ad.parent1.name || '—')}${ad.parent1.facts ? `<div class="review-multiline">${escapeHtml(ad.parent1.facts)}</div>` : ''}</dd>`);
       }
@@ -1815,10 +1818,16 @@ function qBuildSummaryHTML() {
       contactItems.forEach(([k, v]) => out.push(`<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`));
       out.push('</dl></div>');
     }
-    if (rc.athleteStatement) {
+    if (rc.athleteStatement || rc.remember) {
       out.push('<div class="review-section"><div class="review-section-head"><h3>Athlete Statement</h3><a href="#" class="review-edit-link" data-step="4">Edit</a></div>');
-      out.push('<p class="review-subheading">In the athlete\'s own words (verbatim on site)</p>');
-      out.push(`<blockquote class="review-letter">${escapeHtml(rc.athleteStatement)}</blockquote>`);
+      if (rc.athleteStatement) {
+        out.push('<p class="review-subheading">In the athlete\'s own words (verbatim on site)</p>');
+        out.push(`<blockquote class="review-letter">${escapeHtml(rc.athleteStatement)}</blockquote>`);
+      }
+      if (rc.remember) {
+        out.push('<dl class="review-dl"><dt>One thing a coach should remember</dt>' +
+                 `<dd class="review-multiline">${escapeHtml(rc.remember)}</dd></dl>`);
+      }
       out.push('</div>');
     }
 
@@ -1964,6 +1973,14 @@ function qGenerateBuildPrompt() {
       lines.push('│  This is the client\'s own words. Display exactly as is. │');
       lines.push('└─────────────────────────────────────────────────────────┘');
       lines.push(ad.letter);
+      lines.push('');
+    }
+
+    if (ad.remember) {
+      // The family's own answer to what should survive a quick read of the
+      // profile. Lead with it — but in their register, not a sales headline.
+      lines.push('THE ONE THING SHE SHOULD REMEMBER (lead the page with this):');
+      lines.push(ad.remember);
       lines.push('');
     }
 
@@ -2269,6 +2286,13 @@ function qGenerateBuildPrompt() {
       lines.push('│  The athlete\'s own words. Display exactly as is.        │');
       lines.push('└─────────────────────────────────────────────────────────┘');
       lines.push(rc.athleteStatement);
+      lines.push('');
+    }
+    if (rc.remember) {
+      // Coaches skim. This is the athlete's own answer to what should survive
+      // that skim — lead the page with it.
+      lines.push('THE ONE THING A COACH SHOULD REMEMBER (lead the page with this):');
+      lines.push(rc.remember);
       lines.push('');
     }
   } else {
@@ -3108,6 +3132,7 @@ function qSaveStep(step) {
       if (adopt) {
         qData.adopt.city      = getVal('qaCity');
         qData.adopt.letter    = getVal('qaLetter');
+        qData.adopt.remember  = getVal('qaRemember');
         qData.adopt.parent1   = { name: getVal('qaP1Name'), facts: getVal('qaP1Facts') };
         qData.adopt.parent2   = { name: getVal('qaP2Name'), facts: getVal('qaP2Facts') };
       } else if (recruit) {
@@ -3217,6 +3242,7 @@ function qSaveStep(step) {
           parentPhone:  getVal('qrParentPhone'),
         };
         qData.recruit.athleteStatement = getVal('qrAthleteStatement');
+        qData.recruit.remember         = getVal('qrRemember');
       } else {
         qData.website    = getVal('qWebsite');
         qData.facebook   = getVal('qFacebook');
