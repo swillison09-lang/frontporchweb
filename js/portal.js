@@ -277,10 +277,17 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // │                                                                          │
 // │  THESE ARE LIVE LINKS AND TAKE REAL MONEY.                              │
 // │                                                                          │
-// │  Verified 2026-07-26: the three local-business links were replaced when │
-// │  that tier moved to $250/$500/$750, and all three were opened and       │
-// │  confirmed live at $125 / $250 / $375 with the correct product names    │
-// │  and no test banner. The other nine were last checked 2026-07-19.       │
+// │  Verified 2026-07-31: ALL TWELVE links opened and confirmed — correct   │
+// │  amount, correct product name, live mode (no test banner), merchant     │
+// │  "Front Porch Web, LLC". Each deposit is exactly half the tier price in │
+// │  setup.js:                                                              │
+// │    local-business  $250/$500/$750    -> $125 / $250 / $375              │
+// │    recruiting      $250/$450/$700    -> $125 / $225 / $350              │
+// │    adoption        $300/$500/$750    -> $150 / $250 / $375              │
+// │    personal-other  $350/$650/$1,000  -> $175 / $325 / $500              │
+// │  Note the tiers are NOT priced the same across site types — recruiting  │
+// │  Standard is $450, not $500, so its $225 deposit is correct. Re-verify  │
+// │  every link after any price change; a stale link charges the old money. │
 // │  Merchant reads "Front Porch Web, LLC" and the                          │
 // │  product titles are already renamed to "<Type> — <Tier> (50% Deposit)". │
 // │                                                                          │
