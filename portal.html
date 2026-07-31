@@ -1242,7 +1242,27 @@
              site keeps their identity without dropping below the contrast
              floor. See deriveBrandPalette() in js/portal.js. -->
         <div id="qBrandBlock" class="hidden">
-          <p class="q-help">Tap a swatch to pick a color, or paste the hex code straight from your logo file if you have it. Add as many as your brand uses &mdash; most only need one or two.</p>
+          <div class="form-group">
+            <label>Have a logo? <span class="q-optional">(optional)</span></label>
+            <p class="q-help">Drop it in and we will read the colors straight off it. You can fix anything we get wrong before moving on &mdash; and we will use the file on your site.</p>
+            <div class="file-upload-zone" id="qBrandLogoZone">
+              <svg class="file-upload-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+                <path d="M12 2v16m0 0l-3.5-3.5m3.5 3.5l3.5-3.5M2 12h8m6 0h8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p class="file-upload-text">Drag your logo here or <button type="button" id="qBrandLogoBtn" class="file-upload-button">choose a file</button></p>
+            </div>
+            <input type="file" id="qBrandLogoInput" accept="image/*" hidden>
+            <div id="qBrandLogoPreview" class="brand-logo-preview hidden">
+              <img id="qBrandLogoImg" alt="Your uploaded logo">
+              <div class="brand-logo-meta">
+                <p id="qBrandLogoName"></p>
+                <button type="button" id="qBrandLogoRemove" class="file-upload-button">Remove</button>
+              </div>
+            </div>
+            <p class="palette-mode-note" id="qBrandLogoNote"></p>
+          </div>
+
+          <p class="q-help">Or set them by hand: tap a swatch to pick a color, or paste the hex code straight from your logo file. Add as many as your brand uses &mdash; most only need one or two.</p>
 
           <div class="form-group">
             <label for="qBrandPrimaryHex">Your main brand color</label>

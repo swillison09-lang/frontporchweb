@@ -208,6 +208,177 @@ function readBrandHex(textId, swatchId) {
   return swatchId ? (document.getElementById(swatchId)?.value || '') : '';
 }
 
+// ── Logo colour extraction ────────────────────────────────────────────────
+// Most small-business owners have a logo file but have never looked up a hex
+// code, so asking for hex first asks for something they do not have. Reading
+// the colours off the logo turns "I don't know" into "yes, those are ours".
+//
+// This runs entirely in the browser — the file is read locally, drawn to a
+// canvas and sampled. Nothing is uploaded to extract colours. The results
+// PRE-FILL the editable rows rather than setting the palette directly:
+// extraction is never exact (JPEG artifacts, anti-aliased edges, a photo of a
+// sign in afternoon light), so the client stays the authority and a wrong
+// guess costs a two-second edit instead of a wrong website.
+
+// Holds the chosen logo File until submit, mirroring qPhotoFiles.
+let qBrandLogoFile = null;
+
+// Pixels that carry no brand information: the paper the logo sits on, the
+// ink of its outline, and anything too washed out to be a real brand colour.
+function isIgnorablePixel(r, g, b, a) {
+  if (a < 200) return true;                       // transparent PNG matte
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const chroma = max - min;
+
+  // Only *colourless* pixels are background. Judging "near-white" on the
+  // brightest channel alone throws away saturated golds and yellows — a gold
+  // like #F2C14E has a red channel of 242 and would read as paper, which
+  // quietly loses the brand colour of half the trades in the country.
+  if (chroma < 25) return max > 232 || max < 34;  // white paper / black ink
+
+  return false;
+}
+
+// Count colours in coarse buckets, then merge buckets that are visually the
+// same so a single anti-aliased logo does not return five shades of one green.
+function extractLogoColors(img, want = 3) {
+  const SIZE = 100;                               // plenty for dominant colours
+  const canvas = document.createElement('canvas');
+  const scale  = Math.min(SIZE / img.width, SIZE / img.height, 1);
+  canvas.width  = Math.max(1, Math.round(img.width  * scale));
+  canvas.height = Math.max(1, Math.round(img.height * scale));
+
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  let data;
+  try {
+    data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+  } catch (e) {
+    return [];                                    // tainted canvas — give up quietly
+  }
+
+  const buckets = new Map();
+  for (let i = 0; i < data.length; i += 4) {
+    const [r, g, b, a] = [data[i], data[i + 1], data[i + 2], data[i + 3]];
+    if (isIgnorablePixel(r, g, b, a)) continue;
+    // 24 levels per channel: tight enough to separate real colours, loose
+    // enough that compression noise lands in the same bucket.
+    const key = `${Math.round(r / 24)},${Math.round(g / 24)},${Math.round(b / 24)}`;
+    const bucket = buckets.get(key) || { r: 0, g: 0, b: 0, n: 0 };
+    bucket.r += r; bucket.g += g; bucket.b += b; bucket.n++;
+    buckets.set(key, bucket);
+  }
+
+  const candidates = [...buckets.values()]
+    .filter(c => c.n >= 3)                        // ignore stray edge pixels
+    .map(c => ({ hex: rgbToHex({ r: c.r / c.n, g: c.g / c.n, b: c.b / c.n }), n: c.n }))
+    .sort((a, b) => b.n - a.n);
+
+  // Drop anything too close to a colour already chosen, so the list reads as
+  // distinct brand colours rather than a gradient.
+  const picked = [];
+  for (const c of candidates) {
+    if (picked.length >= want) break;
+    const cRgb = hexToRgb(c.hex);
+    const tooClose = picked.some(p => {
+      const pRgb = hexToRgb(p);
+      return Math.abs(pRgb.r - cRgb.r) + Math.abs(pRgb.g - cRgb.g) + Math.abs(pRgb.b - cRgb.b) < 90;
+    });
+    if (!tooClose) picked.push(c.hex);
+  }
+  return picked;
+}
+
+// Put extracted colours into the visible rows, adding rows if needed. Never
+// silently overwrites a colour the client typed themselves.
+function applyExtractedColors(hexes) {
+  if (!hexes.length) return 0;
+
+  const setRow = (input, hex) => {
+    input.value = hex;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
+  const fixed = [document.getElementById('qBrandPrimaryHex'), document.getElementById('qBrandSecondaryHex')];
+  let used = 0;
+  hexes.forEach((hex, i) => {
+    if (i < fixed.length) { setRow(fixed[i], hex); used++; }
+    else { addBrandColorRow(hex); used++; }
+  });
+  return used;
+}
+
+function handleLogoFile(file) {
+  const note    = document.getElementById('qBrandLogoNote');
+  const preview = document.getElementById('qBrandLogoPreview');
+  const looksLikeImage = (file.type && file.type.startsWith('image/')) ||
+    /\.(jpe?g|png|gif|webp|svg|bmp|heic|heif|avif)$/i.test(file.name);
+  if (!looksLikeImage) {
+    if (note) note.textContent = 'That does not look like an image file.';
+    return;
+  }
+
+  qBrandLogoFile = file;
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+
+  img.onload = () => {
+    document.getElementById('qBrandLogoImg').src = url;
+    document.getElementById('qBrandLogoName').textContent = file.name;
+    preview?.classList.remove('hidden');
+
+    const found = extractLogoColors(img, 3);
+    if (!found.length) {
+      // SVGs and some formats can refuse to paint to a canvas; the manual
+      // rows below still work, so say so rather than failing silently.
+      if (note) note.textContent = 'We could not read colors from that file — set them by hand below and we will still use the logo on your site.';
+      renderBrandPreview();
+      return;
+    }
+    const used = applyExtractedColors(found);
+    if (note) note.textContent =
+      `We pulled ${used} color${used === 1 ? '' : 's'} off your logo and filled them in below. Change anything that looks wrong — you know your brand better than we do.`;
+    renderBrandPreview();
+  };
+
+  img.onerror = () => {
+    if (note) note.textContent = 'We could not open that image — set your colors by hand below.';
+  };
+  img.src = url;
+}
+
+function initBrandLogo() {
+  const zone   = document.getElementById('qBrandLogoZone');
+  const button = document.getElementById('qBrandLogoBtn');
+  const input  = document.getElementById('qBrandLogoInput');
+  if (!zone || !input) return;
+
+  zone.addEventListener('dragover',  e => { e.preventDefault(); e.stopPropagation(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', e => { e.preventDefault(); e.stopPropagation(); zone.classList.remove('dragover'); });
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); e.stopPropagation();
+    zone.classList.remove('dragover');
+    if (e.dataTransfer.files?.[0]) handleLogoFile(e.dataTransfer.files[0]);
+  });
+
+  button?.addEventListener('click', e => { e.preventDefault(); input.click(); });
+  input.addEventListener('change', () => {
+    if (input.files?.[0]) handleLogoFile(input.files[0]);
+    input.value = '';                              // re-selecting the same file still fires change
+  });
+
+  document.getElementById('qBrandLogoRemove')?.addEventListener('click', () => {
+    qBrandLogoFile = null;
+    document.getElementById('qBrandLogoPreview')?.classList.add('hidden');
+    const note = document.getElementById('qBrandLogoNote');
+    // The colours it filled in are left alone deliberately — they may have
+    // been edited since, and silently clearing them would be worse.
+    if (note) note.textContent = 'Logo removed. Your colors were left as they are.';
+  });
+}
+
 // Every brand-colour hex box currently on the page, in visual order: the two
 // fixed rows first, then any the client added.
 function brandHexInputs() {
@@ -340,6 +511,7 @@ function initColorModeToggle() {
   }
   document.getElementById('qBrandAddColor')?.addEventListener('click', () => addBrandColorRow());
   document.getElementById('qBrandSource')?.addEventListener('input', renderBrandPreview);
+  initBrandLogo();
 
   apply();
 }
@@ -685,6 +857,14 @@ function collectPhotosForUpload() {
     });
   });
 
+  // The brand logo rides the same upload path as photos. It is not a photo of
+  // the client, so it gets its own category and never lands in the galleries.
+  if (qBrandLogoFile) {
+    items.push({ file: qBrandLogoFile, caption: 'Brand logo', originalId: 'brand-logo',
+      category: 'logo',
+      ref: { kind: 'logo' } });
+  }
+
   return items;
 }
 
@@ -711,6 +891,9 @@ function applyUploadResultsToQData(items, uploaded) {
       (adopt[ref.bucketCategory] = adopt[ref.bucketCategory] || []).push(entry);
     } else if (ref.kind === 'recruit') {
       (recruit[ref.bucketCategory] = recruit[ref.bucketCategory] || []).push(entry);
+    } else if (ref.kind === 'logo') {
+      qData.brand = qData.brand || {};
+      qData.brand.logo = entry;   // R2-keyed, so the build can fetch the real file
     }
   });
 
@@ -1993,6 +2176,11 @@ function qBuildSummaryHTML() {
       if (supplied.length) {
         bits.push(`Your color${supplied.length === 1 ? '' : 's'}: ${escapeHtml(supplied.join(', '))}.`);
       }
+      if (qData.brand.logoFilename) {
+        bits.push(qData.brand.logoExtracted
+          ? `Read from your logo (${escapeHtml(qData.brand.logoFilename)}).`
+          : `Logo: ${escapeHtml(qData.brand.logoFilename)}.`);
+      }
       if (deepened) bits.push('We deepened them slightly so text stays readable — same color, more contrast.');
       out.push(`<p class="review-palette-note">${bits.join(' ')}</p>`);
     }
@@ -2547,6 +2735,13 @@ function qGenerateBuildPrompt() {
       lines.push('DERIVED FROM THE CLIENT\'S OWN BRAND COLORS — DO NOT SUBSTITUTE.');
       if (supplied.length) lines.push(`Client's colors as supplied: ${supplied.join(', ')}`);
       if (qData.brand.source) lines.push(`Where they come from: ${qData.brand.source}`);
+      if (qData.brand.logo) {
+        lines.push(`Logo file: ${photoRef(qData.brand.logo)}`);
+        if (qData.brand.logoExtracted) {
+          lines.push('These colors were read off that logo and confirmed by the client.');
+        }
+        lines.push('Use the logo on the site and make sure the palette sits comfortably with it.');
+      }
       const moved = derived.filter(d => d.adjusted && !d.invented);
       if (moved.length) {
         lines.push('Adjusted for contrast:');
@@ -3352,12 +3547,17 @@ function qSaveStep(step) {
         const hexes   = collectBrandHexes();
         const derived = deriveBrandPalette(hexes);
 
+        // Preserve any logo entry already written by applyUploadResultsToQData.
+        const existingLogo = qData.brand?.logo || null;
         qData.brand = {
           supplied: hexes,                 // every colour the client gave, in order
           primary:  hexes[0] || null,
           source:   getVal('qBrandSource'),
           derived:  derived.derived,
           accentInvented: derived.accentInvented,
+          logo: existingLogo,
+          logoFilename: qBrandLogoFile?.name || existingLogo?.filename || null,
+          logoExtracted: !!qBrandLogoFile,
         };
         // Downstream (review swatches, build prompt, the build skill) reads
         // paletteChoice/paletteColors, so the derived set fills the same slots.

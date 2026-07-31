@@ -1969,6 +1969,31 @@ a {
   min-height: 2.75rem;
 }
 
+.brand-logo-preview {
+  display: flex;
+  gap: .8rem;
+  align-items: center;
+  margin-top: .7rem;
+}
+
+/* Logos are often white-on-transparent, which would vanish against a light
+   card, so the tile gets a neutral checker-free backdrop of its own. */
+.brand-logo-preview img {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, .12);
+  background: #FFF;
+  padding: .35rem;
+}
+
+.brand-logo-meta p {
+  margin: 0 0 .2rem;
+  font-size: .85rem;
+  word-break: break-all;
+}
+
 /* The preview swatches are not inside a .palette-card, so the dimming that
    .palette-swatches applies until its radio is checked would never lift. */
 #qBrandPreviewSwatches {

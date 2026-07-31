@@ -245,6 +245,8 @@ option { background: var(--dusk-deep); color: var(--dusk-cream); }
   border-color: var(--dusk-line);
   color: var(--dusk-cream);
 }
+.brand-logo-preview img { border-color: var(--dusk-line); }
+.brand-logo-meta p { color: var(--dusk-soft); }
 
 /* ---------- photo upload ---------- */
 .file-upload-zone {
