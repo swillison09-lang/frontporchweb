@@ -303,6 +303,15 @@ function extractLogoColors(img, want = 3) {
 function applyExtractedColors(hexes) {
   if (!hexes.length) return 0;
 
+  // Extraction ranks by area, which is not the same as importance: on an
+  // illustrated logo the largest region is often pale background shading.
+  // Row one becomes the heading colour, and darkening a pale cream far enough
+  // to be readable turns it to mud. Since extraction order carries no client
+  // intent (unlike colours they typed), lead with whichever reads best as
+  // text and let the pale tones fall through to supporting roles.
+  const WHITE = '#FFFFFF';
+  hexes = [...hexes].sort((a, b) => contrastRatio(b, WHITE) - contrastRatio(a, WHITE));
+
   const setRow = (input, hex) => {
     input.value = hex;
     input.dispatchEvent(new Event('input', { bubbles: true }));
