@@ -205,7 +205,14 @@ function readBrandHex(textId, swatchId) {
   const typed = (document.getElementById(textId)?.value || '').trim();
   if (/^#?[0-9a-f]{6}$/i.test(typed)) return typed.startsWith('#') ? typed : `#${typed}`;
   if (typed) return '';                       // partially typed — do not guess
-  return swatchId ? (document.getElementById(swatchId)?.value || '') : '';
+
+  // Fall back to the paired swatch ONLY if the client actually moved it.
+  // A colour input always reports a value whether or not anyone touched it,
+  // so an untouched picker would otherwise pass its default off as a real
+  // brand colour.
+  if (!swatchId) return '';
+  const swatch = document.getElementById(swatchId);
+  return swatch?.dataset.touched === '1' ? (swatch.value || '') : '';
 }
 
 // ── Logo colour extraction ────────────────────────────────────────────────
@@ -478,6 +485,7 @@ function addBrandColorRow(initialHex = '') {
 // Keep a colour swatch and its hex box in step, and refresh the preview.
 function bindBrandColorPair(swatch, text) {
   if (swatch) swatch.addEventListener('input', () => {
+    swatch.dataset.touched = '1';   // see readBrandHex — an untouched picker is not a choice
     if (text) text.value = swatch.value.toUpperCase();
     renderBrandPreview();
   });
@@ -3566,7 +3574,17 @@ function qSaveStep(step) {
       const mode = document.querySelector('input[name="qColorMode"]:checked')?.value || 'palette';
       qData.colorMode = mode;
 
-      if (mode === 'brand') {
+      if (mode === 'brand' && !collectBrandHexes().length) {
+        // Brand mode selected but nothing actually entered. Step 5 has no
+        // required fields, so this is reachable by just clicking Next.
+        // deriveBrandPalette() falls back to a house green for the live
+        // preview, but recording that would tell the build "these are the
+        // client's own brand colors, do not substitute" about a colour they
+        // never chose. Fall through to "no palette chosen" instead.
+        qData.brand         = null;
+        qData.paletteChoice = '';
+        qData.paletteColors = null;
+      } else if (mode === 'brand') {
         const hexes   = collectBrandHexes();
         const derived = deriveBrandPalette(hexes);
 

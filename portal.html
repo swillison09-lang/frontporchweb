@@ -1300,8 +1300,11 @@
               <span class="q-flow q-flow-recruit hidden">Your main team color</span>
             </label>
             <div class="brand-color-row">
+              <!-- Deliberately NOT pre-filled. A native colour input must carry
+                   some value, but a pre-filled hex box would let an untouched
+                   form record the house green as the client's own brand colour. -->
               <input type="color" id="qBrandPrimary" value="#2F4A38" aria-label="Main brand color swatch">
-              <input type="text" id="qBrandPrimaryHex" class="brand-hex" value="#2F4A38" placeholder="#1F6F4A" spellcheck="false" maxlength="7" aria-label="Main brand color hex code">
+              <input type="text" id="qBrandPrimaryHex" class="brand-hex" value="" placeholder="#1F6F4A" spellcheck="false" maxlength="7" aria-label="Main brand color hex code">
             </div>
           </div>
 
