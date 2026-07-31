@@ -35,6 +35,223 @@ const VIBE_LABELS = {
 };
 const qData      = {};         // collects questionnaire answers
 
+// ┌──────────────────────────────────────────────────────────────────────────┐
+// │  BRAND COLOUR DERIVATION                                                  │
+// │  A client who already has brand colours (logo, sign, truck) should keep   │
+// │  them — forcing them into one of our palettes breaks the recognition      │
+// │  they have already paid for elsewhere. But a raw hex cannot be trusted    │
+// │  as-is: the house style requires text contrast of at least 4.5:1, and a   │
+// │  client picking their own colours has no idea about that.                 │
+// │                                                                           │
+// │  So we take their hue as the input and DERIVE a usable palette from it,   │
+// │  darkening only as far as needed to clear the contrast floor. The client  │
+// │  supplies identity; this code supplies accessibility. Nobody has to be    │
+// │  overruled after the fact, because they were never asked to make the      │
+// │  call that could break the site.                                          │
+// └──────────────────────────────────────────────────────────────────────────┘
+
+const CONTRAST_TARGET = 4.5;   // WCAG AA for normal-size body text
+
+function hexToRgb(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || '').trim());
+  if (!m) return null;
+  const n = parseInt(m[1], 16);
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+
+function rgbToHex({ r, g, b }) {
+  const c = v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0');
+  return `#${c(r)}${c(g)}${c(b)}`.toUpperCase();
+}
+
+function rgbToHsl({ r, g, b }) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  if (max === min) return { h: 0, s: 0, l };
+  const d = max - min;
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h;
+  if (max === r)      h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+  else if (max === g) h = ((b - r) / d + 2) / 6;
+  else                h = ((r - g) / d + 4) / 6;
+  return { h, s, l };
+}
+
+function hslToRgb({ h, s, l }) {
+  if (s === 0) { const v = l * 255; return { r: v, g: v, b: v }; }
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  const hue = t => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+  return { r: hue(h + 1 / 3) * 255, g: hue(h) * 255, b: hue(h - 1 / 3) * 255 };
+}
+
+// WCAG relative luminance.
+function luminance(rgb) {
+  const ch = v => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * ch(rgb.r) + 0.7152 * ch(rgb.g) + 0.0722 * ch(rgb.b);
+}
+
+function contrastRatio(hexA, hexB) {
+  const a = hexToRgb(hexA), b = hexToRgb(hexB);
+  if (!a || !b) return 0;
+  const la = luminance(a), lb = luminance(b);
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+
+// Walk lightness down (never hue or saturation) until the colour clears the
+// target against `bg`. Keeping h/s fixed is what makes the result still read
+// as the client's colour rather than a generic dark neutral.
+function darkenToContrast(hex, bg, target = CONTRAST_TARGET) {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return { hex, adjusted: false };
+  const hsl = rgbToHsl(rgb);
+  let out = hex;
+  let adjusted = false;
+  for (let l = hsl.l; l >= 0; l -= 0.02) {
+    out = rgbToHex(hslToRgb({ h: hsl.h, s: hsl.s, l }));
+    if (contrastRatio(out, bg) >= target) break;
+    adjusted = true;
+  }
+  return { hex: out, adjusted };
+}
+
+// Build a full working palette from one or two colours the client owns.
+// Returns the same {name: hex} shape as the curated PALETTES entries so
+// everything downstream (review swatches, build prompt) works unchanged.
+function deriveBrandPalette(primaryHex, secondaryHex) {
+  const primary = hexToRgb(primaryHex) ? primaryHex : '#2F4A38';
+  const pHsl = rgbToHsl(hexToRgb(primary));
+
+  // Background: near-white carrying a trace of the brand hue, so the page
+  // feels tinted by their colour rather than sitting on generic white.
+  const bg = rgbToHex(hslToRgb({ h: pHsl.h, s: Math.min(pHsl.s, 0.18), l: 0.97 }));
+
+  // Body text: very dark, faintly warmed by the same hue.
+  const text = rgbToHex(hslToRgb({ h: pHsl.h, s: Math.min(pHsl.s, 0.12), l: 0.13 }));
+
+  const main = darkenToContrast(primary, bg);
+
+  // Accent: their second colour if they gave one. If not, stay inside their
+  // own hue family — a true complement (+180°) invents a brand colour the
+  // client never chose and can fight their logo outright (a green sign would
+  // get a magenta accent). A short rotation stays harmonious. This one is a
+  // suggestion rather than their property, which is why accentInvented is
+  // reported downstream so the build can replace it deliberately.
+  const hasSecondary = !!hexToRgb(secondaryHex);
+  const rawAccent = hasSecondary
+    ? secondaryHex
+    : rgbToHex(hslToRgb({
+        h: (pHsl.h + 0.08) % 1,
+        s: Math.min(Math.max(pHsl.s, 0.35), 0.70),
+        l: 0.42,
+      }));
+  const accent = darkenToContrast(rawAccent, bg);
+
+  return {
+    colors: { bg, main: main.hex, accent: accent.hex, text },
+    adjustments: {
+      mainAdjusted:   main.adjusted,
+      accentAdjusted: accent.adjusted,
+      accentInvented: !hasSecondary,
+      mainOriginal:   primary.toUpperCase(),
+      accentOriginal: rawAccent.toUpperCase(),
+      mainRatio:      Math.round(contrastRatio(main.hex, bg) * 10) / 10,
+      accentRatio:    Math.round(contrastRatio(accent.hex, bg) * 10) / 10,
+    },
+  };
+}
+
+// Read a brand hex from the text field, falling back to the paired colour
+// swatch when the text box is blank or half-typed. Returns '' when neither
+// holds a usable value, which is how "no second colour" is expressed.
+function readBrandHex(textId, swatchId) {
+  const typed = (document.getElementById(textId)?.value || '').trim();
+  if (/^#?[0-9a-f]{6}$/i.test(typed)) return typed.startsWith('#') ? typed : `#${typed}`;
+  if (typed) return '';                       // partially typed — do not guess
+  return swatchId ? (document.getElementById(swatchId)?.value || '') : '';
+}
+
+// Show the client exactly what their colours turn into, including any
+// darkening we had to do. Seeing the adjustment is the point: it is far less
+// surprising here than after the site is built.
+function renderBrandPreview() {
+  const swatches = document.getElementById('qBrandPreviewSwatches');
+  const note     = document.getElementById('qBrandPreviewNote');
+  if (!swatches || !note) return;
+
+  const primary   = readBrandHex('qBrandPrimaryHex',   'qBrandPrimary');
+  const secondary = readBrandHex('qBrandSecondaryHex', null);
+  if (!primary) {
+    swatches.innerHTML = '';
+    note.textContent   = 'Enter a hex code like #2F4A38 to see your palette.';
+    return;
+  }
+
+  const { colors, adjustments } = deriveBrandPalette(primary, secondary);
+  const roles = [
+    ['bg', 'page'], ['main', 'headings'], ['accent', 'buttons'], ['text', 'body'],
+  ];
+  swatches.innerHTML = roles
+    .map(([k, role]) => `<div class="swatch" style="background-color: ${colors[k]}" title="${role} — ${colors[k]}"></div>`)
+    .join('');
+
+  const tweaks = [];
+  if (adjustments.mainAdjusted)   tweaks.push('your main color');
+  if (adjustments.accentAdjusted && !adjustments.accentInvented) tweaks.push('your second color');
+
+  const parts = [];
+  parts.push(tweaks.length
+    ? `We deepened ${tweaks.join(' and ')} slightly so text stays readable on the page — same color, just enough contrast.`
+    : 'Your colors clear our readability checks as-is.');
+  if (adjustments.accentInvented) {
+    parts.push('The third swatch is our suggested accent, picked to sit alongside your color. Add a second color above if you already have one.');
+  }
+  note.textContent = parts.join(' ');
+}
+
+// Toggle between the curated picker and the brand-colour branch.
+function initColorModeToggle() {
+  const paletteBlock = document.getElementById('qPaletteBlock');
+  const brandBlock   = document.getElementById('qBrandBlock');
+  if (!paletteBlock || !brandBlock) return;
+
+  const apply = () => {
+    const mode = document.querySelector('input[name="qColorMode"]:checked')?.value || 'palette';
+    paletteBlock.classList.toggle('hidden', mode !== 'palette');
+    brandBlock.classList.toggle('hidden', mode !== 'brand');
+    if (mode === 'brand') renderBrandPreview();
+  };
+
+  document.querySelectorAll('input[name="qColorMode"]').forEach(r => r.addEventListener('change', apply));
+
+  // Keep the colour swatch and the hex text box in step with each other.
+  const pairs = [['qBrandPrimary', 'qBrandPrimaryHex'], ['qBrandSecondary', 'qBrandSecondaryHex']];
+  for (const [swatchId, textId] of pairs) {
+    const swatch = document.getElementById(swatchId);
+    const text   = document.getElementById(textId);
+    if (swatch) swatch.addEventListener('input', () => { if (text) text.value = swatch.value.toUpperCase(); renderBrandPreview(); });
+    if (text)   text.addEventListener('input', () => {
+      const v = text.value.trim();
+      if (/^#?[0-9a-f]{6}$/i.test(v) && swatch) swatch.value = v.startsWith('#') ? v : `#${v}`;
+      renderBrandPreview();
+    });
+  }
+  document.getElementById('qBrandSource')?.addEventListener('input', renderBrandPreview);
+
+  apply();
+}
+
 const PALETTES = {
   'Front Porch': {
     cream: '#FBF8F3',
@@ -648,6 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
   restoreEmailDraft();
   initAdminView();
   initTempSetupAccess(); // TEMP TESTING — remove before launch
+  initColorModeToggle();
 });
 
 
@@ -1620,12 +1838,13 @@ function qBuildSummaryHTML() {
     }
   } else {
     // Generic — Your Story
-    if (qData.tagline || qData.facts || qData.services || qData.feeling) {
+    if (qData.tagline || qData.facts || qData.services || qData.feeling || qData.remember) {
       out.push('<div class="review-section"><div class="review-section-head"><h3>Your Story</h3><a href="#" class="review-edit-link" data-step="2">Edit</a></div><dl class="review-dl">');
       if (qData.tagline)  out.push(`<dt>Tagline</dt><dd>${escapeHtml(qData.tagline)}</dd>`);
       if (qData.facts)    out.push(`<dt>Key facts</dt><dd class="review-multiline">${escapeHtml(qData.facts)}</dd>`);
       if (qData.services) out.push(`<dt>Services</dt><dd class="review-multiline">${escapeHtml(qData.services)}</dd>`);
       if (qData.feeling)  out.push(`<dt>Feeling / message</dt><dd class="review-multiline">${escapeHtml(qData.feeling)}</dd>`);
+      if (qData.remember) out.push(`<dt>One thing to remember</dt><dd class="review-multiline">${escapeHtml(qData.remember)}</dd>`);
       out.push('</dl></div>');
     }
 
@@ -1662,7 +1881,20 @@ function qBuildSummaryHTML() {
         `</div>`
       );
     }
-    out.push('</div></div>');
+    out.push('</div>');
+    // When the colours came from the client's own brand, say so — and say
+    // plainly if we deepened anything, so it is not a surprise later.
+    if (qData.brand) {
+      const a = qData.brand.adjustments || {};
+      const bits = [];
+      if (qData.brand.source) bits.push(`From ${escapeHtml(qData.brand.source)}.`);
+      bits.push(`Your colors: ${escapeHtml(qData.brand.primary)}${qData.brand.secondary ? ' and ' + escapeHtml(qData.brand.secondary) : ''}.`);
+      if (a.mainAdjusted || a.accentAdjusted) {
+        bits.push('We deepened them slightly so text stays readable — same color, more contrast.');
+      }
+      out.push(`<p class="review-palette-note">${bits.join(' ')}</p>`);
+    }
+    out.push('</div>');
   }
 
   // Photos
@@ -2060,6 +2292,14 @@ function qGenerateBuildPrompt() {
       lines.push(qData.feeling);
       lines.push('');
     }
+    if (qData.remember) {
+      // The client's own one-line answer to "what should they remember?".
+      // Treat it as the thesis of the site: it should drive the headline and
+      // the primary CTA, not sit in a paragraph halfway down the page.
+      lines.push('THE ONE THING TO REMEMBER (drive the hero headline from this):');
+      lines.push(qData.remember);
+      lines.push('');
+    }
     if (qData.mustHaves) {
       lines.push('Must-haves and things to avoid:');
       lines.push(qData.mustHaves);
@@ -2179,6 +2419,33 @@ function qGenerateBuildPrompt() {
       lines.push('');
       lines.push('WILDFLOWER SPECTRUM (available for section accents, icons, dividers):');
       lines.push(qData.paletteColors.spectrum.join(', '));
+    }
+    // Brand-derived palettes carry provenance the builder must respect: these
+    // hexes are DERIVED from colours the client already owns, not picked off
+    // a list, so they are not an axis left free for the build to reinterpret.
+    if (qData.brand) {
+      const a = qData.brand.adjustments || {};
+      lines.push('');
+      lines.push('DERIVED FROM THE CLIENT\'S OWN BRAND COLORS — DO NOT SUBSTITUTE.');
+      lines.push(`Client's colors as supplied: ${qData.brand.primary}${qData.brand.secondary ? ', ' + qData.brand.secondary : ''}`);
+      if (qData.brand.source) lines.push(`Where they come from: ${qData.brand.source}`);
+      if (a.mainAdjusted || a.accentAdjusted) {
+        lines.push(
+          `Adjusted for contrast: ${a.mainAdjusted ? `main ${a.mainOriginal} → ${qData.paletteColors.main} (${a.mainRatio}:1)` : ''}` +
+          `${a.mainAdjusted && a.accentAdjusted ? '; ' : ''}` +
+          `${a.accentAdjusted ? `accent ${a.accentOriginal} → ${qData.paletteColors.accent} (${a.accentRatio}:1)` : ''}`
+        );
+        lines.push('Hue and saturation were preserved — only lightness moved. Keep it that way.');
+      }
+      if (a.accentInvented) {
+        lines.push(`The accent (${qData.paletteColors.accent}) is OURS, not theirs — the client gave`);
+        lines.push('only one color, so this is a near-hue suggestion. Replace it with a');
+        lines.push('better-considered accent if the design calls for one; it is the one');
+        lines.push('color here you are free to change.');
+      }
+      lines.push('The site must visually match their existing logo/signage. If a');
+      lines.push('color has to shift further for legibility, note it for Sean rather');
+      lines.push('than quietly picking a different color.');
     }
   } else {
     lines.push('(no palette chosen — pick warm, trustworthy defaults)');
@@ -2872,6 +3139,7 @@ function qSaveStep(step) {
         qData.facts    = getVal('qFacts');
         qData.services = getVal('qServices');
         qData.feeling  = getVal('qFeeling');
+        qData.remember = getVal('qRemember');
       }
       break;
     case 3:
@@ -2957,12 +3225,33 @@ function qSaveStep(step) {
       }
       break;
     case 5: {
-      // qPalette is the NAME of a radio group, not an element id —
+      // qPalette / qColorMode are radio group NAMES, not element ids —
       // read the currently-checked radio rather than getVal().
-      const selected = document.querySelector('input[name="qPalette"]:checked');
-      const choice   = selected ? selected.value : '';
-      qData.paletteChoice = choice;
-      qData.paletteColors = choice && PALETTES[choice] ? PALETTES[choice] : null;
+      const mode = document.querySelector('input[name="qColorMode"]:checked')?.value || 'palette';
+      qData.colorMode = mode;
+
+      if (mode === 'brand') {
+        const primary   = readBrandHex('qBrandPrimaryHex',   'qBrandPrimary');
+        const secondary = readBrandHex('qBrandSecondaryHex', null);
+        const derived   = deriveBrandPalette(primary, secondary);
+
+        qData.brand = {
+          primary,
+          secondary: secondary || null,
+          source: getVal('qBrandSource'),
+          adjustments: derived.adjustments,
+        };
+        // Downstream (review swatches, build prompt, the build skill) reads
+        // paletteChoice/paletteColors, so the derived set fills the same slots.
+        qData.paletteChoice = 'Their own brand colors';
+        qData.paletteColors = derived.colors;
+      } else {
+        const selected = document.querySelector('input[name="qPalette"]:checked');
+        const choice   = selected ? selected.value : '';
+        qData.brand         = null;
+        qData.paletteChoice = choice;
+        qData.paletteColors = choice && PALETTES[choice] ? PALETTES[choice] : null;
+      }
       break;
     }
     case 6:

@@ -233,6 +233,19 @@ option { background: var(--dusk-deep); color: var(--dusk-cream); }
 .palette-dark:hover, .palette-dark:has(input[type="radio"]:checked) { border-color: var(--dusk-amber); }
 .palette-dark .palette-check { color: var(--dusk-amber); }
 
+/* ---------- brand-colour branch ---------- */
+.palette-mode-note { color: var(--dusk-soft); }
+.review-palette-note { color: var(--dusk-soft); }
+.brand-color-row input[type="color"] {
+  border-color: var(--dusk-line);
+  background: var(--dusk-field);
+}
+.brand-hex {
+  background: var(--dusk-field);
+  border-color: var(--dusk-line);
+  color: var(--dusk-cream);
+}
+
 /* ---------- photo upload ---------- */
 .file-upload-zone {
   background: var(--dusk-field);

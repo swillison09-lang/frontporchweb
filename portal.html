@@ -289,6 +289,12 @@
             <textarea id="qFeeling" rows="3"
               placeholder="- we are trustworthy, not pushy&#10;- warm and personal, not corporate&#10;- show our dogs lol&#10;- we really love this community"></textarea>
           </div>
+
+          <div class="form-group">
+            <label for="qRemember">If someone remembers only one thing about you, what should it be? <span class="q-optional">(one sentence)</span></label>
+            <textarea id="qRemember" rows="2"
+              placeholder="the thing you'd want them to repeat to a neighbor&#10;e.g. they show up when they say they will"></textarea>
+          </div>
         </div><!-- /.q-flow-generic -->
 
         <!-- ADOPTION variant -->
@@ -1074,6 +1080,25 @@
         </div>
 
         <div class="form-group">
+          <label>How should we choose your colors?</label>
+          <div class="palette-picker">
+            <label class="palette-card">
+              <input type="radio" name="qColorMode" value="palette" checked>
+              <p class="palette-name">Pick one of ours</p>
+              <p class="palette-mode-note">Palettes we have already tested.</p>
+              <div class="palette-check" aria-hidden="true">&#10003;</div>
+            </label>
+            <label class="palette-card">
+              <input type="radio" name="qColorMode" value="brand">
+              <p class="palette-name">Use my brand colors</p>
+              <p class="palette-mode-note">You already have a logo or sign.</p>
+              <div class="palette-check" aria-hidden="true">&#10003;</div>
+            </label>
+          </div>
+        </div>
+
+        <div id="qPaletteBlock">
+        <div class="form-group">
           <label>Choose a color palette</label>
           <div class="palette-picker">
             <label class="palette-card">
@@ -1195,6 +1220,40 @@
               <p class="palette-name">Midnight</p>
               <div class="palette-check" aria-hidden="true">✓</div>
             </label>
+          </div>
+        </div>
+        </div><!-- /#qPaletteBlock -->
+
+        <!-- Brand-colour branch. The client supplies the colours they already
+             own; we derive the working palette from them at submit time so the
+             site keeps their identity without dropping below the contrast
+             floor. See deriveBrandPalette() in js/portal.js. -->
+        <div id="qBrandBlock" class="hidden">
+          <div class="form-group">
+            <label for="qBrandPrimary">Your main brand color</label>
+            <div class="brand-color-row">
+              <input type="color" id="qBrandPrimary" value="#2F4A38" aria-label="Main brand color swatch">
+              <input type="text" id="qBrandPrimaryHex" class="brand-hex" value="#2F4A38" spellcheck="false" maxlength="7" aria-label="Main brand color hex code">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="qBrandSecondary">A second color <span class="q-optional">(optional)</span></label>
+            <div class="brand-color-row">
+              <input type="color" id="qBrandSecondary" value="#E9973E" aria-label="Second brand color swatch">
+              <input type="text" id="qBrandSecondaryHex" class="brand-hex" value="" placeholder="leave blank if you only have one" spellcheck="false" maxlength="7" aria-label="Second brand color hex code">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="qBrandSource">Where do these colors come from? <span class="q-optional">(helps us match exactly)</span></label>
+            <input type="text" id="qBrandSource" placeholder="our logo and the lettering on the truck">
+          </div>
+
+          <div class="form-group">
+            <label>How we will use them</label>
+            <div class="palette-swatches" id="qBrandPreviewSwatches"></div>
+            <p class="palette-mode-note" id="qBrandPreviewNote"></p>
           </div>
         </div>
       </div><!-- /#qPanel5 -->

@@ -1917,6 +1917,54 @@ a {
   outline-offset: 2px;
 }
 
+/* ---------- brand-colour branch (Step 5) ---------- */
+
+/* Sub-label inside the two mode cards, and the contrast note under the
+   live preview. */
+.palette-mode-note {
+  font-size: .8rem;
+  color: var(--ink-soft);
+  margin: .25rem 0 0;
+  line-height: 1.4;
+}
+
+.brand-color-row {
+  display: flex;
+  gap: .6rem;
+  align-items: center;
+}
+
+.brand-color-row input[type="color"] {
+  flex: 0 0 auto;
+  width: 3rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+}
+
+.brand-hex {
+  flex: 1 1 auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+}
+
+/* The preview swatches are not inside a .palette-card, so the dimming that
+   .palette-swatches applies until its radio is checked would never lift. */
+#qBrandPreviewSwatches {
+  opacity: 1;
+  min-height: 2.5rem;
+}
+
+.review-palette-note {
+  font-size: .85rem;
+  color: var(--ink-soft);
+  margin: .6rem 0 0;
+  line-height: 1.5;
+}
+
 /* Dark palette card (Midnight) — visible against dark background */
 .palette-dark {
   background: #1F2129;
