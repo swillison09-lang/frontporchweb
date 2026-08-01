@@ -4,7 +4,122 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Unbiased Mold Inspections — Website Redesign Concept · Front Porch Web</title>
+<meta name="description" content="Independent mold inspection across Indiana. Mycotoxin correlation specialist who uses test results to locate hidden growth substrates. No remediation services sold, so no conflict of interest. Results in about four business days.">
+
+<!-- noindex is deliberate and should STAY while this lives on frontporchwebllc.com.
+     It is a redesign concept holding a copy of the client's real content; letting
+     search engines index it would put a duplicate of his own copy on someone else's
+     domain, competing with unbiasedmoldinspections.in. Remove this tag only when the
+     page is deployed on the client's own domain. -->
 <meta name="robots" content="noindex, nofollow">
+
+<!-- ── Structured data ────────────────────────────────────────────────────────
+     Machine-readable facts for search engines and AI answer agents (OAI-SearchBot,
+     PerplexityBot, ChatGPT-User) that cite live pages. Prose can be paraphrased or
+     misread; this cannot. Every value below is taken verbatim from the page copy -
+     nothing here is inferred or invented.
+
+     NOTE: because this page is noindex above, this markup does not do real SEO work
+     while it sits here. It ships with the page so the behaviour is correct the day
+     it goes live on the client's domain. ───────────────────────────────────────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Unbiased Mold Inspections",
+  "url": "https://www.unbiasedmoldinspections.in/",
+  "telephone": "+1-317-210-0319",
+  "description": "Residential and commercial mold inspections with a specialty in helping naturopathic and holistic medicine providers locate hidden sources of mycotoxin exposure. Independent: no remediation services are sold and no remediation company pays to be on a recommended list.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Indianapolis",
+    "addressRegion": "IN",
+    "addressCountry": "US"
+  },
+  "areaServed": [
+    { "@type": "State", "name": "Indiana" }
+  ],
+  "sameAs": [ "https://www.facebook.com/Uminspections.IN" ],
+  "employee": {
+    "@type": "Person",
+    "name": "Josh Underwood",
+    "jobTitle": "Certified Professional Inspector"
+  },
+  "knowsAbout": [
+    "Ochratoxin", "Aflatoxin", "Gliotoxin", "Trichothecenes",
+    "Mycotoxin correlation", "Mold and moisture intrusion", "Spore trap analysis"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Inspection services",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Whole home inspection for mold and moisture intrusion issues" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Remediation consultations" }, "price": "0", "priceCurrency": "USD", "description": "No extra charge." },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Genus identification" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Nationally accredited laboratory results" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Customized sample collection options" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Clearance testing for real-estate transactions" } }
+    ]
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do you sell mold remediation services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Unbiased Mold Inspections is not a company that tries to sell you remediation services, and no remediation companies pay to be on a recommended list. There is no conflict of interest."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long do mold sample results take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About four business days after sampling. Mold samples do not need to culture, so results come back quickly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What areas of Indiana do you cover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The state of Indiana and surrounding areas. Based in Indianapolis, and able to travel to neighboring states if the need arises."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do remediation consultations cost extra?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Remediation consultations are included at no extra charge."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which mycotoxins do you investigate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ochratoxin, aflatoxin, gliotoxin and trichothecenes. Mycotoxin test results are correlated against growth substrates and growth conditions to locate the source of exposure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does a mycotoxin correlation specialist do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Uses a patient's mycotoxin test results, or spore trap analysis where lab results are not available, to infer which growth substrates and conditions are producing the exposure, and builds a data-driven inspection plan from that."
+      }
+    }
+  ]
+}
+</script>
 <script>
   // support.js checks window.__resources before reaching for unpkg.com. Pinning
   // these to local copies keeps the page inside the site's normal CSP (which

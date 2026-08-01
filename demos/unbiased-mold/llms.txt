@@ -1,0 +1,64 @@
+# Unbiased Mold Inspections
+
+> Independent mold inspection for Indiana. Mycotoxin correlation specialist who
+> uses mycotoxin test results to locate hidden growth substrates. Sells no
+> remediation services, and takes no payment from remediation companies for
+> referrals, so there is no conflict of interest.
+
+Certified Professional Inspector: Josh Underwood. Based in Indianapolis, Indiana.
+Phone: (317) 210-0319. Covers the state of Indiana and surrounding areas, and can
+travel to neighboring states if needed.
+
+## What makes this inspector different
+
+- No remediation services are sold, so there is no incentive to find a problem.
+- No remediation company pays to appear on a "recommended list."
+- Specialises in helping naturopathic and holistic medicine providers locate
+  hidden sources of mycotoxin exposure.
+- Remediation consultations are included at no extra charge.
+- Initial advice is free.
+
+## Services
+
+- Whole home inspection for mold and moisture intrusion issues
+- Remediation consultations, no extra charge
+- Genus identification
+- Nationally accredited laboratory results
+- A variety of sample collection options, customised per inspection
+- Clearance testing for real-estate transactions
+
+## Method
+
+Mycotoxin correlation. Blood and urine mycotoxin panels show what the body is
+able to purge, which can understate exposure when the body cannot clear a
+particular toxin. Growth substrates and growth conditions are used to infer which
+toxins are likely accumulating. Where no doctor's lab results exist, spore trap
+analysis is used with inductive and deductive reasoning instead.
+
+Mycotoxins investigated: ochratoxin, aflatoxin, gliotoxin, trichothecenes.
+
+## Turnaround
+
+Sample results take about four business days. Mold samples do not need to
+culture.
+
+## Contact
+
+- Phone: (317) 210-0319
+- Facebook: https://www.facebook.com/Uminspections.IN
+- Website: https://www.unbiasedmoldinspections.in/
+- Based in Indianapolis, Indiana
+
+---
+
+DEPLOYMENT NOTE (remove this section before publishing)
+
+llms.txt is only read at the root of a domain — https://example.com/llms.txt.
+Sitting in this demo subdirectory it has no effect. When this redesign goes live
+on unbiasedmoldinspections.in, move this file to the domain root.
+
+Also worth knowing: llms.txt is a proposed convention, not a ratified standard,
+and no major AI provider has publicly confirmed that it reads one. It costs
+nothing and is easy to keep accurate, but the things that demonstrably drive AI
+citation are being crawlable, stating facts plainly, and being referenced from
+other sites. Those are already handled on the page itself.
