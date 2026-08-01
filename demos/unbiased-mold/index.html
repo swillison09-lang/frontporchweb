@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unbiased Mold Inspections — Website Redesign Concept · Front Porch Web</title>
+<meta name="robots" content="noindex, nofollow">
+<script>
+  // support.js checks window.__resources before reaching for unpkg.com. Pinning
+  // these to local copies keeps the page inside the site's normal CSP (which
+  // allows scripts from 'self' only) with no exceptions needed. Files are the
+  // same 18.3.1 builds support.js already trusts.
+  window.__resources = {
+    "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "./vendor/react.production.min.js",
+    "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "./vendor/react-dom.production.min.js"
+  };
+</script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  body { margin: 0; background: #f2efe8; }
+  a { color: #0e6f70; }
+  a:hover { color: #17150f; }
+  img { display: block; }
+  ::selection { background: #0e6f70; color: #f2efe8; }
+  :focus-visible { outline: 2px solid #0e6f70; outline-offset: 3px; }
+  html { scroll-behavior: smooth; }
+  @media (min-width: 880px) { #callbar { display: none !important; } }
+  @media (max-width: 879px) { body { padding-bottom: 58px; } }
+</style>
+</helmet>
+
+<div style="font-family: Archivo, system-ui, sans-serif; color: #17150f; background: #f2efe8; overflow-x: hidden; -webkit-font-smoothing: antialiased">
+
+  <div style="background: #17150f; color: #ddd8cb">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 7px 22px; display: flex; gap: 8px 24px; flex-wrap: wrap; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.14em">
+      <span>UNBIASED MOLD INSPECTION FOR INDIANA</span>
+      <span>OCHRATOXIN · AFLATOXIN · GLIOTOXIN · TRICHOTHECENES</span>
+    </div>
+  </div>
+
+  <header style="position: sticky; top: 0; z-index: 60; background: rgba(242,239,232,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(23,21,15,0.2)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 14px 22px; display: flex; align-items: center; gap: 14px 28px; flex-wrap: wrap">
+      <a href="#top" style="text-decoration: none; color: #17150f; margin-right: auto; display: grid; gap: 3px">
+        <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 25px; line-height: 1; letter-spacing: -0.01em">Unbiased Mold Inspections</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.19em; color: #6b675e">MYCOTOXIN CORRELATION SPECIALIST</span>
+      </a>
+      <nav style="display: flex; align-items: center; gap: 6px 22px; flex-wrap: wrap; font-size: 12.5px; letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase">
+        <a href="#services" style="text-decoration: none; color: #17150f; padding: 5px 0; border-bottom: 1px solid transparent" style-hover="border-bottom-color: #0e6f70; color: #0e6f70">Services</a>
+        <a href="#method" style="text-decoration: none; color: #17150f; padding: 5px 0; border-bottom: 1px solid transparent" style-hover="border-bottom-color: #0e6f70; color: #0e6f70">Method</a>
+        <a href="#plates" style="text-decoration: none; color: #17150f; padding: 5px 0; border-bottom: 1px solid transparent" style-hover="border-bottom-color: #0e6f70; color: #0e6f70">Photographs</a>
+        <a href="#reviews" style="text-decoration: none; color: #17150f; padding: 5px 0; border-bottom: 1px solid transparent" style-hover="border-bottom-color: #0e6f70; color: #0e6f70">Reviews</a>
+        <a href="tel:3172100319" style="text-decoration: none; background: #0e6f70; color: #f2efe8; font-weight: 600; letter-spacing: 0.05em; padding: 11px 16px; font-size: 12.5px" style-hover="background: #17150f">(317) 210-0319</a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="top" style="max-width: 1240px; margin: 0 auto; padding: 0 22px">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: clamp(30px, 5vw, 64px); padding: clamp(38px, 6vw, 76px) 0 clamp(30px, 4vw, 48px)">
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 24px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: #0e6f70; border-top: 1px solid #0e6f70; padding-top: 8px; width: 100%">NO. 01 — INDEPENDENT INSPECTOR</span>
+        <h1 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(44px, 8vw, 100px); line-height: 0.93; letter-spacing: -0.02em">No conflict of interest.<br><em style="font-style: italic; color: #0e6f70">No remediation services to sell.</em></h1>
+        <p style="margin: 0; font-size: clamp(16px, 1.45vw, 18.5px); line-height: 1.62; max-width: 52ch; color: #3a362d; text-wrap: pretty">Residential and commercial mold inspections with specialty in helping Naturopathic &amp; Holistic medicine providers locate hidden toxin sources of mycotoxin exposure. Unbiased Mold Inspections .IN is not a big company that tries to sell you remediation services, and no remediation companies pay me to be on a "recommended list."</p>
+        <p style="margin: 0; font-size: clamp(16px, 1.45vw, 18.5px); line-height: 1.62; max-width: 52ch; color: #3a362d">I cover the state of Indiana and surrounding areas if I have time to. Reach out and we can talk about whatever you're dealing with.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+          <a href="tel:3172100319" style="text-decoration: none; background: #17150f; color: #f2efe8; font-weight: 600; font-size: 15px; letter-spacing: 0.02em; padding: 16px 24px; display: inline-flex; align-items: center; gap: 12px" style-hover="background: #0e6f70">Click to call (317) 210-0319 <span style="font-weight: 400">→</span></a>
+          <a href="#services" style="text-decoration: none; color: #17150f; font-weight: 600; font-size: 15px; padding: 16px 4px; border-bottom: 1px solid #17150f" style-hover="color: #0e6f70; border-bottom-color: #0e6f70">See services</a>
+        </div>
+      </div>
+      <div style="border: 1.5px solid #17150f; align-self: start; background: #f7f5ef">
+        <div style="border-bottom: 1.5px solid #17150f; padding: 12px 18px; display: flex; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.14em">
+          <span>AT A GLANCE</span><span style="color: #0e6f70">UNBIASEDMOLDINSPECTIONS.IN</span>
+        </div>
+        <div style="padding: 6px 18px 14px">
+          <div style="display: flex; align-items: baseline; gap: 8px; padding: 12px 0; border-bottom: 1px dotted rgba(23,21,15,0.35)">
+            <span style="font-size: 13.5px; color: #6b675e">Sample results</span>
+            <span style="flex: 1"></span>
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; line-height: 1.1; text-align: right">About four business days</span>
+          </div>
+          <div style="display: flex; align-items: baseline; gap: 8px; padding: 12px 0; border-bottom: 1px dotted rgba(23,21,15,0.35)">
+            <span style="font-size: 13.5px; color: #6b675e">Remediation consultations</span>
+            <span style="flex: 1"></span>
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; line-height: 1.1; text-align: right">No extra charge</span>
+          </div>
+          <div style="display: flex; align-items: baseline; gap: 8px; padding: 12px 0; border-bottom: 1px dotted rgba(23,21,15,0.35)">
+            <span style="font-size: 13.5px; color: #6b675e">Inspector</span>
+            <span style="flex: 1"></span>
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; line-height: 1.1; text-align: right">Certified Professional Inspector</span>
+          </div>
+          <div style="display: flex; align-items: baseline; gap: 8px; padding: 12px 0; border-bottom: 1px dotted rgba(23,21,15,0.35)">
+            <span style="font-size: 13.5px; color: #6b675e">Laboratory</span>
+            <span style="flex: 1"></span>
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; line-height: 1.1; text-align: right">Nationally accredited</span>
+          </div>
+          <div style="display: flex; align-items: baseline; gap: 8px; padding: 12px 0">
+            <span style="font-size: 13.5px; color: #6b675e">Based in</span>
+            <span style="flex: 1"></span>
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; line-height: 1.1; text-align: right">Indianapolis</span>
+          </div>
+        </div>
+        <div style="border-top: 1.5px solid #17150f; background: #0e6f70; color: #f2efe8; padding: 14px 18px; font-size: 14.5px; line-height: 1.5">The advice is FREE, and it could save you thousands or more — like your health.</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-top: 1px solid rgba(23,21,15,0.2); border-bottom: 1px solid rgba(23,21,15,0.2)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1px; background: rgba(23,21,15,0.16)">
+      <figure style="margin: 0; background: #f2efe8; padding: 22px 22px 18px">
+        <img loading="lazy" src="assets/img-13.jpg" alt="Photograph from a mold inspection" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; filter: grayscale(1) contrast(1.12); border: 1px solid #17150f">
+        <figcaption style="margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #6b675e">FIG. 01 — INSPECTION PHOTOGRAPH</figcaption>
+      </figure>
+      <figure style="margin: 0; background: #f2efe8; padding: 22px 22px 18px">
+        <img loading="lazy" src="assets/img-20.jpg" alt="Photograph from a mold inspection" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; filter: grayscale(1) contrast(1.12); border: 1px solid #17150f">
+        <figcaption style="margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #6b675e">FIG. 02 — INSPECTION PHOTOGRAPH</figcaption>
+      </figure>
+      <figure style="margin: 0; background: #f2efe8; padding: 22px 22px 18px">
+        <img loading="lazy" src="assets/img-21.jpg" alt="Photograph from a mold inspection" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; filter: grayscale(1) contrast(1.12); border: 1px solid #17150f">
+        <figcaption style="margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #6b675e">FIG. 03 — INSPECTION PHOTOGRAPH</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="services" style="max-width: 1240px; margin: 0 auto; padding: clamp(46px, 6.5vw, 92px) 22px">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(24px, 5vw, 64px)">
+      <div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: #0e6f70">NO. 02 — SERVICES</span>
+        <h2 style="margin: 14px 0 20px; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(34px, 5.2vw, 64px); line-height: 0.98; letter-spacing: -0.015em">Team effort focused on locating the sources of mold exposure</h2>
+        <p style="margin: 0; font-size: 16.5px; line-height: 1.62; color: #3a362d; max-width: 46ch">To you and your physician. Mycotoxin correlation to build a data driven inspection plan.</p>
+        <div style="margin-top: 26px; border-top: 1px solid rgba(23,21,15,0.25); padding-top: 18px; display: grid; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: #6b675e">
+          <span>OCHRATOXIN</span>
+          <span>AFLATOXIN</span>
+          <span>GLIOTOXIN</span>
+          <span>TRICHOTHECENES</span>
+        </div>
+      </div>
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; gap: 0; counter-reset: s">
+        <li style="display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid rgba(23,21,15,0.25)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #0e6f70; padding-top: 5px">01</span>
+          <span style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.45">Whole home inspection in regards to mold / moisture intrusion issues.</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid rgba(23,21,15,0.25)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #0e6f70; padding-top: 5px">02</span>
+          <span style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.45">Remediation consultations at no extra charge.</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid rgba(23,21,15,0.25)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #0e6f70; padding-top: 5px">03</span>
+          <span style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.45">Genus identification.</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid rgba(23,21,15,0.25)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #0e6f70; padding-top: 5px">04</span>
+          <span style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.45">Nationally accredited laboratory results.</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid rgba(23,21,15,0.25)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #0e6f70; padding-top: 5px">05</span>
+          <span style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.45">A variety of sample collection options to customize your inspection.</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid rgba(23,21,15,0.25); border-bottom: 1px solid rgba(23,21,15,0.25)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #0e6f70; padding-top: 5px">06</span>
+          <span style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.45">Peace of mind and or clearance testing for real-estate transactions.</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  
+  <section id="method" style="background: #17150f; color: #ece7dc; border-top: 1px solid rgba(23,21,15,0.2)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: clamp(46px, 7vw, 96px) 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(30px, 5vw, 72px)">
+      <div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: #6fc0bf">NO. 03 — METHOD</span>
+        <h2 style="margin: 14px 0 24px; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(34px, 5.2vw, 64px); line-height: 0.98; letter-spacing: -0.015em">A survivorship bias lesson from Abraham Wald</h2>
+        <div style="display: grid; gap: 18px; font-size: 16.5px; line-height: 1.68; color: #c9c3b5; max-width: 58ch">
+          <p style="margin: 0">During WWII the Hungarian army was reinforcing areas of aircraft that were more heavily riddled with bullet holes. Wald pointed out that this approach was flawed due to survivorship bias. The planes with bullet holes in those areas are the ones that made it home. The planes that were hit in other areas likely didn't return.</p>
+          <p style="margin: 0">We can apply this to blood &amp; urine analysis of mycotoxins. One of those labs show us what the body is able to purge, and sometimes the toxicity is caused by an inability to purge specific mycotoxins. Based on growth substrates and growth conditions we can infer which toxins may be building up due to over exposure. If we don't have a doctor's lab results to work with I can use the spore trap analysis with a clever mix of inductive and deductive reasoning.</p>
+        </div>
+        <p style="margin: 28px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.25; color: #ece7dc; max-width: 34ch">Those types of inspection reasoning are why I'm usually the LAST professional anyone needs to call.</p>
+      </div>
+      <div>
+        <div style="border: 1px solid rgba(236,231,220,0.3); padding: 24px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.16em; color: #6fc0bf">RECENT EXAMPLE</span>
+          <p style="margin: 14px 0 0; font-size: 15.5px; line-height: 1.68; color: #c9c3b5">If we find that you previously had elevated Cladosporium levels, inductive reasoning would guide me to consider structural wood in the crawl space, the furnace ducts, and insulation in the exterior wall cavities. Deductive reasoning would be saying: 1 — this home has a slab foundation so there is no crawl space; 2 — I do see some visible growth in the ducts, because all homes with duct systems in the slab grow mold inside of them; 3 — the underground ducts explain some level of Clado but do not explain why it has declined sharply. It's most probable that there was water intrusion from the outside passing through the inner wall cavity insulation, because the porous insulation trapped between two walls will retain water much longer than something with more air exposure. That would allow a lot of Cladosporium growth in a short amount of time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <section id="plates" style="max-width: 1240px; margin: 0 auto; padding: clamp(46px, 6.5vw, 92px) 22px">
+    <div style="display: flex; align-items: end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: clamp(22px, 3vw, 34px)">
+      <div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: #0e6f70">NO. 04 — PHOTOGRAPHS</span>
+        <h2 style="margin: 14px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(34px, 5.2vw, 64px); line-height: 0.98; letter-spacing: -0.015em">From inspections</h2>
+      </div>
+      <p style="margin: 0; font-size: 14.5px; color: #6b675e; max-width: 40ch; line-height: 1.6">Photographs taken on inspections. Hover a plate to see it in color.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 14px">
+      <img src="assets/img-07.jpg" alt="Photograph from a mold inspection" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter 260ms; border: 1px solid #17150f" style-hover="filter: none">
+      <img src="assets/img-15.jpg" alt="Photograph from a mold inspection" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter 260ms; border: 1px solid #17150f" style-hover="filter: none">
+      <img src="assets/img-05.jpg" alt="Photograph from a mold inspection" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter 260ms; border: 1px solid #17150f" style-hover="filter: none">
+      <img src="assets/img-19.jpg" alt="Photograph from a mold inspection" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter 260ms; border: 1px solid #17150f" style-hover="filter: none">
+      <img src="assets/img-02.jpg" alt="Photograph from a mold inspection" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter 260ms; border: 1px solid #17150f" style-hover="filter: none">
+      <img src="assets/img-18.jpg" alt="Photograph from a mold inspection" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter 260ms; border: 1px solid #17150f" style-hover="filter: none">
+      <img src="assets/img-04.jpg" alt="Photograph from a mold inspection" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter 260ms; border: 1px solid #17150f" style-hover="filter: none">
+      <img src="assets/img-06.jpg" alt="Photograph from a mold inspection" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter 260ms; border: 1px solid #17150f" style-hover="filter: none">
+    </div>
+  </section>
+
+  <section id="reviews" style="border-top: 1px solid rgba(23,21,15,0.2); background: #ebe7dd">
+    <div style="max-width: 1240px; margin: 0 auto; padding: clamp(46px, 6.5vw, 92px) 22px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: #0e6f70">NO. 05 — REVIEWS</span>
+      <h2 style="margin: 14px 0 14px; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(30px, 4.4vw, 56px); line-height: 1.02; letter-spacing: -0.015em; max-width: 30ch">Website templates come with prefab fake customer testimonies. These are not those.</h2>
+      <p style="margin: 0 0 clamp(24px, 4vw, 38px); font-size: 14.5px; color: #6b675e; line-height: 1.6">Screenshots of reviews, exactly as they appear.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; align-items: start">
+        <img src="assets/img-14.jpg" alt="Review screenshot" loading="lazy" style="width: 100%; height: auto; background: #fff; border: 1px solid rgba(23,21,15,0.22)">
+        <img src="assets/img-09.jpg" alt="Review screenshot" loading="lazy" style="width: 100%; height: auto; background: #fff; border: 1px solid rgba(23,21,15,0.22)">
+        <img src="assets/img-11.jpg" alt="Review screenshot" loading="lazy" style="width: 100%; height: auto; background: #fff; border: 1px solid rgba(23,21,15,0.22)">
+        <img src="assets/img-03.jpg" alt="Review screenshot" loading="lazy" style="width: 100%; height: auto; background: #fff; border: 1px solid rgba(23,21,15,0.22)">
+        <img src="assets/img-01.jpg" alt="Review screenshot" loading="lazy" style="width: 100%; height: auto; background: #fff; border: 1px solid rgba(23,21,15,0.22)">
+        <img src="assets/img-08.jpg" alt="Review screenshot" loading="lazy" style="width: 100%; height: auto; background: #fff; border: 1px solid rgba(23,21,15,0.22)">
+        <img src="assets/img-12.jpg" alt="Review screenshot" loading="lazy" style="width: 100%; height: auto; background: #fff; border: 1px solid rgba(23,21,15,0.22)">
+        <img src="assets/img-10.jpg" alt="Review screenshot" loading="lazy" style="width: 100%; height: auto; background: #fff; border: 1px solid rgba(23,21,15,0.22)">
+      </div>
+    </div>
+  </section>
+
+  <section id="inspector" style="border-top: 1px solid rgba(23,21,15,0.2)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: clamp(46px, 6.5vw, 92px) 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(28px, 5vw, 64px); align-items: start">
+      <div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; color: #0e6f70">NO. 06 — YOUR INSPECTOR</span>
+        <h2 style="margin: 14px 0 8px; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(36px, 5.4vw, 66px); line-height: 0.98; letter-spacing: -0.02em">Josh Underwood</h2>
+        <p style="margin: 0 0 22px; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: #6b675e; font-weight: 600">Certified Professional Inspector</p>
+        <div style="display: grid; gap: 16px; font-size: 16.5px; line-height: 1.65; color: #3a362d; max-width: 52ch">
+          <p style="margin: 0">Meet your Certified Professional Inspector who specializes in mycotoxin correlation and hidden mold issues.</p>
+          <p style="margin: 0">Based in Indianapolis. I understand that Unbiased Mold Inspectors aren't easy to find, so I have and can travel to neighboring states if the need arises.</p>
+          <p style="margin: 0">Dealing with a mold problem doesn't need to be a scary process. Call today and we can talk about your specific needs. Having mold concerns? Get answers FAST — mold samples do not need to culture, so you can expect results about four business days after samplings.</p>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px">
+          <a href="tel:3172100319" style="text-decoration: none; background: #17150f; color: #f2efe8; font-weight: 600; font-size: 15px; padding: 16px 24px" style-hover="background: #0e6f70">Call (317) 210-0319</a>
+          <a href="https://www.facebook.com/Uminspections.IN" target="_blank" rel="noopener" style="text-decoration: none; color: #17150f; font-weight: 600; font-size: 15px; padding: 16px 4px; border-bottom: 1px solid #17150f" style-hover="color: #0e6f70; border-bottom-color: #0e6f70">Facebook</a>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px">
+        <figure style="margin: 0">
+          <img loading="lazy" src="assets/img-17.jpg" alt="Josh Underwood" style="width: 100%; aspect-ratio: 4/5; object-fit: cover; filter: grayscale(1) contrast(1.08); border: 1px solid #17150f">
+          <figcaption style="margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #6b675e">FIG. 04 — JOSH UNDERWOOD</figcaption>
+        </figure>
+        <figure style="margin: 0">
+          <img loading="lazy" src="assets/img-16.jpg" alt="Josh Underwood InterNACHI credential" style="width: 100%; aspect-ratio: 4/5; object-fit: contain; background: #fff; padding: 12px; box-sizing: border-box; border: 1px solid #17150f">
+          <figcaption style="margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: #6b675e">FIG. 05 — CREDENTIAL</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #0e6f70; color: #f2efe8">
+    <div style="max-width: 1240px; margin: 0 auto; padding: clamp(46px, 7.5vw, 100px) 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 28px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em">HAVING MOLD CONCERNS? GET ANSWERS FAST.</span>
+      <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(38px, 7vw, 92px); line-height: 0.96; letter-spacing: -0.02em; max-width: 24ch">The advice is FREE, and it could save you thousands or more — like your health.</h2>
+      <a href="tel:3172100319" style="text-decoration: none; background: #f2efe8; color: #0e6f70; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(22px, 3vw, 34px); padding: 18px 28px; display: inline-flex; align-items: center; gap: 16px" style-hover="background: #17150f; color: #f2efe8">CLICK TO CALL (317) 210-0319 <span>→</span></a>
+      <p style="margin: 0; font-size: 15.5px; line-height: 1.6; max-width: 58ch">Don't hesitate to reach out.</p>
+    </div>
+  </section>
+
+  <footer style="background: #17150f; color: #c9c3b5">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 44px 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; align-items: start">
+      <div style="display: grid; gap: 12px">
+        <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; color: #ece7dc; line-height: 1">Unbiased Mold Inspections</span>
+        <span style="font-size: 14px; line-height: 1.6; max-width: 34ch">Unbiased Mold Inspection for Indiana. Mycotoxin correlation specialist who uses mycotoxin test results to locate growth substrates.</span>
+      </div>
+      <div style="display: grid; gap: 10px; font-size: 14.5px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: #6fc0bf">CONTACT</span>
+        <a href="tel:3172100319" style="text-decoration: none; color: #ece7dc">(317) 210-0319</a>
+        <span>Indianapolis, Indiana</span>
+        <a href="https://www.facebook.com/Uminspections.IN" target="_blank" rel="noopener" style="text-decoration: none; color: #ece7dc">Facebook</a>
+      </div>
+      <div style="display: grid; gap: 10px; font-size: 14.5px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: #6fc0bf">MYCOTOXINS</span>
+        <span>Ochratoxin</span>
+        <span>Aflatoxin</span>
+        <span>Gliotoxin</span>
+        <span>Trichothecenes</span>
+      </div>
+      <div style="display: grid; gap: 10px; font-size: 14.5px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: #6fc0bf">SECTIONS</span>
+        <a href="#services" style="text-decoration: none; color: #ece7dc">Services</a>
+        <a href="#method" style="text-decoration: none; color: #ece7dc">Method</a>
+        <a href="#plates" style="text-decoration: none; color: #ece7dc">Photographs</a>
+        <a href="#reviews" style="text-decoration: none; color: #ece7dc">Reviews</a>
+        <a href="#inspector" style="text-decoration: none; color: #ece7dc">Inspector</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="callbar" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 70; background: #0e6f70; display: flex; justify-content: center">
+    <a href="tel:3172100319" style="text-decoration: none; color: #f2efe8; font-weight: 600; font-size: 16px; letter-spacing: 0.02em; padding: 17px 20px; width: 100%; max-width: 520px; text-align: center; display: block">CLICK TO CALL (317) 210-0319</a>
+  </div>
+</div>
+</x-dc>
+
+</body>
+</html>
