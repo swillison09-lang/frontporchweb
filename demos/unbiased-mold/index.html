@@ -214,9 +214,28 @@
   .tick::before { left: 0;  background: linear-gradient(90deg, #17150f, rgba(23,21,15,0)); }
   .tick::after  { right: 0; background: linear-gradient(270deg, #17150f, rgba(23,21,15,0)); }
   @keyframes tick-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* On a phone only ~375px of a ~4000px track is on screen, so at the desktop
+     speed a single item takes about five seconds to cross and the bar reads as
+     static unless you stare at it. Shorten the cycle on small screens so the
+     movement is obvious immediately. */
+  @media (max-width: 700px) {
+    .tick-track { animation-duration: 24s; }
+    .tick-item { padding: 0 16px; }
+    .tick::before, .tick::after { width: 26px; }
+  }
+
+  /* Reduced motion: stop the scroll, but do NOT leave a 4000px track sitting in
+     a 375px window - that renders as one clipped phrase and looks broken.
+     Drop the duplicate track and let the real one wrap into a tidy centred
+     block instead, so a stopped ticker still looks deliberate. */
   @media (prefers-reduced-motion: reduce) {
-    .tick-track { animation: none; }
-    .tick { overflow-x: auto; }
+    .tick { overflow: visible; }
+    .tick::before, .tick::after { display: none; }
+    .tick-track { animation: none; display: flex; flex-wrap: wrap; justify-content: center; width: 100%; }
+    .tick-group { flex-wrap: wrap; justify-content: center; }
+    .tick-group[aria-hidden="true"] { display: none; }
+    .tick-item { padding: 2px 12px; }
   }
 </style>
 </helmet>
