@@ -198,9 +198,8 @@
      first began - the seam is invisible and there is no jump.
 
      The duplicate is aria-hidden so a screen reader does not read the whole
-     list twice, and the marquee stops entirely under prefers-reduced-motion
-     rather than just slowing down, because scrolling text is a genuine
-     problem for some readers. */
+     list twice. On reduced-motion see the note further down: this ticker is
+     deliberately exempt, matching the schaefer-technologies marquee. */
   .tick { overflow: hidden; white-space: nowrap; position: relative; }
   /* NO will-change here on purpose. It promotes the track to its own GPU layer,
      and the track is the full width of both copies. iOS Safari caps texture size
@@ -216,7 +215,7 @@
      max-content pins the width to the content so the maths is unambiguous.
      Same construction as the marquee on the schaefer-technologies demo, which
      was already working on mobile. */
-  .tick-track { display: flex; width: max-content; animation: tick-scroll 17s linear infinite; }
+  .tick-track { display: flex; width: max-content; animation: tick-scroll 26s linear infinite; }
   .tick:hover .tick-track { animation-play-state: paused; }
   .tick-group { display: flex; align-items: center; flex: none; }
   .tick-item { padding: 0 22px; flex: none; }
@@ -247,23 +246,35 @@
      static unless you stare at it. Shorten the cycle on small screens so the
      movement is obvious immediately. */
   @media (max-width: 700px) {
-    .tick-track { animation-duration: 11s; }
+    .tick-track { animation-duration: 18s; }
     .tick-item { padding: 0 14px; }
     .tick::before, .tick::after { width: 24px; }
   }
 
-  /* Reduced motion: stop the scroll, but do NOT leave a 4000px track sitting in
-     a 375px window - that renders as one clipped phrase and looks broken.
-     Drop the duplicate track and let the real one wrap into a tidy centred
-     block instead, so a stopped ticker still looks deliberate. */
-  @media (prefers-reduced-motion: reduce) {
-    .tick { overflow: visible; }
-    .tick::before, .tick::after { display: none; }
-    .tick-track { animation: none; display: flex; flex-wrap: wrap; justify-content: center; width: 100%; }
-    .tick-group { flex-wrap: wrap; justify-content: center; }
-    .tick-group[aria-hidden="true"] { display: none; }
-    .tick-item { padding: 2px 12px; }
-  }
+  /* Reduced motion: the ticker is deliberately EXEMPT, matching the marquee on
+     the schaefer-technologies demo, which documents the same call - a slow,
+     low-amplitude ambient ticker is not the kind of motion the preference is
+     meant to suppress, unlike parallax, zoom or anything that moves under the
+     reader's focus. Keeping the two demos consistent matters more than each
+     one picking its own rule.
+
+     This is a deliberate exception, not an oversight: it does mean anyone with
+     Reduce Motion enabled still sees this bar scroll. If that call ever needs
+     reversing, restore the block below and the bar wraps into a static centred
+     row instead of stopping mid-clip:
+
+       @media (prefers-reduced-motion: reduce) {
+         .tick { overflow: visible; }
+         .tick::before, .tick::after { display: none; }
+         .tick-track { animation: none; display: flex; flex-wrap: wrap;
+                       justify-content: center; width: 100%; }
+         .tick-group { flex-wrap: wrap; justify-content: center; }
+         .tick-group[aria-hidden="true"] { display: none; }
+         .tick-item { padding: 2px 12px; }
+       }
+
+     Everything else on the page is static, so there is nothing else here that
+     the preference would need to govern. */
 </style>
 </helmet>
 
