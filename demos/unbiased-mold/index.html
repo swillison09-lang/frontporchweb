@@ -202,7 +202,12 @@
      rather than just slowing down, because scrolling text is a genuine
      problem for some readers. */
   .tick { overflow: hidden; white-space: nowrap; position: relative; }
-  .tick-track { display: inline-flex; will-change: transform; animation: tick-scroll 48s linear infinite; }
+  /* NO will-change here on purpose. It promotes the track to its own GPU layer,
+     and the track is the full width of both copies. iOS Safari caps texture size
+     (commonly 4096px) and silently refuses to composite a layer past it, which
+     kills the animation dead on a phone while it runs fine on desktop. The item
+     list below is deliberately kept short so the pair stays well under that cap. */
+  .tick-track { display: inline-flex; animation: tick-scroll 17s linear infinite; }
   .tick:hover .tick-track { animation-play-state: paused; }
   .tick-group { display: inline-flex; align-items: center; flex: none; }
   .tick-item { padding: 0 22px; flex: none; }
@@ -220,9 +225,9 @@
      static unless you stare at it. Shorten the cycle on small screens so the
      movement is obvious immediately. */
   @media (max-width: 700px) {
-    .tick-track { animation-duration: 24s; }
-    .tick-item { padding: 0 16px; }
-    .tick::before, .tick::after { width: 26px; }
+    .tick-track { animation-duration: 11s; }
+    .tick-item { padding: 0 14px; }
+    .tick::before, .tick::after { width: 24px; }
   }
 
   /* Reduced motion: stop the scroll, but do NOT leave a 4000px track sitting in
@@ -245,34 +250,24 @@
   <div class="tick" style="background: #17150f; color: #ddd8cb; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.14em; padding: 8px 0">
     <div class="tick-track">
       <div class="tick-group">
-        <span class="tick-item">UNBIASED MOLD INSPECTION FOR INDIANA</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">WHOLE HOME MOLD &amp; MOISTURE INSPECTION</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">MOLD &amp; MOISTURE INSPECTION</span><span class="tick-dot">&#9670;</span>
         <span class="tick-item">MYCOTOXIN CORRELATION</span><span class="tick-dot">&#9670;</span>
         <span class="tick-item">GENUS IDENTIFICATION</span><span class="tick-dot">&#9670;</span>
         <span class="tick-item">SPORE TRAP ANALYSIS</span><span class="tick-dot">&#9670;</span>
         <span class="tick-item">THERMAL IMAGING</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">INNER WALL CAVITY SAMPLING</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">NATIONALLY ACCREDITED LAB RESULTS</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">RESULTS IN ABOUT FOUR BUSINESS DAYS</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">REMEDIATION CONSULTATIONS &mdash; NO EXTRA CHARGE</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">CLEARANCE TESTING FOR REAL ESTATE</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">OCHRATOXIN &middot; AFLATOXIN &middot; GLIOTOXIN &middot; TRICHOTHECENES</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item" style="color: #6fbfb6">NO REMEDIATION SERVICES SOLD &mdash; NO CONFLICT OF INTEREST</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">ACCREDITED LAB RESULTS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">RESULTS IN ~4 DAYS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item" style="color: #6fbfb6">NO REMEDIATION SOLD</span><span class="tick-dot">&#9670;</span>
       </div>
       <div class="tick-group" aria-hidden="true">
-        <span class="tick-item">UNBIASED MOLD INSPECTION FOR INDIANA</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">WHOLE HOME MOLD &amp; MOISTURE INSPECTION</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">MOLD &amp; MOISTURE INSPECTION</span><span class="tick-dot">&#9670;</span>
         <span class="tick-item">MYCOTOXIN CORRELATION</span><span class="tick-dot">&#9670;</span>
         <span class="tick-item">GENUS IDENTIFICATION</span><span class="tick-dot">&#9670;</span>
         <span class="tick-item">SPORE TRAP ANALYSIS</span><span class="tick-dot">&#9670;</span>
         <span class="tick-item">THERMAL IMAGING</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">INNER WALL CAVITY SAMPLING</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">NATIONALLY ACCREDITED LAB RESULTS</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">RESULTS IN ABOUT FOUR BUSINESS DAYS</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">REMEDIATION CONSULTATIONS &mdash; NO EXTRA CHARGE</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">CLEARANCE TESTING FOR REAL ESTATE</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item">OCHRATOXIN &middot; AFLATOXIN &middot; GLIOTOXIN &middot; TRICHOTHECENES</span><span class="tick-dot">&#9670;</span>
-        <span class="tick-item" style="color: #6fbfb6">NO REMEDIATION SERVICES SOLD &mdash; NO CONFLICT OF INTEREST</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">ACCREDITED LAB RESULTS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">RESULTS IN ~4 DAYS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item" style="color: #6fbfb6">NO REMEDIATION SOLD</span><span class="tick-dot">&#9670;</span>
       </div>
     </div>
   </div>
