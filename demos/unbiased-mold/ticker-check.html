@@ -17,7 +17,7 @@
   .tick-group { display:flex; align-items:center; flex:none; }
   .tick-item { padding:0 14px; flex:none; }
   .tick-dot { color:#6fbfb6; flex:none; }
-  @keyframes tick-scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  @keyframes tick-scroll { from { transform:translateX(0); } to { transform:translateX(calc(-1 * var(--tick-dist, 50%))); } }
   @media (max-width:700px){ .tick-track { animation-duration:11s; } }
   @media (prefers-reduced-motion: reduce){ .tick-track { animation:none; } }
 
@@ -76,6 +76,11 @@
 
 <script>
 (function(){
+  // same px measurement as the real page
+  (function measure(){
+    var g=document.querySelector('.tick-group'), t=document.querySelector('.tick');
+    if(g&&t&&g.getBoundingClientRect().width){ t.style.setProperty('--tick-dist', Math.round(g.getBoundingClientRect().width)+'px'); }
+  })();
   function tx(m){ var p=(m||'').match(/matrix\(([^)]+)\)/); return p?parseFloat(p[1].split(',')[4]):0; }
   var track = document.querySelector('.tick-track');
   var ctrl  = document.querySelector('.ctrl i');

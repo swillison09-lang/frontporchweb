@@ -227,7 +227,20 @@
   }
   .tick::before { left: 0;  background: linear-gradient(90deg, #17150f, rgba(23,21,15,0)); }
   .tick::after  { right: 0; background: linear-gradient(270deg, #17150f, rgba(23,21,15,0)); }
-  @keyframes tick-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  /* Animate in PIXELS, not a percentage.
+     translateX(-50%) works on desktop and fails on iOS Safari: a percentage
+     transform on a box sized by max-content can resolve against the wrong
+     containing block - often collapsing to near zero - so the bar sits still on
+     a phone while scrolling fine on a laptop. Confirmed on-device: an identical
+     animation using a px value ran, this one did not.
+     --tick-dist is measured from the real rendered group by the script below and
+     re-measured on resize and after webfonts load. The -50% fallback only
+     applies if that script never runs, where a stationary bar is the worst case
+     rather than a broken one. */
+  @keyframes tick-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-1 * var(--tick-dist, 50%))); }
+  }
 
   /* On a phone only ~375px of a ~4000px track is on screen, so at the desktop
      speed a single item takes about five seconds to cross and the bar reads as
@@ -633,6 +646,47 @@
   </div>
 </div>
 </x-dc>
+
+<!-- Ticker distance measurement.
+     The keyframe scrolls by var(--tick-dist), a PIXEL length, because iOS Safari
+     would not animate the percentage version - verified on-device against an
+     otherwise identical px animation, which ran fine.
+     One group is exactly half the track, so scrolling by one group width lands
+     the duplicate precisely where the original began and the loop is seamless.
+     Re-measured on resize and once webfonts have loaded, since both change the
+     text width; and retried on a short interval at startup because the
+     DC-runtime replaces this subtree during its render passes, which would
+     otherwise leave the variable set on an element that has been thrown away. -->
+<script>
+(function () {
+  function apply() {
+    var group = document.querySelector('.tick-group');
+    var tick  = document.querySelector('.tick');
+    if (!group || !tick) return false;
+    var w = group.getBoundingClientRect().width;
+    if (!w) return false;
+    var next = Math.round(w) + 'px';
+    // Only write when the value actually changes. Re-setting a custom property
+    // that a running keyframe depends on restarts the animation, so writing it
+    // on every poll made the bar jump instead of scroll (measured 740px/sec
+    // instead of ~99). Reading first costs nothing and keeps the loop smooth.
+    if (tick.style.getPropertyValue('--tick-dist') !== next) {
+      tick.style.setProperty('--tick-dist', next);
+    }
+    return true;
+  }
+
+  // Startup: the ticker may not exist yet, and may be replaced once or twice.
+  var ticks = 0;
+  var id = setInterval(function () { apply(); if (++ticks > 40) clearInterval(id); }, 250);
+  apply();
+
+  // Width changes that invalidate the measurement.
+  var t;
+  window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(apply, 200); });
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(apply); }
+})();
+</script>
 
 </body>
 </html>
