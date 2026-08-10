@@ -190,15 +190,71 @@
   html { scroll-behavior: smooth; }
   @media (min-width: 880px) { #callbar { display: none !important; } }
   @media (max-width: 879px) { body { padding-bottom: 58px; } }
+
+  /* ── Ticker ──────────────────────────────────────────────────────────────
+     The top bar scrolls what he actually does. Built as two identical tracks
+     side by side, translated left by exactly half the pair's width, so the
+     moment the loop restarts the second copy is sitting precisely where the
+     first began - the seam is invisible and there is no jump.
+
+     The duplicate is aria-hidden so a screen reader does not read the whole
+     list twice, and the marquee stops entirely under prefers-reduced-motion
+     rather than just slowing down, because scrolling text is a genuine
+     problem for some readers. */
+  .tick { overflow: hidden; white-space: nowrap; position: relative; }
+  .tick-track { display: inline-flex; will-change: transform; animation: tick-scroll 48s linear infinite; }
+  .tick:hover .tick-track { animation-play-state: paused; }
+  .tick-group { display: inline-flex; align-items: center; flex: none; }
+  .tick-item { padding: 0 22px; flex: none; }
+  .tick-dot { color: #6fbfb6; flex: none; }
+  /* fade the ends so text emerges and leaves rather than being chopped */
+  .tick::before, .tick::after {
+    content: ""; position: absolute; top: 0; bottom: 0; width: 46px; z-index: 2; pointer-events: none;
+  }
+  .tick::before { left: 0;  background: linear-gradient(90deg, #17150f, rgba(23,21,15,0)); }
+  .tick::after  { right: 0; background: linear-gradient(270deg, #17150f, rgba(23,21,15,0)); }
+  @keyframes tick-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .tick-track { animation: none; }
+    .tick { overflow-x: auto; }
+  }
 </style>
 </helmet>
 
 <div style="font-family: Archivo, system-ui, sans-serif; color: #17150f; background: #f2efe8; overflow-x: hidden; -webkit-font-smoothing: antialiased">
 
-  <div style="background: #17150f; color: #ddd8cb">
-    <div style="max-width: 1240px; margin: 0 auto; padding: 7px 22px; display: flex; gap: 8px 24px; flex-wrap: wrap; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.14em">
-      <span>UNBIASED MOLD INSPECTION FOR INDIANA</span>
-      <span>OCHRATOXIN · AFLATOXIN · GLIOTOXIN · TRICHOTHECENES</span>
+  <div class="tick" style="background: #17150f; color: #ddd8cb; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.14em; padding: 8px 0">
+    <div class="tick-track">
+      <div class="tick-group">
+        <span class="tick-item">UNBIASED MOLD INSPECTION FOR INDIANA</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">WHOLE HOME MOLD &amp; MOISTURE INSPECTION</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">MYCOTOXIN CORRELATION</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">GENUS IDENTIFICATION</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">SPORE TRAP ANALYSIS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">THERMAL IMAGING</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">INNER WALL CAVITY SAMPLING</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">NATIONALLY ACCREDITED LAB RESULTS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">RESULTS IN ABOUT FOUR BUSINESS DAYS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">REMEDIATION CONSULTATIONS &mdash; NO EXTRA CHARGE</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">CLEARANCE TESTING FOR REAL ESTATE</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">OCHRATOXIN &middot; AFLATOXIN &middot; GLIOTOXIN &middot; TRICHOTHECENES</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item" style="color: #6fbfb6">NO REMEDIATION SERVICES SOLD &mdash; NO CONFLICT OF INTEREST</span><span class="tick-dot">&#9670;</span>
+      </div>
+      <div class="tick-group" aria-hidden="true">
+        <span class="tick-item">UNBIASED MOLD INSPECTION FOR INDIANA</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">WHOLE HOME MOLD &amp; MOISTURE INSPECTION</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">MYCOTOXIN CORRELATION</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">GENUS IDENTIFICATION</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">SPORE TRAP ANALYSIS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">THERMAL IMAGING</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">INNER WALL CAVITY SAMPLING</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">NATIONALLY ACCREDITED LAB RESULTS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">RESULTS IN ABOUT FOUR BUSINESS DAYS</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">REMEDIATION CONSULTATIONS &mdash; NO EXTRA CHARGE</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">CLEARANCE TESTING FOR REAL ESTATE</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item">OCHRATOXIN &middot; AFLATOXIN &middot; GLIOTOXIN &middot; TRICHOTHECENES</span><span class="tick-dot">&#9670;</span>
+        <span class="tick-item" style="color: #6fbfb6">NO REMEDIATION SERVICES SOLD &mdash; NO CONFLICT OF INTEREST</span><span class="tick-dot">&#9670;</span>
+      </div>
     </div>
   </div>
 
@@ -387,7 +443,7 @@
               <p style="margin: 0; font-size: 14.5px; line-height: 1.55; color: #c9c3b5">A thermal anomaly is a place to check, never a finding on its own. It gets confirmed with a moisture reading, and where the answer is still not clear, an inner wall cavity air sample.</p>
             </div>
           </div>
-          <p style="margin: 22px 0 0; font-size: 14.5px; line-height: 1.6; color: #9c968a; max-width: 62ch">This is why an inspector who sells remediation is a problem. A cold patch on a screen looks alarming and is trivial to present as damage. Confirming it costs a few minutes and sometimes ends the job early.</p>
+          <p style="margin: 22px 0 0; font-size: 14.5px; line-height: 1.6; color: #9c968a; max-width: 62ch">Confirming an anomaly takes a few extra minutes and sometimes ends the inspection early with good news. Since no remediation work is sold here, there is nothing riding on the answer either way.</p>
         </div>
       </div>
 
