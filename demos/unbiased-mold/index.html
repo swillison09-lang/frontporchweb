@@ -207,9 +207,18 @@
      (commonly 4096px) and silently refuses to composite a layer past it, which
      kills the animation dead on a phone while it runs fine on desktop. The item
      list below is deliberately kept short so the pair stays well under that cap. */
-  .tick-track { display: inline-flex; animation: tick-scroll 17s linear infinite; }
+  /* width: max-content is load-bearing, not tidiness. The keyframe translates by
+     -50%, and a percentage translate resolves against THIS element's own width.
+     As inline-flex with no declared width the box is shrink-to-fit, so Safari can
+     resolve it against the 375px container rather than the ~3100px of content -
+     making -50% about -187px instead of -1550px. That is a twitch, not a scroll,
+     which is exactly why it looked frozen on a phone and fine on desktop.
+     max-content pins the width to the content so the maths is unambiguous.
+     Same construction as the marquee on the schaefer-technologies demo, which
+     was already working on mobile. */
+  .tick-track { display: flex; width: max-content; animation: tick-scroll 17s linear infinite; }
   .tick:hover .tick-track { animation-play-state: paused; }
-  .tick-group { display: inline-flex; align-items: center; flex: none; }
+  .tick-group { display: flex; align-items: center; flex: none; }
   .tick-item { padding: 0 22px; flex: none; }
   .tick-dot { color: #6fbfb6; flex: none; }
   /* fade the ends so text emerges and leaves rather than being chopped */

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ticker diagnostic</title>
+<style>
+  body { margin:0; background:#f2efe8; color:#17150f; font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif; padding:0 0 40px; }
+  h1 { font-size:17px; padding:16px; margin:0; background:#17150f; color:#f2efe8; font-weight:600; }
+  .note { padding:14px 16px; font-size:14px; line-height:1.5; color:#3a362d; }
+
+  /* EXACTLY the ticker from the real page */
+  .tick { overflow:hidden; white-space:nowrap; position:relative; background:#17150f; color:#ddd8cb;
+          font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:10.5px; letter-spacing:.14em; padding:8px 0; }
+  .tick-track { display:flex; width:max-content; animation:tick-scroll 17s linear infinite; }
+  .tick-group { display:flex; align-items:center; flex:none; }
+  .tick-item { padding:0 14px; flex:none; }
+  .tick-dot { color:#6fbfb6; flex:none; }
+  @keyframes tick-scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  @media (max-width:700px){ .tick-track { animation-duration:11s; } }
+  @media (prefers-reduced-motion: reduce){ .tick-track { animation:none; } }
+
+  /* CONTROL: a dead-simple animation with no flex, no width, no percentages.
+     If this box moves and the ticker above does not, the problem is specific
+     to how the ticker is built. If NEITHER moves, the phone is suppressing
+     CSS animation globally and no code change will fix it. */
+  .ctrl { height:34px; background:#ddd8cb; position:relative; overflow:hidden; }
+  .ctrl i { position:absolute; top:7px; left:0; width:20px; height:20px; background:#0e6f70;
+            animation:slide 2s linear infinite; }
+  @keyframes slide { from { transform:translateX(0); } to { transform:translateX(240px); } }
+
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  td { padding:9px 16px; border-bottom:1px solid rgba(23,21,15,.15); vertical-align:top; }
+  td:first-child { color:#6b675e; width:45%; }
+  b.y { color:#0a7a3d; } b.n { color:#b3261e; }
+</style>
+</head>
+<body>
+
+<h1>Ticker diagnostic &mdash; open this on the phone</h1>
+
+<div class="note"><b>1. The real ticker</b> (same CSS as the live page):</div>
+<div class="tick">
+  <div class="tick-track">
+    <div class="tick-group">
+      <span class="tick-item">MOLD &amp; MOISTURE INSPECTION</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">MYCOTOXIN CORRELATION</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">GENUS IDENTIFICATION</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">SPORE TRAP ANALYSIS</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">THERMAL IMAGING</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">ACCREDITED LAB RESULTS</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">RESULTS IN ~4 DAYS</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">NO REMEDIATION SOLD</span><span class="tick-dot">&#9670;</span>
+    </div>
+    <div class="tick-group" aria-hidden="true">
+      <span class="tick-item">MOLD &amp; MOISTURE INSPECTION</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">MYCOTOXIN CORRELATION</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">GENUS IDENTIFICATION</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">SPORE TRAP ANALYSIS</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">THERMAL IMAGING</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">ACCREDITED LAB RESULTS</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">RESULTS IN ~4 DAYS</span><span class="tick-dot">&#9670;</span>
+      <span class="tick-item">NO REMEDIATION SOLD</span><span class="tick-dot">&#9670;</span>
+    </div>
+  </div>
+</div>
+
+<div class="note"><b>2. Control test</b> &mdash; a plain green square, simplest possible animation:</div>
+<div class="ctrl"><i></i></div>
+
+<div class="note"><b>3. What your phone reports:</b></div>
+<table id="out"><tr><td>measuring&hellip;</td><td></td></tr></table>
+
+<div class="note" id="verdict" style="font-size:15px; font-weight:600"></div>
+
+<script>
+(function(){
+  function tx(m){ var p=(m||'').match(/matrix\(([^)]+)\)/); return p?parseFloat(p[1].split(',')[4]):0; }
+  var track = document.querySelector('.tick-track');
+  var ctrl  = document.querySelector('.ctrl i');
+  var t0 = getComputedStyle(track).transform;
+  var c0 = getComputedStyle(ctrl).transform;
+  setTimeout(function(){
+    var cs  = getComputedStyle(track);
+    var tickMoved = Math.abs(tx(getComputedStyle(track).transform) - tx(t0));
+    var ctrlMoved = Math.abs(tx(getComputedStyle(ctrl).transform)  - tx(c0));
+    var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function yn(v){ return v ? '<b class="y">YES</b>' : '<b class="n">NO</b>'; }
+    var rows = [
+      ['Ticker actually moving',  yn(tickMoved > 2) + ' (' + Math.round(tickMoved) + 'px in 1.5s)'],
+      ['Control square moving',   yn(ctrlMoved > 2) + ' (' + Math.round(ctrlMoved) + 'px in 1.5s)'],
+      ['Reduce Motion is ON',     yn(rm)],
+      ['Screen width',            window.innerWidth + 'px'],
+      ['Animation applied',       cs.animationName + ' / ' + cs.animationDuration],
+      ['Play state',              cs.animationPlayState],
+      ['Track width',             Math.round(track.getBoundingClientRect().width) + 'px'],
+      ['Browser',                 navigator.userAgent.slice(0,90)]
+    ];
+    document.getElementById('out').innerHTML =
+      rows.map(function(r){ return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>'; }).join('');
+
+    var v = document.getElementById('verdict');
+    if (rm) {
+      v.innerHTML = 'VERDICT: Reduce Motion is switched on for this phone. The ticker is stopping on purpose. Turn it off in Settings → Accessibility → Motion, then reload.';
+    } else if (ctrlMoved <= 2 && tickMoved <= 2) {
+      v.innerHTML = 'VERDICT: even the plain square is frozen, so this phone is blocking CSS animation entirely — most likely Low Power Mode. No website change can fix that.';
+    } else if (ctrlMoved > 2 && tickMoved <= 2) {
+      v.innerHTML = 'VERDICT: the square moves but the ticker does not — the fault is in how the ticker is built. Send me this screen and I will rebuild it a different way.';
+    } else {
+      v.innerHTML = 'VERDICT: both are animating on this device. If the live page still looks frozen, it is serving you a cached copy — close the tab completely and reopen the link.';
+    }
+  }, 1500);
+})();
+</script>
+</body>
+</html>
