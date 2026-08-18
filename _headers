@@ -6,14 +6,6 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://images.frontporchwebllc.com; connect-src 'self' https://hxxtsthfqwyvkyuwnnsu.supabase.co wss://hxxtsthfqwyvkyuwnnsu.supabase.co https://frontporchweb-uploads.swillison09.workers.dev https://api.web3forms.com; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'
 
-# The 3D detailing demo decodes its car model in a Web Worker built from a
-# blob: URL, which the site-wide script-src blocks. This scoped policy allows
-# that one thing and is otherwise tighter than the global rule: no CDN, no
-# Supabase, no outbound connections at all. Applies only to this demo.
-/demos/two-bucket-detail/*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'none'
-  X-Robots-Tag: noindex, nofollow
-
 /admin.html
   X-Robots-Tag: noindex, nofollow
 
