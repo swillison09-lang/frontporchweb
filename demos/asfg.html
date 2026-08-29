@@ -178,8 +178,7 @@
   .portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;transition:transform .45s ease}
   .plate:hover .portrait img{transform:scale(1.035)}
   .plate.founder .portrait{border-color:var(--line-ink);background:linear-gradient(180deg,var(--ink-2),var(--ink-3))}
-  .plate .idx{font-family:var(--mono);font-size:.72rem;color:var(--brass-deep);letter-spacing:.1em}
-  .plate .pname{font-family:var(--serif);font-size:1.32rem;line-height:1.15;margin:8px 0 0;color:var(--ink-text)}
+  .plate .pname{font-family:var(--serif);font-size:1.32rem;line-height:1.15;margin:0;color:var(--ink-text)}
   .plate .firm{font-size:.94rem;margin:11px 0 2px;color:var(--ink-text);font-weight:600}
   .plate .loc{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-paper)}
   .plate .desc{font-size:.9rem;color:#5c5648;margin:13px 0 0;line-height:1.5}
@@ -188,7 +187,6 @@
   .plate.founder{background:linear-gradient(180deg,#171F1A00,#0000),var(--ink);border-color:var(--line-ink)}
   .plate.founder .pname,.plate.founder .firm{color:var(--paper)}
   .plate.founder .desc{color:#C7C1B4}
-  .plate.founder .idx{color:var(--brass)}
   .plate.founder .cred{border-color:var(--line-ink);color:var(--brass-soft)}
   .plate.founder::before{background:var(--brass);transform:scaleY(1)}
   .founder-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin-bottom:2px}
@@ -238,6 +236,7 @@
   .join-card .medallion{width:96px;margin:0 auto 20px}
   .join-card h3{font-size:1.9rem;margin:0 0 12px}
   .join-card p{color:#C7C1B4;font-size:.98rem;margin:0 0 26px}
+  .join-card .join-note{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-ink,#8A8577);margin:18px 0 0}
 
   /* ---------- FOOTER ---------- */
   footer{background:var(--ink-3);color:var(--muted-ink);padding:64px 0 40px;border-top:1px solid var(--line-ink)}
@@ -245,7 +244,10 @@
   .foot-links{display:flex;gap:28px;flex-wrap:wrap}
   .foot-links a{font-size:.85rem;text-decoration:none;color:var(--muted-ink);transition:color .2s}
   .foot-links a:hover{color:var(--brass)}
-  .disclaimer{font-size:.76rem;line-height:1.7;color:#6B7686;max-width:78ch;margin:28px 0 0}
+  .disclaimer{font-size:.72rem;line-height:1.75;color:#6B7686;max-width:92ch;margin:28px 0 0}
+  .disclaimer p{margin:0 0 12px}
+  .disclaimer p:last-child{margin-bottom:0}
+  .disclaimer .caps{font-size:.66rem;letter-spacing:.02em;color:#5C6675}
   .disclaimer b{color:var(--brass-soft);font-weight:600;font-family:var(--serif)}
   .foot-legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:26px;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:#5a6474}
 
@@ -314,9 +316,9 @@
     </a>
     <nav class="links" aria-label="Primary">
       <a href="#purpose">Purpose</a>
-      <a href="#compact">The Compact</a>
-      <a href="#register">The Register</a>
-      <a href="#membership">Membership</a>
+      <a href="#experience">The Experience</a>
+      <a href="#register">Members</a>
+      <a href="#membership">Become A Member</a>
     </nav>
     <a class="btn" href="#membership">Apply</a>
   </div>
@@ -328,7 +330,7 @@
     <div class="reveal in">
       <p class="eyebrow">A national membership group</p>
       <h1>A Peer-Selected Group of <em>Fiduciary</em> Financial Advisors</h1>
-      <p class="lede">Welcome to The All-Star Financial Group membership homepage. We are glad you found us, and hope you spend a minute learning more about our membership group for financial professionals.</p>
+      <p class="lede">Welcome to The All-Star Financial Group membership homepage! We are glad you found us and hope you spend a minute learning more about our membership group for financial professionals.</p>
       <div class="hero-cta">
         <a class="btn" href="#register">Meet the members</a>
         <a class="btn ghost" href="#membership">Become a member</a>
@@ -350,7 +352,7 @@
       <div class="cell"><div class="fig">3</div><div class="lab">Elected officers</div></div>
       <div class="cell"><div class="fig">20</div><div class="lab">Peer-selected members</div></div>
       <div class="cell"><div class="fig">2&times;</div><div class="lab">We meet · Jun &amp; Jan</div></div>
-      <div class="cell"><div class="fig">100%</div><div class="lab">Fiduciary standard</div></div>
+      <div class="cell"><div class="fig">US</div><div class="lab">Across the United States</div></div>
     </div></div>
   </div>
 </section>
@@ -365,7 +367,7 @@
     <div class="purpose-grid">
       <div class="reveal">
         <p class="serves-h">Who We Are</p>
-        <p class="purpose-lead"><span class="drop">A</span> national membership group of fiduciary financial advisors across the United States. Our members are peer-selected via an application process, and hold various credentials — performing financial, tax, and/or investment planning services for high net worth clients.</p>
+        <p class="purpose-lead"><span class="drop">A</span> national membership group of fiduciary financial advisors across the United States. Our members are peer-selected via an application process. Our members hold various credentials and perform financial, tax, and/or investment planning services for high net worth clients.</p>
       </div>
       <div class="reveal">
         <p class="serves-h">Client types may include</p>
@@ -385,28 +387,28 @@
   </div>
 </section>
 
-<!-- THE COMPACT -->
-<section id="compact" class="ink">
+<!-- THE EXPERIENCE -->
+<section id="experience" class="ink">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="eyebrow">The compact</p>
+      <p class="eyebrow">The experience</p>
       <h2>Leveraging our combined expertise and broadening our depths of knowledge.</h2>
     </div>
     <div class="principles reveal">
       <div class="principle">
         <span class="k">We convene</span>
         <h3>Twice a year, in June and&nbsp;January</h3>
-        <p>The group meets in person for a lively educational meeting. Allowing ongoing dialogue and idea sharing is critical to our members finding value in the ASFG.</p>
+        <p>Twice a year, typically in June and in January, the group meets in person for a lively educational meeting, time to manage the business items of the group, and time to learn more about each other.</p>
+      </div>
+      <div class="principle">
+        <span class="k">We connect</span>
+        <h3>A private LinkedIn&nbsp;group</h3>
+        <p>Since we are from all parts of the country, a private LinkedIn Group has been established to facilitate communication about various topics or questions our members may have. Allowing ongoing dialogue and idea sharing is critical to our members finding value in the ASFG.</p>
       </div>
       <div class="principle">
         <span class="k">We contribute</span>
         <h3>Our time and&nbsp;expertise</h3>
-        <p>Our members contribute to the group with their time and expertise — so that members feel connected, welcome, and supported.</p>
-      </div>
-      <div class="principle">
-        <span class="k">We give</span>
-        <h3>So that all may&nbsp;benefit</h3>
-        <p>It is important that each member be willing to give to the group so that all may benefit.</p>
+        <p>Our members contribute to the group, with their time and expertise. It is important that each member be willing to give to the group so that all may benefit.</p>
       </div>
     </div>
   </div>
@@ -417,7 +419,7 @@
   <div class="wrap">
     <div class="reg-head reveal">
       <div class="sec-head">
-        <p class="eyebrow">The register</p>
+        <p class="eyebrow">Members</p>
         <h2>Our distinguished membership.</h2>
       </div>
       <p class="reg-note">Three elected officers · twenty peer-selected members</p>
@@ -457,26 +459,26 @@
       <h3>Meet Our Members</h3><span class="fill"></span><span class="count">Twenty advisors · listed alphabetically</span>
     </div>
     <div class="register" id="register-grid">
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/01-rothstein.jpg" alt="Alan M. Rothstein" loading="lazy" width="343" height="480" /></div><div class="idx">01</div><h3 class="pname">Alan M. Rothstein</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Siena Private Wealth</div><div class="loc">Connecticut</div><p class="desc">Four decades in the profession; built a fee-only registered practice, merged in 2024.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/02-blackman.jpg" alt="Andrew B. Blackman" loading="lazy" width="343" height="480" /></div><div class="idx">02</div><h3 class="pname">Andrew B. Blackman</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Schulman Lobel LLP</div><div class="loc">New York</div><p class="desc">Business management for performing and creative artists, athletes and celebrities.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/03-jevne.jpeg" alt="Ann D. Jevne" loading="lazy" width="343" height="480" /></div><div class="idx">03</div><h3 class="pname">Ann D. Jevne</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AEP&reg;</span></div><div class="firm">GYL Financial Synergies</div><div class="loc">Connecticut</div><p class="desc">35+ years in public accounting; past president, Connecticut Society of CPAs.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/04-gennaoui.jpg" alt="Anthony Gennaoui" loading="lazy" width="343" height="480" /></div><div class="idx">04</div><h3 class="pname">Anthony Gennaoui</h3><div class="creds"><span class="cred">CFP&reg;</span></div><div class="firm">Droms Strauss Wealth Mgmt.</div><div class="loc">St. Louis, MO</div><p class="desc">Managing principal; chairs the firm's investment committee.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/05-mclean.jpg" alt="Carson McLean" loading="lazy" width="343" height="480" /></div><div class="idx">05</div><h3 class="pname">Carson McLean</h3><div class="creds"><span class="cred">CFP&reg;</span></div><div class="firm">Altruist Wealth Management</div><div class="loc">Charlotte, NC</div><p class="desc">Founder; retirement planning and tax-aware strategy, formerly at DFA.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/06-itkoe.jpg" alt="Erin Itkoe" loading="lazy" width="343" height="480" /></div><div class="idx">06</div><h3 class="pname">Erin Itkoe</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AEP&reg;</span><span class="cred">CAP&reg;</span></div><div class="firm">Luminescent Wealth Mgmt.</div><div class="loc">Phoenix, AZ</div><p class="desc">President; serves on the AICPA Personal Financial Planning Executive Committee.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/07-desmond.jpeg" alt="Gregory Desmond" loading="lazy" width="343" height="480" /></div><div class="idx">07</div><h3 class="pname">Gregory Desmond</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Desmond Wealth Management</div><div class="loc">Bay Area, CA</div><p class="desc">Personal CFO to his clients across tax, investments, retirement and estate.</p></article>
-      <article class="plate reveal founder"><div class="founder-tag">&#9733; Founding member</div><div class="portrait"><img src="/demos/asfg-assets/08-vernazza.jpg" alt="J. Ben Vernazza" loading="lazy" width="343" height="480" /></div><div class="idx">08</div><h3 class="pname">J. Ben Vernazza</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">TEP</span></div><div class="firm">Portfolio Diversification Institute</div><div class="loc">Aptos, CA</div><p class="desc">A founding member of ASFG and international tax specialist; a lifelong pilot who authored a CPA course on tax havens.</p><div class="memoriam">Founding member &middot; 1934&ndash;2026</div></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/09-goodfriend.jpg" alt="Karen Goodfriend" loading="lazy" width="343" height="480" /></div><div class="idx">09</div><h3 class="pname">Karen Goodfriend</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">MBA</span></div><div class="firm">WealthValues, LLC</div><div class="loc">Silicon Valley, CA</div><p class="desc">Guides clients through IPOs, acquisitions and equity comp; AICPA Distinguished Service Award.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/10-galardi.jpg" alt="Kelly A. Galardi" loading="lazy" width="343" height="480" /></div><div class="idx">10</div><h3 class="pname">Kelly A. Galardi</h3><div class="creds"><span class="cred">CPA</span></div><div class="firm">Kelly A. Galardi, CPA</div><div class="loc">Doylestown, PA</div><p class="desc">20+ years in public accounting; tax planning and IRS representation.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/11-flores.jpg" alt="Liz L. Flores" loading="lazy" width="343" height="480" /></div><div class="idx">11</div><h3 class="pname">Liz L. Flores</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">The Oversight Group</div><div class="loc">San Jose, CA</div><p class="desc">Financial planning for 16 years; serves on CalCPA's Personal Financial Planning Committee.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/12-mcneill.jpg" alt="Mackey McNeill" loading="lazy" width="343" height="480" /></div><div class="idx">12</div><h3 class="pname">Mackey McNeill</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Mackey Advisors</div><div class="loc">Cincinnati, OH</div><p class="desc">Founder of a leading women-owned firm; author, &ldquo;The Intersection of Joy and Money.&rdquo;</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/13-rathmell.jpg" alt="Marshall Rathmell" loading="lazy" width="343" height="480" /></div><div class="idx">13</div><h3 class="pname">Marshall Rathmell</h3><div class="creds"><span class="cred">CFP&reg;</span><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">BCR Wealth Strategies</div><div class="loc">Birmingham, AL</div><p class="desc">Managing member of a fee-only fiduciary firm; Leadership Birmingham.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/14-armbruster.jpg" alt="Martin J. Armbruster" loading="lazy" width="343" height="480" /></div><div class="idx">14</div><h3 class="pname">Martin J. Armbruster</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Savant Wealth Management</div><div class="loc">Indianapolis, IN</div><p class="desc">Advising clients since 1982; co-founded the practice that joined Savant in 2021.</p></article>
-      <article class="plate reveal founder"><div class="founder-tag">&#9733; Founding member</div><div class="portrait"><img src="/demos/asfg-assets/15-freedman.jpg" alt="Mitchell Freedman" loading="lazy" width="343" height="480" /></div><div class="idx">15</div><h3 class="pname">Mitchell Freedman</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">MFAC Financial Advisors</div><div class="loc">Los Angeles, CA</div><p class="desc">Multi-family office services with a specialty in performing and creative artists; a founding member and past VP of ASFG.</p><div class="memoriam">Founding member &middot; Past vice president</div></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/16-genor.webp" alt="Ryan Genor" loading="lazy" width="343" height="480" /></div><div class="idx">16</div><h3 class="pname">Ryan Genor</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">CLS Financial Advisors</div><div class="loc">Portland, OR</div><p class="desc">Combines financial and tax planning; a CPA since 2003.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/17-rowling.jpg" alt="Sheryl L. Rowling" loading="lazy" width="343" height="480" /></div><div class="idx">17</div><h3 class="pname">Sheryl L. Rowling</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Rowling &amp; Associates</div><div class="loc">San Diego, CA</div><p class="desc">Editorial director at Morningstar; Accounting Today Top 100 and author.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/18-willison.jpg" alt="Stephanie L. Willison" loading="lazy" width="343" height="480" /></div><div class="idx">18</div><h3 class="pname">Stephanie L. Willison</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AIF&reg;</span></div><div class="firm">Savant Wealth Management</div><div class="loc">Indianapolis, IN</div><p class="desc">Advising clients since 1999; co-founded WealthPoint before joining Savant.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/19-strauss.jpg" alt="Steven N. Strauss" loading="lazy" width="343" height="480" /></div><div class="idx">19</div><h3 class="pname">Steven N. Strauss</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Droms Strauss Wealth Mgmt.</div><div class="loc">St. Louis, MO</div><p class="desc">Co-founder; a pioneer of personal financial planning software within the AICPA.</p></article>
-      <article class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/20-bousky.jpg" alt="Tracy M. Bousky" loading="lazy" width="343" height="480" /></div><div class="idx">20</div><h3 class="pname">Tracy M. Bousky</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">MBA</span></div><div class="firm">The Mather Group</div><div class="loc">Chicago, IL</div><p class="desc">Kellogg MBA; former board chair of AgeOptions, with roots in audit and finance.</p></article>
+      <article data-bio="1" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/01-rothstein.jpg" alt="Alan M. Rothstein" loading="lazy" width="343" height="480" /></div><h3 class="pname">Alan M. Rothstein</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Siena Private Wealth</div><div class="loc">Connecticut</div><p class="desc">With over 40 years of experience in the financial industry, Alan brings invaluable knowledge to our team.</p></article>
+      <article data-bio="2" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/02-blackman.jpg" alt="Andrew B. Blackman" loading="lazy" width="343" height="480" /></div><h3 class="pname">Andrew B. Blackman</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Schulman Lobel LLP</div><div class="loc">New York</div><p class="desc">As a partner in Schulman Lobel, Andy provides business management for performing and creative artists, athletes, and other celebrities…</p></article>
+      <article data-bio="3" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/03-jevne.jpeg" alt="Ann D. Jevne" loading="lazy" width="343" height="480" /></div><h3 class="pname">Ann D. Jevne</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AEP&reg;</span></div><div class="firm">GYL Financial Synergies</div><div class="loc">Connecticut</div><p class="desc">Her expertise is in the areas of portfolio management and financial planning.</p></article>
+      <article data-bio="4" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/04-gennaoui.jpg" alt="Anthony Gennaoui" loading="lazy" width="343" height="480" /></div><h3 class="pname">Anthony Gennaoui</h3><div class="creds"><span class="cred">CFP&reg;</span></div><div class="firm">Droms Strauss Wealth Mgmt.</div><div class="loc">St. Louis, MO</div><p class="desc">Anthony’s approach to client service is both personalized and goal-oriented.</p></article>
+      <article data-bio="5" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/05-mclean.jpg" alt="Carson McLean" loading="lazy" width="343" height="480" /></div><h3 class="pname">Carson McLean</h3><div class="creds"><span class="cred">CFP&reg;</span></div><div class="firm">Altruist Wealth Management</div><div class="loc">Charlotte, NC</div><p class="desc">His work centers on retirement planning, tax-aware strategy, and building portfolios grounded in research rather than prediction…</p></article>
+      <article data-bio="6" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/06-itkoe.jpg" alt="Erin Itkoe" loading="lazy" width="343" height="480" /></div><h3 class="pname">Erin Itkoe</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AEP&reg;</span><span class="cred">CAP&reg;</span></div><div class="firm">Luminescent Wealth Mgmt.</div><div class="loc">Phoenix, AZ</div><p class="desc">Erin is the President and a Wealth Advisor at Luminescent Wealth Management, Inc.</p></article>
+      <article data-bio="7" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/07-desmond.jpeg" alt="Gregory Desmond" loading="lazy" width="343" height="480" /></div><h3 class="pname">Gregory Desmond</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Desmond Wealth Management</div><div class="loc">Bay Area, CA</div><p class="desc">Founder of both Desmond Wealth Management and Desmond Consulting Group, Greg is a successful CPA and Certified Financial Planner (CFP)® with over 35 years of experience.</p></article>
+      <article data-bio="8" data-nocontact class="plate reveal founder"><div class="founder-tag">&#9733; Founding member</div><div class="portrait"><img src="/demos/asfg-assets/08-vernazza.jpg" alt="J. Ben Vernazza" loading="lazy" width="343" height="480" /></div><h3 class="pname">J. Ben Vernazza</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">TEP</span></div><div class="firm">Portfolio Diversification Institute</div><div class="loc">Aptos, CA</div><p class="desc">A passionate entrepreneur and world traveler, Ben became an international tax and investment specialist.</p><div class="memoriam">Founding member &middot; 1934&ndash;2026</div></article>
+      <article data-bio="9" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/09-goodfriend.jpg" alt="Karen Goodfriend" loading="lazy" width="343" height="480" /></div><h3 class="pname">Karen Goodfriend</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">MBA</span></div><div class="firm">WealthValues, LLC</div><div class="loc">Silicon Valley, CA</div><p class="desc">Karen Goodfriend founded WealthValues in 2006.</p></article>
+      <article data-bio="10" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/10-galardi.jpg" alt="Kelly A. Galardi" loading="lazy" width="343" height="480" /></div><h3 class="pname">Kelly A. Galardi</h3><div class="creds"><span class="cred">CPA</span></div><div class="firm">Kelly A. Galardi, CPA</div><div class="loc">Doylestown, PA</div><p class="desc">Kelly A. Galardi is a Certified Public Accountant based in Doylestown, Pennsylvania, with over 20 years of experience in public accounting.</p></article>
+      <article data-bio="11" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/11-flores.jpg" alt="Liz L. Flores" loading="lazy" width="343" height="480" /></div><h3 class="pname">Liz L. Flores</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">The Oversight Group</div><div class="loc">San Jose, CA</div><p class="desc">For the past 16 years Liz L Flores has been providing financial planning advice and services.</p></article>
+      <article data-bio="12" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/12-mcneill.jpg" alt="Mackey McNeill" loading="lazy" width="343" height="480" /></div><h3 class="pname">Mackey McNeill</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Mackey Advisors</div><div class="loc">Cincinnati, OH</div><p class="desc">Mackey McNeill is the Founder and President/CEO of Mackey Advisors…</p></article>
+      <article data-bio="13" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/13-rathmell.jpg" alt="Marshall Rathmell" loading="lazy" width="343" height="480" /></div><h3 class="pname">Marshall Rathmell</h3><div class="creds"><span class="cred">CFP&reg;</span><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">BCR Wealth Strategies</div><div class="loc">Birmingham, AL</div><p class="desc">Marshall Rathmell, CPA®/PFS®, CFP® is the Managing Member of BCR® Wealth Strategies in Birmingham, Alabama.</p></article>
+      <article data-bio="14" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/14-armbruster.jpg" alt="Martin J. Armbruster" loading="lazy" width="343" height="480" /></div><h3 class="pname">Martin J. Armbruster</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Savant Wealth Management</div><div class="loc">Indianapolis, IN</div><p class="desc">Martin has been involved in the financial services industry since 1982.</p></article>
+      <article data-bio="15" class="plate reveal founder"><div class="founder-tag">&#9733; Founding member</div><div class="portrait"><img src="/demos/asfg-assets/15-freedman.jpg" alt="Mitchell Freedman" loading="lazy" width="343" height="480" /></div><h3 class="pname">Mitchell Freedman</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">MFAC Financial Advisors</div><div class="loc">Los Angeles, CA</div><p class="desc">Mitchell Freedman is the founder and President of MFAC Financial Advisors, Inc., a Registered Investment Advisory (RIA) Firm.</p><div class="memoriam">Founding member &middot; Past vice president</div></article>
+      <article data-bio="16" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/16-genor.webp" alt="Ryan Genor" loading="lazy" width="343" height="480" /></div><h3 class="pname">Ryan Genor</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">CLS Financial Advisors</div><div class="loc">Portland, OR</div><p class="desc">As a shareholder of CLS Financial Advisors, Ryan has spent many years helping clients plan for their financial future by combining financial planning with his experience in tax planning.</p></article>
+      <article data-bio="17" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/17-rowling.jpg" alt="Sheryl L. Rowling" loading="lazy" width="343" height="480" /></div><h3 class="pname">Sheryl L. Rowling</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Rowling &amp; Associates</div><div class="loc">San Diego, CA</div><p class="desc">Sheryl Rowling, CPA/PFS, is Principal at Sheryl Rowling CPA Accountancy Corporation.</p></article>
+      <article data-bio="18" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/18-willison.jpg" alt="Stephanie L. Willison" loading="lazy" width="343" height="480" /></div><h3 class="pname">Stephanie L. Willison</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AIF&reg;</span></div><div class="firm">Savant Wealth Management</div><div class="loc">Indianapolis, IN</div><p class="desc">Stephanie has been involved in the financial services industry since 1999.</p></article>
+      <article data-bio="19" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/19-strauss.jpg" alt="Steven N. Strauss" loading="lazy" width="343" height="480" /></div><h3 class="pname">Steven N. Strauss</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Droms Strauss Wealth Mgmt.</div><div class="loc">St. Louis, MO</div><p class="desc">Together with Bill Droms, Steve co-founded the firm in 1995.</p></article>
+      <article data-bio="20" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/20-bousky.jpg" alt="Tracy M. Bousky" loading="lazy" width="343" height="480" /></div><h3 class="pname">Tracy M. Bousky</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">MBA</span></div><div class="firm">The Mather Group</div><div class="loc">Chicago, IL</div><p class="desc">Her clients include owners of closely held businesses, executives preparing for retirement, and families with multi-generational wealth plans.</p></article>
     </div>
 
     <div class="credstrip reveal">
@@ -494,20 +496,19 @@
     </div>
     <div class="join-grid">
       <ol class="criteria reveal">
-        <li><div><b>Practice as a fiduciary</b><span>Membership is reserved for advisors who serve their clients under the fiduciary standard.</span></div></li>
-        <li><div><b>Be nominated by a member or officer</b><span>Applications are submitted through a referring member or one of the group's officers.</span></div></li>
-        <li><div><b>Submit your Form ADV</b><span>Provide your current Form ADV, where applicable, alongside your application.</span></div></li>
-        <li><div><b>Join the table</b><span>Approved members are welcomed into the private network and the twice-yearly meetings.</span></div></li>
+        <li><div><b>Complete the application</b><span>Please complete the application and return to one of our Officers or the member who invited you to The All-Star Financial Group.</span></div></li>
+        <li><div><b>Submit your most recent Form ADV</b><span>With the application, you will need to submit a copy of your most recent Form ADV, if applicable.</span></div></li>
+        <li><div><b>Remit a check payable to ASFG</b><span>You will also need to remit a check payable to The All-Star Financial Group as detailed in the application.</span></div></li>
       </ol>
       <div class="join-card reveal">
         <div class="medallion" aria-hidden="true">
           <svg viewBox="0 0 100 100"><polygon points="50,14 57.5,38.7 83.4,38.7 62.5,53.9 70.3,78.5 50,63.4 29.7,78.5 37.5,53.9 16.6,38.7 42.5,38.7" fill="none" stroke="var(--brass)" stroke-width="1.1" stroke-linejoin="round"/></svg>
         </div>
-        <h3>Request an application</h3>
-        <p>If you share our standard and would value this circle, we would be glad to hear from you.</p>
-        <a class="btn" href="https://www.linkedin.com/groups/3739197/" target="_blank" rel="noopener">Fill out application</a>
+        <h3>Apply to Become a Member</h3>
+        <p>We welcome you to apply for membership.</p>
+        <a class="btn" href="/demos/asfg-assets/asfg-membership-application.pdf" target="_blank" rel="noopener">Fill Out Application</a>
+        <p class="join-note">Fillable PDF &middot; opens in a new tab</p>
       </div>
-    </div>
   </div>
 </section>
 
@@ -516,7 +517,7 @@
     <div class="foot-top">
       <a class="brandmark" href="#top">
         <img class="brandcrest" src="/demos/asfg-assets/asfg-badge-96.png" srcset="/demos/asfg-assets/asfg-badge-48.png 1x, /demos/asfg-assets/asfg-badge-96.png 2x, /demos/asfg-assets/asfg-badge-144.png 3x" alt="The All-Star Financial Group crest" />
-        <span class="brandtext"><b>The All-Star Financial Group</b><span>A register of fiduciary advisors</span></span>
+        <span class="brandtext"><b>The All-Star Financial Group</b><span>Peer-selected fiduciary advisors</span></span>
       </a>
       <nav class="foot-links" aria-label="Footer">
         <a href="#purpose">About ASFG</a>
@@ -525,7 +526,11 @@
         <a href="https://www.linkedin.com/groups/3739197/" target="_blank" rel="noopener">Members Group ↗</a>
       </nav>
     </div>
-    <p class="disclaimer"><b>Please note.</b> The All-Star Financial Group (ASFG) is a group of fiduciary financial advisors who provide advice to clients through their own firms. ASFG itself provides no financial or investment advice and has no clients of its own. This website is limited to general information and is provided for informational purposes only, with no warranty as to the accuracy or completeness of any information posted. Past performance is no guarantee of future results.</p>
+    <div class="disclaimer">
+      <p><b>Disclosure.</b> The All-Star Financial Group (ASFG) web site is limited to general information pertaining to its member&rsquo;s diversified services. ASFG is a group of fiduciary financial advisors that provide advice to clients through their own firms. ASFG itself provides no financial or investment advice and has no clients itself. Accordingly, the publication of ASFG&rsquo;s website on the Internet should not be construed by any consumer or prospective client as ASFG&rsquo;s solicitation to effect, or attempt to effect transactions in securities, or the rendering of personalized investment advice for compensation should not construe the publication of ASFG&rsquo;s web site on the Internet, over the Internet.</p>
+      <p>This website is for information purposes only. Information throughout this site is obtained from sources, which we believe reliable, but we do not warrant or guarantee the timeliness or accuracy of this information. Nothing on this web site should be interpreted to state or imply that past results are an indication of future performance. Neither we, nor our information providers shall be liable for any errors or inaccuracies, regardless of cause, or the lack of timeliness of, or for any delay or interruption in the transmission thereof to the user.</p>
+      <p class="caps">THERE ARE NO WARRANTIES, EXPRESSED OR IMPLIED, AS TO ACCURACY, COMPLETENESS, OR RESULTS OBTAINED FROM ANY INFORMATION POSTED ON THIS, OR ANY &lsquo;LINKED&rsquo; WEB SITE.</p>
+    </div>
     <div class="foot-legal">
       <span>&copy; 2026 The All-Star Financial Group</span>
       <span>Peer-selected · Fiduciary · Nationwide</span>
@@ -564,10 +569,11 @@
       const loc = (plate.querySelector('.loc')||{}).textContent || '';
       const imgEl = plate.querySelector('.portrait img');
       const img = imgEl ? imgEl.getAttribute('src') : '';
-      const c = [];
-      if(d.web){ const host = d.web.replace(/^https?:\/\//,'').replace(/\/$/,''); c.push('<a href="'+esc(d.web)+'" target="_blank" rel="noopener">'+esc(host)+'</a>'); }
-      if(d.email){ c.push('<a href="mailto:'+esc(d.email)+'">'+esc(d.email)+'</a>'); }
-      if(d.phone){ c.push('<span>'+esc(d.phone)+'</span>'); }
+      const c = plate.hasAttribute('data-nocontact') ? null : [];
+      if(c && d.web){ const host = d.web.replace(/^https?:\/\//,'').replace(/\/$/,''); c.push('<a href="'+esc(d.web)+'" target="_blank" rel="noopener">'+esc(host)+'</a>'); }
+      if(c && d.email){ c.push('<a href="mailto:'+esc(d.email)+'">'+esc(d.email)+'</a>'); }
+      if(c && d.phone){ const tel = d.phone.replace(/[^0-9+]/g,''); const shown = d.phone.replace(/\s+/g,' ').replace(/-\s+/g,'-').trim();
+        c.push('<a href="tel:'+esc(tel)+'">'+esc(shown)+'</a>'); }
       const body = (d.bio||[]).map(line=>{
         if(/:$/.test(line)) return '<p class="bio-label">'+esc(line)+'</p>';
         if(line.length < 70 && !/[.!?”"’]$/.test(line)) return '<p class="bio-item">'+esc(line)+'</p>';
@@ -581,7 +587,7 @@
           (creds?'<div class="creds">'+creds+'</div>':'') +
           '<div class="bh-firm">'+esc(firm)+(loc?' &middot; '+esc(loc):'')+'</div></div>' +
         '</div>' +
-        (c.length?'<div class="bio-contact">'+c.join('')+'</div>':'') +
+        (c && c.length?'<div class="bio-contact">'+c.join('')+'</div>':'') +
         '<div class="bio-body">'+body+'</div>';
       modal.querySelector('.bio-close').addEventListener('click', close);
     }
@@ -591,8 +597,7 @@
     document.addEventListener('keydown', e=>{ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
 
     document.querySelectorAll('#register-grid .plate').forEach(plate=>{
-      const idxEl = plate.querySelector('.idx'); if(!idxEl) return;
-      const idx = String(parseInt(idxEl.textContent,10));
+      const idx = plate.getAttribute('data-bio'); if(!idx) return;
       if(!BIOS[idx]) return;
       plate.classList.add('clickable');
       plate.setAttribute('role','button');
