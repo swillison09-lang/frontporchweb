@@ -176,7 +176,7 @@ export function enhanceEnvironment({THREE,scene,house,materials:M,renderer,mobil
   }
   for(const child of house.children){child.castShadow=!mobile;child.receiveShadow=true;}
   // A little fill light keeps the porch visible against the backlit forest.
-  const fill=new THREE.DirectionalLight(0xffc48a,.6);fill.position.set(12,10,30);scene.add(fill);
+  const fill=new THREE.DirectionalLight(0xffc48a,.4);fill.position.set(12,10,30);scene.add(fill);
   // Fine ground mist sits between the trees, with slow drift instead of a flat backdrop.
   const fogCanvas=document.createElement('canvas');fogCanvas.width=fogCanvas.height=128;
   const ctx=fogCanvas.getContext('2d'),gradient=ctx.createRadialGradient(64,64,0,64,64,64);

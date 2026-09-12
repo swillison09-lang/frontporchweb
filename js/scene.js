@@ -53,12 +53,12 @@ try {
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.12;
+renderer.toneMappingExposure = 0.98;
 renderer.shadowMap.enabled = !isMobile;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x2b2f1e, 30, 120);
+scene.fog = new THREE.Fog(0x1f2318, 28, 115);
 
 const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 300);
 
@@ -82,13 +82,13 @@ function makeSky() {
   const grad = g.createLinearGradient(0, 0, 0, 512);
   // stop 0.0 is the zenith, 0.5 is the horizon, 1.0 is under the ground
   grad.addColorStop(0.00, '#070f0c');   // night, straight up
-  grad.addColorStop(0.22, '#14231a');
-  grad.addColorStop(0.34, '#2f4a38');   // pine
-  grad.addColorStop(0.42, '#6b6a34');   // olive
-  grad.addColorStop(0.47, '#c8862e');
-  grad.addColorStop(0.50, '#f6c889');   // amber-soft — brightest right at the horizon
-  grad.addColorStop(0.53, '#e9973e');   // amber, fading under the treeline
-  grad.addColorStop(0.58, '#7a4e1e');
+  grad.addColorStop(0.22, '#0f1a14');
+  grad.addColorStop(0.36, '#22362a');   // pine
+  grad.addColorStop(0.44, '#4a4a26');   // olive
+  grad.addColorStop(0.48, '#a66c26');
+  grad.addColorStop(0.50, '#e2a24e');   // amber — the last light, right at the horizon
+  grad.addColorStop(0.53, '#c77d2e');   // fading under the treeline
+  grad.addColorStop(0.58, '#5e3b16');
   grad.addColorStop(0.66, '#2a1c0c');
   grad.addColorStop(1.00, '#120c05');
   g.fillStyle = grad; g.fillRect(0, 0, 16, 512);
@@ -103,8 +103,8 @@ function makeSky() {
 makeSky();
 
 /* ---------- lights (warm family only, no blues) ---------- */
-scene.add(new THREE.HemisphereLight(0x8c7a52, 0x25301f, 1.7));
-const moon = new THREE.DirectionalLight(0xffb86a, 2.8);   // low sun, golden hour
+scene.add(new THREE.HemisphereLight(0x6e5c3c, 0x25301f, 1.2));
+const moon = new THREE.DirectionalLight(0xffb86a, 2.0);   // low sun, golden hour
 moon.position.set(-34, 14, -30);
 moon.castShadow = !isMobile;
 moon.shadow.mapSize.set(2048,2048);
@@ -289,7 +289,7 @@ const doorHalo = makeGlowSprite(3.4, '#ffc46b', 0.0);
 doorHalo.position.set(0, 1.5, 1.8);
 scene.add(doorHalo);
 // last of the sunset, glowing low behind the house
-const dusk = makeGlowSprite(110, '#e9973e', 0.5);
+const dusk = makeGlowSprite(110, '#e9973e', 0.38);
 dusk.material.fog = false;
 dusk.position.set(-26, 22, -70);   // where the key light comes from, high enough to clear the treeline
 scene.add(dusk);
@@ -332,8 +332,9 @@ function makePoints(n, spread, sizePx, color, opacity) {
   });
   return new THREE.Points(geo, mat);
 }
-const firefliesA = makePoints(60, [44, 2.4, 0.3, 52, 0], 0.065, '#ffd98f', 0.9);
-const firefliesB = makePoints(50, [30, 2.0, 0.4, 30, 0], 0.05, '#f6c889', 0.7);
+// firefly sizes match the original homepage (0.22 / 0.18); Astra had shrunk them to a third
+const firefliesA = makePoints(80, [44, 2.4, 0.3, 52, 0], 0.22, '#ffd98f', 0.9);
+const firefliesB = makePoints(70, [30, 2.0, 0.4, 30, 0], 0.18, '#f6c889', 0.7);
 scene.add(firefliesA, firefliesB);
 const stars = makePoints(260, [220, 60, 34, 220, -110], 0.12, '#fdf3dd', 0.55);
 scene.add(stars);
