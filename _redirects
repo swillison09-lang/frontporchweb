@@ -7,3 +7,6 @@
 # priority over the stale asset and sends visitors to the homepage. Safe to
 # delete once the cache has aged out.
 /clients/the-smith-family/*  /  301
+
+# The front-porch-evening demo became the homepage on 2026-09-12.
+/demos/front-porch-evening/*  /  301
