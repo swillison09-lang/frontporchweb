@@ -1,6 +1,6 @@
 
 import * as THREE from '../assets/three.module.js';
-import { enhanceEnvironment } from './environment.js';
+import { enhanceEnvironment } from './environment.js?v=3';
 // Reduced motion — Front Porch Web house rule: ambient decorative motion (lamp
 // flicker, firefly drift, swing sway, foliage gust, handheld camera drift) is
 // deliberately EXEMPT from prefers-reduced-motion and keeps running. Scroll is
