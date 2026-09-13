@@ -174,3 +174,78 @@
   .chapter:first-of-type .cta-row { margin-top: 12px; }
   .chapter:first-of-type .footer-line { margin-top: 10px; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   NOTHING BLOCKS THE HOUSE — restored from the previous homepage.
+
+   The walk up to the porch is the point of this site, so the scene stays
+   fully visible and layered text-shadows carry the contrast instead of
+   panels, tints or blur.
+
+   The redesign added a full-screen "scene shade" that darkened the left 57%
+   of the desktop view and the bottom half on phones, which is exactly where
+   the house and the lit path sit. That element is gone from the markup; the
+   rules below undo the rest of the dimming it came with.
+   ══════════════════════════════════════════════════════════════════════════ */
+.scene-shade { display: none !important; }
+
+/* Centred vignette that stays clear across the middle, where the house is,
+   rather than the redesign's off-centre one that closed in at 44%. */
+.vignette {
+  background: radial-gradient(ellipse at center, transparent 52%, rgba(4, 8, 5, 0.55) 100%);
+}
+
+/* No scrim across the top of the sky. */
+.hud-top { background: none; }
+
+/* Pricing cards: back to the lighter glass of the old site, so the porch
+   still reads through them. */
+.pcard,
+.chapter-pricing .pcard {
+  background: rgba(12, 18, 14, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(250, 245, 236, 0.14);
+}
+.pcard.feat,
+.chapter-pricing .pcard.feat {
+  background: rgba(47, 74, 56, 0.55);
+  border-color: rgba(233, 151, 62, 0.6);
+}
+
+/* Contrast comes from the letters themselves, never a panel behind them: one
+   tight shadow hugging each glyph plus wide soft halos. The old site used only
+   the halos because its scene was a dark night. This one is a golden hour with
+   a bright sky and a lit path, so body copy crossing the lanterns needs the
+   tight layer as well. Both desktop and phone use it. */
+.chapter h1,
+.chapter h2,
+blockquote {
+  text-shadow: 0 1px 2px rgba(5, 9, 6, .95), 0 2px 18px rgba(5, 9, 6, .85),
+               0 2px 48px rgba(5, 9, 6, .8);
+}
+.chapter p.lede,
+.chapter .eyebrow,
+.step .t span, .step .t b,
+.why-item p, .why-item h3,
+.work-hint, .chapter .footer-line, .attrib,
+.w-name, .kind, .classic-note {
+  text-shadow: 0 1px 2px rgba(5, 9, 6, .95), 0 1px 6px rgba(5, 9, 6, .85),
+               0 1px 20px rgba(5, 9, 6, .8);
+}
+
+/* Phones sit the text lower, over the brightest part of the scene, so they get
+   a touch more again — still no panel behind the words. */
+@media (max-width: 700px) {
+  .chapter h1,
+  .chapter h2 {
+    text-shadow: 0 1px 2px rgba(5, 9, 6, 1), 0 1px 4px rgba(5, 9, 6, .95),
+                 0 2px 18px rgba(5, 9, 6, .9), 0 2px 48px rgba(5, 9, 6, .85);
+  }
+  .chapter p.lede, .chapter .eyebrow, .step .t span, .step .t b,
+  .why-item p, .why-item h3, .work-hint, .chapter .footer-line, .attrib,
+  .pname, .pprice, .pcard li, .pricing-note, .w-name, .kind {
+    text-shadow: 0 1px 2px rgba(5, 9, 6, 1), 0 1px 5px rgba(5, 9, 6, .9),
+                 0 1px 14px rgba(5, 9, 6, .85);
+  }
+}
