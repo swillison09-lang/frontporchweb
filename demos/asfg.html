@@ -236,6 +236,11 @@
   .join-card .medallion{width:96px;margin:0 auto 20px}
   .join-card h3{font-size:1.9rem;margin:0 0 12px}
   .join-card p{color:#C7C1B4;font-size:.98rem;margin:0 0 26px}
+  .principle .agenda{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-family:var(--mono);
+    font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);text-decoration:none;
+    border-bottom:1px solid rgba(196,160,83,.4);padding-bottom:3px;transition:gap .2s ease,color .2s ease}
+  .principle .agenda::after{content:"93"}
+  .principle .agenda:hover{gap:12px;color:var(--brass-soft);border-bottom-color:var(--brass)}
   .join-card .join-note{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-ink,#8A8577);margin:18px 0 0}
 
   /* ---------- FOOTER ---------- */
@@ -287,6 +292,10 @@
   .bio-head .creds{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 8px}
   .bio-head .cred{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;padding:3px 7px;border:1px solid var(--line-ink);border-radius:2px;color:var(--brass-soft)}
   .bio-head .bh-firm{font-size:.92rem;color:#C7C1B4}
+  .bio-disclosure{margin-top:22px;padding-top:16px;border-top:1px solid var(--line-paper)}
+  .bio-disclosure p{font-size:.78rem;line-height:1.65;color:#6E6858}
+  .bio-disclosure .bio-disclosure-h{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--brass-deep);margin-bottom:10px}
   .bio-contact{display:flex;flex-wrap:wrap;gap:6px 22px;padding:14px 32px;background:var(--paper-2);border-bottom:1px solid var(--line-paper);font-family:var(--mono);font-size:.72rem;letter-spacing:.03em}
   .bio-contact a,.bio-contact span{color:var(--brass-deep);text-decoration:none}
   .bio-contact a:hover{color:var(--ink-text);text-decoration:underline}
@@ -350,7 +359,7 @@
   <div class="ledger">
     <div class="wrap"><div class="ledger-in">
       <div class="cell"><div class="fig">3</div><div class="lab">Elected officers</div></div>
-      <div class="cell"><div class="fig">20</div><div class="lab">Peer-selected members</div></div>
+      <div class="cell"><div class="fig">21</div><div class="lab">Peer-selected members</div></div>
       <div class="cell"><div class="fig">2&times;</div><div class="lab">We meet · Jun &amp; Jan</div></div>
       <div class="cell"><div class="fig">US</div><div class="lab">Across the United States</div></div>
     </div></div>
@@ -399,6 +408,7 @@
         <span class="k">We convene</span>
         <h3>Twice a year, in June and&nbsp;January</h3>
         <p>Twice a year, typically in June and in January, the group meets in person for a lively educational meeting, time to manage the business items of the group, and time to learn more about each other.</p>
+        <a class="agenda" href="/demos/asfg-assets/asfg-winter-2022-meeting-agenda.pdf" target="_blank" rel="noopener">See A Recent Meeting Agenda</a>
       </div>
       <div class="principle">
         <span class="k">We connect</span>
@@ -422,7 +432,7 @@
         <p class="eyebrow">Members</p>
         <h2>Our distinguished membership.</h2>
       </div>
-      <p class="reg-note">Three elected officers · twenty peer-selected members</p>
+      <p class="reg-note">Three elected officers · twenty-one peer-selected members</p>
     </div>
 
     <div class="reg-sub reveal">
@@ -456,7 +466,7 @@
     </div>
 
     <div class="reg-sub reveal">
-      <h3>Meet Our Members</h3><span class="fill"></span><span class="count">Twenty advisors · listed alphabetically</span>
+      <h3>Meet Our Members</h3><span class="fill"></span><span class="count">Twenty-one advisors · listed alphabetically</span>
     </div>
     <div class="register" id="register-grid">
       <article data-bio="1" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/01-rothstein.jpg" alt="Alan M. Rothstein" loading="lazy" width="343" height="480" /></div><h3 class="pname">Alan M. Rothstein</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Siena Private Wealth</div><div class="loc">Connecticut</div><p class="desc">With over 40 years of experience in the financial industry, Alan brings invaluable knowledge to our team.</p></article>
@@ -474,6 +484,7 @@
       <article data-bio="13" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/13-rathmell.jpg" alt="Marshall Rathmell" loading="lazy" width="343" height="480" /></div><h3 class="pname">Marshall Rathmell</h3><div class="creds"><span class="cred">CFP&reg;</span><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">BCR Wealth Strategies</div><div class="loc">Birmingham, AL</div><p class="desc">Marshall Rathmell, CPA®/PFS®, CFP® is the Managing Member of BCR® Wealth Strategies in Birmingham, Alabama.</p></article>
       <article data-bio="14" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/14-armbruster.jpg" alt="Martin J. Armbruster" loading="lazy" width="343" height="480" /></div><h3 class="pname">Martin J. Armbruster</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span></div><div class="firm">Savant Wealth Management</div><div class="loc">Indianapolis, IN</div><p class="desc">Martin has been involved in the financial services industry since 1982.</p></article>
       <article data-bio="15" class="plate reveal founder"><div class="founder-tag">&#9733; Founding member</div><div class="portrait"><img src="/demos/asfg-assets/15-freedman.jpg" alt="Mitchell Freedman" loading="lazy" width="343" height="480" /></div><h3 class="pname">Mitchell Freedman</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">MFAC Financial Advisors</div><div class="loc">Los Angeles, CA</div><p class="desc">Mitchell Freedman is the founder and President of MFAC Financial Advisors, Inc., a Registered Investment Advisory (RIA) Firm.</p><div class="memoriam">Founding member &middot; Past vice president</div></article>
+      <article data-bio="21" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/21-ades.jpg" alt="Robert Ades" loading="lazy" width="343" height="480" /></div><h3 class="pname">Robert Ades</h3><div class="creds"><span class="cred">CFA</span><span class="cred">CPA</span></div><div class="firm">Ades Investment Counsel, Inc.</div><div class="loc">Los Angeles, CA</div><p class="desc">I have always been fascinated by investing and the pulse of the financial markets.</p></article>
       <article data-bio="16" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/16-genor.webp" alt="Ryan Genor" loading="lazy" width="343" height="480" /></div><h3 class="pname">Ryan Genor</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">CLS Financial Advisors</div><div class="loc">Portland, OR</div><p class="desc">As a shareholder of CLS Financial Advisors, Ryan has spent many years helping clients plan for their financial future by combining financial planning with his experience in tax planning.</p></article>
       <article data-bio="17" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/17-rowling.jpg" alt="Sheryl L. Rowling" loading="lazy" width="343" height="480" /></div><h3 class="pname">Sheryl L. Rowling</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span></div><div class="firm">Rowling &amp; Associates</div><div class="loc">San Diego, CA</div><p class="desc">Sheryl Rowling, CPA/PFS, is Principal at Sheryl Rowling CPA Accountancy Corporation.</p></article>
       <article data-bio="18" class="plate reveal"><div class="portrait"><img src="/demos/asfg-assets/18-willison.jpg" alt="Stephanie L. Willison" loading="lazy" width="343" height="480" /></div><h3 class="pname">Stephanie L. Willison</h3><div class="creds"><span class="cred">CPA</span><span class="cred">PFS</span><span class="cred">CFP&reg;</span><span class="cred">AIF&reg;</span></div><div class="firm">Savant Wealth Management</div><div class="loc">Indianapolis, IN</div><p class="desc">Stephanie has been involved in the financial services industry since 1999.</p></article>
@@ -572,13 +583,24 @@
       const c = plate.hasAttribute('data-nocontact') ? null : [];
       if(c && d.web){ const host = d.web.replace(/^https?:\/\//,'').replace(/\/$/,''); c.push('<a href="'+esc(d.web)+'" target="_blank" rel="noopener">'+esc(host)+'</a>'); }
       if(c && d.email){ c.push('<a href="mailto:'+esc(d.email)+'">'+esc(d.email)+'</a>'); }
-      if(c && d.phone){ const tel = d.phone.replace(/[^0-9+]/g,''); const shown = d.phone.replace(/\s+/g,' ').replace(/-\s+/g,'-').trim();
-        c.push('<a href="tel:'+esc(tel)+'">'+esc(shown)+'</a>'); }
-      const body = (d.bio||[]).map(line=>{
+      if(c){ (d.phones||[]).forEach(p=>{
+        const shown = String(p.number||'').replace(/\s+/g,' ').replace(/-\s+/g,'-').trim();
+        const m = shown.match(/^(.*?)(?:\s*(?:ext\.?|x)\s*(\d+))?$/i);
+        const main = (m[1]||shown).replace(/[^0-9+]/g,'');
+        const tel = (main.length===10 ? '+1'+main : main) + (m[2] ? ';ext='+m[2] : '');
+        const label = p.label && !/^phone$/i.test(p.label) ? esc(p.label)+' ' : '';
+        c.push('<a href="tel:'+esc(tel)+'">'+label+esc(shown)+'</a>'); }); }
+      const CFP = /^CERTIFIED FINANCIAL PLANNER.{0,3} professional$/i;
+      let inDisc = false;
+      const parts = (d.bio||[]).map(line=>{
+        let open = '';
+        if(!inDisc && CFP.test(line.trim())){ inDisc = true;
+          open = '<div class="bio-disclosure"><p class="bio-disclosure-h">'+esc(line)+'</p>'; return open; }
         if(/:$/.test(line)) return '<p class="bio-label">'+esc(line)+'</p>';
         if(line.length < 70 && !/[.!?”"’]$/.test(line)) return '<p class="bio-item">'+esc(line)+'</p>';
         return '<p>'+esc(line)+'</p>';
-      }).join('');
+      });
+      const body = parts.join('') + (inDisc ? '</div>' : '');
       modal.innerHTML =
         '<button class="bio-close" aria-label="Close biography">&times;</button>' +
         '<div class="bio-head">' +
