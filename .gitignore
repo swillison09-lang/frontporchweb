@@ -57,3 +57,6 @@ $RECYCLE.BIN/
 *.bak
 .cache/
 coverage/
+
+# stale local backup, not for publication
+demos/*.OLD.html
