@@ -1,6 +1,6 @@
 
 import * as THREE from '../assets/three.module.js';
-import { enhanceEnvironment } from './environment.js?v=3';
+import { enhanceEnvironment } from './environment.js?v=4';
 // Reduced motion — Front Porch Web house rule: ambient decorative motion (lamp
 // flicker, firefly drift, swing sway, foliage gust, handheld camera drift) is
 // deliberately EXEMPT from prefers-reduced-motion and keeps running. Scroll is
@@ -418,41 +418,18 @@ function goToIndex(i) {
   if (max > 0) animateScrollTo(SNAPS[curIdx] * max);
 }
 
-// Let long chapters scroll fully before the next gesture advances the camera.
-// This also handles fixed text overlays, where native scroll chaining varies.
-let wheelUntil = 0;
-function panelCanScroll(panel, delta) {
-  return panel && panel.scrollHeight > panel.clientHeight + 2 &&
-    (delta > 0 ? panel.scrollTop + panel.clientHeight < panel.scrollHeight - 3 : panel.scrollTop > 3);
-}
-addEventListener('wheel', e => {
-  if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
-  const panel = e.target instanceof Element ? e.target.closest('.chapter .inner') : null;
-  if (panelCanScroll(panel, e.deltaY)) return;
-  e.preventDefault();
-  if (performance.now() < wheelUntil || Math.abs(e.deltaY) < 3) return;
-  interacted = true;
-  clearTimeout(snapIdle);
-  goToIndex(curIdx + (e.deltaY > 0 ? 1 : -1));
-  wheelUntil = performance.now() + 750;
-}, {passive:false});
-let touchGesture = null;
-addEventListener('touchstart', e => {
-  if(e.touches.length!==1)return;
-  const panel=e.target instanceof Element?e.target.closest('.chapter .inner'):null;
-  touchGesture={y:e.touches[0].clientY,index:curIdx,panel,top:panel?.scrollTop||0};
-}, {passive:true});
-addEventListener('touchend', e => {
-  if(!touchGesture||!e.changedTouches.length)return;
-  const delta=touchGesture.y-e.changedTouches[0].clientY;
-  const panel=touchGesture.panel;
-  const scrolledPanel=panel&&Math.abs(panel.scrollTop-touchGesture.top)>3;
-  if(Math.abs(delta)>55&&curIdx===touchGesture.index&&!scrolledPanel&&!panelCanScroll(panel,delta)) {
-    interacted=true;clearTimeout(snapIdle);goToIndex(curIdx+(delta>0?1:-1));
-  }
-  touchGesture=null;
-}, {passive:true});
-
+// NOTE — iOS scroll bug, 2026-09-15.
+// This is where a wheel handler (preventDefault + a forced section jump per
+// event) and a touchstart/touchend pair (any swipe over 55px forced a jump)
+// used to live. On iPhone the touch half broke scrolling outright: touchend
+// fires while iOS momentum is still running, so the code jumped the page, the
+// momentum carried on from the new position, and the idle snap below then
+// fired a third time. The result read as the page fighting your finger.
+//
+// The previous version of this site had neither handler and scrolled fine.
+// Native scrolling plus the idle snap below is the whole mechanism now, which
+// is also what lets the inner panels scroll normally on touch.
+//
 addEventListener('scroll', () => {
   if (snapping || !interacted) return;
   clearTimeout(snapIdle);
