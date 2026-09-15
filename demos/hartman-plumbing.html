@@ -7,19 +7,22 @@
 <meta name="description" content="Family plumbing in Wayne and Pike Township since 1994. Every job priced from a published flat-rate book — you see the number before we open the toolbag. 24-hour line: (317) 555-0142.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&family=Saira+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&family=Zilla+Slab:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --iron:#23262B;         /* cast iron */
-    --iron-2:#2E323A;
-    --chalk:#E7E9E4;        /* utility wall */
-    --paper:#FAFAF8;
-    --locate:#0067B1;       /* APWA blue: the paint a city sprays over a water line */
-    --locate-lt:#4DA3E8;    /* same blue, legible on iron */
-    --brass:#C9A227;
-    --alarm:#C7402B;
-    --rule:#C9CDC6;
-    --muted:#5C6169;
+    /* The page is the flat-rate book itself: pressboard cover, printed
+       page, the plumber's ballpoint, and a rubber stamp. */
+    --iron:#241F1A;         /* printing ink */
+    --iron-2:#332C24;
+    --chalk:#E9DFC6;        /* the book's manila cover */
+    --paper:#FBF7EC;        /* the printed page */
+    --locate:#0B5FA5;       /* APWA blue: the paint a city sprays over a water line */
+    --locate-lt:#2E86D8;
+    --brass:#8A6D2F;
+    --stamp:#B4392C;        /* rubber stamp red */
+    --alarm:#B4392C;
+    --rule:#CBBA95;         /* the rule the book is printed with */
+    --muted:#6B6154;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -30,7 +33,7 @@
     line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  h1,h2,h3{font-family:'Saira Condensed',system-ui,sans-serif;line-height:1.02;letter-spacing:.005em;font-weight:800;}
+  h1,h2,h3{font-family:'Zilla Slab',Georgia,serif;line-height:1.02;letter-spacing:.005em;font-weight:800;}
   a{color:inherit;text-decoration:none;}
   a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{
     outline:3px solid var(--locate);outline-offset:2px;
@@ -45,8 +48,8 @@
     margin-bottom:14px;
   }
   .stamp::before{content:"";width:26px;height:3px;background:var(--locate);flex:none;}
-  .on-iron .stamp{color:var(--locate-lt);}
-  .on-iron .stamp::before{background:var(--locate-lt);}
+  .on-iron .stamp{color:var(--locate);}
+  .on-iron .stamp::before{background:var(--locate);}
 
   /* ---------- demo notice ---------- */
   .demo{
@@ -67,7 +70,7 @@
   .nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;
     max-width:1120px;margin:0 auto;padding:13px 24px;}
   .brand{display:flex;align-items:baseline;gap:10px;color:#fff;
-    font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1.42rem;letter-spacing:.01em;}
+    font-family:'Zilla Slab',Georgia,serif;font-weight:800;font-size:1.42rem;letter-spacing:.01em;}
   .brand .est{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.16em;
     color:var(--brass);font-weight:400;}
   .nav-links{display:flex;gap:26px;align-items:center;}
@@ -107,12 +110,12 @@
   .oncall{background:var(--iron);color:var(--chalk);padding:22px 24px;}
   .oncall .clock{font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.13em;
     color:var(--brass);text-transform:uppercase;margin-bottom:9px;}
-  .oncall .who{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.34rem;
+  .oncall .who{font-family:'Zilla Slab',Georgia,serif;font-weight:700;font-size:1.34rem;
     line-height:1.15;margin-bottom:6px;}
   .oncall .sub{font-size:.9rem;color:#A9AEB6;line-height:1.5;}
   .bignum{
     display:block;background:var(--locate);color:#fff;text-align:center;
-    font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(1.6rem,4.6vw,2.1rem);
+    font-family:'Zilla Slab',Georgia,serif;font-weight:800;font-size:clamp(1.6rem,4.6vw,2.1rem);
     padding:15px 12px;margin-top:18px;letter-spacing:.02em;
   }
   .bignum:hover{background:#0076C9;color:#fff;}
@@ -128,7 +131,7 @@
   .facts div:last-child{border-right:0;}
   .facts dt{font-family:'DM Mono',monospace;font-size:.74rem;letter-spacing:.15em;
     text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
-  .facts dd{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.16rem;}
+  .facts dd{font-family:'Zilla Slab',Georgia,serif;font-weight:700;font-size:1.16rem;}
   @media(max-width:760px){
     .facts{grid-template-columns:1fr 1fr;}
     .facts div:nth-child(2){border-right:0;}
@@ -136,22 +139,36 @@
   }
 
   /* ---------- the book (signature element) ---------- */
-  .book{background:var(--iron);color:var(--chalk);padding:76px 0 82px;}
+  .book{background:var(--chalk);color:var(--iron);padding:76px 0 82px;
+    border-top:3px solid var(--iron);border-bottom:3px solid var(--iron);position:relative;}
   .book h2{font-size:clamp(2rem,4.6vw,3.1rem);text-transform:uppercase;max-width:18ch;}
-  .book .intro{color:#A9AEB6;max-width:52ch;margin-top:16px;font-size:1.02rem;}
+  .book .intro{color:var(--muted);max-width:52ch;margin-top:16px;font-size:1.02rem;}
   .ledger{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:0 56px;}
   @media(max-width:840px){.ledger{grid-template-columns:1fr;}}
-  .item{padding:17px 0;border-bottom:1px solid #3A3F47;}
+  .item{padding:17px 0;border-bottom:1px solid var(--rule);}
   .item .row{display:flex;align-items:baseline;gap:10px;}
-  .item .code{font-family:'DM Mono',monospace;font-size:.74rem;color:var(--brass);
+  .item .code{font-family:'DM Mono',monospace;font-size:.74rem;color:var(--stamp);
     letter-spacing:.06em;flex:none;width:52px;}
-  .item .name{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.15rem;flex:none;}
-  .item .lead{flex:1 1 18px;min-width:14px;border-bottom:1px dotted #5B616A;transform:translateY(-4px);}
+  .item .name{font-family:'Zilla Slab',Georgia,serif;font-weight:700;font-size:1.15rem;flex:none;}
+  .item .lead{flex:1 1 18px;min-width:14px;border-bottom:1px dotted #B5A784;transform:translateY(-4px);}
   .item .price{font-family:'DM Mono',monospace;font-weight:500;font-size:1.03rem;flex:none;}
-  .item .note{color:#9AA0A8;font-size:.87rem;margin-top:5px;padding-left:62px;}
+  .item .note{color:var(--muted);font-size:.87rem;margin-top:5px;padding-left:62px;}
   @media(max-width:520px){.item .note{padding-left:0;}.item .code{width:46px;}}
-  .book .foot{margin-top:32px;font-size:.93rem;color:#A9AEB6;max-width:60ch;
-    border-left:3px solid var(--locate-lt);padding-left:16px;}
+  .book .foot{margin-top:32px;font-size:.93rem;color:var(--muted);max-width:60ch;
+    border-left:3px solid var(--locate);padding-left:16px;}
+
+  /* the signature: a rubber stamp, struck on the page like a real rate book */
+  .rubber{
+    position:absolute;right:clamp(16px,5vw,64px);top:clamp(44px,6vw,74px);
+    border:4px solid var(--stamp);color:var(--stamp);
+    font-family:'Zilla Slab',Georgia,serif;font-weight:700;text-transform:uppercase;
+    letter-spacing:.06em;line-height:1;padding:12px 16px 10px;text-align:center;
+    transform:rotate(-11deg);opacity:.85;pointer-events:none;
+  }
+  .rubber b{display:block;font-size:clamp(1.1rem,2.6vw,1.7rem);}
+  .rubber span{display:block;font-family:'DM Mono',monospace;font-weight:400;
+    font-size:.6rem;letter-spacing:.2em;margin-top:5px;}
+  @media(max-width:900px){.rubber{position:static;transform:rotate(-2deg);display:inline-block;margin:0 24px 18px;}}
 
   /* ---------- truck manifest (the second grid break) ---------- */
   .truck{padding:72px 0;border-bottom:1px solid var(--rule);}
@@ -169,22 +186,23 @@
   .manifest span b{color:var(--locate);font-weight:500;}
 
   /* ---------- who shows up ---------- */
-  .crew{padding:72px 0;background:var(--chalk);border-bottom:1px solid var(--rule);}
+  .crew{padding:72px 0;background:var(--paper);border-bottom:1px solid var(--rule);}
   .crew-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;align-items:start;}
   @media(max-width:860px){.crew-grid{grid-template-columns:1fr;gap:30px;}}
   .crew h2{font-size:clamp(1.9rem,4.2vw,2.7rem);text-transform:uppercase;}
   .crew p{margin-top:15px;color:#3D424A;}
-  .credential{background:var(--iron);color:var(--chalk);padding:30px 28px;border-top:4px solid var(--locate);}
+  .credential{background:var(--paper);color:var(--iron);padding:30px 28px;
+    border:2px solid var(--iron);border-top:6px solid var(--locate);}
   .cred-head{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--locate-lt);margin:0 0 20px;}
+    text-transform:uppercase;color:var(--locate);margin:0 0 20px;}
   .cred-list{margin:0;}
-  .cred-list div{padding:13px 0;border-bottom:1px solid rgba(231,233,228,.16);}
+  .cred-list div{padding:13px 0;border-bottom:1px solid var(--rule);}
   .cred-list div:last-child{border-bottom:none;}
   .cred-list dt{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.14em;
-    text-transform:uppercase;color:#9AA1AB;}
-  .cred-list dd{margin:5px 0 0;font-family:'Saira Condensed',sans-serif;font-size:1.3rem;
-    text-transform:uppercase;letter-spacing:.01em;color:#fff;line-height:1.15;}
-  .cred-note{font-size:.86rem;color:#9AA1AB;margin-top:20px!important;}
+    text-transform:uppercase;color:var(--muted);}
+  .cred-list dd{margin:5px 0 0;font-family:'Zilla Slab',Georgia,serif;font-size:1.3rem;
+    text-transform:uppercase;letter-spacing:.01em;color:var(--iron);line-height:1.15;}
+  .cred-note{font-size:.86rem;color:var(--muted);margin-top:20px!important;}
   figcaption{font-family:'DM Mono',monospace;font-size:.76rem;color:var(--muted);
     margin-top:10px;line-height:1.5;}
 
@@ -203,13 +221,13 @@
   .steps p{font-size:.93rem;color:#3D424A;}
 
   /* ---------- one quote, not a grid of three ---------- */
-  .quote{padding:72px 0;background:var(--iron);color:var(--chalk);}
+  .quote{padding:72px 0;background:var(--paper);color:var(--iron);border-top:1px solid var(--rule);}
   .quote blockquote{
-    font-family:'Saira Condensed',sans-serif;font-weight:600;
+    font-family:'Zilla Slab',Georgia,serif;font-weight:600;
     font-size:clamp(1.5rem,3.6vw,2.35rem);line-height:1.2;max-width:24ch;
   }
   .quote cite{display:block;font-style:normal;font-family:'DM Mono',monospace;
-    font-size:.8rem;color:#A9AEB6;margin-top:20px;line-height:1.7;max-width:56ch;}
+    font-size:.8rem;color:var(--muted);margin-top:20px;line-height:1.7;max-width:56ch;}
 
   /* ---------- straight answers ---------- */
   .qa{padding:72px 0;border-bottom:1px solid var(--rule);}
@@ -218,7 +236,7 @@
   details:last-of-type{border-bottom:1px solid var(--rule);}
   summary{
     cursor:pointer;list-style:none;padding:19px 40px 19px 0;position:relative;
-    font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.19rem;
+    font-family:'Zilla Slab',Georgia,serif;font-weight:700;font-size:1.19rem;
   }
   summary::-webkit-details-marker{display:none;}
   summary::after{content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);
@@ -243,7 +261,7 @@
   textarea{min-height:104px;resize:vertical;}
   button[type=submit]{
     margin-top:20px;width:100%;background:var(--iron);color:#fff;border:0;padding:16px;
-    font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1.13rem;
+    font-family:'Zilla Slab',Georgia,serif;font-weight:800;font-size:1.13rem;
     text-transform:uppercase;letter-spacing:.03em;cursor:pointer;min-height:44px;
   }
   button[type=submit]:hover{background:var(--locate);}
@@ -315,6 +333,7 @@
 </header>
 
 <section class="book on-iron" id="book">
+  <div class="rubber" aria-hidden="true"><b>Flat rate</b><span>Quoted at the door</span></div>
   <div class="wrap">
     <p class="stamp">The flat-rate book · revised January 2026</p>
     <h2>Most plumbers won't print this page.</h2>

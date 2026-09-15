@@ -6,182 +6,216 @@
 <!-- ============================================================
    DEMO SITE — FICTIONAL. Not a real athlete.
    "Tyler Brooks" — a sample recruiting profile built by Front
-   Porch Web, LLC. The name, school, stats, schedule and contact
-   details are all invented.
+   Porch Web, LLC. Name, school, stats, schedule and contacts
+   are all invented.
 
-   CONCEPT — "the scouting card".
-   A college coach opens dozens of these in a sitting, on a phone,
-   between innings. He is not reading; he is filtering. Grad year
-   first, then position, then film, then whether the kid can play.
-   So the page is built as a data card rather than a story: the
-   graduation year is the largest single element after the name,
-   every number is tabular and aligned, and the film link is above
-   the fold. Prose only appears once, near the bottom, where a
-   coach who is already interested will go looking for it.
+   CONCEPT — "the scorebook".
+   Baseball already has the best information design in sport: the
+   scorecard. Every coach in the country reads one. In scorekeeper
+   notation a shortstop is 6 and a second baseman is 4, so this
+   kid is literally "6 / 4" — and 6-4-3 is the most famous string
+   of numbers in the game. That notation is the whole identity of
+   the page: the positions are the hero, the sections are scored
+   like innings, and the signature is a diamond with his two
+   positions filled in.
 
-   HONESTY RULES FOR THIS SITE TYPE:
-   - Measurables carry the event and date they were recorded at.
-     Anything self-reported is labelled as self-reported. A coach
-     who catches one inflated number discards the whole profile.
-   - The film slot says plainly that this demo has no film, rather
-     than faking a player.
+   Palette and type come from a real scorebook — buff pressboard
+   stock, printed rule-green, pencil graphite, and the red of
+   ball stitching used only where the ball goes. Deliberately NOT
+   the cream/serif/terracotta, near-black/acid-accent, or hairline
+   broadsheet looks, all three of which are AI house styles rather
+   than choices.
+
+   HONESTY: every measurable carries where and when it was taken.
+   Self-reported numbers say so. A coach who catches one inflated
+   figure throws out the entire profile.
    ============================================================ -->
 <title>Tyler Brooks — 2027 SS/2B — Carmel, Indiana — Recruiting Profile</title>
 <meta name="description" content="A fictional demo recruiting profile built by Front Porch Web to show the kind of work we produce for student-athletes." />
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bone:#F4F2EE;
-    --paper:#FFFFFF;
-    --ink:#14161A;
-    --ink-2:#3C424B;
-    --muted:#767D87;
-    --red:#D7263D;
-    --rule:rgba(20,22,26,.14);
-    --rule-2:rgba(20,22,26,.07);
-    --display:'Bricolage Grotesque',system-ui,sans-serif;
+    --stock:#E8E4D2;        /* pressboard scorebook cover */
+    --stock-2:#DFDAC4;
+    --card:#F6F4EA;         /* the printed card itself */
+    --rule:#8FA283;         /* the green the grid is printed in */
+    --rule-soft:#BFC9B0;
+    --pencil:#33372E;       /* graphite */
+    --pencil-2:#5C6154;
+    --stitch:#B33A2B;       /* the red of the seams */
+    --chalk:#FFFFFF;
+    --display:'Big Shoulders Display',system-ui,sans-serif;
     --body:'Barlow',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:var(--body);background:var(--bone);color:var(--ink);
-    font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    font-family:var(--body);color:var(--pencil);font-size:17px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background:var(--stock);
+    /* the faint ruled grid a scorebook is printed on */
+    background-image:
+      repeating-linear-gradient(to right, rgba(143,162,131,.16) 0 1px, transparent 1px 42px),
+      repeating-linear-gradient(to bottom, rgba(143,162,131,.16) 0 1px, transparent 1px 42px);
   }
   img{max-width:100%;display:block;}
   a{color:inherit;}
-  :is(a,button):focus-visible{outline:3px solid var(--red);outline-offset:3px;}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 22px;}
-  section{padding:clamp(44px,6vw,76px) 0;}
-  h1,h2,h3{font-family:var(--display);font-weight:800;line-height:1;letter-spacing:-.02em;}
+  :is(a,button):focus-visible{outline:3px solid var(--stitch);outline-offset:3px;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+  section{padding:clamp(40px,5.5vw,68px) 0;}
+  h1,h2,h3{font-family:var(--display);font-weight:900;line-height:.9;text-transform:uppercase;}
   .num{font-variant-numeric:tabular-nums;}
-  .label{
-    font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  .cap{
+    font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--pencil-2);
   }
-  .sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:28px;}
-  .sec-head h2{font-size:clamp(22px,3.2vw,32px);}
-  .sec-head .label{margin-left:auto;}
+
+  /* a card is a piece of the scorebook: printed stock, green rule, no rounding */
+  .card{background:var(--card);border:1.5px solid var(--rule);}
+  .card > h3{
+    font-size:17px;letter-spacing:.06em;padding:12px 18px;color:var(--card);
+    background:var(--rule);display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  }
+  .card > h3 .pos{font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.16em;opacity:.85;}
+
+  /* section headers scored like an inning */
+  .inning{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .inning .no{
+    width:40px;height:40px;flex:none;display:grid;place-items:center;
+    border:2px solid var(--pencil);font-family:var(--display);font-weight:900;font-size:22px;
+    background:var(--card);
+  }
+  .inning h2{font-size:clamp(24px,3.6vw,36px);}
+  .inning .cap{margin-left:auto;}
 
   /* demo banner */
-  .demo-flag{background:var(--ink);color:#D9DDE3;text-align:center;font:400 13.5px/1.5 var(--body);padding:10px 16px;}
-  .demo-flag strong{color:#FF8494;font-weight:600;}
-  .demo-flag a{color:#FF8494;white-space:nowrap;}
+  .demo-flag{background:var(--pencil);color:#DDE0D6;text-align:center;font:400 13.5px/1.5 var(--body);padding:10px 16px;}
+  .demo-flag strong{color:#F0A99D;font-weight:600;}
+  .demo-flag a{color:#F0A99D;white-space:nowrap;}
 
   /* nav */
-  header.nav{position:sticky;top:0;z-index:50;background:rgba(244,242,238,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);}
-  .nav-in{max-width:1120px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
-  .brand{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.01em;}
-  .brand i{font-style:normal;color:var(--red);}
-  .links{display:flex;gap:24px;align-items:center;}
-  .links a{text-decoration:none;color:var(--ink-2);font-size:14.5px;font-weight:500;padding:11px 0;}
-  .links a:hover{color:var(--red);}
-  .nav-cta{background:var(--ink);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:11px 18px;min-height:44px;display:inline-flex;align-items:center;}
-  .nav-cta:hover{background:var(--red);}
-  .burger{display:none;background:none;border:1px solid var(--rule);width:44px;height:44px;cursor:pointer;flex-direction:column;gap:5px;align-items:center;justify-content:center;}
-  .burger span{width:20px;height:2px;background:var(--ink);}
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(232,228,210,.96);backdrop-filter:blur(6px);border-bottom:2px solid var(--rule);}
+  .nav-in{max-width:1080px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
+  .brand{font-family:var(--display);font-weight:900;font-size:19px;text-transform:uppercase;letter-spacing:.02em;}
+  .brand i{font-style:normal;color:var(--stitch);}
+  .links{display:flex;gap:22px;align-items:center;}
+  .links a{text-decoration:none;color:var(--pencil-2);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:12px 0;}
+  .links a:hover{color:var(--stitch);}
+  .nav-cta{
+    background:var(--stitch);color:#fff;text-decoration:none;font-weight:700;font-size:12.5px;
+    letter-spacing:.12em;text-transform:uppercase;padding:12px 18px;min-height:44px;
+    display:inline-flex;align-items:center;
+  }
+  .burger{display:none;background:var(--card);border:2px solid var(--rule);width:44px;height:44px;cursor:pointer;flex-direction:column;gap:5px;align-items:center;justify-content:center;}
+  .burger span{width:20px;height:2px;background:var(--pencil);}
 
-  /* ── hero: the card ────────────────────────────────────────── */
-  .hero{background:var(--paper);border-bottom:1px solid var(--rule);}
-  .hero .wrap{padding-top:clamp(30px,4.5vw,52px);padding-bottom:0;}
-  .pos-line{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-  .chip{background:var(--red);color:#fff;font-weight:700;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;}
-  .chip.dark{background:var(--ink);}
-  .hero h1{font-size:clamp(46px,10vw,116px);margin:16px 0 0;}
-  .hero .sub{color:var(--ink-2);max-width:54ch;margin-top:14px;font-size:clamp(16px,1.8vw,18.5px);}
-  .hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 30px;}
+  /* ── hero: the position card ───────────────────────────────── */
+  .hero{padding-top:clamp(26px,4vw,44px);}
+  .scorecard{display:grid;grid-template-columns:1.25fr .75fr;border:2px solid var(--pencil);background:var(--card);}
+  .sc-left{padding:clamp(22px,3.4vw,38px);border-right:2px solid var(--pencil);}
+  .sc-right{padding:clamp(20px,3vw,30px);display:flex;flex-direction:column;gap:18px;}
+  .school-line{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .yr{background:var(--pencil);color:var(--card);font-family:var(--display);font-weight:900;font-size:15px;letter-spacing:.08em;padding:5px 12px;}
+  .hero h1{font-size:clamp(46px,9.5vw,104px);margin:14px 0 0;letter-spacing:-.01em;}
+  .hero .sub{color:var(--pencil-2);max-width:46ch;margin-top:12px;font-size:clamp(15.5px,1.7vw,17.5px);}
+
+  /* THE SIGNATURE: positions in scorekeeper notation */
+  .notation{display:flex;align-items:center;gap:14px;margin-top:26px;}
+  .pos-num{
+    width:clamp(64px,9vw,88px);height:clamp(64px,9vw,88px);flex:none;
+    border:3px solid var(--stitch);color:var(--stitch);background:var(--card);
+    display:grid;place-items:center;font-family:var(--display);font-weight:900;
+    font-size:clamp(38px,5.6vw,54px);line-height:1;
+  }
+  .notation .gloss{font-size:14.5px;color:var(--pencil-2);line-height:1.45;}
+  .notation .gloss b{display:block;font-family:var(--display);font-weight:700;font-size:19px;color:var(--pencil);text-transform:uppercase;}
+
+  .hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--body);
-    font-weight:600;font-size:15.5px;border:none;padding:14px 24px;text-decoration:none;
-    min-height:50px;cursor:pointer;transition:transform .15s,background .2s,border-color .2s;
+    font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;border:none;
+    padding:15px 24px;text-decoration:none;min-height:50px;cursor:pointer;
+    transition:transform .14s,background .2s,color .2s;
   }
-  .btn-red{background:var(--red);color:#fff;}
-  .btn-red:hover{background:#B81E32;transform:translateY(-2px);}
-  .btn-line{background:transparent;color:var(--ink);border:1.5px solid var(--ink);}
-  .btn-line:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+  .btn-stitch{background:var(--stitch);color:#fff;}
+  .btn-stitch:hover{background:#96301F;transform:translateY(-2px);}
+  .btn-line{background:transparent;color:var(--pencil);border:2px solid var(--pencil);}
+  .btn-line:hover{background:var(--pencil);color:var(--card);transform:translateY(-2px);}
 
-  /* the filter row — what a coach checks first */
-  .vitals{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule);}
-  .vital{padding:18px 20px 22px;border-right:1px solid var(--rule);}
-  .vital:last-child{border-right:none;}
-  .vital b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(24px,3.4vw,38px);margin-top:6px;line-height:1;}
-  .vital.key{background:var(--ink);color:#fff;}
-  .vital.key .label{color:#9AA3AE;}
+  /* the diamond, drawn */
+  .diamond{aspect-ratio:1;width:100%;}
+  .vital-rows{border-top:1.5px solid var(--rule-soft);}
+  .vital-rows div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule-soft);}
+  .vital-rows dt{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--pencil-2);font-weight:600;}
+  .vital-rows dd{font-family:var(--display);font-weight:900;font-size:19px;}
 
-  /* stat strip */
-  .strip{background:var(--ink);color:#fff;}
-  .strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;padding-top:0;padding-bottom:0;}
-  .stat{padding:26px 8px;text-align:center;}
-  .stat b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(28px,4.6vw,46px);line-height:1;}
-  .stat .label{color:#8F98A4;margin-top:8px;display:block;}
+  /* ── stat line: reads like a box score ─────────────────────── */
+  .boxscore{background:var(--pencil);color:var(--card);border:2px solid var(--pencil);}
+  .boxscore .wrap{display:grid;grid-template-columns:repeat(4,1fr);padding-top:0;padding-bottom:0;}
+  .bs{padding:22px 10px;text-align:center;border-right:1px solid rgba(246,244,234,.2);}
+  .bs:last-child{border-right:none;}
+  .bs b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(30px,5vw,50px);line-height:.9;color:#fff;}
+  .bs .cap{color:#A7AC9D;margin-top:8px;display:block;}
 
-  /* data tables */
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,48px);}
-  .panel{background:var(--paper);border:1px solid var(--rule);}
-  .panel h3{font-size:16px;padding:16px 20px;border-bottom:1px solid var(--rule);letter-spacing:0;}
-  .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 20px;border-bottom:1px solid var(--rule-2);}
-  .row:last-child{border-bottom:none;}
-  .row dt,.row .k{color:var(--ink-2);font-size:16px;}
-  .row dd,.row .v{font-family:var(--display);font-weight:800;font-size:19px;}
-  .verified{
-    display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;
-    letter-spacing:.1em;text-transform:uppercase;color:#146C43;background:#DEF3E6;padding:5px 10px;
+  /* data rows */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3.2vw,34px);}
+  .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:12px 18px;border-bottom:1px solid var(--rule-soft);}
+  .row:last-of-type{border-bottom:none;}
+  .row dt{color:var(--pencil-2);font-size:16px;}
+  .row dd{font-family:var(--display);font-weight:900;font-size:22px;}
+  .source{padding:13px 18px;background:rgba(143,162,131,.14);border-top:1.5px solid var(--rule-soft);font-size:14px;color:var(--pencil-2);}
+  .badge{
+    display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    padding:4px 9px;margin-right:8px;color:var(--card);background:var(--rule);
   }
-  .selfrep{color:#8A6100;background:#FBF0D5;}
-  .provenance{padding:14px 20px;background:#FAFAF8;border-top:1px solid var(--rule);font-size:14px;color:var(--muted);}
+  .badge.self{background:#A8823C;}
 
   /* film */
-  .film{background:var(--paper);border:1px solid var(--rule);}
   .film .slot{
-    aspect-ratio:16/9;background:var(--ink);color:#fff;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px;
+    aspect-ratio:16/9;background:var(--pencil);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:14px;text-align:center;padding:26px;
   }
-  .film .slot .play{width:62px;height:62px;border-radius:50%;background:var(--red);display:grid;place-items:center;}
-  .film .slot p{max-width:40ch;color:#AEB6C0;font-size:15px;}
-  .film .note{padding:16px 20px;font-size:14.5px;color:var(--muted);}
+  .film .slot .play{width:64px;height:64px;border:3px solid var(--stitch);display:grid;place-items:center;}
+  .film .slot p{max-width:42ch;color:#A7AC9D;font-size:15px;}
+  .film .note{padding:15px 18px;font-size:14.5px;color:var(--pencil-2);}
 
   /* schedule */
-  .sched .row{padding:16px 20px;}
-  .sched .ev{font-family:var(--display);font-weight:800;font-size:18px;}
-  .sched .meta{color:var(--muted);font-size:14.5px;}
-  .sched .when{text-align:right;white-space:nowrap;}
+  .sched .row{padding:15px 18px;}
+  .sched .ev{font-family:var(--display);font-weight:700;font-size:20px;text-transform:uppercase;line-height:1;}
+  .sched .meta{color:var(--pencil-2);font-size:14.5px;margin-top:3px;}
+  .sched .when{text-align:right;white-space:nowrap;font-weight:600;font-size:15px;}
 
-  /* about */
-  .about-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(24px,4vw,48px);align-items:start;}
-  .about p{color:var(--ink-2);margin-bottom:14px;font-size:17px;}
+  .about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(22px,3.4vw,40px);align-items:start;}
+  .about p{color:var(--pencil-2);margin-bottom:14px;font-size:17px;}
 
   /* contact */
-  .contact{background:var(--ink);color:#fff;}
-  .contact .sec-head{border-color:#fff;}
-  .contact .sec-head h2{color:#fff;}
-  .contact .sec-head .label{color:#8F98A4;}
-  .contact p.intro{color:#C2C9D2;max-width:56ch;margin-bottom:28px;}
-  .ccols{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.16);}
-  .cbox{background:var(--ink);padding:22px 20px;}
-  .cbox .label{color:#8F98A4;}
-  .cbox a,.cbox span{display:block;font-family:var(--display);font-weight:800;font-size:19px;margin-top:8px;color:#fff;text-decoration:none;word-break:break-word;}
-  .cbox a{min-height:44px;}
-  .cbox a:hover{color:#FF8494;}
+  .ccols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,20px);}
+  .cbox{background:var(--card);border:2px solid var(--pencil);padding:20px;}
+  .cbox a,.cbox span{display:block;font-family:var(--display);font-weight:900;font-size:20px;margin-top:8px;text-decoration:none;word-break:break-word;text-transform:uppercase;}
+  .cbox a{color:var(--stitch);min-height:44px;}
+  .cbox a:hover{text-decoration:underline;}
 
-  footer{padding:36px 22px;text-align:center;color:var(--muted);font-size:14px;}
-  footer .by{margin-top:12px;}
-  footer .by a{color:var(--red);display:inline-block;padding:10px 4px;}
+  footer{padding:34px 22px;text-align:center;color:var(--pencil-2);font-size:14px;border-top:2px solid var(--rule);}
+  footer .by{margin-top:10px;}
+  footer .by a{color:var(--stitch);display:inline-block;padding:10px 4px;font-weight:600;}
 
   @media(max-width:900px){
+    .scorecard{grid-template-columns:1fr;}
+    .sc-left{border-right:none;border-bottom:2px solid var(--pencil);}
     .cols,.about-grid{grid-template-columns:1fr;}
-    .vitals{grid-template-columns:repeat(2,1fr);}
-    .vital:nth-child(2n){border-right:none;}
-    .vital{border-bottom:1px solid var(--rule);}
-    .strip .wrap{grid-template-columns:repeat(2,1fr);}
     .ccols{grid-template-columns:1fr;}
+    .boxscore .wrap{grid-template-columns:repeat(2,1fr);}
+    .bs:nth-child(2n){border-right:none;}
+    .bs{border-bottom:1px solid rgba(246,244,234,.2);}
   }
   @media(max-width:700px){
     .burger{display:flex;}
-    .links{position:absolute;top:100%;left:0;right:0;background:var(--bone);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s;border-bottom:1px solid var(--rule);}
+    .links{position:absolute;top:100%;left:0;right:0;background:var(--stock);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s;border-bottom:2px solid var(--rule);}
     .links.open{max-height:300px;}
-    .links a{padding:15px 22px;width:100%;min-height:48px;display:flex;align-items:center;border-bottom:1px solid var(--rule);}
+    .links a{padding:15px 22px;width:100%;min-height:48px;display:flex;align-items:center;border-bottom:1px solid var(--rule-soft);}
     .sched .row{flex-direction:column;gap:4px;}
     .sched .when{text-align:left;}
   }
@@ -191,13 +225,12 @@
     *,*::before,*::after{transition:none!important;scroll-behavior:auto!important;}
   }
 
-  /* Recruiting profiles get printed and handed to coaches at showcases. */
   @media print{
     .demo-flag,header.nav,.hero-cta,.burger,.film .slot{display:none!important;}
-    body{background:#fff;color:#000;font-size:10.5pt;}
-    .strip,.contact,.vital.key{background:#fff!important;color:#000!important;}
-    .strip .label,.contact .label,.cbox .label{color:#444!important;}
-    .cbox,.contact .sec-head h2,.cbox a,.cbox span,.stat b{color:#000!important;}
+    body{background:#fff!important;background-image:none!important;color:#000;font-size:10.5pt;}
+    .boxscore,.cbox,.card,.scorecard{background:#fff!important;color:#000!important;}
+    .bs b,.boxscore .cap,.cbox a{color:#000!important;}
+    .card > h3{background:#fff!important;color:#000!important;border-bottom:1.5px solid #666;}
     section{padding:12pt 0;page-break-inside:avoid;}
     a{color:#000!important;text-decoration:none;}
   }
@@ -213,7 +246,7 @@
 
 <header class="nav">
   <div class="nav-in">
-    <div class="brand">TYLER BROOKS <i>&middot; 2027</i></div>
+    <div class="brand">Brooks <i>&middot; 2027</i></div>
     <nav class="links" id="nav" aria-label="Main">
       <a href="#numbers" onclick="closeNav()">Numbers</a>
       <a href="#film" onclick="closeNav()">Film</a>
@@ -225,81 +258,111 @@
   </div>
 </header>
 
-<!-- ── HERO / THE CARD ──────────────────────────────────────── -->
+<!-- ── HERO ─────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="wrap">
-    <div class="pos-line">
-      <span class="chip">Class of 2027</span>
-      <span class="chip dark">SS / 2B</span>
-      <span class="label">Carmel High School &middot; Carmel, Indiana</span>
-    </div>
-    <h1>Tyler Brooks</h1>
-    <p class="sub">Middle infielder. Contact-first hitter with plus range and a quick first step. Three-year varsity starter, captain the last two seasons.</p>
-    <div class="hero-cta">
-      <a href="#film" class="btn btn-red">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M7 4l14 8-14 8z"/></svg>
-        Watch highlights
-      </a>
-      <a href="#contact" class="btn btn-line">Contact &amp; film requests</a>
-    </div>
-  </div>
-  <div class="wrap" style="padding-top:0;padding-bottom:0">
-    <div class="vitals">
-      <div class="vital key"><span class="label">Grad year</span><b class="num">2027</b></div>
-      <div class="vital"><span class="label">Positions</span><b>SS / 2B</b></div>
-      <div class="vital"><span class="label">Bats / Throws</span><b>R / R</b></div>
-      <div class="vital"><span class="label">Height / Weight</span><b class="num">6'0" / 175</b></div>
+    <div class="scorecard">
+      <div class="sc-left">
+        <div class="school-line">
+          <span class="yr">Class of 2027</span>
+          <span class="cap">Carmel High School &middot; Carmel, Indiana</span>
+        </div>
+        <h1>Tyler Brooks</h1>
+        <p class="sub">Contact-first middle infielder. Plus range, quick first step, three-year varsity starter and captain the last two seasons.</p>
+
+        <!-- the signature: his positions in scorekeeper notation -->
+        <div class="notation">
+          <span class="pos-num">6</span>
+          <span class="pos-num">4</span>
+          <span class="gloss">
+            <b>Shortstop / Second</b>
+            Right / right. 6'0", 175. Turns the 6&ndash;4&ndash;3 from either side of the bag.
+          </span>
+        </div>
+
+        <div class="hero-cta">
+          <a href="#film" class="btn btn-stitch">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M7 4l14 8-14 8z"/></svg>
+            Watch film
+          </a>
+          <a href="#contact" class="btn btn-line">Contact</a>
+        </div>
+      </div>
+
+      <div class="sc-right">
+        <!-- the diamond, with his two positions filled in -->
+        <svg class="diamond" viewBox="0 0 200 200" role="img" aria-label="A baseball diamond with the shortstop and second base positions marked">
+          <rect x="0" y="0" width="200" height="200" fill="#DDE6D5"/>
+          <!-- outfield arc -->
+          <path d="M20 150 A 115 115 0 0 1 180 150 Z" fill="#C5D6BC"/>
+          <!-- infield dirt -->
+          <path d="M100 168 L36 104 L100 40 L164 104 Z" fill="#D8BFA3"/>
+          <!-- grass centre of the infield -->
+          <path d="M100 150 L52 104 L100 58 L148 104 Z" fill="#C5D6BC"/>
+          <!-- foul lines -->
+          <path d="M100 168 L14 82 M100 168 L186 82" stroke="#fff" stroke-width="2.5" fill="none"/>
+          <!-- bases -->
+          <rect x="94" y="98" width="12" height="12" transform="rotate(45 100 104)" fill="#fff" stroke="#9A9A8E"/>
+          <rect x="30" y="98" width="12" height="12" transform="rotate(45 36 104)" fill="#fff" stroke="#9A9A8E"/>
+          <rect x="158" y="98" width="12" height="12" transform="rotate(45 164 104)" fill="#fff" stroke="#9A9A8E"/>
+          <path d="M95 163 l5 -6 l5 6 v6 h-10 z" fill="#fff" stroke="#9A9A8E"/>
+          <!-- his two spots -->
+          <circle cx="68" cy="84" r="15" fill="#B33A2B"/>
+          <text x="68" y="91" text-anchor="middle" font-family="'Big Shoulders Display',sans-serif" font-weight="900" font-size="20" fill="#F6F4EA">6</text>
+          <circle cx="132" cy="84" r="15" fill="#B33A2B"/>
+          <text x="132" y="91" text-anchor="middle" font-family="'Big Shoulders Display',sans-serif" font-weight="900" font-size="20" fill="#F6F4EA">4</text>
+        </svg>
+
+        <dl class="vital-rows">
+          <div><dt>Bats / throws</dt><dd>R / R</dd></div>
+          <div><dt>Height</dt><dd class="num">6'0"</dd></div>
+          <div><dt>Weight</dt><dd class="num">175</dd></div>
+          <div><dt>Grad year</dt><dd class="num">2027</dd></div>
+        </dl>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ── QUICK STATS ──────────────────────────────────────────── -->
-<div class="strip">
+<!-- ── BOX SCORE ────────────────────────────────────────────── -->
+<div class="boxscore">
   <div class="wrap">
-    <div class="stat"><b class="num">6.72</b><span class="label">60-yard dash</span></div>
-    <div class="stat"><b class="num">88</b><span class="label">Infield velo (mph)</span></div>
-    <div class="stat"><b class="num">89</b><span class="label">Exit velo (mph)</span></div>
-    <div class="stat"><b class="num">3.9</b><span class="label">GPA unweighted</span></div>
+    <div class="bs"><b class="num">6.72</b><span class="cap">60-yard dash</span></div>
+    <div class="bs"><b class="num">88</b><span class="cap">Infield velo &middot; mph</span></div>
+    <div class="bs"><b class="num">89</b><span class="cap">Exit velo &middot; mph</span></div>
+    <div class="bs"><b class="num">3.9</b><span class="cap">GPA unweighted</span></div>
   </div>
 </div>
 
 <!-- ── NUMBERS ──────────────────────────────────────────────── -->
 <section id="numbers">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="inning">
+      <span class="no">1</span>
       <h2>The numbers</h2>
-      <span class="label">Measurables &amp; season</span>
+      <span class="cap">Measured &amp; scored</span>
     </div>
     <div class="cols">
 
-      <div class="panel">
-        <h3>Showcase measurables</h3>
+      <div class="card">
+        <h3>Showcase measurables <span class="pos">Timed on site</span></h3>
         <dl>
-          <div class="row"><dt>60-yard dash</dt><dd class="num">6.72 sec</dd></div>
-          <div class="row"><dt>Infield velocity</dt><dd class="num">88 mph</dd></div>
-          <div class="row"><dt>Exit velocity</dt><dd class="num">89 mph</dd></div>
+          <div class="row"><dt>60-yard dash</dt><dd class="num">6.72s</dd></div>
+          <div class="row"><dt>Infield velocity</dt><dd class="num">88</dd></div>
+          <div class="row"><dt>Exit velocity</dt><dd class="num">89</dd></div>
         </dl>
-        <div class="provenance">
-          <span class="verified">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-            Verified
-          </span>
-          Recorded at Prep Showcase &rsquo;25, Grand Park, Westfield IN &middot; 14 Sept 2025.
-        </div>
+        <p class="source"><span class="badge">Verified</span>Prep Showcase &rsquo;25, Grand Park, Westfield IN &middot; 14 Sept 2025.</p>
       </div>
 
-      <div class="panel">
-        <h3>2025 season &middot; junior year</h3>
+      <div class="card">
+        <h3>2025 season <span class="pos">Junior year &middot; 28 games</span></h3>
         <dl>
           <div class="row"><dt>Batting average</dt><dd class="num">.372</dd></div>
           <div class="row"><dt>On-base percentage</dt><dd class="num">.451</dd></div>
           <div class="row"><dt>Stolen bases</dt><dd class="num">21</dd></div>
           <div class="row"><dt>Fielding percentage</dt><dd class="num">.961</dd></div>
         </dl>
-        <div class="provenance">
-          <span class="verified selfrep">Self-reported</span>
-          From the school scorebook, 28 games. Full game log available on request.
-        </div>
+        <p class="source"><span class="badge self">Self-reported</span>From the school scorebook. Full game log on request.</p>
       </div>
 
     </div>
@@ -309,18 +372,19 @@
 <!-- ── FILM ─────────────────────────────────────────────────── -->
 <section id="film">
   <div class="wrap">
-    <div class="sec-head">
-      <h2>Game film</h2>
-      <span class="label">Most recent first</span>
+    <div class="inning">
+      <span class="no">2</span>
+      <h2>Film</h2>
+      <span class="cap">Most recent first</span>
     </div>
-    <div class="film">
+    <div class="card film">
       <div class="slot">
         <span class="play" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="#fff" width="22" height="22"><path d="M7 4l14 8-14 8z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#B33A2B" width="22" height="22"><path d="M7 4l14 8-14 8z"/></svg>
         </span>
         <p>This is a demo profile, so there is no film here. A real profile embeds the athlete's Hudl reel and their most recent showcase video in this spot.</p>
       </div>
-      <p class="note">On a live profile this section also links the full Hudl page, an unedited game from the current season, and any showcase film, each labelled with the date it was shot.</p>
+      <p class="note">A live profile also links the full Hudl page and one unedited game from the current season, each labelled with the date it was shot. Coaches want the unedited one.</p>
     </div>
   </div>
 </section>
@@ -328,23 +392,24 @@
 <!-- ── ABOUT ────────────────────────────────────────────────── -->
 <section id="about">
   <div class="wrap">
-    <div class="sec-head">
-      <h2>About Tyler</h2>
-      <span class="label">Off the field</span>
+    <div class="inning">
+      <span class="no">3</span>
+      <h2>Off the field</h2>
+      <span class="cap">About Tyler</span>
     </div>
     <div class="about-grid">
       <div class="about">
         <p>Tyler is a junior at Carmel High School and a three-year varsity starter at shortstop. He plays travel ball through the summer and fall and has been a team captain for the last two seasons.</p>
         <p>Coaches describe him as a high-baseball-IQ infielder who makes the routine play look easy and brings energy to the dugout. He is looking for a program where he can contribute early and keep developing as a hitter at the next level.</p>
       </div>
-      <div class="panel">
+      <div class="card">
         <h3>Academics</h3>
         <dl>
           <div class="row"><dt>GPA (unweighted)</dt><dd class="num">3.9</dd></div>
           <div class="row"><dt>Class of</dt><dd class="num">2027</dd></div>
-          <div class="row"><dt>Intended major</dt><dd style="font-size:17px">Business</dd></div>
-          <div class="row"><dt>NCAA eligibility ID</dt><dd style="font-size:16px">On file</dd></div>
-          <div class="row"><dt>Test scores</dt><dd style="font-size:16px">Available</dd></div>
+          <div class="row"><dt>Intended major</dt><dd style="font-size:17px;font-family:var(--body);font-weight:600">Business</dd></div>
+          <div class="row"><dt>NCAA eligibility ID</dt><dd style="font-size:16px;font-family:var(--body);font-weight:600">On file</dd></div>
+          <div class="row"><dt>Test scores</dt><dd style="font-size:16px;font-family:var(--body);font-weight:600">Available</dd></div>
         </dl>
       </div>
     </div>
@@ -354,11 +419,12 @@
 <!-- ── SCHEDULE ─────────────────────────────────────────────── -->
 <section id="schedule">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="inning">
+      <span class="no">4</span>
       <h2>Come see me play</h2>
-      <span class="label">Upcoming</span>
+      <span class="cap">Upcoming</span>
     </div>
-    <div class="panel sched">
+    <div class="card sched">
       <div class="row">
         <div><div class="ev">Midwest Prep Showcase</div><div class="meta">Grand Park, Westfield IN</div></div>
         <div class="when num">June 28, 2026</div>
@@ -376,25 +442,26 @@
 </section>
 
 <!-- ── CONTACT ──────────────────────────────────────────────── -->
-<section class="contact" id="contact">
+<section id="contact">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="inning">
+      <span class="no">5</span>
       <h2>Recruiting contact</h2>
-      <span class="label">Coaches</span>
+      <span class="cap">Coaches</span>
     </div>
-    <p class="intro">Thanks for stopping by. Reach out any time for film, a transcript, or the showcase schedule. Tyler answers his own email.</p>
+    <p style="max-width:56ch;margin-bottom:24px;color:var(--pencil-2)">Thanks for stopping by. Reach out any time for film, a transcript, or the showcase schedule. Tyler answers his own email.</p>
     <div class="ccols">
       <div class="cbox">
-        <span class="label">Athlete email</span>
-        <a href="mailto:tyler.brooks27@example.com">tyler.brooks27@example.com</a>
+        <span class="cap">Athlete email</span>
+        <a href="mailto:tyler.brooks27@example.com" style="font-size:17px">tyler.brooks27@example.com</a>
       </div>
       <div class="cbox">
-        <span class="label">Phone</span>
+        <span class="cap">Phone</span>
         <a href="tel:+15550142027">(555) 014-2027</a>
       </div>
       <div class="cbox">
-        <span class="label">Travel coach</span>
-        <a href="tel:+15550149090">Coach Rivera &middot; (555) 014-9090</a>
+        <span class="cap">Travel coach</span>
+        <a href="tel:+15550149090">Rivera &middot; (555) 014-9090</a>
       </div>
     </div>
   </div>
