@@ -5,302 +5,259 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <!-- ============================================================
    DEMO SITE — FICTIONAL. Not a real business.
-   "Fresh Cut Lawn Care" — a sample lawn care website built by
-   Front Porch Web, LLC to demonstrate the kind of work produced.
-   All names, numbers, reviews and details are invented.
+   "Fresh Cut Lawn Care" — a sample built by Front Porch Web, LLC.
+   Every name, number, price and review here is invented.
 
-   Design note: this business sells clean stripes and crisp edges,
-   so the whole visual system is built from a mown-lawn stripe,
-   drawn in CSS. No stock photography anywhere — the signature
-   element IS the product. Icons are hand-drawn inline SVG rather
-   than emoji, which render differently on every operating system
-   and read as clip art.
+   CONCEPT — "the route book".
+   Every lawn crew in the world sells the same four services, so the
+   services list is not the story. The story is the ROUTE: which
+   streets get cut on which day, in what order, rain or shine. That
+   is the thing a homeowner actually wants to know and no lawn care
+   site ever shows them. So the route is the centrepiece and the
+   layout is built like a crew's schedule board — mono for anything
+   the crew would write down, heavy condensed caps for anything that
+   would be stencilled on a trailer.
+
+   Deliberately NOT the usual lawn-care look: no lime green gradient,
+   no cartoon mower, no rounded friendly cards. This is a working
+   crew, so it reads like equipment, not like a flyer.
    ============================================================ -->
-<title>Fresh Cut Lawn Care — Mowing &amp; Yard Care in Maple Grove, IN</title>
+<title>Fresh Cut Lawn Care — Weekly Mowing in Maple Grove, Indiana</title>
 <meta name="description" content="Fresh Cut Lawn Care: a fictional demo lawn care site built by Front Porch Web to show the kind of work we produce." />
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --turf:#2C6E34;
-    --turf-deep:#1C4A23;
-    --turf-dark:#102B15;
-    --turf-lit:#3D8E45;
-    --lime:#B9DE63;
-    --sun:#F0B429;
-    --cream:#FAF7EC;
-    --paper:#FFFFFF;
-    --ink:#16210F;
-    --muted:#55614C;
-    --line:rgba(16,43,21,.14);
-    --display:'Bricolage Grotesque',system-ui,sans-serif;
-    --body:'DM Sans',system-ui,sans-serif;
-    --r:14px;
+    --ink:#0E100B;
+    --ink-2:#181C13;
+    --bone:#F2F0E4;
+    --bone-dim:#D8D5C4;
+    --grass:#22401F;
+    --signal:#C9F24B;
+    --rule:rgba(242,240,228,.16);
+    --rule-dark:rgba(14,16,11,.14);
+    --muted:#8A8F7E;
+    --muted-dark:#5C6152;
+    --display:'Anton',Impact,sans-serif;
+    --body:'Work Sans',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:var(--body);background:var(--cream);color:var(--ink);
-    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;
+    font-family:var(--body);background:var(--ink);color:var(--bone);
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  h1,h2,h3{font-family:var(--display);line-height:1.04;font-weight:800;letter-spacing:-.02em;}
   img{max-width:100%;display:block;}
   a{color:inherit;}
   :is(a,button,input,textarea,select):focus-visible{
-    outline:3px solid var(--sun);outline-offset:3px;border-radius:4px;
+    outline:3px solid var(--signal);outline-offset:3px;
   }
-  .wrap{max-width:1120px;margin:0 auto;padding:0 22px;}
-  .eyebrow{
-    font-family:var(--display);font-weight:800;color:var(--turf);
-    letter-spacing:.12em;text-transform:uppercase;font-size:12.5px;
-  }
-  h2.big{font-size:clamp(28px,4.4vw,46px);margin:10px 0 14px;color:var(--turf-dark);}
-  .lead{font-size:clamp(16px,1.6vw,18px);color:var(--muted);max-width:56ch;}
-  section{padding:clamp(56px,7vw,92px) 0;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 
-  /* ── the signature: a mown stripe ───────────────────────────── */
-  .stripe-field{
-    background-image:repeating-linear-gradient(
-      97deg,
-      var(--turf-deep) 0 38px,
-      var(--turf-lit) 38px 76px
-    );
+  /* Anton only ships one weight and sits tall, so it needs its own
+     tracking and line-height or it reads as shouting. */
+  .display{
+    font-family:var(--display);font-weight:400;text-transform:uppercase;
+    line-height:.92;letter-spacing:-.005em;
   }
+  .mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;}
 
-  /* demo banner */
+  /* section counter, the editorial spine */
+  .sec-head{
+    display:flex;align-items:baseline;gap:18px;
+    padding-bottom:20px;margin-bottom:44px;border-bottom:1px solid var(--rule);
+  }
+  .sec-head .num{color:var(--signal);flex:none;}
+  .sec-head h2{font-size:clamp(30px,5vw,58px);}
+  section{padding:clamp(60px,8vw,110px) 0;}
+
+  /* ── demo banner ───────────────────────────────────────────── */
   .demo-flag{
-    background:#1F2A22;color:#F4EFE4;text-align:center;
-    font:500 13.5px/1.5 var(--body);padding:10px 16px;
-    border-bottom:2px solid var(--sun);
+    background:var(--ink-2);color:var(--bone-dim);text-align:center;
+    font:400 13.5px/1.5 var(--body);padding:10px 16px;border-bottom:1px solid var(--rule);
   }
-  .demo-flag strong{color:var(--sun);font-weight:700;}
-  .demo-flag a{color:var(--sun);white-space:nowrap;}
+  .demo-flag strong{color:var(--signal);font-weight:600;}
+  .demo-flag a{color:var(--signal);white-space:nowrap;}
 
-  /* ── nav ────────────────────────────────────────────────────── */
-  header.nav{position:sticky;top:0;z-index:60;background:var(--turf-dark);color:var(--cream);}
-  .nav-in{
-    max-width:1120px;margin:0 auto;padding:12px 22px;
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
-  }
-  .brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:800;font-size:18px;}
-  .brand img{width:38px;height:38px;border-radius:9px;flex:none;}
-  .links{display:flex;gap:26px;align-items:center;}
+  /* ── nav ───────────────────────────────────────────────────── */
+  header.nav{position:sticky;top:0;z-index:60;background:rgba(14,16,11,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);}
+  .nav-in{max-width:1180px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .brand{display:flex;align-items:center;gap:11px;}
+  .brand img{width:34px;height:34px;flex:none;}
+  .brand b{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:19px;letter-spacing:.01em;}
+  .links{display:flex;gap:30px;align-items:center;}
   .links a{
-    text-decoration:none;font-weight:500;font-size:15px;color:#D9E7CC;
-    padding:11px 0;position:relative;
+    text-decoration:none;color:var(--bone-dim);padding:12px 0;position:relative;
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
   }
-  .links a::after{
-    content:"";position:absolute;left:0;right:100%;bottom:6px;height:2px;
-    background:var(--sun);transition:right .25s;
-  }
+  .links a::after{content:"";position:absolute;left:0;right:100%;bottom:7px;height:1.5px;background:var(--signal);transition:right .25s;}
   .links a:hover::after{right:0;}
   .nav-cta{
-    background:var(--sun);color:var(--turf-dark);font-weight:700;
-    padding:12px 20px;border-radius:999px;text-decoration:none;font-size:15px;
-    min-height:44px;display:inline-flex;align-items:center;
+    background:var(--signal);color:var(--ink);text-decoration:none;
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:13px 20px;min-height:44px;display:inline-flex;align-items:center;
   }
-  .nav-cta:hover{background:#FFC846;}
-  .burger{
-    display:none;background:none;border:none;cursor:pointer;
-    width:44px;height:44px;flex-direction:column;gap:5px;align-items:center;justify-content:center;
-  }
-  .burger span{width:23px;height:2.5px;background:var(--lime);border-radius:2px;}
+  .nav-cta:hover{background:#D8FF62;}
+  .burger{display:none;background:none;border:1px solid var(--rule);cursor:pointer;width:44px;height:44px;flex-direction:column;gap:5px;align-items:center;justify-content:center;}
+  .burger span{width:20px;height:2px;background:var(--bone);}
 
-  /* ── hero ───────────────────────────────────────────────────── */
-  .hero{position:relative;background:var(--turf-dark);color:var(--cream);overflow:hidden;}
-  /* The lawn: a striped plane laid down in perspective so it recedes
-     toward the horizon the way a mown yard actually does. */
-  .lawn{
-    position:absolute;left:-40%;right:-40%;bottom:0;height:82%;
-    transform:perspective(720px) rotateX(71deg);transform-origin:bottom center;
+  /* ── hero ──────────────────────────────────────────────────── */
+  .hero{padding:clamp(48px,7vw,86px) 0 0;position:relative;}
+  .hero .meta{display:flex;gap:26px;flex-wrap:wrap;color:var(--muted);margin-bottom:26px;}
+  .hero h1{font-size:clamp(52px,12.5vw,168px);}
+  .hero h1 .cut{color:var(--signal);}
+  .hero .beneath{
+    display:grid;grid-template-columns:1.1fr .9fr;gap:40px;
+    margin-top:36px;padding-top:30px;border-top:1px solid var(--rule);
   }
-  /* Fade only the far end into the night so the near stripes stay legible.
-     Holding it transparent through the first third is what makes the mown
-     bands actually read instead of washing out. */
-  .lawn::after{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(to top,
-      transparent 0%,transparent 34%,
-      rgba(16,43,21,.55) 66%,var(--turf-dark) 94%);
-  }
-  .hero-in{position:relative;z-index:2;padding:clamp(52px,8vw,104px) 0 clamp(96px,13vw,150px);}
-  .kick{
-    display:inline-flex;align-items:center;gap:8px;
-    background:rgba(185,222,99,.16);color:var(--lime);
-    border:1px solid rgba(185,222,99,.4);
-    font-weight:700;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
-    padding:8px 15px;border-radius:999px;
-  }
-  .hero h1{font-size:clamp(38px,7vw,74px);margin:20px 0 0;max-width:15ch;}
-  .hero h1 em{font-style:normal;color:var(--sun);}
-  .hero p.sub{font-size:clamp(16px,1.9vw,20px);color:#C8DBBA;max-width:46ch;margin-top:20px;}
-  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;}
+  .hero p.sub{font-size:clamp(17px,2vw,20px);color:var(--bone-dim);max-width:44ch;}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-content:start;}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:9px;
-    font-family:var(--body);font-weight:700;border:none;border-radius:999px;
-    cursor:pointer;padding:15px 28px;text-decoration:none;font-size:16px;
-    min-height:50px;transition:transform .15s,background .2s;
+    font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+    border:none;cursor:pointer;padding:16px 26px;text-decoration:none;min-height:52px;
+    transition:transform .15s,background .2s,border-color .2s;
   }
-  .btn-sun{background:var(--sun);color:var(--turf-dark);}
-  .btn-sun:hover{background:#FFC846;transform:translateY(-2px);}
-  .btn-out{background:transparent;color:var(--cream);border:2px solid rgba(250,247,236,.45);}
-  .btn-out:hover{border-color:var(--cream);transform:translateY(-2px);}
-  .hero-note{margin-top:22px;font-size:14.5px;color:#9FB791;}
+  .btn-sig{background:var(--signal);color:var(--ink);}
+  .btn-sig:hover{background:#D8FF62;transform:translateY(-2px);}
+  .btn-line{background:transparent;color:var(--bone);border:1px solid var(--rule);}
+  .btn-line:hover{border-color:var(--bone);transform:translateY(-2px);}
 
-  /* ── trust strip ────────────────────────────────────────────── */
-  .trust{background:var(--sun);color:var(--turf-dark);}
-  .trust .wrap{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:10px 24px;
-    padding-top:20px;padding-bottom:20px;
+  /* ── the route strip: the signature element ────────────────── */
+  .route{
+    margin-top:clamp(44px,6vw,72px);border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
   }
-  .trust b{
-    font-family:var(--display);font-weight:800;font-size:clamp(20px,2.6vw,27px);
-    display:block;line-height:1.1;
+  .route-grid{display:grid;grid-template-columns:repeat(6,1fr);}
+  .day{
+    padding:26px 18px 30px;border-right:1px solid var(--rule);position:relative;
   }
-  .trust span{font-size:13.5px;font-weight:500;opacity:.8;}
+  .day:last-child{border-right:none;}
+  .day .d{color:var(--signal);display:block;margin-bottom:12px;}
+  .day .hood{font-size:15.5px;color:var(--bone);display:block;line-height:1.45;}
+  .day .hood + .hood{margin-top:5px;color:var(--muted);}
+  .day.today{background:var(--ink-2);}
+  .day.today::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--signal);}
 
-  /* ── services ───────────────────────────────────────────────── */
-  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;}
-  .svc{
-    background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
-    padding:26px 24px 24px;transition:border-color .2s,transform .2s;
+  /* ── services as an editorial list, not cards ──────────────── */
+  .svc-list{border-top:1px solid var(--rule);}
+  .svc-row{
+    display:grid;grid-template-columns:52px 1.1fr 1.4fr auto;gap:28px;align-items:baseline;
+    padding:26px 0;border-bottom:1px solid var(--rule);transition:background .2s;
   }
-  .svc:hover{border-color:var(--turf);transform:translateY(-3px);}
-  .svc .ico{
-    width:42px;height:42px;border-radius:11px;background:#EDF5DC;
-    display:grid;place-items:center;color:var(--turf);margin-bottom:16px;
-  }
-  .svc .ico svg{width:23px;height:23px;}
-  .svc h3{font-size:19px;margin-bottom:7px;color:var(--turf-dark);}
-  .svc p{font-size:15.5px;color:var(--muted);line-height:1.6;}
-  .svc .price{
-    margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
-    font-family:var(--display);font-weight:800;color:var(--turf);font-size:16px;
-  }
+  .svc-row:hover{background:var(--ink-2);}
+  .svc-row .n{color:var(--muted);}
+  .svc-row h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(20px,2.4vw,28px);line-height:1;}
+  .svc-row p{color:var(--muted);font-size:15.5px;}
+  .svc-row .rate{font-family:var(--mono);font-size:14px;color:var(--signal);white-space:nowrap;}
 
-  /* ── about ──────────────────────────────────────────────────── */
-  .about{background:var(--turf-dark);color:var(--cream);}
-  .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:44px;align-items:center;}
-  /* Instead of a photo placeholder: a striped panel that shows the
-     product — a finished cut, with the crisp edge they talk about. */
-  .plot{
-    border-radius:var(--r);overflow:hidden;min-height:330px;position:relative;
-    border:1px solid rgba(250,247,236,.16);
-  }
-  .plot .turf{position:absolute;inset:0;}
-  .plot .edge{
-    position:absolute;left:0;right:0;bottom:0;height:28%;
-    background:#6B563C;border-top:5px solid var(--cream);
-  }
-  .plot .tag{
-    position:absolute;left:18px;bottom:18px;z-index:2;
-    background:var(--cream);color:var(--turf-dark);
-    font-weight:700;font-size:13.5px;padding:9px 14px;border-radius:999px;
-  }
-  .about h2{color:var(--cream);font-size:clamp(27px,4.2vw,42px);}
-  .about p{color:#C3D6B6;margin-top:16px;font-size:16.5px;}
-  .about .sig{
-    font-family:var(--display);font-weight:800;font-size:19px;
-    color:var(--lime);margin-top:22px;
-  }
-  .about .sig small{display:block;font-family:var(--body);font-weight:400;font-size:14px;color:#9FB791;margin-top:3px;letter-spacing:0;}
+  /* ── crew ──────────────────────────────────────────────────── */
+  .crew{background:var(--bone);color:var(--ink);}
+  .crew .sec-head{border-color:var(--rule-dark);}
+  .crew .sec-head .num{color:var(--grass);}
+  .crew-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);align-items:start;}
+  .crew h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(26px,3.6vw,42px);line-height:1;margin-bottom:20px;}
+  .crew p{color:var(--muted-dark);margin-bottom:16px;font-size:16.5px;}
+  .crew .who{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--grass);margin-top:26px;}
+  .facts{border-top:1px solid var(--rule-dark);}
+  .fact{display:flex;justify-content:space-between;gap:20px;padding:15px 0;border-bottom:1px solid var(--rule-dark);}
+  .fact dt{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-dark);}
+  .fact dd{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:20px;color:var(--ink);text-align:right;}
 
-  /* ── guarantee ──────────────────────────────────────────────── */
-  .gbox{
-    background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--sun);
-    border-radius:var(--r);padding:clamp(26px,4vw,40px);max-width:760px;margin-top:26px;
-    display:flex;gap:22px;align-items:flex-start;
+  /* ── standard / guarantee ──────────────────────────────────── */
+  .standard{background:var(--grass);}
+  .standard .wrap{max-width:900px;}
+  .standard .mono{color:var(--signal);}
+  .standard blockquote{
+    font-family:var(--display);font-weight:400;text-transform:uppercase;
+    font-size:clamp(28px,5.2vw,62px);line-height:.98;margin:22px 0 24px;
   }
-  .gbox .seal{
-    width:52px;height:52px;border-radius:50%;background:#FDF1D4;color:#9A6B00;
-    display:grid;place-items:center;flex:none;
-  }
-  .gbox h3{font-size:clamp(19px,2.4vw,24px);color:var(--turf-dark);margin-bottom:8px;}
-  .gbox p{color:var(--muted);font-size:16px;}
+  .standard p{color:#C6D6BE;max-width:58ch;font-size:16.5px;}
 
-  /* ── reviews ────────────────────────────────────────────────── */
-  .reviews{background:var(--paper);}
-  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;}
-  .rev{background:var(--cream);border-radius:var(--r);padding:26px 24px;border:1px solid var(--line);}
-  .rev .stars{color:var(--sun);font-size:15px;letter-spacing:2px;}
-  .rev p{color:var(--ink);margin:12px 0 16px;font-size:16px;line-height:1.6;}
-  .rev .who{font-weight:700;color:var(--turf-dark);font-size:14.5px;}
-  .rev .who small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:2px;}
+  /* ── reviews ───────────────────────────────────────────────── */
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule);}
+  .rev{padding:32px 26px 32px 0;border-right:1px solid var(--rule);}
+  .rev:last-child{border-right:none;padding-right:0;}
+  .rev:not(:first-child){padding-left:26px;}
+  .rev .stars{color:var(--signal);letter-spacing:3px;font-size:14px;}
+  .rev p{margin:14px 0 18px;font-size:16.5px;line-height:1.55;}
+  .rev .who{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
 
-  /* ── quote form ─────────────────────────────────────────────── */
-  .book{background:var(--turf-deep);color:var(--cream);position:relative;overflow:hidden;}
-  .book .wrap{position:relative;z-index:2;}
-  .book-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
-  .book h2{color:var(--cream);font-size:clamp(28px,4.4vw,44px);}
-  .book p.lead{color:#C3D6B6;margin-top:14px;}
-  .callbox{margin-top:28px;display:flex;flex-direction:column;gap:12px;}
-  .callrow{display:flex;align-items:center;gap:13px;font-size:16px;}
-  .callrow svg{width:19px;height:19px;color:var(--lime);flex:none;}
-  /* Standalone contact links carry their own tap target; inline links inside
-     a sentence are left in the text flow, which is the accepted exception. */
-  .callrow a{
-    font-family:var(--display);font-weight:800;font-size:22px;color:var(--sun);
-    text-decoration:none;min-height:44px;display:inline-flex;align-items:center;
+  /* ── quote ─────────────────────────────────────────────────── */
+  .quote-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,5vw,64px);align-items:start;}
+  .contact-line{display:flex;align-items:center;gap:13px;padding:17px 0;border-bottom:1px solid var(--rule);}
+  .contact-line svg{width:18px;height:18px;color:var(--signal);flex:none;}
+  .contact-line a{
+    font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:24px;
+    color:var(--bone);text-decoration:none;min-height:44px;display:inline-flex;align-items:center;
   }
-  .callrow a:hover{text-decoration:underline;}
-  footer .by a{display:inline-block;padding:10px 4px;}
-  form{background:var(--paper);border-radius:var(--r);padding:26px;color:var(--ink);}
-  .field{margin-bottom:15px;}
-  label{display:block;font-weight:700;font-size:14px;margin-bottom:6px;color:var(--turf-dark);}
+  .contact-line a:hover{color:var(--signal);}
+  .contact-line span{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.08em;}
+  form{border:1px solid var(--rule);padding:clamp(22px,3vw,32px);}
+  .fr{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .field{margin-bottom:16px;}
+  label{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
   input,select,textarea{
-    width:100%;font-family:var(--body);font-size:16px;color:var(--ink);
-    padding:13px 14px;border:1px solid var(--line);border-radius:10px;
-    background:var(--cream);min-height:48px;
+    width:100%;font-family:var(--body);font-size:16px;color:var(--bone);
+    padding:13px 14px;border:1px solid var(--rule);border-radius:0;
+    background:var(--ink-2);min-height:48px;
   }
-  textarea{min-height:96px;resize:vertical;}
-  input:focus,select:focus,textarea:focus{border-color:var(--turf);}
-  form .btn{width:100%;margin-top:6px;}
-  .formnote{font-size:13px;color:var(--muted);margin-top:12px;text-align:center;}
-  .sent{
-    display:none;background:#EDF5DC;border:1px solid var(--turf);border-radius:10px;
-    padding:16px;font-size:15px;color:var(--turf-dark);
-  }
+  textarea{min-height:100px;resize:vertical;}
+  input:focus,select:focus,textarea:focus{border-color:var(--signal);}
+  select option{background:var(--ink-2);color:var(--bone);}
+  form .btn{width:100%;margin-top:4px;}
+  .formnote{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);margin-top:14px;text-align:center;}
+  .sent{display:none;border:1px solid var(--signal);padding:15px;font-size:15px;color:var(--bone);margin-top:14px;}
   .sent.show{display:block;}
 
-  /* ── footer ─────────────────────────────────────────────────── */
-  footer{background:var(--turf-dark);color:#9FB791;padding:44px 22px 36px;text-align:center;}
-  footer .brand{justify-content:center;color:var(--cream);margin-bottom:14px;}
-  footer .fnote{font-size:14px;max-width:60ch;margin:0 auto;}
-  footer .by{margin-top:20px;font-size:13.5px;}
-  footer .by a{color:var(--lime);}
+  /* ── footer ────────────────────────────────────────────────── */
+  footer{border-top:1px solid var(--rule);padding:44px 24px 40px;text-align:center;color:var(--muted);}
+  footer .brand{justify-content:center;margin-bottom:16px;color:var(--bone);}
+  footer .fnote{font-size:14px;max-width:62ch;margin:0 auto;line-height:1.6;}
+  footer .by{margin-top:18px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;}
+  footer .by a{color:var(--signal);display:inline-block;padding:10px 4px;}
 
-  /* ── responsive ─────────────────────────────────────────────── */
-  @media(max-width:900px){
-    .svc-grid,.rev-grid{grid-template-columns:repeat(2,1fr);}
-    .about-grid,.book-grid{grid-template-columns:1fr;gap:32px;}
-    .trust .wrap{grid-template-columns:repeat(2,1fr);}
+  /* ── responsive ────────────────────────────────────────────── */
+  @media(max-width:980px){
+    .hero .beneath,.crew-grid,.quote-grid{grid-template-columns:1fr;gap:28px;}
+    .route-grid{grid-template-columns:repeat(3,1fr);}
+    .day{border-bottom:1px solid var(--rule);}
+    .day:nth-child(3n){border-right:none;}
+    .rev-grid{grid-template-columns:1fr;}
+    .rev{border-right:none;border-bottom:1px solid var(--rule);padding:26px 0;}
+    .rev:not(:first-child){padding-left:0;}
+    .rev:last-child{border-bottom:none;}
   }
-  @media(max-width:700px){
+  @media(max-width:760px){
     .burger{display:flex;}
     .links{
-      position:absolute;top:100%;left:0;right:0;background:var(--turf-dark);
-      flex-direction:column;gap:0;max-height:0;overflow:hidden;
-      transition:max-height .3s;border-top:1px solid rgba(250,247,236,.12);
+      position:absolute;top:100%;left:0;right:0;background:var(--ink);
+      flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s;
+      border-bottom:1px solid var(--rule);
     }
-    .links.open{max-height:300px;}
-    .links a{padding:15px 22px;width:100%;min-height:48px;display:flex;align-items:center;}
+    .links.open{max-height:320px;}
+    .links a{padding:16px 24px;width:100%;min-height:48px;display:flex;align-items:center;border-bottom:1px solid var(--rule);}
     .links a::after{display:none;}
-    .nav-cta{padding:11px 16px;font-size:14px;}
-    .brand{font-size:16px;}
-    .svc-grid,.rev-grid{grid-template-columns:1fr;}
-    .lawn{height:52%;}
-    .gbox{flex-direction:column;gap:16px;}
+    .svc-row{grid-template-columns:38px 1fr;gap:6px 16px;}
+    .svc-row p{grid-column:2;margin-top:6px;}
+    .svc-row .rate{grid-column:2;margin-top:10px;}
+    .route-grid{grid-template-columns:repeat(2,1fr);}
+    .day:nth-child(3n){border-right:1px solid var(--rule);}
+    .day:nth-child(2n){border-right:none;}
+    .fr{grid-template-columns:1fr;}
   }
-  @media(max-width:380px){
-    .brand span{font-size:15px;}
+  @media(max-width:420px){
     .nav-cta{display:none;}
+    .route-grid{grid-template-columns:1fr;}
+    .day{border-right:none!important;}
   }
 
-  /* Reduced motion: transitions are dropped, but the page carries no
-     ambient/decorative animation to begin with — the stripe is static. */
+  /* No ambient animation on this page — every transition here is a direct
+     response to hover or focus, so reduced motion simply removes them. */
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{transition:none!important;scroll-behavior:auto!important;}
   }
@@ -308,7 +265,8 @@
   @media print{
     .demo-flag,header.nav,.hero-cta,form,.burger{display:none!important;}
     body{background:#fff;color:#000;font-size:11pt;}
-    .about,.book,.hero{background:#fff!important;color:#000!important;}
+    .crew,.standard,.hero{background:#fff!important;color:#000!important;}
+    .display,h1,h2,h3{color:#000!important;}
   }
 </style>
 </head>
@@ -316,219 +274,221 @@
 
 <div class="demo-flag">
   This is a <strong>demo site</strong> &mdash; a sample built by Front Porch Web to show our work.
-  The business, people, prices and reviews shown here are made up.
+  The business, people, prices and reviews on this page are made up.
   <a href="https://frontporchwebllc.com">frontporchwebllc.com</a>
 </div>
 
 <header class="nav">
   <div class="nav-in">
     <div class="brand">
-      <img src="fresh-cut-logo.png" alt="Fresh Cut Lawn Care logo" width="38" height="38">
-      <span>Fresh Cut Lawn Care</span>
+      <img src="fresh-cut-logo.png" alt="Fresh Cut Lawn Care logo" width="34" height="34">
+      <b>Fresh Cut</b>
     </div>
     <nav class="links" id="nav" aria-label="Main">
-      <a href="#services" onclick="closeNav()">Services</a>
-      <a href="#about" onclick="closeNav()">About</a>
-      <a href="#reviews" onclick="closeNav()">Reviews</a>
-      <a href="#book" onclick="closeNav()">Get a Quote</a>
+      <a href="#route" onclick="closeNav()">The route</a>
+      <a href="#work" onclick="closeNav()">What we do</a>
+      <a href="#crew" onclick="closeNav()">The crew</a>
+      <a href="#quote" onclick="closeNav()">Get a quote</a>
     </nav>
-    <a href="#book" class="nav-cta">Get a Quote</a>
-    <button class="burger" onclick="toggleNav()" aria-label="Menu" aria-expanded="false" aria-controls="nav">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="#quote" class="nav-cta">Get a quote</a>
+    <button class="burger" onclick="toggleNav()" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
   </div>
 </header>
 
-<!-- ── HERO ─────────────────────────────────────────────────── -->
+<!-- ── HERO ──────────────────────────────────────────────────── -->
 <section class="hero">
-  <div class="lawn stripe-field" aria-hidden="true"></div>
-  <div class="wrap hero-in">
-    <span class="kick">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><path d="M3 21h18"/><path d="M7 21V9l5-5 5 5v12"/></svg>
-      Maple Grove, Indiana
-    </span>
-    <h1>A lawn the whole street <em>notices.</em></h1>
-    <p class="sub">Clean stripes, crisp edges, and a crew that turns up the same day every week. Twelve years mowing yards on this side of town.</p>
-    <div class="hero-cta">
-      <a href="#book" class="btn btn-sun">Get a free quote</a>
-      <a href="tel:+15550148267" class="btn btn-out">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
-        (555) 014-8267
-      </a>
+  <div class="wrap">
+    <div class="meta mono">
+      <span>Maple Grove, Indiana</span>
+      <span>Est. 2014</span>
+      <span>400+ yards weekly</span>
     </div>
-    <p class="hero-note">Free quotes &middot; No contracts &middot; We bring everything</p>
+    <h1 class="display">Same day.<br>Same crew.<br><span class="cut">Every week.</span></h1>
+    <div class="beneath">
+      <p class="sub">Most lawn companies cannot tell you which day they are coming. We can, because we run a fixed route and we have not missed it in eleven years.</p>
+      <div class="hero-cta">
+        <a href="#quote" class="btn btn-sig">Get a free quote</a>
+        <a href="tel:+15550148267" class="btn btn-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          (555) 014-8267
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- the signature: the actual route -->
+  <div class="route" id="route">
+    <div class="wrap" style="padding:0">
+      <div class="route-grid">
+        <div class="day"><span class="d mono">Mon</span><span class="hood">Elm &amp; Chestnut</span><span class="hood">Grove Park</span></div>
+        <div class="day today"><span class="d mono">Tue &middot; today</span><span class="hood">Maple Ridge</span><span class="hood">Coventry Ln</span></div>
+        <div class="day"><span class="d mono">Wed</span><span class="hood">Oak Hollow</span><span class="hood">Birchwood</span></div>
+        <div class="day"><span class="d mono">Thu</span><span class="hood">Stonegate</span><span class="hood">Field &amp; Vine</span></div>
+        <div class="day"><span class="d mono">Fri</span><span class="hood">Southport Rd</span><span class="hood">Willow Bend</span></div>
+        <div class="day"><span class="d mono">Sat</span><span class="hood">Catch-up &amp; big jobs</span><span class="hood">Mulch and beds</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ── TRUST STRIP ──────────────────────────────────────────── -->
-<div class="trust">
+<!-- ── WHAT WE DO ────────────────────────────────────────────── -->
+<section id="work">
   <div class="wrap">
-    <div><b>12 yrs</b><span>Mowing this town</span></div>
-    <div><b>400+</b><span>Yards on the route</span></div>
-    <div><b>4.9&#9733;</b><span>Average rating</span></div>
-    <div><b>Same day</b><span>Every week, rain or shine</span></div>
-  </div>
-</div>
+    <div class="sec-head">
+      <span class="num mono">01</span>
+      <h2 class="display">What we do</h2>
+    </div>
+    <div class="svc-list">
 
-<!-- ── SERVICES ─────────────────────────────────────────────── -->
-<section id="services">
-  <div class="wrap">
-    <span class="eyebrow">Services</span>
-    <h2 class="big">Everything your yard needs.</h2>
-    <p class="lead">Every visit ends the same way: clippings blown off the walks, gates shut, and a yard that looks finished. Prices below are starting points for a typical quarter-acre lot.</p>
-    <div class="svc-grid">
-
-      <div class="svc">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18h13v-4H8V8H3z"/><circle cx="6" cy="20" r="2"/><circle cx="17" cy="19" r="3"/><path d="M16 14l4-9"/></svg></div>
+      <div class="svc-row">
+        <span class="n mono">01</span>
         <h3>Mowing &amp; edging</h3>
-        <p>Weekly or every other week. Stripes laid in alternating passes, edges cut along every walk, bed and driveway.</p>
-        <div class="price">from $40 a visit</div>
+        <p>Alternating passes so the stripes turn over each week, and a hard edge cut along every walk, bed and driveway.</p>
+        <span class="rate">from $40 / visit</span>
       </div>
 
-      <div class="svc">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 4L8.5 15.5"/><path d="M4 4l11.5 11.5"/><circle cx="6" cy="18" r="2.6"/><circle cx="18" cy="18" r="2.6"/></svg></div>
-        <h3>Hedge &amp; shrub trimming</h3>
-        <p>Overgrown shrubs shaped back to square. We trim, rake out the inside, and haul every clipping away with us.</p>
-        <div class="price">from $65 a visit</div>
+      <div class="svc-row">
+        <span class="n mono">02</span>
+        <h3>Hedges &amp; shrubs</h3>
+        <p>Cut back to square, raked out inside, and every clipping goes on the trailer with us.</p>
+        <span class="rate">from $65 / visit</span>
       </div>
 
-      <div class="svc">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.7 4.5-7"/></svg></div>
-        <h3>Leaf &amp; debris cleanup</h3>
-        <p>Fall cleanups done properly. Beds cleared, gutters at ground level swept, and the whole lot bagged and gone.</p>
-        <div class="price">from $90 a visit</div>
+      <div class="svc-row">
+        <span class="n mono">03</span>
+        <h3>Leaf cleanup</h3>
+        <p>Beds cleared, walks blown down, the whole lot bagged. Two passes in a bad fall, one price.</p>
+        <span class="rate">from $90 / visit</span>
       </div>
 
-      <div class="svc">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.7S6.5 9 6.5 13.5a5.5 5.5 0 0 0 11 0C17.5 9 12 2.7 12 2.7z"/><path d="M12 17.5a4 4 0 0 1-4-4"/></svg></div>
-        <h3>Fertilizing &amp; feeding</h3>
-        <p>Four seasonal treatments timed to the weather here, not a national calendar. Thicker turf, fewer weeds by year two.</p>
-        <div class="price">from $55 a visit</div>
+      <div class="svc-row">
+        <span class="n mono">04</span>
+        <h3>Feeding</h3>
+        <p>Four treatments timed to the weather here, not a national calendar. Thicker turf by the second season.</p>
+        <span class="rate">from $55 / visit</span>
       </div>
 
-      <div class="svc">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"/><path d="M2 12h20"/><path d="M5 5l14 14"/><path d="M19 5L5 19"/></svg></div>
-        <h3>Snow removal</h3>
-        <p>On call from the first flake. Driveways and walks cleared and salted before you leave for work in the morning.</p>
-        <div class="price">from $50 a visit</div>
+      <div class="svc-row">
+        <span class="n mono">05</span>
+        <h3>Mulch &amp; beds</h3>
+        <p>Beds re-cut with a spade edge, weeded, and topped with hardwood. This is the one that makes a yard look finished.</p>
+        <span class="rate">from $120 / job</span>
       </div>
 
-      <div class="svc">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></div>
-        <h3>Mulch &amp; bed work</h3>
-        <p>Beds re-cut with a clean spade edge, weeded out, and topped with fresh hardwood mulch. It is what makes a yard look done.</p>
-        <div class="price">from $120 a job</div>
+      <div class="svc-row">
+        <span class="n mono">06</span>
+        <h3>Snow</h3>
+        <p>On call from the first flake. Drives and walks cleared and salted before you leave in the morning.</p>
+        <span class="rate">from $50 / visit</span>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ── ABOUT ────────────────────────────────────────────────── -->
-<section class="about" id="about">
+<!-- ── THE CREW ──────────────────────────────────────────────── -->
+<section class="crew" id="crew">
   <div class="wrap">
-    <div class="about-grid">
-      <div class="plot">
-        <div class="turf stripe-field" aria-hidden="true"></div>
-        <div class="edge" aria-hidden="true"></div>
-        <span class="tag">The edge we leave behind</span>
-      </div>
+    <div class="sec-head">
+      <span class="num mono">02</span>
+      <h2 class="display">The crew</h2>
+    </div>
+    <div class="crew-grid">
       <div>
-        <span class="eyebrow" style="color:var(--lime)">About</span>
-        <h2>Tom started this with one mower and a trailer hitch.</h2>
-        <p>Fresh Cut began twelve years ago when Tom Dunn started cutting six yards on Elm Street before his shift. The rule then was the same one we run on now: show up on the day we said, and leave the yard looking better than the neighbours'.</p>
-        <p>There are four of us and two trailers today. What has not changed is that Tom still quotes every job himself, and if something is not right you get his number, not a call centre.</p>
-        <div class="sig">
-          &mdash; Tom Dunn
-          <small>Owner, Fresh Cut Lawn Care</small>
-        </div>
+        <h3>Tom started with six yards<br>and a borrowed trailer.</h3>
+        <p>In 2014 Tom Dunn cut six lawns on Elm Street before his shift at the plant. The rule then is the rule now: turn up on the day you said you would, and leave the yard looking better than the one next door.</p>
+        <p>There are four of us and two trailers today. What has not changed is that Tom still walks every property himself before he quotes it, and if something is wrong you get his mobile, not a call centre in another state.</p>
+        <p class="who">Tom Dunn &middot; Owner</p>
       </div>
+      <dl class="facts">
+        <div class="fact"><dt>Running since</dt><dd>2014</dd></div>
+        <div class="fact"><dt>Yards on the route</dt><dd>400+</dd></div>
+        <div class="fact"><dt>People on the crew</dt><dd>Four</dd></div>
+        <div class="fact"><dt>Average rating</dt><dd>4.9 / 5</dd></div>
+        <div class="fact"><dt>Weeks missed since 2014</dt><dd>None</dd></div>
+        <div class="fact"><dt>Contracts required</dt><dd>None</dd></div>
+      </dl>
     </div>
   </div>
 </section>
 
-<!-- ── GUARANTEE ────────────────────────────────────────────── -->
-<section>
+<!-- ── THE STANDARD ──────────────────────────────────────────── -->
+<section class="standard">
   <div class="wrap">
-    <span class="eyebrow">Our promise</span>
-    <h2 class="big">If it is not right, it is on us.</h2>
-    <div class="gbox">
-      <div class="seal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="25" height="25" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-      </div>
-      <div>
-        <h3>Call within 48 hours and we come straight back.</h3>
-        <p>If your lawn does not look sharp after a Fresh Cut visit, ring us inside two days and we will return and put it right at no charge. No arguing about it, no fine print, no invoice.</p>
-      </div>
-    </div>
+    <span class="mono">03 &middot; The standard</span>
+    <blockquote>If it is not right,<br>call us and we come back.</blockquote>
+    <p>Ring within two days of a visit and we return and put it right at no charge. No argument about whose fault it was, no invoice, no fine print. In eleven years we have been called back nine times and gone back nine times.</p>
   </div>
 </section>
 
-<!-- ── REVIEWS ──────────────────────────────────────────────── -->
-<section class="reviews" id="reviews">
+<!-- ── REVIEWS ───────────────────────────────────────────────── -->
+<section id="reviews">
   <div class="wrap">
-    <span class="eyebrow">Reviews</span>
-    <h2 class="big">What the neighbours say.</h2>
+    <div class="sec-head">
+      <span class="num mono">04</span>
+      <h2 class="display">What the street says</h2>
+    </div>
     <div class="rev-grid">
       <div class="rev">
         <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p>&ldquo;They turned an overgrown back yard into something out of a magazine. My husband takes photos of the stripes. That is a real thing that happens now.&rdquo;</p>
-        <div class="who">Brenda K.<small>Maple Grove &middot; weekly customer, 4 years</small></div>
+        <p>&ldquo;They turned an overgrown back yard into something out of a magazine. My husband photographs the stripes. That is a real thing that happens in this house now.&rdquo;</p>
+        <div class="who">Brenda K. &middot; Maple Ridge &middot; 4 years</div>
       </div>
       <div class="rev">
         <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p>&ldquo;They pulled up in a thunderstorm just to tell me in person they would come back tomorrow. I have had contractors not turn up at all.&rdquo;</p>
-        <div class="who">Marcus D.<small>Oak Hollow &middot; weekly customer, 2 years</small></div>
+        <div class="who">Marcus D. &middot; Oak Hollow &middot; 2 years</div>
       </div>
       <div class="rev">
         <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p>&ldquo;Third lawn company on this street and the only one my golden retriever actually likes. Honestly that is the whole review.&rdquo;</p>
-        <div class="who">Priya S.<small>Maple Grove &middot; every other week, 3 years</small></div>
+        <div class="who">Priya S. &middot; Grove Park &middot; 3 years</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── QUOTE ────────────────────────────────────────────────── -->
-<section class="book" id="book">
-  <div class="lawn stripe-field" aria-hidden="true" style="height:40%;opacity:.5"></div>
+<!-- ── QUOTE ─────────────────────────────────────────────────── -->
+<section id="quote">
   <div class="wrap">
-    <div class="book-grid">
+    <div class="sec-head">
+      <span class="num mono">05</span>
+      <h2 class="display">Get a quote</h2>
+    </div>
+    <div class="quote-grid">
       <div>
-        <span class="eyebrow" style="color:var(--lime)">Get a quote</span>
-        <h2>Tell us about your yard.</h2>
-        <p class="lead">Send the form or just call Tom. Quotes are free, we do not need to come inside, and there is no contract to sign.</p>
-        <div class="callbox">
-          <div class="callrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
-            <a href="tel:+15550148267">(555) 014-8267</a>
-          </div>
-          <div class="callrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
-            <a href="mailto:tom@freshcutlawn.example" style="font-size:17px">tom@freshcutlawn.example</a>
-          </div>
-          <div class="callrow" style="color:#9FB791;font-size:15px">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            Mon&ndash;Sat, 7am&ndash;6pm
-          </div>
+        <p style="color:var(--bone-dim);max-width:40ch;margin-bottom:26px">Tell us the street and we will tell you the day. Quotes are free, we do not need to come inside, and there is nothing to sign.</p>
+        <div class="contact-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          <a href="tel:+15550148267">(555) 014-8267</a>
+        </div>
+        <div class="contact-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="M2 7l10 6 10-6"/></svg>
+          <a href="mailto:tom@freshcutlawn.example" style="font-size:19px">tom@freshcutlawn.example</a>
+        </div>
+        <div class="contact-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span>Mon&ndash;Sat &middot; 7am&ndash;6pm</span>
         </div>
       </div>
 
       <form id="quoteForm" novalidate>
-        <div class="field">
-          <label for="qname">Your name</label>
-          <input id="qname" name="name" type="text" autocomplete="name" required>
-        </div>
-        <div class="field">
-          <label for="qphone">Phone</label>
-          <input id="qphone" name="phone" type="tel" autocomplete="tel" required>
+        <div class="fr">
+          <div class="field">
+            <label for="qname">Name</label>
+            <input id="qname" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="qphone">Phone</label>
+            <input id="qphone" name="phone" type="tel" autocomplete="tel" required>
+          </div>
         </div>
         <div class="field">
           <label for="qaddr">Street or neighbourhood</label>
           <input id="qaddr" name="address" type="text" autocomplete="street-address">
         </div>
         <div class="field">
-          <label for="qsvc">What do you need?</label>
+          <label for="qsvc">What do you need</label>
           <select id="qsvc" name="service">
             <option>Weekly mowing</option>
             <option>Every other week mowing</option>
@@ -540,11 +500,11 @@
           </select>
         </div>
         <div class="field">
-          <label for="qmsg">Anything we should know?</label>
+          <label for="qmsg">Anything we should know</label>
           <textarea id="qmsg" name="message" placeholder="Gate code, dog in the yard, the strip by the mailbox&hellip;"></textarea>
         </div>
-        <button type="submit" class="btn btn-sun">Request my free quote</button>
-        <p class="formnote">We reply the same day, usually within an hour or two.</p>
+        <button type="submit" class="btn btn-sig">Request my quote</button>
+        <p class="formnote">We reply the same day</p>
         <div class="sent" id="sent" role="status"></div>
       </form>
     </div>
@@ -553,10 +513,10 @@
 
 <footer>
   <div class="brand">
-    <img src="fresh-cut-logo.png" alt="" width="34" height="34">
-    <span>Fresh Cut Lawn Care</span>
+    <img src="fresh-cut-logo.png" alt="" width="30" height="30">
+    <b>Fresh Cut</b>
   </div>
-  <p class="fnote">A fictional demo site. Fresh Cut Lawn Care is not a real business &mdash; the name, people, prices and reviews on this page were invented to show the kind of work we produce.</p>
+  <p class="fnote">A fictional demo site. Fresh Cut Lawn Care is not a real business &mdash; the name, people, route, prices and reviews on this page were invented to show the kind of work we produce.</p>
   <p class="by">Site by <a href="https://frontporchwebllc.com">Front Porch Web</a></p>
 </footer>
 
@@ -571,8 +531,24 @@
     nav.classList.remove('open');
     burger.setAttribute('aria-expanded','false');
   }
-  // Demo only: there is no back end behind this form, so say so plainly
-  // rather than pretending a message was sent.
+  // Mark the real current weekday on the route strip, so the board is
+  // accurate whenever somebody happens to land on it.
+  (function markToday(){
+    var days = document.querySelectorAll('.route-grid .day');
+    var idx = new Date().getDay();           // 0 Sun .. 6 Sat
+    days.forEach(function(d){
+      d.classList.remove('today');
+      var label = d.querySelector('.d');
+      label.textContent = label.textContent.split(' · ')[0];
+    });
+    if (idx >= 1 && idx <= 6) {
+      var el = days[idx - 1];
+      el.classList.add('today');
+      var l = el.querySelector('.d');
+      l.textContent = l.textContent + ' · today';
+    }
+  })();
+  // Demo only: no back end behind this form, so say so rather than fake a send.
   document.getElementById('quoteForm').addEventListener('submit', function(e){
     e.preventDefault();
     var box = document.getElementById('sent');
