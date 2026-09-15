@@ -1,6 +1,6 @@
 
 import * as THREE from '../assets/three.module.js';
-import { enhanceEnvironment } from './environment.js?v=4';
+import { enhanceEnvironment } from './environment.js?v=5';
 // Reduced motion — Front Porch Web house rule: ambient decorative motion (lamp
 // flicker, firefly drift, swing sway, foliage gust, handheld camera drift) is
 // deliberately EXEMPT from prefers-reduced-motion and keeps running. Scroll is
@@ -53,7 +53,7 @@ try {
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.98;
+renderer.toneMappingExposure = 1.08;
 renderer.shadowMap.enabled = !isMobile;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -103,7 +103,7 @@ function makeSky() {
 makeSky();
 
 /* ---------- lights (warm family only, no blues) ---------- */
-scene.add(new THREE.HemisphereLight(0x6e5c3c, 0x25301f, 1.2));
+scene.add(new THREE.HemisphereLight(0x6e5c3c, 0x25301f, 1.45));
 const moon = new THREE.DirectionalLight(0xffb86a, 2.0);   // low sun, golden hour
 moon.position.set(-34, 14, -30);
 moon.castShadow = !isMobile;
@@ -572,7 +572,7 @@ function frame() {
   // lamp warms up as you approach, lit well before the porch chapters
   const approach = smooth(0.18, 0.42, p);
   const lv = reducedMotion ? 1 : lampLevel(t);
-  lamp.intensity = (8 + 16 * approach) * lv;
+  lamp.intensity = (11 + 20 * approach) * lv;
   halo.material.opacity = 0.62 * approach * lv;
   bulb.material.color.setHex(lv > 0.7 ? 0xffd98f : 0x8a6a3a);
 
