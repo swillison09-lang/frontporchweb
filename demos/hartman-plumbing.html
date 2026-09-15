@@ -3,439 +3,624 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hartman Plumbing — Fast, Reliable, 24/7</title>
+<title>Hartman Plumbing — the price is in the book, not a surprise</title>
+<meta name="description" content="Family plumbing in Wayne and Pike Township since 1994. Every job priced from a published flat-rate book — you see the number before we open the toolbag. 24-hour line: (317) 555-0142.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&family=Saira+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy-deep:#0d1c2e;
-    --navy:#15304d;
-    --blue:#1f6fb2;
-    --blue-bright:#2f9fdc;
-    --orange:#f4842a;
-    --orange-dark:#d96e15;
-    --ink:#1a2129;
-    --paper:#eef2f5;
-    --line:#dde4ea;
+    --iron:#23262B;         /* cast iron */
+    --iron-2:#2E323A;
+    --chalk:#E7E9E4;        /* utility wall */
+    --paper:#FAFAF8;
+    --locate:#0067B1;       /* APWA blue: the paint a city sprays over a water line */
+    --locate-lt:#4DA3E8;    /* same blue, legible on iron */
+    --brass:#C9A227;
+    --alarm:#C7402B;
+    --rule:#C9CDC6;
+    --muted:#5C6169;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
   body{
-    font-family:'Figtree',sans-serif;
-    color:var(--ink);
-    background:#fff;
-    line-height:1.6;
+    font-family:'Public Sans',system-ui,sans-serif;
+    color:var(--iron);background:var(--paper);
+    line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  h1,h2,h3,h4{font-family:'Archivo',sans-serif;line-height:1.08;letter-spacing:-.01em;}
-  a{text-decoration:none;color:inherit;}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
-
-  /* ---- EMERGENCY STRIP ---- */
-  .strip{
-    background:var(--orange);color:#fff;font-weight:700;font-size:.88rem;
-    text-align:center;padding:8px 16px;letter-spacing:.02em;
+  h1,h2,h3{font-family:'Saira Condensed',system-ui,sans-serif;line-height:1.02;letter-spacing:.005em;font-weight:800;}
+  a{color:inherit;text-decoration:none;}
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{
+    outline:3px solid var(--locate);outline-offset:2px;
   }
-  .strip a{text-decoration:underline;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .mono{font-family:'DM Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;}
 
-  /* ---- NAV ---- */
-  nav{background:var(--navy-deep);position:sticky;top:0;z-index:50;}
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;max-width:1180px;margin:0 auto;}
-  .logo{display:flex;align-items:center;gap:11px;color:#fff;font-family:'Archivo',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:-.02em;}
-  .logo .mark{
-    width:36px;height:36px;background:var(--blue-bright);border-radius:8px;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  /* section eyebrow = a stamped utility mark, not a decorative label */
+  .stamp{
+    font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--locate);display:flex;align-items:center;gap:10px;
+    margin-bottom:14px;
   }
-  .nav-links{display:flex;gap:28px;align-items:center;}
-  .nav-links a{color:#c5d2de;font-weight:600;font-size:.94rem;transition:color .15s;}
+  .stamp::before{content:"";width:26px;height:3px;background:var(--locate);flex:none;}
+  .on-iron .stamp{color:var(--locate-lt);}
+  .on-iron .stamp::before{background:var(--locate-lt);}
+
+  /* ---------- demo notice ---------- */
+  .demo{
+    background:var(--iron-2);color:#C4C9D0;font-size:.8rem;text-align:center;
+    padding:9px 20px;line-height:1.45;
+  }
+  .demo a{color:#fff;text-decoration:underline;text-underline-offset:2px;}
+
+  /* ---------- emergency line ---------- */
+  .siren{
+    background:var(--alarm);color:#fff;padding:11px 20px;text-align:center;
+    font-weight:600;font-size:.94rem;
+  }
+  .siren a{border-bottom:2px solid rgba(255,255,255,.55);font-weight:600;white-space:nowrap;}
+
+  /* ---------- nav ---------- */
+  nav{background:var(--iron);position:sticky;top:0;z-index:60;}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    max-width:1120px;margin:0 auto;padding:13px 24px;}
+  .brand{display:flex;align-items:baseline;gap:10px;color:#fff;
+    font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1.42rem;letter-spacing:.01em;}
+  .brand .est{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.16em;
+    color:var(--brass);font-weight:400;}
+  .nav-links{display:flex;gap:26px;align-items:center;}
+  .nav-links a{color:#B9BEC6;font-size:.93rem;font-weight:500;}
   .nav-links a:hover{color:#fff;}
-  .nav-call{
-    background:var(--orange);color:#fff;padding:10px 20px;border-radius:7px;font-weight:800;
-    font-family:'Archivo',sans-serif;
+  .nav-links .ring{background:var(--locate);color:#fff;padding:12px 18px;font-weight:600;
+    font-family:'DM Mono',monospace;font-size:.9rem;}
+  .nav-links .ring:hover{background:#0076C9;color:#fff;}
+  .burger{display:none;background:none;border:0;cursor:pointer;flex-direction:column;
+    gap:5px;min-width:44px;min-height:44px;align-items:center;justify-content:center;}
+  .burger span{width:24px;height:2px;background:#fff;display:block;}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  @media(max-width:880px){
+    .burger{display:flex;}
+    .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;
+      align-items:stretch;gap:0;background:var(--iron);padding:4px 24px 18px;
+      border-top:1px solid #3A3F47;}
+    .nav-links.open{display:flex;}
+    .nav-links a{padding:15px 0;font-size:1.02rem;border-bottom:1px solid #33383F;}
+    .nav-links .ring{text-align:center;margin-top:14px;border-bottom:0;}
   }
-  .nav-call:hover{background:var(--orange-dark);color:#fff;}
-  @media(max-width:780px){.nav-links a:not(.nav-call){display:none;}}
 
-  /* ---- HERO ---- */
-  .hero{
-    background:
-      linear-gradient(135deg,rgba(13,28,46,.96),rgba(21,48,77,.88)),
-      repeating-linear-gradient(45deg,transparent 0 22px,rgba(255,255,255,.02) 22px 44px);
-    color:#fff;padding:80px 0 90px;position:relative;
+  /* ---------- hero ---------- */
+  .hero{background:var(--chalk);padding:60px 0 0;border-bottom:1px solid var(--rule);}
+  .hero h1{
+    font-size:clamp(2.5rem,7vw,5.1rem);max-width:15ch;margin:16px 0 22px;
+    text-transform:uppercase;
   }
-  .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;}
-  .tagrow{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
-  .pill{
-    background:rgba(47,159,220,.18);border:1px solid var(--blue-bright);color:var(--blue-bright);
-    font-size:.78rem;font-weight:700;padding:5px 13px;border-radius:5px;letter-spacing:.05em;
-  }
-  .hero h1{font-size:clamp(2.6rem,5.5vw,4.3rem);font-weight:900;margin-bottom:18px;}
-  .hero h1 span{color:var(--orange);}
-  .hero p{font-size:1.13rem;color:#aebfcf;max-width:430px;margin-bottom:30px;}
-  .hero-btns{display:flex;gap:13px;flex-wrap:wrap;}
-  .btn-orange{
-    background:var(--orange);color:#fff;padding:15px 28px;border-radius:7px;font-weight:800;
-    font-family:'Archivo',sans-serif;font-size:1.02rem;transition:transform .15s,background .15s;
-  }
-  .btn-orange:hover{background:var(--orange-dark);transform:translateY(-2px);color:#fff;}
-  .btn-line{
-    border:1.5px solid #3a536e;color:#fff;padding:15px 26px;border-radius:7px;font-weight:700;
-    font-family:'Archivo',sans-serif;transition:background .15s;
-  }
-  .btn-line:hover{background:rgba(255,255,255,.07);}
+  .hero h1 em{font-style:normal;color:var(--locate);}
+  .hero .lede{font-size:clamp(1.01rem,2vw,1.18rem);max-width:46ch;color:#3D424A;}
+  .hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:52px;align-items:end;}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:32px;align-items:start;}}
 
-  /* hero call card */
-  .call-card{
-    background:#fff;color:var(--ink);border-radius:12px;padding:30px;
-    box-shadow:0 25px 50px -18px rgba(0,0,0,.6);border-top:5px solid var(--orange);
+  /* live "who is on call right now" — the one thing a template can't fake */
+  .oncall{background:var(--iron);color:var(--chalk);padding:22px 24px;}
+  .oncall .clock{font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.13em;
+    color:var(--brass);text-transform:uppercase;margin-bottom:9px;}
+  .oncall .who{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.34rem;
+    line-height:1.15;margin-bottom:6px;}
+  .oncall .sub{font-size:.9rem;color:#A9AEB6;line-height:1.5;}
+  .bignum{
+    display:block;background:var(--locate);color:#fff;text-align:center;
+    font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(1.6rem,4.6vw,2.1rem);
+    padding:15px 12px;margin-top:18px;letter-spacing:.02em;
   }
-  .call-card .ch{font-family:'Archivo',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:4px;}
-  .call-card .cs{font-size:.9rem;color:#5d6b78;margin-bottom:16px;}
-  .call-card .phone{
-    display:block;background:var(--navy-deep);color:#fff;text-align:center;padding:16px;
-    border-radius:8px;font-family:'Archivo',sans-serif;font-weight:900;font-size:1.7rem;
-    margin-bottom:14px;transition:background .15s;
-  }
-  .call-card .phone:hover{background:var(--navy);}
-  .call-card .hours{display:flex;align-items:center;gap:8px;font-size:.86rem;color:#5d6b78;}
-  .dot{width:9px;height:9px;border-radius:50%;background:#22b358;display:inline-block;box-shadow:0 0 0 3px rgba(34,179,88,.2);}
-  @media(max-width:820px){.hero-grid{grid-template-columns:1fr;}.call-card{max-width:380px;}}
+  .bignum:hover{background:#0076C9;color:#fff;}
+  .bignum small{display:block;font-family:'DM Mono',monospace;font-weight:400;
+    font-size:.7rem;letter-spacing:.16em;opacity:.85;margin-top:3px;}
 
-  /* ---- TRUST BAR ---- */
-  .trustbar{background:var(--navy-deep);border-top:1px solid #25405c;}
-  .trust-inner{
-    display:flex;justify-content:space-around;flex-wrap:wrap;gap:18px;
-    padding:22px 28px;max-width:1180px;margin:0 auto;
+  /* license strip — flat facts, no checkmark badge row */
+  .facts{
+    border-top:1px solid var(--rule);margin-top:50px;
+    display:grid;grid-template-columns:repeat(4,1fr);
   }
-  .trust-item{display:flex;align-items:center;gap:10px;color:#cdd9e4;font-weight:600;font-size:.92rem;}
-  .trust-item .ti{color:var(--blue-bright);font-size:1.15rem;}
+  .facts div{padding:18px 20px 20px;border-right:1px solid var(--rule);}
+  .facts div:last-child{border-right:0;}
+  .facts dt{font-family:'DM Mono',monospace;font-size:.74rem;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+  .facts dd{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.16rem;}
+  @media(max-width:760px){
+    .facts{grid-template-columns:1fr 1fr;}
+    .facts div:nth-child(2){border-right:0;}
+    .facts div:nth-child(1),.facts div:nth-child(2){border-bottom:1px solid var(--rule);}
+  }
 
-  /* ---- SECTION ---- */
-  .section{padding:84px 0;}
-  .head{max-width:600px;margin-bottom:14px;}
-  .kicker{
-    color:var(--blue);font-family:'Archivo',sans-serif;font-weight:800;font-size:.82rem;
-    letter-spacing:.13em;text-transform:uppercase;
-  }
-  .section h2{font-size:clamp(2rem,4vw,2.9rem);font-weight:900;color:var(--navy-deep);margin:8px 0 12px;}
-  .section .sub{color:#5d6b78;font-size:1.05rem;}
+  /* ---------- the book (signature element) ---------- */
+  .book{background:var(--iron);color:var(--chalk);padding:76px 0 82px;}
+  .book h2{font-size:clamp(2rem,4.6vw,3.1rem);text-transform:uppercase;max-width:18ch;}
+  .book .intro{color:#A9AEB6;max-width:52ch;margin-top:16px;font-size:1.02rem;}
+  .ledger{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:0 56px;}
+  @media(max-width:840px){.ledger{grid-template-columns:1fr;}}
+  .item{padding:17px 0;border-bottom:1px solid #3A3F47;}
+  .item .row{display:flex;align-items:baseline;gap:10px;}
+  .item .code{font-family:'DM Mono',monospace;font-size:.74rem;color:var(--brass);
+    letter-spacing:.06em;flex:none;width:52px;}
+  .item .name{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.15rem;flex:none;}
+  .item .lead{flex:1 1 18px;min-width:14px;border-bottom:1px dotted #5B616A;transform:translateY(-4px);}
+  .item .price{font-family:'DM Mono',monospace;font-weight:500;font-size:1.03rem;flex:none;}
+  .item .note{color:#9AA0A8;font-size:.87rem;margin-top:5px;padding-left:62px;}
+  @media(max-width:520px){.item .note{padding-left:0;}.item .code{width:46px;}}
+  .book .foot{margin-top:32px;font-size:.93rem;color:#A9AEB6;max-width:60ch;
+    border-left:3px solid var(--locate-lt);padding-left:16px;}
 
-  /* ---- SERVICES ---- */
-  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px;}
-  .svc{
-    border:1px solid var(--line);border-radius:10px;padding:28px 24px;background:#fff;
-    transition:border-color .2s,transform .2s,box-shadow .2s;
+  /* ---------- truck manifest (the second grid break) ---------- */
+  .truck{padding:72px 0;border-bottom:1px solid var(--rule);}
+  .truck h2{font-size:clamp(1.9rem,4.2vw,2.7rem);text-transform:uppercase;max-width:20ch;}
+  .truck .say{max-width:50ch;margin-top:14px;color:#3D424A;}
+  .manifest{
+    margin-top:32px;display:flex;flex-wrap:wrap;
+    border-top:1px solid var(--rule);border-left:1px solid var(--rule);
   }
-  .svc:hover{border-color:var(--blue-bright);transform:translateY(-5px);box-shadow:0 16px 32px -20px rgba(21,48,77,.5);}
-  .svc .si{
-    width:50px;height:50px;border-radius:9px;background:var(--paper);color:var(--blue);
-    display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:15px;
+  .manifest span{
+    font-family:'DM Mono',monospace;font-size:.83rem;padding:11px 14px;
+    border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    flex:1 1 auto;white-space:nowrap;color:#41464E;
   }
-  .svc h3{font-size:1.18rem;color:var(--navy-deep);font-weight:800;margin-bottom:7px;}
-  .svc p{font-size:.93rem;color:#5d6b78;}
-  @media(max-width:780px){.svc-grid{grid-template-columns:1fr;}}
+  .manifest span b{color:var(--locate);font-weight:500;}
 
-  /* ---- PROCESS ---- */
-  .proc-band{background:var(--paper);}
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:42px;}
-  .step{position:relative;background:#fff;border-radius:10px;padding:28px 22px;border:1px solid var(--line);}
-  .step .num{
-    font-family:'Archivo',sans-serif;font-weight:900;font-size:2.4rem;color:var(--blue-bright);
-    line-height:1;margin-bottom:8px;
-  }
-  .step h4{font-size:1.05rem;color:var(--navy-deep);font-weight:800;margin-bottom:5px;}
-  .step p{font-size:.88rem;color:#5d6b78;}
-  @media(max-width:780px){.steps{grid-template-columns:1fr 1fr;}}
+  /* ---------- who shows up ---------- */
+  .crew{padding:72px 0;background:var(--chalk);border-bottom:1px solid var(--rule);}
+  .crew-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;align-items:start;}
+  @media(max-width:860px){.crew-grid{grid-template-columns:1fr;gap:30px;}}
+  .crew h2{font-size:clamp(1.9rem,4.2vw,2.7rem);text-transform:uppercase;}
+  .crew p{margin-top:15px;color:#3D424A;}
+  .credential{background:var(--iron);color:var(--chalk);padding:30px 28px;border-top:4px solid var(--locate);}
+  .cred-head{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--locate-lt);margin:0 0 20px;}
+  .cred-list{margin:0;}
+  .cred-list div{padding:13px 0;border-bottom:1px solid rgba(231,233,228,.16);}
+  .cred-list div:last-child{border-bottom:none;}
+  .cred-list dt{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.14em;
+    text-transform:uppercase;color:#9AA1AB;}
+  .cred-list dd{margin:5px 0 0;font-family:'Saira Condensed',sans-serif;font-size:1.3rem;
+    text-transform:uppercase;letter-spacing:.01em;color:#fff;line-height:1.15;}
+  .cred-note{font-size:.86rem;color:#9AA1AB;margin-top:20px!important;}
+  figcaption{font-family:'DM Mono',monospace;font-size:.76rem;color:var(--muted);
+    margin-top:10px;line-height:1.5;}
 
-  /* ---- OFFER ---- */
-  .offer{
-    background:linear-gradient(120deg,var(--navy-deep),var(--blue));
-    color:#fff;border-radius:14px;padding:46px 40px;display:flex;
-    align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;
-    position:relative;overflow:hidden;
+  /* ---------- how a call goes ---------- */
+  .flow{padding:72px 0;border-bottom:1px solid var(--rule);}
+  .flow h2{font-size:clamp(1.9rem,4.2vw,2.7rem);text-transform:uppercase;margin-bottom:34px;}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--rule);}
+  .steps div{padding:0 22px 6px;border-right:1px solid var(--rule);}
+  @media(max-width:820px){
+    .steps{grid-template-columns:1fr;border-left:0;}
+    .steps div{border-right:0;border-left:1px solid var(--rule);padding:14px 20px;}
   }
-  .offer::before{
-    content:"%";position:absolute;right:-10px;top:-40px;font-family:'Archivo',sans-serif;
-    font-weight:900;font-size:16rem;color:rgba(255,255,255,.05);
-  }
-  .offer-text h3{font-size:1.9rem;font-weight:900;margin-bottom:6px;}
-  .offer-text p{color:#bcd0e2;}
-  .offer .amt{font-family:'Archivo',sans-serif;font-weight:900;font-size:3.4rem;color:var(--orange);}
+  .steps .t{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.1em;
+    color:var(--locate);text-transform:uppercase;margin-bottom:9px;}
+  .steps h3{font-size:1.22rem;margin-bottom:7px;}
+  .steps p{font-size:.93rem;color:#3D424A;}
 
-  /* ---- REVIEWS ---- */
-  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px;}
-  .rev{background:#fff;border:1px solid var(--line);border-radius:10px;padding:26px;}
-  .rev .stars{color:var(--orange);letter-spacing:2px;font-size:1.05rem;}
-  .rev p{margin:11px 0;font-size:.98rem;color:var(--ink);}
-  .rev .who{font-family:'Archivo',sans-serif;font-weight:800;font-size:.9rem;color:var(--navy-deep);}
-  .rev .who span{display:block;font-family:'Figtree',sans-serif;font-weight:500;color:#8493a1;font-size:.82rem;}
-  @media(max-width:780px){.rev-grid{grid-template-columns:1fr;}}
+  /* ---------- one quote, not a grid of three ---------- */
+  .quote{padding:72px 0;background:var(--iron);color:var(--chalk);}
+  .quote blockquote{
+    font-family:'Saira Condensed',sans-serif;font-weight:600;
+    font-size:clamp(1.5rem,3.6vw,2.35rem);line-height:1.2;max-width:24ch;
+  }
+  .quote cite{display:block;font-style:normal;font-family:'DM Mono',monospace;
+    font-size:.8rem;color:#A9AEB6;margin-top:20px;line-height:1.7;max-width:56ch;}
 
-  /* ---- FAQ ---- */
-  .faq{max-width:760px;margin:42px auto 0;}
-  .qa{border:1px solid var(--line);border-radius:9px;margin-bottom:11px;overflow:hidden;background:#fff;}
-  .qa button{
-    width:100%;text-align:left;background:none;border:none;padding:18px 22px;cursor:pointer;
-    font-family:'Archivo',sans-serif;font-weight:700;font-size:1rem;color:var(--navy-deep);
-    display:flex;justify-content:space-between;align-items:center;gap:14px;
+  /* ---------- straight answers ---------- */
+  .qa{padding:72px 0;border-bottom:1px solid var(--rule);}
+  .qa h2{font-size:clamp(1.9rem,4.2vw,2.7rem);text-transform:uppercase;margin-bottom:28px;}
+  details{border-top:1px solid var(--rule);}
+  details:last-of-type{border-bottom:1px solid var(--rule);}
+  summary{
+    cursor:pointer;list-style:none;padding:19px 40px 19px 0;position:relative;
+    font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:1.19rem;
   }
-  .qa button .sign{color:var(--blue-bright);font-size:1.4rem;flex-shrink:0;transition:transform .2s;}
-  .qa.open button .sign{transform:rotate(45deg);}
-  .qa .ans{max-height:0;overflow:hidden;transition:max-height .25s ease;}
-  .qa .ans p{padding:0 22px 18px;color:#5d6b78;font-size:.95rem;}
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    font-family:'DM Mono',monospace;color:var(--locate);font-size:1.3rem;}
+  details[open] summary::after{content:"\2212";}
+  details p{padding:0 0 20px;color:#3D424A;max-width:66ch;}
 
-  /* ---- CONTACT ---- */
-  .contact-band{background:var(--navy-deep);color:#fff;}
-  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:start;}
-  .contact-band h2{color:#fff;}
-  .contact-band .sub{color:#aebfcf;}
-  .area-list{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px;}
-  .area-list span{
-    background:rgba(255,255,255,.08);border:1px solid #2c4663;padding:7px 13px;
-    border-radius:6px;font-size:.86rem;font-weight:600;
+  /* ---------- area + contact ---------- */
+  .close{padding:72px 0 30px;}
+  .close-grid{display:grid;grid-template-columns:1fr 1fr;gap:54px;}
+  @media(max-width:860px){.close-grid{grid-template-columns:1fr;gap:44px;}}
+  .close h2{font-size:clamp(1.8rem,4vw,2.5rem);text-transform:uppercase;margin-bottom:16px;}
+  .close .say{max-width:44ch;margin-bottom:18px;color:#3D424A;}
+  .area-list{font-family:'DM Mono',monospace;font-size:.9rem;line-height:2;color:#41464E;}
+  .area-list b{color:var(--iron);font-weight:500;}
+  label{display:block;font-family:'DM Mono',monospace;font-size:.74rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);margin:16px 0 6px;}
+  input,textarea,select{
+    width:100%;font-family:'Public Sans',sans-serif;font-size:16px;padding:12px 13px;
+    border:1px solid var(--rule);background:#fff;color:var(--iron);border-radius:0;
   }
-  .cform{background:#fff;border-radius:12px;padding:30px;}
-  .cform label{font-family:'Archivo',sans-serif;font-weight:700;font-size:.82rem;color:var(--navy-deep);display:block;margin-bottom:5px;}
-  .cform input,.cform select,.cform textarea{
-    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:7px;margin-bottom:14px;
-    font-family:'Figtree',sans-serif;font-size:.95rem;color:var(--ink);background:#fff;
+  textarea{min-height:104px;resize:vertical;}
+  button[type=submit]{
+    margin-top:20px;width:100%;background:var(--iron);color:#fff;border:0;padding:16px;
+    font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1.13rem;
+    text-transform:uppercase;letter-spacing:.03em;cursor:pointer;min-height:44px;
   }
-  .cform input:focus,.cform select:focus,.cform textarea:focus{outline:2px solid var(--blue-bright);border-color:transparent;}
-  .cform .row{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
-  .cform button{
-    width:100%;background:var(--orange);color:#fff;border:none;padding:15px;border-radius:8px;
-    font-family:'Archivo',sans-serif;font-weight:800;font-size:1.02rem;cursor:pointer;transition:background .15s;
-  }
-  .cform button:hover{background:var(--orange-dark);}
-  .cmsg{text-align:center;color:#22b358;font-weight:700;margin-top:12px;min-height:20px;font-size:.92rem;}
-  @media(max-width:780px){.contact-grid,.cform .row{grid-template-columns:1fr;}}
+  button[type=submit]:hover{background:var(--locate);}
+  .or{margin-top:14px;font-size:.88rem;color:var(--muted);}
+  .or a{color:var(--locate);font-weight:600;border-bottom:1px solid currentColor;}
 
-  /* ---- FOOTER ---- */
-  footer{background:#0a1623;color:#7d8c9b;padding:40px 0 26px;}
-  .foot-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;align-items:center;}
-  footer .logo{font-size:1.15rem;}
-  footer .fcontact{text-align:right;font-size:.9rem;}
-  footer .fcontact a{color:var(--blue-bright);font-weight:600;}
-  .fine{text-align:center;margin-top:22px;font-size:.78rem;color:#516072;border-top:1px solid #1a2c3e;padding-top:18px;}
-  @media(max-width:600px){.foot-inner{flex-direction:column;text-align:center;}footer .fcontact{text-align:center;}}
+  footer{border-top:1px solid var(--rule);margin-top:44px;padding:26px 0 40px;
+    font-size:.85rem;color:var(--muted);}
+  .foot-in{display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between;}
+  footer a{border-bottom:1px solid var(--rule);}
+  footer a:hover{color:var(--iron);}
 </style>
 </head>
 <body>
 
-<div style="background:#1F2A22;color:#F4EFE4;text-align:center;font:600 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:.02em;padding:9px 14px;border-bottom:2px solid #E9973E">This is a <strong style="color:#F6C889">demo site</strong> &mdash; a sample built by Front Porch Web to show our work. The people and details shown here are made up. <a href="https://frontporchwebllc.com" style="color:#E9973E;text-decoration:underline;white-space:nowrap">frontporchwebllc.com</a></div>
+<div class="demo">
+  A sample site built by <a href="https://frontporchwebllc.com">Front Porch Web</a> to show our work.
+  Hartman Plumbing is not a real company — the people, prices and phone number here are invented.
+</div>
 
-<div class="strip">⚡ 24/7 Emergency Plumbing. Burst pipe? Call now: <a href="tel:5559876543">(555) 987-6543</a></div>
+<div class="siren">
+  Water coming in right now? Call <a href="tel:+13175550142">(317)&nbsp;555-0142</a> — the line is answered at 2&nbsp;a.m.
+</div>
 
 <nav>
-  <div class="nav-inner">
-    <a href="#" class="logo"><span class="mark">🔧</span>Hartman Plumbing</a>
-    <div class="nav-links">
-      <a href="#services">Services</a>
-      <a href="#process">How It Works</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#faq">FAQ</a>
-      <a href="tel:5559876543" class="nav-call">Call Now</a>
+  <div class="nav-in">
+    <a class="brand" href="#top">Hartman Plumbing <span class="est">EST. 1994</span></a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="navlinks" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navlinks">
+      <a href="#book">The price book</a>
+      <a href="#truck">On the truck</a>
+      <a href="#crew">Who shows up</a>
+      <a href="#area">Service area</a>
+      <a class="ring" href="tel:+13175550142">(317) 555-0142</a>
     </div>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="tagrow">
-        <span class="pill">LICENSED & INSURED</span>
-        <span class="pill">FAMILY OWNED</span>
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="stamp">Wayne &amp; Pike Township · Licensed PC81900412</p>
+        <h1>You'll know the price <em>before</em> we open the toolbag.</h1>
+        <p class="lede">
+          Dale Hartman started this company out of a Ford Ranger in 1994. We still work the way he
+          set it up: one flat price per job, printed in a book anyone can read, quoted at your door
+          before a wrench comes out. If the job turns out smaller than we thought, the price goes
+          down. It never goes up.
+        </p>
       </div>
-      <h1>Plumbing problems? <span>We are on the way.</span></h1>
-      <p>Fast, honest plumbing for your home, with upfront pricing and no surprise charges. Same-day service available across the area.</p>
-      <div class="hero-btns">
-        <a href="#contact" class="btn-orange">Request Service →</a>
-        <a href="#services" class="btn-line">See What We Fix</a>
+      <div class="oncall">
+        <p class="clock" id="clock">Checking the clock…</p>
+        <p class="who" id="who">Someone is on the line.</p>
+        <p class="sub" id="sub">Call and a person picks up — no menu, no dispatch service.</p>
+        <a class="bignum" href="tel:+13175550142">(317) 555-0142<small>TAP TO CALL</small></a>
       </div>
     </div>
-    <div class="call-card">
-      <div class="ch">Need a plumber today?</div>
-      <div class="cs">Talk to a real person. We answer fast.</div>
-      <a href="tel:5559876543" class="phone">(555) 987-6543</a>
-      <div class="hours"><span class="dot"></span> Open now · 24/7 emergency service</div>
-    </div>
+
+    <dl class="facts">
+      <div><dt>Working since</dt><dd>1994</dd></div>
+      <div><dt>Calls run</dt><dd>6,400+</dd></div>
+      <div><dt>Plumbers</dt><dd>Two. Dale &amp; Marcus.</dd></div>
+      <div><dt>Warranty</dt><dd>12 months, parts &amp; labor</dd></div>
+    </dl>
   </div>
 </header>
 
-<div class="trustbar">
-  <div class="trust-inner">
-    <div class="trust-item"><span class="ti">✓</span> Licensed & Insured</div>
-    <div class="trust-item"><span class="ti">✓</span> Upfront Flat-Rate Pricing</div>
-    <div class="trust-item"><span class="ti">✓</span> On-Time Guarantee</div>
-    <div class="trust-item"><span class="ti">✓</span> 12-Month Workmanship Warranty</div>
-  </div>
-</div>
-
-<section class="section" id="services">
+<section class="book on-iron" id="book">
   <div class="wrap">
-    <div class="head">
-      <span class="kicker">What We Do</span>
-      <h2>Full-service plumbing, done right the first time.</h2>
-      <p class="sub">From a dripping faucet to a full repipe, our licensed team handles it quickly, cleanly, and at a price you agree to before we start.</p>
+    <p class="stamp">The flat-rate book · revised January 2026</p>
+    <h2>Most plumbers won't print this page.</h2>
+    <p class="intro">
+      These are the real numbers we quote at the door for a standard house in our area. A job
+      that's harder than standard gets quoted higher <em>before</em> we start, in writing, and you
+      can say no and owe nothing.
+    </p>
+
+    <div class="ledger">
+      <div class="item">
+        <div class="row"><span class="code">D-10</span><span class="name">Drain, cleared</span><span class="lead"></span><span class="price">$185</span></div>
+        <p class="note">Kitchen, bath or laundry line. Includes running a camera if it backs up twice.</p>
+      </div>
+      <div class="item">
+        <div class="row"><span class="code">D-20</span><span class="name">Main line, rodded</span><span class="lead"></span><span class="price">$340</span></div>
+        <p class="note">Up to 100 ft from the cleanout. Roots included — we don't charge extra for what we find.</p>
+      </div>
+      <div class="item">
+        <div class="row"><span class="code">W-40</span><span class="name">Water heater, 40 gal</span><span class="lead"></span><span class="price">$1,480</span></div>
+        <p class="note">Tank, install, haul-off of the old one, new flex lines and pan. Same day if you call before noon.</p>
+      </div>
+      <div class="item">
+        <div class="row"><span class="code">W-TL</span><span class="name">Tankless swap</span><span class="lead"></span><span class="price">$3,900</span></div>
+        <p class="note">Includes gas line resize and venting. We'll tell you honestly if your house is a bad candidate.</p>
+      </div>
+      <div class="item">
+        <div class="row"><span class="code">F-05</span><span class="name">Faucet replaced</span><span class="lead"></span><span class="price">$165</span></div>
+        <p class="note">Labor only. Supply your own fixture, or we'll pick one up at what it cost us.</p>
+      </div>
+      <div class="item">
+        <div class="row"><span class="code">T-05</span><span class="name">Toilet rebuilt</span><span class="lead"></span><span class="price">$145</span></div>
+        <p class="note">New guts, new supply line, new wax ring. If the tank is cracked we'll say so before charging you.</p>
+      </div>
+      <div class="item">
+        <div class="row"><span class="code">L-30</span><span class="name">Hidden leak, found</span><span class="lead"></span><span class="price">$220</span></div>
+        <p class="note">Walls, slab or yard. The $220 comes off the repair if you have us fix it.</p>
+      </div>
+      <div class="item">
+        <div class="row"><span class="code">P-01</span><span class="name">Burst pipe, patched</span><span class="lead"></span><span class="price">$290+</span></div>
+        <p class="note">First joint. Additional joints $60 each. Copper, PEX or galvanized.</p>
+      </div>
+      <div class="item">
+        <div class="row"><span class="code">E-00</span><span class="name">After-hours call-out</span><span class="lead"></span><span class="price">$95</span></div>
+        <p class="note">Added to the job price between 6 p.m. and 7 a.m., weekends and holidays. That is the whole surcharge.</p>
+      </div>
+      <div class="item">
+        <div class="row"><span class="code">Q-00</span><span class="name">Coming out to look</span><span class="lead"></span><span class="price">$0</span></div>
+        <p class="note">Daytime, inside our service area. We don't charge to tell you what's wrong.</p>
+      </div>
     </div>
-    <div class="svc-grid">
-      <div class="svc"><div class="si">🚿</div><h3>Drain Cleaning</h3><p>Slow or clogged drains cleared fast, with the cause diagnosed so it does not come back next week.</p></div>
-      <div class="svc"><div class="si">🔥</div><h3>Water Heaters</h3><p>Repair, replacement, and tankless upgrades. Hot water restored, often the same day you call.</p></div>
-      <div class="svc"><div class="si">💧</div><h3>Leak Detection</h3><p>We find hidden leaks before they cause real damage: walls, slabs, and underground lines.</p></div>
-      <div class="svc"><div class="si">🚽</div><h3>Toilet & Faucet Repair</h3><p>Running toilets, broken fixtures, low pressure: the everyday fixes that keep a home running.</p></div>
-      <div class="svc"><div class="si">🔧</div><h3>Pipe Repair & Repiping</h3><p>Burst, corroded, or aging pipes repaired or replaced with durable, code-compliant materials.</p></div>
-      <div class="svc"><div class="si">⚡</div><h3>24/7 Emergencies</h3><p>Burst pipes and major leaks do not wait, and neither do we. Round-the-clock emergency response.</p></div>
+
+    <p class="foot">
+      What isn't on this page: trip fees, diagnostic fees, fuel surcharges, a discount club you have
+      to join, and a price that changes once we're already under your sink.
+    </p>
+  </div>
+</section>
+
+<section class="truck" id="truck">
+  <div class="wrap">
+    <p class="stamp">What's in the van right now</p>
+    <h2>Fixed today, not Thursday.</h2>
+    <p class="say">
+      The reason a plumber says "I'll have to order the part" is that the part isn't on the truck.
+      Marcus restocks Monday morning from the list below, which covers roughly nine out of ten calls
+      we get. It's why we usually finish in one visit.
+    </p>
+    <div class="manifest">
+      <span><b>2</b> water heaters, 40 &amp; 50 gal</span>
+      <span><b>1</b> 1/2 hp disposal</span>
+      <span><b>4</b> wax rings</span>
+      <span><b>12</b> supply lines</span>
+      <span><b>2</b> toilet rebuild kits</span>
+      <span><b>1</b> sewer camera</span>
+      <span><b>100 ft</b> drain cable</span>
+      <span><b>1</b> pipe locator</span>
+      <span><b>60 ft</b> PEX, 1/2 &amp; 3/4</span>
+      <span><b>40 ft</b> copper type L</span>
+      <span><b>1</b> ProPress kit</span>
+      <span><b>6</b> shutoff valves</span>
+      <span><b>3</b> pressure regulators</span>
+      <span><b>2</b> sump pumps</span>
+      <span><b>1</b> thermal camera</span>
+      <span><b>Assorted</b> fittings, 1/2"–4"</span>
+      <span><b>1</b> shop vac &amp; floor mats</span>
+      <span><b>1</b> pair of boot covers per stop</span>
     </div>
   </div>
 </section>
 
-<section class="section proc-band" id="process">
+<section class="crew" id="crew">
   <div class="wrap">
-    <div class="head">
-      <span class="kicker">How It Works</span>
-      <h2>Simple, straightforward, no runaround.</h2>
+    <div class="crew-grid">
+      <div class="credential">
+        <p class="cred-head">Licensed &amp; insured</p>
+        <dl class="cred-list">
+          <div><dt>Plumbing contractor</dt><dd>PC81900412</dd></div>
+          <div><dt>Issued by</dt><dd>Indiana Professional Licensing Agency</dd></div>
+          <div><dt>Coverage</dt><dd>General liability &amp; workers&rsquo; comp</dd></div>
+          <div><dt>Shop</dt><dd>1400 Lynhurst Drive, Indianapolis</dd></div>
+          <div><dt>Trading since</dt><dd>1994</dd></div>
+        </dl>
+        <p class="cred-note">Ask to see either certificate at the door and we&rsquo;ll hand it over.</p>
+      </div>
+      <div>
+        <p class="stamp">Who shows up</p>
+        <h2>Two plumbers. You'll get one of them.</h2>
+        <p>
+          Dale has been under houses in Wayne Township since 1994, back when he ran calls out of a
+          Ford Ranger with a rodder strapped in the bed. Marcus finished his apprenticeship in 2019
+          and does most of the water heaters now.
+        </p>
+        <p>
+          There's no dispatcher, no call center, and no rotating cast of subcontractors. When you
+          call, one of the two of them answers, and one of the two of them is the person who walks
+          into your house. If Dale says he'll be there at eight, that's a promise from the man who
+          will be standing on your porch.
+        </p>
+        <p>
+          Boot covers go on at the door. The shop vac comes in on every drain job. We leave the
+          bathroom cleaner than we found it, because Dale's mother would hear about it otherwise.
+        </p>
+      </div>
     </div>
+  </div>
+</section>
+
+<section class="flow">
+  <div class="wrap">
+    <p class="stamp">How a call actually goes</p>
+    <h2>Four steps, and you can stop after three.</h2>
     <div class="steps">
-      <div class="step"><div class="num">1</div><h4>Call or Book</h4><p>Reach us by phone or the form. We will set a time that works for you.</p></div>
-      <div class="step"><div class="num">2</div><h4>We Diagnose</h4><p>A licensed plumber inspects the issue and explains exactly what is wrong.</p></div>
-      <div class="step"><div class="num">3</div><h4>Upfront Price</h4><p>You get a flat quote before any work starts. No hourly surprises.</p></div>
-      <div class="step"><div class="num">4</div><h4>Fixed Right</h4><p>We do the job cleanly and back it with a 12-month warranty.</p></div>
+      <div>
+        <p class="t">Minute 0</p>
+        <h3>You call</h3>
+        <p>A plumber answers, not an operator. Tell us what you're seeing and where the water is.</p>
+      </div>
+      <div>
+        <p class="t">Within 20 min</p>
+        <h3>We give you a window</h3>
+        <p>A real two-hour window, and a text when we're on the way. If we're running late you hear it from us first.</p>
+      </div>
+      <div>
+        <p class="t">At your door</p>
+        <h3>You get the number</h3>
+        <p>We look at the job and quote the flat price in writing. This is where you can say no and owe nothing.</p>
+      </div>
+      <div>
+        <p class="t">Same visit</p>
+        <h3>We fix it</h3>
+        <p>Usually with what's already on the truck. Twelve-month warranty on the parts and our labor both.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="quote on-iron">
   <div class="wrap">
-    <div class="offer">
-      <div class="offer-text">
-        <h3>New Customer Offer</h3>
-        <p>Mention this website when you book your first service call.</p>
-      </div>
-      <div class="amt">$25 OFF</div>
-    </div>
+    <p class="stamp">From a customer</p>
+    <blockquote>
+      "He quoted $340 at the door, found roots forty feet out, and still charged $340."
+    </blockquote>
+    <cite>
+      Sample testimonial, written for this demo. On a real client site this space holds a review the
+      owner actually collected — with the customer's name, the job, and the month it happened.
+    </cite>
   </div>
 </section>
 
-<section class="section proc-band" id="reviews">
+<section class="qa">
   <div class="wrap">
-    <div class="head">
-      <span class="kicker">Customer Reviews</span>
-      <h2>Neighbors who trust us with their homes.</h2>
-    </div>
-    <div class="rev-grid">
-      <div class="rev"><div class="stars">★★★★★</div><p>"Called at 9pm with water everywhere. Someone was at my door within the hour and stopped the leak. Lifesavers."</p><div class="who">Karen M.<span>Water heater emergency</span></div></div>
-      <div class="rev"><div class="stars">★★★★★</div><p>"Gave me a flat price before starting and stuck to it exactly. No upsell, no nonsense. Rare these days."</p><div class="who">Tom B.<span>Drain cleaning</span></div></div>
-      <div class="rev"><div class="stars">★★★★★</div><p>"Polite, on time, and cleaned up after themselves. They have earned a customer for life."</p><div class="who">Renee O.<span>Faucet & toilet repair</span></div></div>
-    </div>
+    <p class="stamp">Straight answers</p>
+    <h2>Things people ask before they call.</h2>
+
+    <details>
+      <summary>Is the price on that list really the price?</summary>
+      <p>For a standard house in our area, yes. If your situation is harder than standard — a slab
+      that has to be opened, galvanized pipe that crumbles when touched, a heater in a crawlspace
+      you can't stand up in — we quote the higher number at your door before starting, and you can
+      turn us down at no charge. What we don't do is start at the book price and then discover
+      reasons to raise it once the water is off.</p>
+    </details>
+    <details>
+      <summary>What does after-hours actually cost?</summary>
+      <p>Ninety-five dollars added to the job price, between 6 p.m. and 7 a.m., plus weekends and
+      holidays. There's no separate emergency rate, no doubled labor, and no premium for a
+      holiday.</p>
+    </details>
+    <details>
+      <summary>Are you licensed and insured?</summary>
+      <p>Licensed plumbing contractor PC81900412 through the Indiana Professional Licensing Agency,
+      and we carry general liability and workers' comp. Ask to see either one at the door and we'll
+      hand it over.</p>
+    </details>
+    <details>
+      <summary>Can I supply my own fixture?</summary>
+      <p>Yes, and plenty of people do. We'll install a faucet or toilet you bought yourself at the
+      labor price in the book. The 12-month warranty then covers our work, though not the fixture
+      itself.</p>
+    </details>
+    <details>
+      <summary>Do you work on commercial buildings?</summary>
+      <p>No. Houses, duplexes and small rentals only. A restaurant or a strip mall needs a bigger
+      outfit than two people, and we'd rather tell you that now than learn it on your job.</p>
+    </details>
   </div>
 </section>
 
-<section class="section" id="faq">
+<section class="close" id="area">
   <div class="wrap">
-    <div class="head" style="margin:0 auto;text-align:center;">
-      <span class="kicker">Common Questions</span>
-      <h2>Good to know before you call.</h2>
+    <div class="close-grid">
+      <div>
+        <p class="stamp">Where we go</p>
+        <h2>Our side of town.</h2>
+        <p class="say">
+          We stay close on purpose — it's how a two-hour window stays a two-hour window. If you're
+          just outside the line, call anyway and we'll tell you straight whether we can get there.
+        </p>
+        <p class="area-list">
+          <b>Wayne Township</b> · <b>Pike Township</b> · Speedway · Ben Davis ·
+          Clermont · Avon · Brownsburg · Eagle Creek · New Augusta ·
+          Crooked Creek · the Rockville Road corridor · West 38th down to 10th
+        </p>
+        <p class="or" style="margin-top:22px;">
+          Shop at 1400 Lynhurst Drive. Hours 7:30 a.m.–5 p.m. Monday through Friday, with the
+          emergency line answered around the clock.
+        </p>
+      </div>
+
+      <div>
+        <p class="stamp">Not an emergency?</p>
+        <h2>Send it and we'll call you back.</h2>
+        <form id="cb">
+          <label for="nm">Your name</label>
+          <input id="nm" name="name" type="text" autocomplete="name" required>
+
+          <label for="ph">Phone</label>
+          <input id="ph" name="phone" type="tel" autocomplete="tel" required>
+
+          <label for="jb">What's going on</label>
+          <textarea id="jb" name="job" placeholder="Water heater's making a knocking sound and the hot runs out in ten minutes." required></textarea>
+
+          <label for="wn">Best time to reach you</label>
+          <select id="wn" name="when">
+            <option>Morning</option>
+            <option>Afternoon</option>
+            <option>Evening</option>
+            <option>Any time</option>
+          </select>
+
+          <button type="submit">Ask for a call back</button>
+        </form>
+        <p class="or">
+          Water on the floor right now? Don't fill this out —
+          <a href="tel:+13175550142">call (317) 555-0142</a>.
+        </p>
+      </div>
     </div>
-    <div class="faq">
-      <div class="qa">
-        <button>Do you charge for estimates?<span class="sign">+</span></button>
-        <div class="ans"><p>No. We provide a free, upfront flat-rate quote for the work before we begin, so you always know the price before you commit.</p></div>
+
+    <footer>
+      <div class="foot-in">
+        <span>Hartman Plumbing · 1400 Lynhurst Drive, Indianapolis IN · PC81900412</span>
+        <span>Site by <a href="https://frontporchwebllc.com">Front Porch Web</a></span>
       </div>
-      <div class="qa">
-        <button>Are you really available 24/7?<span class="sign">+</span></button>
-        <div class="ans"><p>Yes. Plumbing emergencies do not keep business hours, so neither do we. Call any time, day or night, and a real person will answer.</p></div>
-      </div>
-      <div class="qa">
-        <button>Are you licensed and insured?<span class="sign">+</span></button>
-        <div class="ans"><p>Absolutely. Every job is performed by a licensed plumber, and we carry full insurance, so your home and your peace of mind are protected.</p></div>
-      </div>
-      <div class="qa">
-        <button>What areas do you serve?<span class="sign">+</span></button>
-        <div class="ans"><p>We cover the local metro area and surrounding towns. Not sure if you are in range? Give us a quick call and we will let you know.</p></div>
-      </div>
-    </div>
+    </footer>
   </div>
 </section>
-
-<section class="section contact-band" id="contact">
-  <div class="wrap contact-grid">
-    <div>
-      <span class="kicker" style="color:var(--blue-bright)">Get In Touch</span>
-      <h2>Request your service call.</h2>
-      <p class="sub">Tell us what is going on and we will get back to you fast, usually within the hour during the day. For emergencies, please call directly.</p>
-      <a href="tel:5559876543" class="btn-orange" style="display:inline-block;margin-top:20px;">📞 (555) 987-6543</a>
-      <div style="margin-top:28px;">
-        <div style="font-family:'Archivo';font-weight:800;font-size:.82rem;letter-spacing:.1em;color:#7e93a8;">PROUDLY SERVING</div>
-        <div class="area-list">
-          <span>Riverside</span><span>Oakdale</span><span>Westbrook</span>
-          <span>Fairview</span><span>Lincoln Heights</span><span>Greenfield</span>
-        </div>
-      </div>
-    </div>
-    <div class="cform">
-      <div class="row">
-        <div><label>Name</label><input type="text" placeholder="Your name" required></div>
-        <div><label>Phone</label><input type="tel" placeholder="Best number" required></div>
-      </div>
-      <label>Service Address</label>
-      <input type="text" placeholder="Street address" required>
-      <label>What do you need help with?</label>
-      <select required>
-        <option value="">Select a service…</option>
-        <option>Drain cleaning</option>
-        <option>Water heater</option>
-        <option>Leak detection / repair</option>
-        <option>Toilet or faucet</option>
-        <option>Pipe repair / repiping</option>
-        <option>Emergency: burst pipe / flooding</option>
-        <option>Something else</option>
-      </select>
-      <label>Details</label>
-      <textarea rows="3" placeholder="Briefly describe the problem…"></textarea>
-      <button type="submit" id="cbtn">Request Service</button>
-      <div class="cmsg" id="cmsg"></div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="foot-inner">
-      <a href="#" class="logo"><span class="mark">🔧</span>Hartman Plumbing</a>
-      <div class="fcontact">
-        <div><a href="tel:5559876543">(555) 987-6543</a> · hello@hartmanplumbing.com</div>
-        <div style="margin-top:3px;">Licensed &amp; Insured · License #PL-000000</div>
-      </div>
-    </div>
-    <div class="fine">© 2026 Hartman Plumbing. All rights reserved. · Fast, honest plumbing for every home.</div>
-  </div>
-</footer>
 
 <script>
-  // FAQ accordion
-  document.querySelectorAll('.qa button').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const qa = btn.parentElement;
-      const ans = qa.querySelector('.ans');
-      const isOpen = qa.classList.contains('open');
-      document.querySelectorAll('.qa').forEach(q=>{
-        q.classList.remove('open');
-        q.querySelector('.ans').style.maxHeight = null;
-      });
-      if(!isOpen){
-        qa.classList.add('open');
-        ans.style.maxHeight = ans.scrollHeight + 'px';
-      }
-    });
+(function(){
+  var b=document.getElementById('burger'),l=document.getElementById('navlinks');
+  b.addEventListener('click',function(){
+    var open=l.classList.toggle('open');
+    b.setAttribute('aria-expanded',open?'true':'false');
+  });
+  l.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){l.classList.remove('open');b.setAttribute('aria-expanded','false');}
   });
 
-  // Service request form
-  document.querySelector('.cform').addEventListener('submit',function(e){
+  document.getElementById('cb').addEventListener('submit',function(e){
     e.preventDefault();
-    document.getElementById('cmsg').textContent = "✓ Request received. We will call you back shortly.";
-    this.querySelectorAll('input,select,textarea').forEach(el=>el.value='');
+    this.querySelector('button').textContent='Sent — this is a demo form';
   });
+
+  /* Who is on call, right now. A real clock giving a real answer — the small
+     thing a stranger reads as evidence that a person is behind this. */
+  function stat(){
+    var d=new Date(), h=d.getHours(), m=d.getMinutes(), day=d.getDay(), wk=(day>=1&&day<=5);
+    var hh=d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});
+    var dn=d.toLocaleDateString(undefined,{weekday:'long'});
+    var openNow = wk && (h>7||(h===7&&m>=30)) && h<17;
+    document.getElementById('clock').textContent="It's "+hh+" on "+dn;
+    if(openNow){
+      document.getElementById('who').textContent='Marcus is out running calls.';
+      document.getElementById('sub').textContent='Normal hours. Call and we’ll give you a window for today or tomorrow morning.';
+    } else if(wk && h>=17 && h<22){
+      document.getElementById('who').textContent='Dale is on call this evening.';
+      document.getElementById('sub').textContent='After hours, so the $95 call-out applies — but the job price is still the book price.';
+    } else {
+      document.getElementById('who').textContent='The emergency line is on.';
+      document.getElementById('sub').textContent='It rings a plumber’s cell phone, not an answering service. If water is coming in, call now.';
+    }
+  }
+  stat(); setInterval(stat,30000);
+})();
 </script>
 </body>
 </html>
