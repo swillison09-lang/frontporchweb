@@ -3,29 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<!-- ============================================================
-   DEMO SITE — FICTIONAL. Not a real business.
-   "Fresh Cut Lawn Care" — a sample built by Front Porch Web, LLC.
-   Every name, number, price and review here is invented.
 
-   CONCEPT — "the seed sack".
-   Lawn care's real graphic language isn't a green gradient, it's
-   the printed sack: seed, feed and fertiliser bags. Kraft paper,
-   two flat inks laid down slightly off register, a heavy
-   woodblock slab face, a stencilled net-weight stamp, and the
-   N-P-K numbers printed enormous because they're the only thing
-   a buyer actually reads. Every service on this page is priced
-   the way a sack is weighed.
-
-   The substance underneath is still the route: which streets get
-   cut on which day, in what order. Every lawn crew sells the
-   same six services, so the list isn't the story — the schedule
-   is, and nobody else publishes theirs.
-
-   Deliberately NOT the near-black-with-one-acid-accent look, nor
-   cream-with-a-serif-and-terracotta, nor the hairline broadsheet.
-   Those are AI house styles, not choices.
-   ============================================================ -->
 <title>Fresh Cut Lawn Care — Weekly Mowing in Maple Grove, Indiana</title>
 <meta name="description" content="Fresh Cut Lawn Care: a fictional demo lawn care site built by Front Porch Web to show the kind of work we produce." />
 <meta name="robots" content="noindex, nofollow" />
@@ -240,8 +218,8 @@
     section{padding:14pt 0;page-break-inside:avoid;}
   }
 </style>
-</head>
-<body>
+<link rel="stylesheet" href="assets/redesign.css"></head>
+<body class="lawn"><a class="skip" href="#main-content">Skip to content</a>
 
 <div class="demo-flag">
   This is a <strong>demo site</strong> &mdash; a sample built by Front Porch Web to show our work.
@@ -266,8 +244,8 @@
   </div>
 </header>
 
-<!-- ── HERO ──────────────────────────────────────────────────── -->
-<section class="hero">
+
+<section class="hero" id="main-content"><img class="scene-photo" src="assets/lawn.jpg" alt="Illustrative freshly striped lawn surrounded by lush planting in morning light" fetchpriority="high" width="1672" height="941">
   <div class="wrap">
     <div class="sack">
       <div class="top-line">
@@ -292,7 +270,7 @@
       </div>
     </div>
 
-    <!-- the signature: the actual route -->
+    
     <div class="route" id="route">
       <div class="route-head">
         <h2>This week's route</h2>
@@ -310,7 +288,7 @@
   </div>
 </section>
 
-<!-- ── WHAT WE DO ────────────────────────────────────────────── -->
+
 <section id="work">
   <div class="wrap">
     <p class="stencil">What we do</p>
@@ -350,7 +328,7 @@
   </div>
 </section>
 
-<!-- ── CREW ──────────────────────────────────────────────────── -->
+
 <section class="crew" id="crew">
   <div class="wrap">
     <div class="crew-grid">
@@ -369,7 +347,7 @@
   </div>
 </section>
 
-<!-- ── REVIEWS ───────────────────────────────────────────────── -->
+
 <section id="reviews">
   <div class="wrap">
     <p class="stencil">What the street says</p>
@@ -393,7 +371,7 @@
   </div>
 </section>
 
-<!-- ── QUOTE ─────────────────────────────────────────────────── -->
+
 <section id="quote">
   <div class="wrap">
     <p class="stencil">Get a quote</p>
@@ -477,5 +455,5 @@
     box.classList.add('show');
   });
 </script>
-</body>
+<script src="assets/experience.js"></script></body>
 </html>

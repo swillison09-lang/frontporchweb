@@ -3,33 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<!-- ============================================================
-   DEMO SITE — FICTIONAL. Not a real family.
-   "The Bennett Family" — a sample adoption profile built by
-   Front Porch Web, LLC. Marcus and Emily Bennett do not exist;
-   the story, letter, numbers and contact details are invented.
 
-   CONCEPT — "the album page".
-   An adoption profile is not read on a website, really. It is
-   handed to an expectant mother by a caseworker, as pages. So
-   the page behaves like an album: sheets of ivory laid on a
-   coloured ground, each one holding one thing, slightly loose
-   rather than gridded. The ground is the exact sage of this
-   family's nursery wall, taken from their own photograph, so the
-   site is coloured by their house rather than by a palette.
-
-   The letter comes first, because it is the only part she came
-   to read, and she is usually reading on a phone, late, alone.
-
-   Deliberately NOT cream-background-with-a-high-contrast-serif-
-   and-a-terracotta-accent, which is an AI house style rather
-   than a choice. Type is a warm low-contrast serif over a
-   rounded humanist sans; the accent is honey, not rust.
-
-   PHOTO HONESTY: this family has exactly two photographs. They
-   are used once each, where they mean something. Where there is
-   no photograph, the writing does the work.
-   ============================================================ -->
 <title>Marcus &amp; Emily Bennett — Hoping to Adopt in Carmel, Indiana</title>
 <meta name="description" content="A fictional demo adoption profile built by Front Porch Web to show the kind of work we produce for waiting families." />
 <meta name="robots" content="noindex, nofollow" />
@@ -225,8 +199,8 @@
     a{text-decoration:none;color:#000!important;}
   }
 </style>
-</head>
-<body>
+<link rel="stylesheet" href="assets/redesign.css"></head>
+<body class="bennett"><a class="skip" href="#main-content">Skip to content</a>
 
 <div class="demo-flag">
   This is a <strong>demo site</strong> &mdash; a sample adoption profile built by Front Porch Web to show our work.
@@ -251,8 +225,8 @@
   </div>
 </header>
 
-<!-- ── HERO ─────────────────────────────────────────────────── -->
-<section>
+
+<section class="opening" id="main-content"><img class="scene-photo" src="assets/bennett.jpg" alt="Illustration of fictional Marcus and Emily relaxing on their porch with their golden retriever" fetchpriority="high" width="1536" height="1024">
   <div class="wrap">
     <div class="sheet hero tilt-l">
       <p class="eyebrow">A hopeful adoptive family</p>
@@ -267,7 +241,7 @@
   </div>
 </section>
 
-<!-- ── THE LETTER — verbatim, unchanged ─────────────────────── -->
+
 <section id="letter" style="padding-top:0">
   <div class="wrap">
     <div class="sheet letter tilt-r">
@@ -282,7 +256,7 @@
   </div>
 </section>
 
-<!-- ── OUR STORY ────────────────────────────────────────────── -->
+
 <section id="story" style="padding-top:0">
   <div class="wrap">
     <div class="sheet story tilt-l">
@@ -310,7 +284,7 @@
   </div>
 </section>
 
-<!-- ── OUR HOME ─────────────────────────────────────────────── -->
+
 <section id="home" style="padding-top:0">
   <div class="wrap">
     <div class="sheet tilt-r">
@@ -349,7 +323,7 @@
   </div>
 </section>
 
-<!-- ── WHY ──────────────────────────────────────────────────── -->
+
 <section style="padding-top:0">
   <div class="wrap">
     <div class="sheet tilt-r">
@@ -374,7 +348,7 @@
   </div>
 </section>
 
-<!-- ── SUPPORT ──────────────────────────────────────────────── -->
+
 <section class="support">
   <div class="wrap">
     <p class="eyebrow">Support our journey</p>
@@ -391,7 +365,7 @@
   </div>
 </section>
 
-<!-- ── CONTACT ──────────────────────────────────────────────── -->
+
 <section id="contact">
   <div class="wrap">
     <div class="sheet tilt-l">
@@ -437,5 +411,5 @@
     burger.setAttribute('aria-expanded','false');
   }
 </script>
-</body>
+<script src="assets/experience.js"></script></body>
 </html>

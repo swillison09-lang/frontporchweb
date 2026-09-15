@@ -3,33 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<!-- ============================================================
-   DEMO SITE — FICTIONAL. Not a real athlete.
-   "Tyler Brooks" — a sample recruiting profile built by Front
-   Porch Web, LLC. Name, school, stats, schedule and contacts
-   are all invented.
 
-   CONCEPT — "the scorebook".
-   Baseball already has the best information design in sport: the
-   scorecard. Every coach in the country reads one. In scorekeeper
-   notation a shortstop is 6 and a second baseman is 4, so this
-   kid is literally "6 / 4" — and 6-4-3 is the most famous string
-   of numbers in the game. That notation is the whole identity of
-   the page: the positions are the hero, the sections are scored
-   like innings, and the signature is a diamond with his two
-   positions filled in.
-
-   Palette and type come from a real scorebook — buff pressboard
-   stock, printed rule-green, pencil graphite, and the red of
-   ball stitching used only where the ball goes. Deliberately NOT
-   the cream/serif/terracotta, near-black/acid-accent, or hairline
-   broadsheet looks, all three of which are AI house styles rather
-   than choices.
-
-   HONESTY: every measurable carries where and when it was taken.
-   Self-reported numbers say so. A coach who catches one inflated
-   figure throws out the entire profile.
-   ============================================================ -->
 <title>Tyler Brooks — 2027 SS/2B — Carmel, Indiana — Recruiting Profile</title>
 <meta name="description" content="A fictional demo recruiting profile built by Front Porch Web to show the kind of work we produce for student-athletes." />
 <meta name="robots" content="noindex, nofollow" />
@@ -235,8 +209,8 @@
     a{color:#000!important;text-decoration:none;}
   }
 </style>
-</head>
-<body>
+<link rel="stylesheet" href="assets/redesign.css"></head>
+<body class="baseball"><a class="skip" href="#main-content">Skip to content</a>
 
 <div class="demo-flag">
   This is a <strong>demo site</strong> &mdash; a sample recruiting profile built by Front Porch Web to show our work.
@@ -258,8 +232,8 @@
   </div>
 </header>
 
-<!-- ── HERO ─────────────────────────────────────────────────── -->
-<section class="hero">
+
+<section class="hero" id="main-content"><img class="scene-photo" src="assets/baseball.jpg" alt="Illustration of fictional baseball player Tyler Brooks on a diamond under stadium lights" fetchpriority="high" width="1536" height="1024">
   <div class="wrap">
     <div class="scorecard">
       <div class="sc-left">
@@ -270,7 +244,7 @@
         <h1>Tyler Brooks</h1>
         <p class="sub">Contact-first middle infielder. Plus range, quick first step, three-year varsity starter and captain the last two seasons.</p>
 
-        <!-- the signature: his positions in scorekeeper notation -->
+        
         <div class="notation">
           <span class="pos-num">6</span>
           <span class="pos-num">4</span>
@@ -290,23 +264,23 @@
       </div>
 
       <div class="sc-right">
-        <!-- the diamond, with his two positions filled in -->
+        
         <svg class="diamond" viewBox="0 0 200 200" role="img" aria-label="A baseball diamond with the shortstop and second base positions marked">
           <rect x="0" y="0" width="200" height="200" fill="#DDE6D5"/>
-          <!-- outfield arc -->
+          
           <path d="M20 150 A 115 115 0 0 1 180 150 Z" fill="#C5D6BC"/>
-          <!-- infield dirt -->
+          
           <path d="M100 168 L36 104 L100 40 L164 104 Z" fill="#D8BFA3"/>
-          <!-- grass centre of the infield -->
+          
           <path d="M100 150 L52 104 L100 58 L148 104 Z" fill="#C5D6BC"/>
-          <!-- foul lines -->
+          
           <path d="M100 168 L14 82 M100 168 L186 82" stroke="#fff" stroke-width="2.5" fill="none"/>
-          <!-- bases -->
+          
           <rect x="94" y="98" width="12" height="12" transform="rotate(45 100 104)" fill="#fff" stroke="#9A9A8E"/>
           <rect x="30" y="98" width="12" height="12" transform="rotate(45 36 104)" fill="#fff" stroke="#9A9A8E"/>
           <rect x="158" y="98" width="12" height="12" transform="rotate(45 164 104)" fill="#fff" stroke="#9A9A8E"/>
           <path d="M95 163 l5 -6 l5 6 v6 h-10 z" fill="#fff" stroke="#9A9A8E"/>
-          <!-- his two spots -->
+          
           <circle cx="68" cy="84" r="15" fill="#B33A2B"/>
           <text x="68" y="91" text-anchor="middle" font-family="'Big Shoulders Display',sans-serif" font-weight="900" font-size="20" fill="#F6F4EA">6</text>
           <circle cx="132" cy="84" r="15" fill="#B33A2B"/>
@@ -324,7 +298,7 @@
   </div>
 </section>
 
-<!-- ── BOX SCORE ────────────────────────────────────────────── -->
+
 <div class="boxscore">
   <div class="wrap">
     <div class="bs"><b class="num">6.72</b><span class="cap">60-yard dash</span></div>
@@ -334,7 +308,7 @@
   </div>
 </div>
 
-<!-- ── NUMBERS ──────────────────────────────────────────────── -->
+
 <section id="numbers">
   <div class="wrap">
     <div class="inning">
@@ -369,7 +343,7 @@
   </div>
 </section>
 
-<!-- ── FILM ─────────────────────────────────────────────────── -->
+
 <section id="film">
   <div class="wrap">
     <div class="inning">
@@ -389,7 +363,7 @@
   </div>
 </section>
 
-<!-- ── ABOUT ────────────────────────────────────────────────── -->
+
 <section id="about">
   <div class="wrap">
     <div class="inning">
@@ -416,7 +390,7 @@
   </div>
 </section>
 
-<!-- ── SCHEDULE ─────────────────────────────────────────────── -->
+
 <section id="schedule">
   <div class="wrap">
     <div class="inning">
@@ -441,7 +415,7 @@
   </div>
 </section>
 
-<!-- ── CONTACT ──────────────────────────────────────────────── -->
+
 <section id="contact">
   <div class="wrap">
     <div class="inning">
@@ -484,5 +458,5 @@
     burger.setAttribute('aria-expanded','false');
   }
 </script>
-</body>
+<script src="assets/experience.js"></script></body>
 </html>
