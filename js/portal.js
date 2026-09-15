@@ -721,27 +721,27 @@ const DEFAULT_TIERS_BY_TYPE = {
       features: ['All the sections you need', 'Blog you update yourself', 'Online enquiry / booking', '3 rounds of revisions'] },
   ],
   'recruiting-profile': [
-    { id: 'fallback-starter',  name: 'Starter',  price: '$350',   badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$250',   badge: null,
       features: ['Up to 4 sections', 'Mobile-friendly', 'Coach contact form', '1 round of revisions'] },
-    { id: 'fallback-standard', name: 'Standard', price: '$550',   badge: 'Most Popular',
+    { id: 'fallback-standard', name: 'Standard', price: '$450',   badge: 'Most Popular',
       features: ['Up to 8 sections', 'Stats & highlight video', 'Photo gallery', '2 rounds of revisions'] },
-    { id: 'fallback-premium',  name: 'Premium',  price: '$800',   badge: null,
+    { id: 'fallback-premium',  name: 'Premium',  price: '$700',   badge: null,
       features: ['All the sections you need', 'Blog you update yourself', 'Schedule & recruiting goals', '3 rounds of revisions'] },
   ],
   'adoption-profile': [
-    { id: 'fallback-starter',  name: 'Starter',  price: '$400',   badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$300',   badge: null,
       features: ['Up to 4 sections', 'Mobile-friendly', 'Letter to birth parents', '1 round of revisions'] },
-    { id: 'fallback-standard', name: 'Standard', price: '$600',   badge: 'Most Popular',
+    { id: 'fallback-standard', name: 'Standard', price: '$500',   badge: 'Most Popular',
       features: ['Up to 8 sections', 'Full family story & photos', 'Basic SEO setup', '2 rounds of revisions'] },
-    { id: 'fallback-premium',  name: 'Premium',  price: '$850',   badge: null,
+    { id: 'fallback-premium',  name: 'Premium',  price: '$750',   badge: null,
       features: ['All the sections you need', 'Blog you update yourself', 'Fundraising page integration', '3 rounds of revisions'] },
   ],
   'personal-other': [
-    { id: 'fallback-starter',  name: 'Starter',  price: '$450',   badge: null,
+    { id: 'fallback-starter',  name: 'Starter',  price: '$350',   badge: null,
       features: ['Up to 4 sections', 'Mobile-friendly', 'Contact form', '1 round of revisions'] },
-    { id: 'fallback-standard', name: 'Standard', price: '$750',   badge: 'Most Popular',
+    { id: 'fallback-standard', name: 'Standard', price: '$650',   badge: 'Most Popular',
       features: ['Up to 8 sections', 'Photo gallery', 'Basic SEO setup', '2 rounds of revisions'] },
-    { id: 'fallback-premium',  name: 'Premium',  price: '$1,100', badge: null,
+    { id: 'fallback-premium',  name: 'Premium',  price: '$1,000', badge: null,
       features: ['All the sections you need', 'Blog you update yourself', 'Priority support', '3 rounds of revisions'] },
   ],
 };
@@ -780,9 +780,9 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // │  "Front Porch Web, LLC". Each deposit is exactly half the tier price in │
 // │  setup.js:                                                              │
 // │    local-business  $350/$600/$850    -> $175 / $300 / $425              │
-// │    recruiting      $350/$550/$800    -> $175 / $275 / $400              │
-// │    adoption        $400/$600/$850    -> $200 / $300 / $425              │
-// │    personal-other  $450/$750/$1,100  -> $225 / $375 / $550              │
+// │    recruiting      $250/$450/$700    -> $125 / $225 / $350              │
+// │    adoption        $300/$500/$750    -> $150 / $250 / $375              │
+// │    personal-other  $350/$650/$1,000  -> $175 / $325 / $500              │
 // │  Note the tiers are NOT priced the same across site types — recruiting  │
 // │  Standard is $450, not $500, so its $225 deposit is correct. Re-verify  │
 // │  every link after any price change; a stale link charges the old money. │
@@ -806,29 +806,23 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 const STRIPE_TEST_MODE = false;
 const STRIPE_PAYMENT_LINKS = {
   // ══════════════════════════════════════════════════════════════════════
-  //  !!!  ALL TWELVE LINKS BELOW ARE STALE — 2026-09-15  !!!
+  //  !!!  THE THREE LOCAL-BUSINESS LINKS ARE STALE — 2026-09-15  !!!
   //
-  //  Every tier went up $100, so every 50% deposit went up $50. None of the
-  //  links below has been regenerated yet, so each one CHARGES $50 LESS than
-  //  the price the site now advertises.
+  //  Local-business tiers went up $100 each (now $350/$600/$850), so their
+  //  50% deposits went up $50. Those three links have NOT been regenerated
+  //  and each one CHARGES $50 LESS than the site now advertises:
   //
-  //  Required deposit after the change -> what the old link still charges:
-  //    local-business::starter      $175  (link charges $125)
-  //    local-business::standard     $300  (link charges $250)
-  //    local-business::premium      $425  (link charges $375)
-  //    recruiting-profile::starter  $175  (link charges $125)
-  //    recruiting-profile::standard $275  (link charges $225)
-  //    recruiting-profile::premium  $400  (link charges $350)
-  //    adoption-profile::starter    $200  (link charges $150)
-  //    adoption-profile::standard   $300  (link charges $250)
-  //    adoption-profile::premium    $425  (link charges $375)
-  //    personal-other::starter      $225  (link charges $175)
-  //    personal-other::standard     $375  (link charges $325)
-  //    personal-other::premium      $550  (link charges $500)
+  //    local-business::starter    needs $175  (link still charges $125)
+  //    local-business::standard   needs $300  (link still charges $250)
+  //    local-business::premium    needs $425  (link still charges $375)
   //
-  //  Create twelve new Payment Links in Stripe at the amounts above, keep the
-  //  product names as "<Type> — <Tier> (50% Deposit)", paste the new URLs in,
-  //  then open each one to confirm the amount before taking any real money.
+  //  Create three new Payment Links in Stripe at those amounts, keep the
+  //  product names as "Local Business — <Tier> (50% Deposit)", paste the new
+  //  URLs in below, then open each one to confirm the amount before taking
+  //  any real money.
+  //
+  //  Recruiting, adoption and personal/other were NOT repriced, so their
+  //  nine links remain correct and verified as of 2026-07-31.
   // ══════════════════════════════════════════════════════════════════════
   'local-business::starter':     'https://buy.stripe.com/3cI00j1dB12u6HdeQy4Ni0o',
   'local-business::standard':    'https://buy.stripe.com/9B69ATaObaD4e9FaAi4Ni0p',
