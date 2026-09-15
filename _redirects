@@ -10,3 +10,12 @@
 
 # The front-porch-evening demo became the homepage on 2026-09-12.
 /demos/front-porch-evening/*  /  301
+
+# Retire the stale Hartman backup. The file was removed from the repo, but
+# Pages keeps serving its cached copy at both the .html and extensionless URL
+# (same behaviour as the smith-family rule above: its own cache sets a long
+# s-maxage, so a zone purge does not clear it). These rules take priority over
+# the stale asset and send anyone who lands there to the real demo.
+# Safe to delete once the cache has aged out.
+/demos/hartman-plumbing.OLD.html  /demos/hartman-plumbing.html  301
+/demos/hartman-plumbing.OLD       /demos/hartman-plumbing.html  301
