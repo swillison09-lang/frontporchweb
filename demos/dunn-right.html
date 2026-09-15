@@ -8,265 +8,236 @@
    "Fresh Cut Lawn Care" — a sample built by Front Porch Web, LLC.
    Every name, number, price and review here is invented.
 
-   CONCEPT — "the route book".
-   Every lawn crew in the world sells the same four services, so the
-   services list is not the story. The story is the ROUTE: which
-   streets get cut on which day, in what order, rain or shine. That
-   is the thing a homeowner actually wants to know and no lawn care
-   site ever shows them. So the route is the centrepiece and the
-   layout is built like a crew's schedule board — mono for anything
-   the crew would write down, heavy condensed caps for anything that
-   would be stencilled on a trailer.
+   CONCEPT — "the seed sack".
+   Lawn care's real graphic language isn't a green gradient, it's
+   the printed sack: seed, feed and fertiliser bags. Kraft paper,
+   two flat inks laid down slightly off register, a heavy
+   woodblock slab face, a stencilled net-weight stamp, and the
+   N-P-K numbers printed enormous because they're the only thing
+   a buyer actually reads. Every service on this page is priced
+   the way a sack is weighed.
 
-   Deliberately NOT the usual lawn-care look: no lime green gradient,
-   no cartoon mower, no rounded friendly cards. This is a working
-   crew, so it reads like equipment, not like a flyer.
+   The substance underneath is still the route: which streets get
+   cut on which day, in what order. Every lawn crew sells the
+   same six services, so the list isn't the story — the schedule
+   is, and nobody else publishes theirs.
+
+   Deliberately NOT the near-black-with-one-acid-accent look, nor
+   cream-with-a-serif-and-terracotta, nor the hairline broadsheet.
+   Those are AI house styles, not choices.
    ============================================================ -->
 <title>Fresh Cut Lawn Care — Weekly Mowing in Maple Grove, Indiana</title>
 <meta name="description" content="Fresh Cut Lawn Care: a fictional demo lawn care site built by Front Porch Web to show the kind of work we produce." />
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --ink:#0E100B;
-    --ink-2:#181C13;
-    --bone:#F2F0E4;
-    --bone-dim:#D8D5C4;
-    --grass:#22401F;
-    --signal:#C9F24B;
-    --rule:rgba(242,240,228,.16);
-    --rule-dark:rgba(14,16,11,.14);
-    --muted:#8A8F7E;
-    --muted-dark:#5C6152;
-    --display:'Anton',Impact,sans-serif;
+    --kraft:#C8A87A;         /* the sack itself */
+    --kraft-2:#B9976A;
+    --kraft-lt:#DCC6A2;
+    --ink-green:#1E3A24;     /* first ink */
+    --ink-red:#B8452A;       /* second ink */
+    --off-white:#F6EFE1;     /* the printed label panel */
+    --ink:#231B12;
+    --muted:#6B5843;
+    --display:'Alfa Slab One',Georgia,serif;
     --body:'Work Sans',system-ui,sans-serif;
-    --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:var(--body);background:var(--ink);color:var(--bone);
-    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
+    font-family:var(--body);color:var(--ink);font-size:17px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;background:var(--kraft);
+    /* kraft paper tooth: fine speckle, no image needed */
+    background-image:
+      radial-gradient(rgba(90,60,25,.09) 1px, transparent 1px),
+      radial-gradient(rgba(255,240,215,.10) 1px, transparent 1px);
+    background-size:7px 7px, 11px 11px;
+    background-position:0 0, 3px 5px;
   }
   img{max-width:100%;display:block;}
   a{color:inherit;}
-  :is(a,button,input,textarea,select):focus-visible{
-    outline:3px solid var(--signal);outline-offset:3px;
+  :is(a,button,input,select,textarea):focus-visible{outline:3px solid var(--ink-red);outline-offset:3px;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  section{padding:clamp(48px,6.5vw,86px) 0;}
+  h1,h2,h3{font-family:var(--display);font-weight:400;line-height:.98;text-transform:uppercase;letter-spacing:.005em;}
+  .stencil{
+    font-family:var(--body);font-weight:700;font-size:11.5px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--ink-red);
   }
-  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  .num{font-variant-numeric:tabular-nums;}
 
-  /* Anton only ships one weight and sits tall, so it needs its own
-     tracking and line-height or it reads as shouting. */
-  .display{
-    font-family:var(--display);font-weight:400;text-transform:uppercase;
-    line-height:.92;letter-spacing:-.005em;
-  }
-  .mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;}
+  /* the label panel — where a sack prints its real information */
+  .panel{background:var(--off-white);border:3px solid var(--ink-green);}
 
-  /* section counter, the editorial spine */
-  .sec-head{
-    display:flex;align-items:baseline;gap:18px;
-    padding-bottom:20px;margin-bottom:44px;border-bottom:1px solid var(--rule);
-  }
-  .sec-head .num{color:var(--signal);flex:none;}
-  .sec-head h2{font-size:clamp(30px,5vw,58px);}
-  section{padding:clamp(60px,8vw,110px) 0;}
+  /* demo banner */
+  .demo-flag{background:var(--ink-green);color:#DCD3BE;text-align:center;font:400 13.5px/1.5 var(--body);padding:10px 16px;}
+  .demo-flag strong{color:#F0C08A;font-weight:600;}
+  .demo-flag a{color:#F0C08A;white-space:nowrap;}
 
-  /* ── demo banner ───────────────────────────────────────────── */
-  .demo-flag{
-    background:var(--ink-2);color:var(--bone-dim);text-align:center;
-    font:400 13.5px/1.5 var(--body);padding:10px 16px;border-bottom:1px solid var(--rule);
-  }
-  .demo-flag strong{color:var(--signal);font-weight:600;}
-  .demo-flag a{color:var(--signal);white-space:nowrap;}
-
-  /* ── nav ───────────────────────────────────────────────────── */
-  header.nav{position:sticky;top:0;z-index:60;background:rgba(14,16,11,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);}
-  .nav-in{max-width:1180px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
-  .brand{display:flex;align-items:center;gap:11px;}
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:60;background:var(--ink-green);}
+  .nav-in{max-width:1120px;margin:0 auto;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .brand{display:flex;align-items:center;gap:11px;color:var(--off-white);}
   .brand img{width:34px;height:34px;flex:none;}
-  .brand b{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:19px;letter-spacing:.01em;}
-  .links{display:flex;gap:30px;align-items:center;}
-  .links a{
-    text-decoration:none;color:var(--bone-dim);padding:12px 0;position:relative;
-    font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;
-  }
-  .links a::after{content:"";position:absolute;left:0;right:100%;bottom:7px;height:1.5px;background:var(--signal);transition:right .25s;}
-  .links a:hover::after{right:0;}
+  .brand b{font-family:var(--display);font-weight:400;font-size:18px;text-transform:uppercase;letter-spacing:.01em;}
+  .links{display:flex;gap:26px;align-items:center;}
+  .links a{text-decoration:none;color:#CFC6AE;font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;padding:12px 0;}
+  .links a:hover{color:var(--off-white);}
   .nav-cta{
-    background:var(--signal);color:var(--ink);text-decoration:none;
-    font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
-    padding:13px 20px;min-height:44px;display:inline-flex;align-items:center;
+    background:var(--ink-red);color:#fff;text-decoration:none;font-weight:700;
+    font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;padding:13px 18px;
+    min-height:44px;display:inline-flex;align-items:center;
   }
-  .nav-cta:hover{background:#D8FF62;}
-  .burger{display:none;background:none;border:1px solid var(--rule);cursor:pointer;width:44px;height:44px;flex-direction:column;gap:5px;align-items:center;justify-content:center;}
-  .burger span{width:20px;height:2px;background:var(--bone);}
+  .nav-cta:hover{background:#9E3821;}
+  .burger{display:none;background:none;border:2px solid #4A6350;width:44px;height:44px;cursor:pointer;flex-direction:column;gap:5px;align-items:center;justify-content:center;}
+  .burger span{width:20px;height:2px;background:var(--off-white);}
 
-  /* ── hero ──────────────────────────────────────────────────── */
-  .hero{padding:clamp(48px,7vw,86px) 0 0;position:relative;}
-  .hero .meta{display:flex;gap:26px;flex-wrap:wrap;color:var(--muted);margin-bottom:26px;}
-  .hero h1{font-size:clamp(52px,12.5vw,168px);}
-  .hero h1 .cut{color:var(--signal);}
-  .hero .beneath{
-    display:grid;grid-template-columns:1.1fr .9fr;gap:40px;
-    margin-top:36px;padding-top:30px;border-top:1px solid var(--rule);
+  /* ── hero: the front of the sack ───────────────────────────── */
+  .hero{padding-top:clamp(34px,5vw,60px);}
+  .sack{
+    background:var(--off-white);border:5px solid var(--ink-green);
+    padding:clamp(26px,4.4vw,52px);position:relative;
   }
-  .hero p.sub{font-size:clamp(17px,2vw,20px);color:var(--bone-dim);max-width:44ch;}
-  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-content:start;}
+  /* a second ink laid slightly off register, the way a real sack prints */
+  .sack::before{
+    content:"";position:absolute;inset:14px 14px auto 14px;height:3px;background:var(--ink-red);opacity:.9;
+  }
+  .hero .top-line{display:flex;gap:18px;flex-wrap:wrap;align-items:baseline;margin-bottom:20px;}
+  .hero h1{font-size:clamp(40px,8.6vw,96px);max-width:13ch;}
+  .hero h1 em{font-style:normal;color:var(--ink-red);}
+  .hero .sub{max-width:44ch;margin-top:20px;font-size:clamp(16px,1.9vw,19px);color:var(--muted);}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;}
   .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:9px;
-    font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;
-    border:none;cursor:pointer;padding:16px 26px;text-decoration:none;min-height:52px;
-    transition:transform .15s,background .2s,border-color .2s;
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--body);
+    font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;border:none;
+    padding:16px 26px;text-decoration:none;min-height:52px;cursor:pointer;
+    transition:transform .14s,background .2s,color .2s;
   }
-  .btn-sig{background:var(--signal);color:var(--ink);}
-  .btn-sig:hover{background:#D8FF62;transform:translateY(-2px);}
-  .btn-line{background:transparent;color:var(--bone);border:1px solid var(--rule);}
-  .btn-line:hover{border-color:var(--bone);transform:translateY(-2px);}
+  .btn-red{background:var(--ink-red);color:#fff;}
+  .btn-red:hover{background:#9E3821;transform:translateY(-2px);}
+  .btn-line{background:transparent;color:var(--ink-green);border:3px solid var(--ink-green);}
+  .btn-line:hover{background:var(--ink-green);color:var(--off-white);transform:translateY(-2px);}
 
-  /* ── the route strip: the signature element ────────────────── */
-  .route{
-    margin-top:clamp(44px,6vw,72px);border-top:1px solid var(--rule);
-    border-bottom:1px solid var(--rule);
-  }
-  .route-grid{display:grid;grid-template-columns:repeat(6,1fr);}
-  .day{
-    padding:26px 18px 30px;border-right:1px solid var(--rule);position:relative;
-  }
+  /* the net-weight stamp: the three facts, printed like a sack's guarantee */
+  .weights{display:grid;grid-template-columns:repeat(3,1fr);margin-top:34px;border-top:3px solid var(--ink-green);}
+  .weights div{padding:18px 18px 14px;border-right:3px solid var(--ink-green);}
+  .weights div:last-child{border-right:none;}
+  .weights b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(26px,4vw,40px);line-height:1;color:var(--ink-green);}
+  .weights span{display:block;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:8px;}
+
+  /* ── the route: the signature ──────────────────────────────── */
+  .route{margin-top:clamp(34px,4.5vw,54px);}
+  .route-head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px;}
+  .route-head h2{font-size:clamp(20px,2.8vw,28px);color:var(--ink-green);}
+  .route-grid{display:grid;grid-template-columns:repeat(6,1fr);border:3px solid var(--ink-green);background:var(--off-white);}
+  .day{padding:18px 14px 22px;border-right:3px solid var(--ink-green);}
   .day:last-child{border-right:none;}
-  .day .d{color:var(--signal);display:block;margin-bottom:12px;}
-  .day .hood{font-size:15.5px;color:var(--bone);display:block;line-height:1.45;}
-  .day .hood + .hood{margin-top:5px;color:var(--muted);}
-  .day.today{background:var(--ink-2);}
-  .day.today::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--signal);}
+  .day .d{display:block;font-weight:700;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-red);margin-bottom:10px;}
+  .day .hood{display:block;font-size:15px;line-height:1.4;}
+  .day .hood + .hood{color:var(--muted);margin-top:4px;}
+  .day.today{background:var(--ink-green);}
+  .day.today .d{color:#F0C08A;}
+  .day.today .hood{color:var(--off-white);}
+  .day.today .hood + .hood{color:#BFC9B4;}
 
-  /* ── services as an editorial list, not cards ──────────────── */
-  .svc-list{border-top:1px solid var(--rule);}
+  /* ── services: priced like a sack is weighed ───────────────── */
+  .svc{border-top:3px solid var(--ink-green);}
   .svc-row{
-    display:grid;grid-template-columns:52px 1.1fr 1.4fr auto;gap:28px;align-items:baseline;
-    padding:26px 0;border-bottom:1px solid var(--rule);transition:background .2s;
+    display:grid;grid-template-columns:auto 1.1fr 1.5fr auto;gap:10px 26px;align-items:baseline;
+    padding:20px 0;border-bottom:3px solid var(--ink-green);
   }
-  .svc-row:hover{background:var(--ink-2);}
-  .svc-row .n{color:var(--muted);}
-  .svc-row h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(20px,2.4vw,28px);line-height:1;}
+  .svc-row .n{font-family:var(--display);font-size:20px;color:var(--ink-red);line-height:1;}
+  .svc-row h3{font-size:clamp(18px,2.2vw,25px);color:var(--ink-green);}
   .svc-row p{color:var(--muted);font-size:15.5px;}
-  .svc-row .rate{font-family:var(--mono);font-size:14px;color:var(--signal);white-space:nowrap;}
+  .svc-row .rate{
+    font-family:var(--display);font-size:clamp(17px,2vw,22px);color:var(--ink-green);white-space:nowrap;
+  }
 
   /* ── crew ──────────────────────────────────────────────────── */
-  .crew{background:var(--bone);color:var(--ink);}
-  .crew .sec-head{border-color:var(--rule-dark);}
-  .crew .sec-head .num{color:var(--grass);}
-  .crew-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);align-items:start;}
-  .crew h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(26px,3.6vw,42px);line-height:1;margin-bottom:20px;}
-  .crew p{color:var(--muted-dark);margin-bottom:16px;font-size:16.5px;}
-  .crew .who{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--grass);margin-top:26px;}
-  .facts{border-top:1px solid var(--rule-dark);}
-  .fact{display:flex;justify-content:space-between;gap:20px;padding:15px 0;border-bottom:1px solid var(--rule-dark);}
-  .fact dt{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-dark);}
-  .fact dd{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:20px;color:var(--ink);text-align:right;}
-
-  /* ── standard / guarantee ──────────────────────────────────── */
-  .standard{background:var(--grass);}
-  .standard .wrap{max-width:900px;}
-  .standard .mono{color:var(--signal);}
-  .standard blockquote{
-    font-family:var(--display);font-weight:400;text-transform:uppercase;
-    font-size:clamp(28px,5.2vw,62px);line-height:.98;margin:22px 0 24px;
-  }
-  .standard p{color:#C6D6BE;max-width:58ch;font-size:16.5px;}
+  .crew{background:var(--ink-green);color:var(--off-white);}
+  .crew .stencil{color:#F0C08A;}
+  .crew h2{font-size:clamp(26px,4.2vw,42px);margin:10px 0 20px;}
+  .crew-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,4.5vw,56px);align-items:start;}
+  .crew p{color:#C8D2BF;margin-bottom:15px;font-size:16.5px;}
+  .crew .who{font-family:var(--display);font-size:19px;text-transform:uppercase;color:#F0C08A;margin-top:22px;}
+  .guarantee{background:var(--off-white);color:var(--ink);padding:26px;border:3px solid #F0C08A;}
+  .guarantee h3{font-size:22px;color:var(--ink-green);margin-bottom:10px;}
+  .guarantee p{color:var(--muted);font-size:16px;margin:0;}
 
   /* ── reviews ───────────────────────────────────────────────── */
-  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule);}
-  .rev{padding:32px 26px 32px 0;border-right:1px solid var(--rule);}
-  .rev:last-child{border-right:none;padding-right:0;}
-  .rev:not(:first-child){padding-left:26px;}
-  .rev .stars{color:var(--signal);letter-spacing:3px;font-size:14px;}
-  .rev p{margin:14px 0 18px;font-size:16.5px;line-height:1.55;}
-  .rev .who{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px;}
+  .rev{background:var(--off-white);border:3px solid var(--ink-green);padding:24px;}
+  .rev .stars{color:var(--ink-red);letter-spacing:3px;font-size:15px;}
+  .rev p{margin:12px 0 16px;font-size:16px;line-height:1.55;}
+  .rev .who{font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
 
   /* ── quote ─────────────────────────────────────────────────── */
-  .quote-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,5vw,64px);align-items:start;}
-  .contact-line{display:flex;align-items:center;gap:13px;padding:17px 0;border-bottom:1px solid var(--rule);}
-  .contact-line svg{width:18px;height:18px;color:var(--signal);flex:none;}
-  .contact-line a{
-    font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:24px;
-    color:var(--bone);text-decoration:none;min-height:44px;display:inline-flex;align-items:center;
-  }
-  .contact-line a:hover{color:var(--signal);}
-  .contact-line span{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.08em;}
-  form{border:1px solid var(--rule);padding:clamp(22px,3vw,32px);}
+  .quote-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(28px,4.5vw,56px);align-items:start;}
+  .contact-line{display:flex;align-items:center;gap:13px;padding:15px 0;border-bottom:3px solid var(--ink-green);}
+  .contact-line svg{width:19px;height:19px;color:var(--ink-red);flex:none;}
+  .contact-line a{font-family:var(--display);font-size:22px;text-transform:uppercase;color:var(--ink-green);text-decoration:none;min-height:44px;display:inline-flex;align-items:center;}
+  .contact-line a:hover{color:var(--ink-red);}
+  .contact-line span{font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  form{background:var(--off-white);border:3px solid var(--ink-green);padding:clamp(22px,3vw,30px);}
   .fr{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .field{margin-bottom:16px;}
-  label{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+  label{display:block;font-weight:700;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
   input,select,textarea{
-    width:100%;font-family:var(--body);font-size:16px;color:var(--bone);
-    padding:13px 14px;border:1px solid var(--rule);border-radius:0;
-    background:var(--ink-2);min-height:48px;
+    width:100%;font-family:var(--body);font-size:16px;color:var(--ink);
+    padding:13px 14px;border:2px solid var(--kraft-2);border-radius:0;
+    background:#FDFAF2;min-height:48px;
   }
   textarea{min-height:100px;resize:vertical;}
-  input:focus,select:focus,textarea:focus{border-color:var(--signal);}
-  select option{background:var(--ink-2);color:var(--bone);}
+  input:focus,select:focus,textarea:focus{border-color:var(--ink-green);}
   form .btn{width:100%;margin-top:4px;}
-  .formnote{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);margin-top:14px;text-align:center;}
-  .sent{display:none;border:1px solid var(--signal);padding:15px;font-size:15px;color:var(--bone);margin-top:14px;}
+  .formnote{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:14px;text-align:center;}
+  .sent{display:none;border:3px solid var(--ink-green);padding:15px;font-size:15px;margin-top:14px;}
   .sent.show{display:block;}
 
-  /* ── footer ────────────────────────────────────────────────── */
-  footer{border-top:1px solid var(--rule);padding:44px 24px 40px;text-align:center;color:var(--muted);}
-  footer .brand{justify-content:center;margin-bottom:16px;color:var(--bone);}
+  footer{background:var(--ink-green);color:#B9C4AE;padding:40px 24px 36px;text-align:center;}
+  footer .brand{justify-content:center;margin-bottom:14px;}
   footer .fnote{font-size:14px;max-width:62ch;margin:0 auto;line-height:1.6;}
-  footer .by{margin-top:18px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;}
-  footer .by a{color:var(--signal);display:inline-block;padding:10px 4px;}
+  footer .by{margin-top:16px;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;}
+  footer .by a{color:#F0C08A;display:inline-block;padding:10px 4px;}
 
-  /* ── responsive ────────────────────────────────────────────── */
   @media(max-width:980px){
-    .hero .beneath,.crew-grid,.quote-grid{grid-template-columns:1fr;gap:28px;}
+    .crew-grid,.quote-grid{grid-template-columns:1fr;gap:28px;}
     .route-grid{grid-template-columns:repeat(3,1fr);}
-    .day{border-bottom:1px solid var(--rule);}
+    .day{border-bottom:3px solid var(--ink-green);}
     .day:nth-child(3n){border-right:none;}
     .rev-grid{grid-template-columns:1fr;}
-    .rev{border-right:none;border-bottom:1px solid var(--rule);padding:26px 0;}
-    .rev:not(:first-child){padding-left:0;}
-    .rev:last-child{border-bottom:none;}
   }
   @media(max-width:760px){
     .burger{display:flex;}
-    .links{
-      position:absolute;top:100%;left:0;right:0;background:var(--ink);
-      flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s;
-      border-bottom:1px solid var(--rule);
-    }
+    .links{position:absolute;top:100%;left:0;right:0;background:var(--ink-green);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s;}
     .links.open{max-height:320px;}
-    .links a{padding:16px 24px;width:100%;min-height:48px;display:flex;align-items:center;border-bottom:1px solid var(--rule);}
-    .links a::after{display:none;}
-    .svc-row{grid-template-columns:38px 1fr;gap:6px 16px;}
-    .svc-row p{grid-column:2;margin-top:6px;}
-    .svc-row .rate{grid-column:2;margin-top:10px;}
+    .links a{padding:16px 24px;width:100%;min-height:48px;display:flex;align-items:center;border-bottom:1px solid #3A5040;}
+    .svc-row{grid-template-columns:auto 1fr;}
+    .svc-row p,.svc-row .rate{grid-column:2;}
     .route-grid{grid-template-columns:repeat(2,1fr);}
-    .day:nth-child(3n){border-right:1px solid var(--rule);}
+    .day:nth-child(3n){border-right:3px solid var(--ink-green);}
     .day:nth-child(2n){border-right:none;}
+    .weights{grid-template-columns:1fr;}
+    .weights div{border-right:none;border-bottom:3px solid var(--ink-green);}
+    .weights div:last-child{border-bottom:none;}
     .fr{grid-template-columns:1fr;}
   }
-  @media(max-width:420px){
-    .nav-cta{display:none;}
-    .route-grid{grid-template-columns:1fr;}
-    .day{border-right:none!important;}
-  }
+  @media(max-width:420px){ .nav-cta{display:none;} .route-grid{grid-template-columns:1fr;} .day{border-right:none!important;} }
 
-  /* No ambient animation on this page — every transition here is a direct
-     response to hover or focus, so reduced motion simply removes them. */
+  /* No ambient animation: every transition answers a hover or focus. */
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{transition:none!important;scroll-behavior:auto!important;}
   }
 
   @media print{
     .demo-flag,header.nav,.hero-cta,form,.burger{display:none!important;}
-    body{background:#fff;color:#000;font-size:11pt;}
-    .crew,.standard,.hero{background:#fff!important;color:#000!important;}
-    .display,h1,h2,h3{color:#000!important;}
+    body{background:#fff!important;background-image:none!important;color:#000;font-size:11pt;}
+    .crew,footer{background:#fff!important;color:#000!important;}
+    .crew p,.crew .who,footer .fnote{color:#000!important;}
+    section{padding:14pt 0;page-break-inside:avoid;}
   }
 </style>
 </head>
@@ -298,34 +269,42 @@
 <!-- ── HERO ──────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="wrap">
-    <div class="meta mono">
-      <span>Maple Grove, Indiana</span>
-      <span>Est. 2014</span>
-      <span>400+ yards weekly</span>
-    </div>
-    <h1 class="display">Same day.<br>Same crew.<br><span class="cut">Every week.</span></h1>
-    <div class="beneath">
+    <div class="sack">
+      <div class="top-line">
+        <span class="stencil">Maple Grove, Indiana</span>
+        <span class="stencil">Est. 2014</span>
+        <span class="stencil">400+ yards weekly</span>
+      </div>
+      <h1>Same day.<br>Same crew.<br><em>Every week.</em></h1>
       <p class="sub">Most lawn companies cannot tell you which day they are coming. We can, because we run a fixed route and we have not missed it in eleven years.</p>
       <div class="hero-cta">
-        <a href="#quote" class="btn btn-sig">Get a free quote</a>
+        <a href="#quote" class="btn btn-red">Get a free quote</a>
         <a href="tel:+15550148267" class="btn btn-line">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
           (555) 014-8267
         </a>
       </div>
-    </div>
-  </div>
 
-  <!-- the signature: the actual route -->
-  <div class="route" id="route">
-    <div class="wrap" style="padding:0">
+      <div class="weights">
+        <div><b class="num">11 yrs</b><span>Never missed a week</span></div>
+        <div><b class="num">400+</b><span>Yards on the route</span></div>
+        <div><b class="num">4.9&#9733;</b><span>Average rating</span></div>
+      </div>
+    </div>
+
+    <!-- the signature: the actual route -->
+    <div class="route" id="route">
+      <div class="route-head">
+        <h2>This week's route</h2>
+        <span class="stencil">Rain or shine</span>
+      </div>
       <div class="route-grid">
-        <div class="day"><span class="d mono">Mon</span><span class="hood">Elm &amp; Chestnut</span><span class="hood">Grove Park</span></div>
-        <div class="day today"><span class="d mono">Tue &middot; today</span><span class="hood">Maple Ridge</span><span class="hood">Coventry Ln</span></div>
-        <div class="day"><span class="d mono">Wed</span><span class="hood">Oak Hollow</span><span class="hood">Birchwood</span></div>
-        <div class="day"><span class="d mono">Thu</span><span class="hood">Stonegate</span><span class="hood">Field &amp; Vine</span></div>
-        <div class="day"><span class="d mono">Fri</span><span class="hood">Southport Rd</span><span class="hood">Willow Bend</span></div>
-        <div class="day"><span class="d mono">Sat</span><span class="hood">Catch-up &amp; big jobs</span><span class="hood">Mulch and beds</span></div>
+        <div class="day"><span class="d">Mon</span><span class="hood">Elm &amp; Chestnut</span><span class="hood">Grove Park</span></div>
+        <div class="day"><span class="d">Tue</span><span class="hood">Maple Ridge</span><span class="hood">Coventry Ln</span></div>
+        <div class="day"><span class="d">Wed</span><span class="hood">Oak Hollow</span><span class="hood">Birchwood</span></div>
+        <div class="day"><span class="d">Thu</span><span class="hood">Stonegate</span><span class="hood">Field &amp; Vine</span></div>
+        <div class="day"><span class="d">Fri</span><span class="hood">Southport Rd</span><span class="hood">Willow Bend</span></div>
+        <div class="day"><span class="d">Sat</span><span class="hood">Catch-up &amp; big jobs</span><span class="hood">Mulch and beds</span></div>
       </div>
     </div>
   </div>
@@ -334,100 +313,66 @@
 <!-- ── WHAT WE DO ────────────────────────────────────────────── -->
 <section id="work">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="num mono">01</span>
-      <h2 class="display">What we do</h2>
-    </div>
-    <div class="svc-list">
-
+    <p class="stencil">What we do</p>
+    <h2 style="font-size:clamp(28px,4.6vw,46px);color:var(--ink-green);margin:10px 0 26px">Six things, priced by the visit.</h2>
+    <div class="svc">
       <div class="svc-row">
-        <span class="n mono">01</span>
-        <h3>Mowing &amp; edging</h3>
-        <p>Alternating passes so the stripes turn over each week, and a hard edge cut along every walk, bed and driveway.</p>
-        <span class="rate">from $40 / visit</span>
+        <span class="n">01</span><h3>Mowing &amp; edging</h3>
+        <p>Alternating passes so the stripes turn over each week, and a hard edge along every walk, bed and driveway.</p>
+        <span class="rate">$40</span>
       </div>
-
       <div class="svc-row">
-        <span class="n mono">02</span>
-        <h3>Hedges &amp; shrubs</h3>
+        <span class="n">02</span><h3>Hedges &amp; shrubs</h3>
         <p>Cut back to square, raked out inside, and every clipping goes on the trailer with us.</p>
-        <span class="rate">from $65 / visit</span>
+        <span class="rate">$65</span>
       </div>
-
       <div class="svc-row">
-        <span class="n mono">03</span>
-        <h3>Leaf cleanup</h3>
+        <span class="n">03</span><h3>Leaf cleanup</h3>
         <p>Beds cleared, walks blown down, the whole lot bagged. Two passes in a bad fall, one price.</p>
-        <span class="rate">from $90 / visit</span>
+        <span class="rate">$90</span>
       </div>
-
       <div class="svc-row">
-        <span class="n mono">04</span>
-        <h3>Feeding</h3>
+        <span class="n">04</span><h3>Feeding</h3>
         <p>Four treatments timed to the weather here, not a national calendar. Thicker turf by the second season.</p>
-        <span class="rate">from $55 / visit</span>
+        <span class="rate">$55</span>
       </div>
-
       <div class="svc-row">
-        <span class="n mono">05</span>
-        <h3>Mulch &amp; beds</h3>
-        <p>Beds re-cut with a spade edge, weeded, and topped with hardwood. This is the one that makes a yard look finished.</p>
-        <span class="rate">from $120 / job</span>
+        <span class="n">05</span><h3>Mulch &amp; beds</h3>
+        <p>Beds re-cut with a spade edge, weeded, and topped with hardwood. The one that makes a yard look finished.</p>
+        <span class="rate">$120</span>
       </div>
-
       <div class="svc-row">
-        <span class="n mono">06</span>
-        <h3>Snow</h3>
+        <span class="n">06</span><h3>Snow</h3>
         <p>On call from the first flake. Drives and walks cleared and salted before you leave in the morning.</p>
-        <span class="rate">from $50 / visit</span>
+        <span class="rate">$50</span>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ── THE CREW ──────────────────────────────────────────────── -->
+<!-- ── CREW ──────────────────────────────────────────────────── -->
 <section class="crew" id="crew">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="num mono">02</span>
-      <h2 class="display">The crew</h2>
-    </div>
     <div class="crew-grid">
       <div>
-        <h3>Tom started with six yards<br>and a borrowed trailer.</h3>
+        <p class="stencil">The crew</p>
+        <h2>Tom started with six yards and a borrowed trailer.</h2>
         <p>In 2014 Tom Dunn cut six lawns on Elm Street before his shift at the plant. The rule then is the rule now: turn up on the day you said you would, and leave the yard looking better than the one next door.</p>
-        <p>There are four of us and two trailers today. What has not changed is that Tom still walks every property himself before he quotes it, and if something is wrong you get his mobile, not a call centre in another state.</p>
+        <p>There are four of us and two trailers today. What has not changed is that Tom still walks every property himself before he quotes it, and if something is wrong you get his mobile, not a call centre.</p>
         <p class="who">Tom Dunn &middot; Owner</p>
       </div>
-      <dl class="facts">
-        <div class="fact"><dt>Running since</dt><dd>2014</dd></div>
-        <div class="fact"><dt>Yards on the route</dt><dd>400+</dd></div>
-        <div class="fact"><dt>People on the crew</dt><dd>Four</dd></div>
-        <div class="fact"><dt>Average rating</dt><dd>4.9 / 5</dd></div>
-        <div class="fact"><dt>Weeks missed since 2014</dt><dd>None</dd></div>
-        <div class="fact"><dt>Contracts required</dt><dd>None</dd></div>
-      </dl>
+      <div class="guarantee">
+        <h3>If it is not right, we come back.</h3>
+        <p>Ring within two days of a visit and we return and put it right at no charge. No argument about whose fault it was, no invoice, no fine print. In eleven years we have been called back nine times and gone back nine times.</p>
+      </div>
     </div>
-  </div>
-</section>
-
-<!-- ── THE STANDARD ──────────────────────────────────────────── -->
-<section class="standard">
-  <div class="wrap">
-    <span class="mono">03 &middot; The standard</span>
-    <blockquote>If it is not right,<br>call us and we come back.</blockquote>
-    <p>Ring within two days of a visit and we return and put it right at no charge. No argument about whose fault it was, no invoice, no fine print. In eleven years we have been called back nine times and gone back nine times.</p>
   </div>
 </section>
 
 <!-- ── REVIEWS ───────────────────────────────────────────────── -->
 <section id="reviews">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="num mono">04</span>
-      <h2 class="display">What the street says</h2>
-    </div>
+    <p class="stencil">What the street says</p>
     <div class="rev-grid">
       <div class="rev">
         <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
@@ -451,59 +396,41 @@
 <!-- ── QUOTE ─────────────────────────────────────────────────── -->
 <section id="quote">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="num mono">05</span>
-      <h2 class="display">Get a quote</h2>
-    </div>
+    <p class="stencil">Get a quote</p>
+    <h2 style="font-size:clamp(28px,4.6vw,46px);color:var(--ink-green);margin:10px 0 28px">Tell us the street, we'll tell you the day.</h2>
     <div class="quote-grid">
       <div>
-        <p style="color:var(--bone-dim);max-width:40ch;margin-bottom:26px">Tell us the street and we will tell you the day. Quotes are free, we do not need to come inside, and there is nothing to sign.</p>
+        <p style="color:var(--muted);max-width:38ch;margin-bottom:22px">Quotes are free, we do not need to come inside, and there is nothing to sign.</p>
         <div class="contact-line">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
           <a href="tel:+15550148267">(555) 014-8267</a>
         </div>
         <div class="contact-line">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="M2 7l10 6 10-6"/></svg>
-          <a href="mailto:tom@freshcutlawn.example" style="font-size:19px">tom@freshcutlawn.example</a>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="M2 7l10 6 10-6"/></svg>
+          <a href="mailto:tom@freshcutlawn.example" style="font-size:17px">tom@freshcutlawn.example</a>
         </div>
         <div class="contact-line">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           <span>Mon&ndash;Sat &middot; 7am&ndash;6pm</span>
         </div>
       </div>
 
       <form id="quoteForm" novalidate>
         <div class="fr">
-          <div class="field">
-            <label for="qname">Name</label>
-            <input id="qname" name="name" type="text" autocomplete="name" required>
-          </div>
-          <div class="field">
-            <label for="qphone">Phone</label>
-            <input id="qphone" name="phone" type="tel" autocomplete="tel" required>
-          </div>
+          <div class="field"><label for="qname">Name</label><input id="qname" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="qphone">Phone</label><input id="qphone" name="phone" type="tel" autocomplete="tel" required></div>
         </div>
-        <div class="field">
-          <label for="qaddr">Street or neighbourhood</label>
-          <input id="qaddr" name="address" type="text" autocomplete="street-address">
-        </div>
+        <div class="field"><label for="qaddr">Street or neighbourhood</label><input id="qaddr" name="address" type="text" autocomplete="street-address"></div>
         <div class="field">
           <label for="qsvc">What do you need</label>
           <select id="qsvc" name="service">
-            <option>Weekly mowing</option>
-            <option>Every other week mowing</option>
-            <option>Hedges and shrubs</option>
-            <option>Leaf cleanup</option>
-            <option>Mulch and beds</option>
-            <option>Snow removal</option>
-            <option>Something else</option>
+            <option>Weekly mowing</option><option>Every other week mowing</option>
+            <option>Hedges and shrubs</option><option>Leaf cleanup</option>
+            <option>Mulch and beds</option><option>Snow removal</option><option>Something else</option>
           </select>
         </div>
-        <div class="field">
-          <label for="qmsg">Anything we should know</label>
-          <textarea id="qmsg" name="message" placeholder="Gate code, dog in the yard, the strip by the mailbox&hellip;"></textarea>
-        </div>
-        <button type="submit" class="btn btn-sig">Request my quote</button>
+        <div class="field"><label for="qmsg">Anything we should know</label><textarea id="qmsg" name="message" placeholder="Gate code, dog in the yard, the strip by the mailbox&hellip;"></textarea></div>
+        <button type="submit" class="btn btn-red">Request my quote</button>
         <p class="formnote">We reply the same day</p>
         <div class="sent" id="sent" role="status"></div>
       </form>
@@ -531,16 +458,11 @@
     nav.classList.remove('open');
     burger.setAttribute('aria-expanded','false');
   }
-  // Mark the real current weekday on the route strip, so the board is
-  // accurate whenever somebody happens to land on it.
+  // Mark the real current weekday on the route, so the board is accurate
+  // whenever somebody happens to land on it.
   (function markToday(){
     var days = document.querySelectorAll('.route-grid .day');
-    var idx = new Date().getDay();           // 0 Sun .. 6 Sat
-    days.forEach(function(d){
-      d.classList.remove('today');
-      var label = d.querySelector('.d');
-      label.textContent = label.textContent.split(' · ')[0];
-    });
+    var idx = new Date().getDay();            // 0 Sun .. 6 Sat
     if (idx >= 1 && idx <= 6) {
       var el = days[idx - 1];
       el.classList.add('today');
@@ -548,7 +470,6 @@
       l.textContent = l.textContent + ' · today';
     }
   })();
-  // Demo only: no back end behind this form, so say so rather than fake a send.
   document.getElementById('quoteForm').addEventListener('submit', function(e){
     e.preventDefault();
     var box = document.getElementById('sent');

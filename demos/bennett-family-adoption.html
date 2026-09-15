@@ -9,233 +9,205 @@
    Front Porch Web, LLC. Marcus and Emily Bennett do not exist;
    the story, letter, numbers and contact details are invented.
 
-   CONCEPT — "the letter comes first".
-   Almost every adoption profile online buries the letter to
-   expectant mothers under a gallery and a fundraising bar. But
-   the letter is the only part she is actually there to read, and
-   she is usually reading it on a phone, late, alone, deciding
-   something enormous. So the letter sits at the top, set at
-   reading size with real line length, and everything below it is
-   context for it rather than competition with it.
+   CONCEPT — "the album page".
+   An adoption profile is not read on a website, really. It is
+   handed to an expectant mother by a caseworker, as pages. So
+   the page behaves like an album: sheets of ivory laid on a
+   coloured ground, each one holding one thing, slightly loose
+   rather than gridded. The ground is the exact sage of this
+   family's nursery wall, taken from their own photograph, so the
+   site is coloured by their house rather than by a palette.
 
-   The palette is taken from the family's own two photographs —
-   the clay red of their house and the sage green of the nursery
-   wall — so the page belongs to them rather than to a template.
+   The letter comes first, because it is the only part she came
+   to read, and she is usually reading on a phone, late, alone.
 
-   PHOTO HONESTY: this family has exactly two photographs. The
-   previous version repeated one of them sixteen times to fake a
-   gallery, and carried eleven visible "AI prompt" production
-   notes. Both are gone. Two photos are used once each, where
-   they mean something. Where there is no photograph, the writing
-   does the work instead of a placeholder.
+   Deliberately NOT cream-background-with-a-high-contrast-serif-
+   and-a-terracotta-accent, which is an AI house style rather
+   than a choice. Type is a warm low-contrast serif over a
+   rounded humanist sans; the accent is honey, not rust.
+
+   PHOTO HONESTY: this family has exactly two photographs. They
+   are used once each, where they mean something. Where there is
+   no photograph, the writing does the work.
    ============================================================ -->
 <title>Marcus &amp; Emily Bennett — Hoping to Adopt in Carmel, Indiana</title>
 <meta name="description" content="A fictional demo adoption profile built by Front Porch Web to show the kind of work we produce for waiting families." />
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Karla:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --paper:#FBF7F0;
-    --paper-2:#F4EDE2;
-    --ink:#2A241E;
-    --ink-soft:#5C534A;
-    --muted:#867B6E;
-    --clay:#9C4A3C;          /* from the brick-red of their house */
-    --sage:#6E7F63;          /* from the nursery wall */
-    --sage-deep:#4A5743;
-    --rule:rgba(42,36,30,.13);
-    --serif:'Newsreader',Georgia,serif;
-    --sans:'Karla',system-ui,sans-serif;
+    --sage:#5F7356;          /* the nursery wall, from their own photograph */
+    --sage-deep:#465440;
+    --sage-lt:#7A8E70;
+    --ivory:#FCFBF6;         /* the album sheet */
+    --ivory-2:#F3F1E7;
+    --ink:#262B23;
+    --ink-soft:#4E5548;
+    --muted:#7E8676;
+    --honey:#D3A24B;         /* the accent: warm, but not rust */
+    --rule:rgba(38,43,35,.12);
+    --serif:'Petrona',Georgia,serif;
+    --sans:'Nunito Sans',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:var(--sans);background:var(--paper);color:var(--ink);
+    font-family:var(--sans);background:var(--sage);color:var(--ink);
     font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;
   }
   img{max-width:100%;display:block;}
   a{color:inherit;}
-  :is(a,button):focus-visible{outline:3px solid var(--clay);outline-offset:3px;}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
-  .narrow{max-width:660px;margin:0 auto;}
-  section{padding:clamp(56px,8vw,104px) 0;}
+  :is(a,button):focus-visible{outline:3px solid var(--honey);outline-offset:3px;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px;}
+  section{padding:clamp(30px,4vw,52px) 0;}
 
-  h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.1;letter-spacing:-.01em;}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.12;}
   .eyebrow{
-    font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--clay);margin-bottom:14px;
+    font-family:var(--sans);font-weight:700;font-size:11.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--honey);margin-bottom:14px;
   }
-  h2{font-size:clamp(28px,4.4vw,44px);}
-  p.lede{font-size:clamp(17px,1.9vw,19px);color:var(--ink-soft);}
+  h2{font-size:clamp(26px,4vw,40px);}
+
+  /* the album sheet: everything lives on one */
+  .sheet{
+    background:var(--ivory);padding:clamp(26px,4.4vw,52px);
+    box-shadow:0 14px 34px rgba(20,28,18,.16);
+  }
+  .sheet + .sheet{margin-top:clamp(18px,2.6vw,30px);}
+  .tilt-l{transform:rotate(-.5deg);}
+  .tilt-r{transform:rotate(.45deg);}
 
   /* demo banner */
-  .demo-flag{
-    background:#2A241E;color:#EDE4D6;text-align:center;
-    font:400 13.5px/1.5 var(--sans);padding:10px 16px;
-  }
-  .demo-flag strong{color:#E4B98C;font-weight:600;}
-  .demo-flag a{color:#E4B98C;white-space:nowrap;}
+  .demo-flag{background:var(--sage-deep);color:#DCE3D6;text-align:center;font:400 13.5px/1.5 var(--sans);padding:10px 16px;}
+  .demo-flag strong{color:var(--honey);font-weight:700;}
+  .demo-flag a{color:var(--honey);white-space:nowrap;}
 
   /* nav */
-  header.nav{position:sticky;top:0;z-index:50;background:rgba(251,247,240,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);}
-  .nav-in{max-width:1080px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
-  .brand{display:flex;align-items:center;gap:11px;}
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(95,115,86,.95);backdrop-filter:blur(8px);}
+  .nav-in{max-width:1000px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .brand{display:flex;align-items:center;gap:11px;color:var(--ivory);}
   .mark{
-    width:38px;height:38px;border-radius:50%;background:var(--clay);color:#fff;flex:none;
-    display:grid;place-items:center;font-family:var(--serif);font-size:19px;
+    width:38px;height:38px;border-radius:50%;background:var(--ivory);color:var(--sage-deep);flex:none;
+    display:grid;place-items:center;font-family:var(--serif);font-size:19px;font-weight:600;
   }
-  .brand b{font-family:var(--serif);font-weight:400;font-size:19px;display:block;line-height:1.15;}
-  .brand span{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
-  .links{display:flex;gap:26px;align-items:center;}
-  .links a{text-decoration:none;color:var(--ink-soft);font-size:15px;padding:12px 0;position:relative;}
-  .links a::after{content:"";position:absolute;left:0;right:100%;bottom:7px;height:1.5px;background:var(--clay);transition:right .25s;}
-  .links a:hover::after{right:0;}
+  .brand b{font-family:var(--serif);font-weight:500;font-size:19px;display:block;line-height:1.15;}
+  .brand span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#CBD6C3;}
+  .links{display:flex;gap:24px;align-items:center;}
+  .links a{text-decoration:none;color:#DCE3D6;font-size:14.5px;font-weight:600;padding:12px 0;}
+  .links a:hover{color:var(--ivory);}
   .nav-cta{
-    background:var(--clay);color:#fff;text-decoration:none;font-weight:600;font-size:14.5px;
-    padding:12px 20px;border-radius:999px;min-height:44px;display:inline-flex;align-items:center;
+    background:var(--ivory);color:var(--sage-deep);text-decoration:none;font-weight:700;font-size:14px;
+    padding:11px 19px;border-radius:999px;min-height:44px;display:inline-flex;align-items:center;
   }
-  .nav-cta:hover{background:#8A3F33;}
-  .burger{display:none;background:none;border:1px solid var(--rule);cursor:pointer;width:44px;height:44px;flex-direction:column;gap:5px;align-items:center;justify-content:center;border-radius:8px;}
-  .burger span{width:20px;height:2px;background:var(--ink);border-radius:2px;}
+  .nav-cta:hover{background:var(--honey);color:#3A2D12;}
+  .burger{display:none;background:none;border:1px solid rgba(252,251,246,.4);cursor:pointer;width:44px;height:44px;flex-direction:column;gap:5px;align-items:center;justify-content:center;border-radius:8px;}
+  .burger span{width:20px;height:2px;background:var(--ivory);border-radius:2px;}
 
   /* hero */
-  .hero{padding:clamp(48px,7vw,84px) 0 clamp(36px,5vw,56px);text-align:center;}
-  .hero h1{font-size:clamp(38px,6.4vw,70px);max-width:16ch;margin:0 auto;}
-  .hero h1 em{font-style:italic;color:var(--clay);}
-  .hero .who{
-    font-family:var(--sans);font-size:13px;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--muted);margin-top:24px;
-  }
-  .hero p.lede{margin:22px auto 0;max-width:52ch;}
-  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px;}
+  .hero{padding-top:clamp(28px,4vw,48px);text-align:center;}
+  .hero h1{font-size:clamp(34px,5.6vw,60px);max-width:17ch;margin:0 auto;}
+  .hero h1 em{font-style:italic;color:var(--sage);}
+  .hero .who{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:20px;font-weight:700;}
+  .hero p.lede{margin:18px auto 0;max-width:50ch;color:var(--ink-soft);font-size:clamp(16px,1.8vw,18px);}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px;}
   .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    font-family:var(--sans);font-weight:600;font-size:16px;border:none;border-radius:999px;
-    padding:15px 28px;text-decoration:none;min-height:50px;cursor:pointer;
-    transition:transform .15s,background .2s,border-color .2s;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans);
+    font-weight:700;font-size:15.5px;border:none;border-radius:999px;padding:15px 28px;
+    text-decoration:none;min-height:50px;cursor:pointer;transition:transform .15s,background .2s,border-color .2s;
   }
-  .btn-clay{background:var(--clay);color:#fff;}
-  .btn-clay:hover{background:#8A3F33;transform:translateY(-2px);}
-  .btn-line{background:transparent;color:var(--ink);border:1px solid var(--rule);}
+  .btn-sage{background:var(--sage);color:var(--ivory);}
+  .btn-sage:hover{background:var(--sage-deep);transform:translateY(-2px);}
+  .btn-line{background:transparent;color:var(--ink);border:1.5px solid var(--rule);}
   .btn-line:hover{border-color:var(--ink);transform:translateY(-2px);}
 
-  /* ── the letter: the centrepiece ─────────────────────────── */
-  .letter{background:var(--paper-2);}
-  .letter .sheet{
-    background:var(--paper);border:1px solid var(--rule);
-    padding:clamp(30px,5.5vw,68px);position:relative;
-  }
-  .letter .sheet::before{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--sage);
-  }
-  .letter .eyebrow{color:var(--sage-deep);}
-  .letter h2{margin-bottom:26px;}
+  /* the letter */
+  .letter .eyebrow{text-align:center;}
+  .letter h2{text-align:center;margin-bottom:26px;}
   .letter p{
-    font-family:var(--serif);font-size:clamp(18px,2.1vw,21px);line-height:1.75;
-    color:var(--ink);margin-bottom:20px;
+    font-family:var(--serif);font-size:clamp(17.5px,2vw,20px);line-height:1.8;
+    margin-bottom:19px;max-width:62ch;margin-inline:auto;
   }
-  .letter p:first-of-type{font-size:clamp(19px,2.2vw,22px);}
   .sign{
-    font-family:var(--serif);font-style:italic;font-size:clamp(19px,2.2vw,23px);
-    color:var(--clay);margin-top:30px;padding-top:24px;border-top:1px solid var(--rule);
+    font-family:var(--serif);font-style:italic;font-size:clamp(18px,2.1vw,22px);
+    color:var(--sage);margin-top:28px;text-align:center;
   }
 
-  /* story */
-  .story p{margin-bottom:18px;color:var(--ink-soft);font-size:17.5px;}
-  .story p:first-of-type{
-    font-family:var(--serif);font-size:clamp(19px,2.2vw,23px);line-height:1.6;color:var(--ink);
-  }
-
-  /* the two of us — text portraits, because there are no photographs */
-  .pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);margin-top:44px;}
-  .person{border-top:2px solid var(--clay);padding-top:24px;}
-  .person .role{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
-  .person h3{font-size:clamp(26px,3.4vw,34px);margin:6px 0 14px;}
+  /* story + people */
+  .story p{margin-bottom:17px;color:var(--ink-soft);}
+  .story p:first-of-type{font-family:var(--serif);font-size:clamp(18px,2.1vw,22px);line-height:1.6;color:var(--ink);}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,48px);margin-top:34px;}
+  .person .role{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;}
+  .person h3{font-size:clamp(24px,3.2vw,32px);margin:6px 0 12px;color:var(--sage-deep);}
   .person p{color:var(--ink-soft);font-size:16.5px;}
-  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
-  .tag{
-    font-size:13px;font-weight:500;color:var(--sage-deep);background:rgba(110,127,99,.13);
-    padding:6px 13px;border-radius:999px;
-  }
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+  .tag{font-size:13px;font-weight:700;color:var(--sage-deep);background:rgba(95,115,86,.14);padding:6px 13px;border-radius:999px;}
 
-  /* photo blocks */
+  /* photos */
   figure{margin:0;}
   figure img{width:100%;height:auto;object-fit:cover;}
-  figcaption{
-    font-size:14.5px;color:var(--muted);margin-top:12px;font-style:italic;
-    font-family:var(--serif);
-  }
-  .home{background:var(--paper-2);}
-  .split{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,4.5vw,56px);align-items:center;}
+  figcaption{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--muted);margin-top:11px;}
+  .split{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,44px);align-items:center;}
   .split.flip .txt{order:2;}
-  .pets{display:flex;gap:22px;flex-wrap:wrap;margin-top:24px;}
+  .pets{display:flex;gap:22px;flex-wrap:wrap;margin-top:22px;}
   .pet{font-size:15.5px;color:var(--ink-soft);}
-  .pet b{display:block;font-family:var(--serif);font-size:18px;color:var(--ink);font-weight:400;}
+  .pet b{display:block;font-family:var(--serif);font-size:18px;color:var(--ink);font-weight:600;}
 
   /* why */
-  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(22px,3vw,36px);margin-top:42px;}
-  .why-item{border-top:1px solid var(--rule);padding-top:20px;}
-  .why-item .n{font-family:var(--serif);font-size:15px;color:var(--clay);display:block;margin-bottom:8px;}
-  .why-item h3{font-size:21px;margin-bottom:8px;}
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,34px);margin-top:30px;}
+  .why-item .n{font-family:var(--serif);font-size:15px;color:var(--honey);display:block;margin-bottom:6px;font-weight:600;}
+  .why-item h3{font-size:20px;margin-bottom:7px;color:var(--sage-deep);}
   .why-item p{color:var(--ink-soft);font-size:16px;}
 
   /* support */
-  .support{background:var(--sage-deep);color:#EDF0E8;}
-  .support .eyebrow{color:#C3D2B6;}
-  .support h2{color:#fff;}
-  .support p{color:#CBD6C2;}
-  .meter{margin-top:30px;max-width:520px;}
-  .bar{height:8px;background:rgba(255,255,255,.18);border-radius:999px;overflow:hidden;}
-  .bar i{display:block;height:100%;width:38.3%;background:#D7B36A;border-radius:999px;}
-  .meter .fig{display:flex;justify-content:space-between;margin-top:12px;font-size:15px;}
-  .meter .fig b{font-family:var(--serif);font-weight:400;font-size:22px;color:#fff;}
-  .give{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;}
+  .support{background:var(--sage-deep);color:#E3EADD;}
+  .support .eyebrow{color:var(--honey);}
+  .support h2{color:var(--ivory);}
+  .meter{margin-top:26px;max-width:520px;}
+  .bar{height:9px;background:rgba(255,255,255,.2);border-radius:999px;overflow:hidden;}
+  .bar i{display:block;height:100%;width:38.3%;background:var(--honey);border-radius:999px;}
+  .meter .fig{display:flex;justify-content:space-between;margin-top:11px;font-size:15px;}
+  .meter .fig b{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--ivory);}
+  .give{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;}
   .give a{
-    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;
-    text-decoration:none;font-weight:600;font-size:15.5px;padding:14px 24px;border-radius:999px;
+    background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.32);color:var(--ivory);
+    text-decoration:none;font-weight:700;font-size:15px;padding:13px 22px;border-radius:999px;
     min-height:48px;display:inline-flex;align-items:center;
   }
-  .give a:hover{background:rgba(255,255,255,.2);}
+  .give a:hover{background:rgba(255,255,255,.22);}
 
   /* contact */
-  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,52px);margin-top:40px;}
-  .cbox{border:1px solid var(--rule);padding:26px;background:var(--paper-2);}
-  .cbox h3{font-size:20px;margin-bottom:16px;}
-  .crow{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--rule);}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,3.4vw,40px);margin-top:28px;}
+  .cbox h3{font-size:20px;margin-bottom:14px;color:var(--sage-deep);}
+  .crow{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--rule);}
   .crow:last-child{border-bottom:none;}
-  .crow .k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);min-width:92px;flex:none;}
-  .crow a,.crow span{font-family:var(--serif);font-size:18px;color:var(--ink);text-decoration:none;}
-  .crow a{color:var(--clay);min-height:44px;display:inline-flex;align-items:center;}
+  .crow .k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);min-width:90px;flex:none;font-weight:700;}
+  .crow a,.crow span{font-family:var(--serif);font-size:18px;text-decoration:none;}
+  .crow a{color:var(--sage);min-height:44px;display:inline-flex;align-items:center;font-weight:600;}
   .crow a:hover{text-decoration:underline;}
-  .agency-note{font-size:16px;color:var(--ink-soft);margin-top:22px;max-width:60ch;}
+  .agency-note{font-size:15.5px;color:var(--ink-soft);margin-top:18px;}
 
-  footer{border-top:1px solid var(--rule);padding:44px 24px 40px;text-align:center;color:var(--muted);}
-  footer .brand{justify-content:center;margin-bottom:16px;}
+  footer{padding:36px 22px 44px;text-align:center;color:#CBD6C3;}
+  footer .brand{justify-content:center;margin-bottom:14px;}
   footer .fnote{font-size:14px;max-width:62ch;margin:0 auto;line-height:1.6;}
-  footer .by{margin-top:18px;font-size:13.5px;}
-  footer .by a{color:var(--clay);display:inline-block;padding:10px 4px;}
+  footer .by{margin-top:16px;font-size:13.5px;}
+  footer .by a{color:var(--honey);display:inline-block;padding:10px 4px;font-weight:700;}
 
   @media(max-width:900px){
-    .pair,.split,.contact-grid{grid-template-columns:1fr;gap:28px;}
+    .pair,.split,.contact-grid{grid-template-columns:1fr;gap:26px;}
     .split.flip .txt{order:0;}
-    .why-grid{grid-template-columns:1fr;gap:22px;}
+    .why-grid{grid-template-columns:1fr;gap:20px;}
+    .tilt-l,.tilt-r{transform:none;}
   }
   @media(max-width:760px){
     .burger{display:flex;}
-    .links{
-      position:absolute;top:100%;left:0;right:0;background:var(--paper);
-      flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s;
-      border-bottom:1px solid var(--rule);
-    }
+    .links{position:absolute;top:100%;left:0;right:0;background:var(--sage);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s;}
     .links.open{max-height:300px;}
-    .links a{padding:15px 24px;width:100%;min-height:48px;display:flex;align-items:center;border-bottom:1px solid var(--rule);}
-    .links a::after{display:none;}
+    .links a{padding:15px 22px;width:100%;min-height:48px;display:flex;align-items:center;border-bottom:1px solid rgba(252,251,246,.18);}
   }
   @media(max-width:430px){ .nav-cta{display:none;} }
 
-  /* No ambient animation here; every transition answers a hover or focus. */
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{transition:none!important;scroll-behavior:auto!important;}
   }
@@ -243,11 +215,12 @@
   /* Adoption profiles get printed and handed to people in real life. */
   @media print{
     .demo-flag,header.nav,.cta-row,.burger,.give{display:none!important;}
-    body{background:#fff;color:#000;font-size:11pt;line-height:1.5;}
-    .letter,.home,.support{background:#fff!important;color:#000!important;}
-    .support h2,.support p{color:#000!important;}
-    .letter .sheet{border:1px solid #999;}
-    section{padding:18pt 0;page-break-inside:avoid;}
+    body{background:#fff!important;color:#000;font-size:11pt;line-height:1.5;}
+    .sheet{box-shadow:none!important;transform:none!important;padding:0 0 14pt;}
+    .support{background:#fff!important;color:#000!important;}
+    .support h2,.support .meter .fig b{color:#000!important;}
+    footer{color:#000!important;}
+    section{padding:10pt 0;page-break-inside:avoid;}
     figure{page-break-inside:avoid;}
     a{text-decoration:none;color:#000!important;}
   }
@@ -279,23 +252,25 @@
 </header>
 
 <!-- ── HERO ─────────────────────────────────────────────────── -->
-<section class="hero">
+<section>
   <div class="wrap">
-    <p class="eyebrow">A hopeful adoptive family</p>
-    <h1>Hoping to give a child a home full of <em>love.</em></h1>
-    <p class="who">Marcus &amp; Emily Bennett &middot; Carmel, Indiana</p>
-    <p class="lede">If you are an expectant mother considering an adoption plan, we are so glad you found us. There is no pressure here. Take all the time you need.</p>
-    <div class="cta-row">
-      <a href="#letter" class="btn btn-clay">Read our letter to you</a>
-      <a href="#story" class="btn btn-line">Meet Marcus &amp; Emily</a>
+    <div class="sheet hero tilt-l">
+      <p class="eyebrow">A hopeful adoptive family</p>
+      <h1>Hoping to give a child a home full of <em>love.</em></h1>
+      <p class="who">Marcus &amp; Emily Bennett &middot; Carmel, Indiana</p>
+      <p class="lede">If you are an expectant mother considering an adoption plan, we are so glad you found us. There is no pressure here. Take all the time you need.</p>
+      <div class="cta-row">
+        <a href="#letter" class="btn btn-sage">Read our letter to you</a>
+        <a href="#story" class="btn btn-line">Meet Marcus &amp; Emily</a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ── THE LETTER — verbatim, unchanged ─────────────────────── -->
-<section class="letter" id="letter">
-  <div class="wrap narrow">
-    <div class="sheet">
+<section id="letter" style="padding-top:0">
+  <div class="wrap">
+    <div class="sheet letter tilt-r">
       <p class="eyebrow">A letter to you</p>
       <h2>Dear friend,</h2>
       <p>We do not know your name yet, or your story, but we want you to know: we think you are brave. Considering an adoption plan for your child is one of the most loving, selfless things a person can do, and we do not take lightly that you are even reading these words.</p>
@@ -308,33 +283,27 @@
 </section>
 
 <!-- ── OUR STORY ────────────────────────────────────────────── -->
-<section class="story" id="story">
-  <div class="wrap narrow">
-    <p class="eyebrow">Our story</p>
-    <h2>Eight years, one big dream.</h2>
-    <p style="margin-top:22px">We met in 2016 at a friend's wedding. Marcus was playing guitar in the band, and Emily, so the story goes, caught the bouquet that same night.</p>
-    <p>We like to think someone was trying to tell us something. We were married two years later under a big oak tree, surrounded by the people we love most.</p>
-    <p>Ever since, we have been building a quiet, joyful life together: Sunday pancakes, long walks with the dog, music in the kitchen, and dreaming of the day we get to share it with a child of our own through adoption.</p>
-  </div>
-
+<section id="story" style="padding-top:0">
   <div class="wrap">
-    <div class="pair">
-      <div class="person">
-        <span class="role">Husband &amp; dad-to-be</span>
-        <h3>Marcus</h3>
-        <p>Marcus is a high-school band director who has never met a song he could not hum. He is patient, a little goofy, and the first to volunteer for the messy job. Weekends usually find him hiking a trail, coaching Little League, or fixing something in the garage with the radio on.</p>
-        <div class="tags">
-          <span class="tag">Plays guitar</span><span class="tag">Loves hiking</span>
-          <span class="tag">Little League coach</span><span class="tag">Pancake chef</span>
+    <div class="sheet story tilt-l">
+      <p class="eyebrow">Our story</p>
+      <h2>Eight years, one big dream.</h2>
+      <p style="margin-top:20px">We met in 2016 at a friend's wedding. Marcus was playing guitar in the band, and Emily, so the story goes, caught the bouquet that same night.</p>
+      <p>We like to think someone was trying to tell us something. We were married two years later under a big oak tree, surrounded by the people we love most.</p>
+      <p>Ever since, we have been building a quiet, joyful life together: Sunday pancakes, long walks with the dog, music in the kitchen, and dreaming of the day we get to share it with a child of our own through adoption.</p>
+
+      <div class="pair">
+        <div class="person">
+          <span class="role">Husband &amp; dad-to-be</span>
+          <h3>Marcus</h3>
+          <p>Marcus is a high-school band director who has never met a song he could not hum. He is patient, a little goofy, and the first to volunteer for the messy job. Weekends usually find him hiking a trail, coaching Little League, or fixing something in the garage with the radio on.</p>
+          <div class="tags"><span class="tag">Plays guitar</span><span class="tag">Loves hiking</span><span class="tag">Little League coach</span><span class="tag">Pancake chef</span></div>
         </div>
-      </div>
-      <div class="person">
-        <span class="role">Wife &amp; mom-to-be</span>
-        <h3>Emily</h3>
-        <p>Emily is a pediatric nurse with an enormous soft spot for tiny humans. She is warm, organized, and happiest with flour on her hands or a paperback in her lap. Her garden is a little wild, her cookies are legendary, and she has been ready to be a mom for as long as she can remember.</p>
-        <div class="tags">
-          <span class="tag">Pediatric nurse</span><span class="tag">Baker</span>
-          <span class="tag">Gardener</span><span class="tag">Bookworm</span>
+        <div class="person">
+          <span class="role">Wife &amp; mom-to-be</span>
+          <h3>Emily</h3>
+          <p>Emily is a pediatric nurse with an enormous soft spot for tiny humans. She is warm, organized, and happiest with flour on her hands or a paperback in her lap. Her garden is a little wild, her cookies are legendary, and she has been ready to be a mom for as long as she can remember.</p>
+          <div class="tags"><span class="tag">Pediatric nurse</span><span class="tag">Baker</span><span class="tag">Gardener</span><span class="tag">Bookworm</span></div>
         </div>
       </div>
     </div>
@@ -342,68 +311,64 @@
 </section>
 
 <!-- ── OUR HOME ─────────────────────────────────────────────── -->
-<section class="home" id="home">
+<section id="home" style="padding-top:0">
   <div class="wrap">
-    <div class="split">
-      <div class="txt">
-        <p class="eyebrow">Our home &amp; community</p>
-        <h2>A cozy house on a quiet street.</h2>
-        <p class="lede" style="margin-top:20px">Home is a three-bedroom house in Carmel, Indiana, with a big backyard, a front-porch swing, and a kitchen that always smells like something.</p>
-        <p class="lede" style="margin-top:16px">We are a short walk from a leafy park, a library, and some of the best-rated schools in the state. Our neighborhood is full of families, sidewalk chalk, and friendly faces.</p>
-        <div class="pets">
-          <div class="pet"><b>Biscuit</b>our gentle golden retriever</div>
-          <div class="pet"><b>Olive</b>our very opinionated cat</div>
+    <div class="sheet tilt-r">
+      <div class="split">
+        <div class="txt">
+          <p class="eyebrow">Our home &amp; community</p>
+          <h2>A cozy house on a quiet street.</h2>
+          <p style="margin-top:18px;color:var(--ink-soft)">Home is a three-bedroom house in Carmel, Indiana, with a big backyard, a front-porch swing, and a kitchen that always smells like something.</p>
+          <p style="margin-top:14px;color:var(--ink-soft)">We are a short walk from a leafy park, a library, and some of the best-rated schools in the state. Our neighborhood is full of families, sidewalk chalk, and friendly faces.</p>
+          <div class="pets">
+            <div class="pet"><b>Biscuit</b>our gentle golden retriever</div>
+            <div class="pet"><b>Olive</b>our very opinionated cat</div>
+          </div>
         </div>
+        <figure>
+          <img src="bennett-assets/photo-01.jpg" alt="The Bennett family's two-storey home, a red board-and-batten house with a covered front porch, on a quiet residential street" width="1100" height="465" loading="lazy">
+          <figcaption>Our front porch, and the tree Marcus planted the spring we moved in.</figcaption>
+        </figure>
       </div>
-      <figure>
-        <img src="bennett-assets/photo-01.jpg" alt="The Bennett family's two-storey home, a red board-and-batten house with a covered front porch, on a quiet residential street" width="1100" height="465" loading="lazy">
-        <figcaption>Our front porch, and the tree Marcus planted the spring we moved in.</figcaption>
-      </figure>
     </div>
-  </div>
-</section>
 
-<!-- ── THE ROOM ─────────────────────────────────────────────── -->
-<section>
-  <div class="wrap">
-    <div class="split flip">
-      <div class="txt">
-        <p class="eyebrow">Down the hall</p>
-        <h2>There is a room that is ready.</h2>
-        <p class="lede" style="margin-top:20px">Emily painted it a soft green last spring. The crib was her grandmother's, stripped back and repainted over a long weekend with the windows open.</p>
-        <p class="lede" style="margin-top:16px">We are not in a hurry to fill it. We just wanted you to see that there is a place here, and it has been waiting a while.</p>
+    <div class="sheet tilt-l">
+      <div class="split flip">
+        <div class="txt">
+          <p class="eyebrow">Down the hall</p>
+          <h2>There is a room that is ready.</h2>
+          <p style="margin-top:18px;color:var(--ink-soft)">Emily painted it a soft green last spring. The crib was her grandmother's, stripped back and repainted over a long weekend with the windows open.</p>
+          <p style="margin-top:14px;color:var(--ink-soft)">We are not in a hurry to fill it. We just wanted you to see that there is a place here, and it has been waiting a while.</p>
+        </div>
+        <figure>
+          <img src="bennett-assets/photo-02.jpg" alt="A nursery with sage green walls, a gold-painted crib, a wooden rocking chair, and a framed elephant print above the crib" width="640" height="473" loading="lazy">
+          <figcaption>The nursery, finished and waiting.</figcaption>
+        </figure>
       </div>
-      <figure>
-        <img src="bennett-assets/photo-02.jpg" alt="A nursery with sage green walls, a gold-painted crib, a wooden rocking chair, and a framed elephant print above the crib" width="640" height="473" loading="lazy">
-        <figcaption>The nursery, finished and waiting.</figcaption>
-      </figure>
     </div>
   </div>
 </section>
 
 <!-- ── WHY ──────────────────────────────────────────────────── -->
-<section>
+<section style="padding-top:0">
   <div class="wrap">
-    <div class="narrow" style="margin:0">
+    <div class="sheet tilt-r">
       <p class="eyebrow">From our hearts</p>
       <h2>Why we are hoping to adopt.</h2>
-      <p class="lede" style="margin-top:20px">Becoming parents has been our dream from the very beginning. After a long and winding road, adoption is the path our hearts have always been pointed toward, and we could not be more ready.</p>
-    </div>
-    <div class="why-grid">
-      <div class="why-item">
-        <span class="n">01</span>
-        <h3>A home that is ready</h3>
-        <p>We have the space, the stability, and the steady love a child needs, and so much room in our lives for one more.</p>
-      </div>
-      <div class="why-item">
-        <span class="n">02</span>
-        <h3>A village behind us</h3>
-        <p>Grandparents, cousins, lifelong friends, and a whole community are already cheering for this child and ready to help us raise them.</p>
-      </div>
-      <div class="why-item">
-        <span class="n">03</span>
-        <h3>Open hearts</h3>
-        <p>We believe a child can never have too many people who love them. We are open to staying connected, in whatever way feels right for everyone.</p>
+      <p style="margin-top:18px;color:var(--ink-soft);max-width:58ch">Becoming parents has been our dream from the very beginning. After a long and winding road, adoption is the path our hearts have always been pointed toward, and we could not be more ready.</p>
+      <div class="why-grid">
+        <div class="why-item">
+          <span class="n">One</span><h3>A home that is ready</h3>
+          <p>We have the space, the stability, and the steady love a child needs, and so much room in our lives for one more.</p>
+        </div>
+        <div class="why-item">
+          <span class="n">Two</span><h3>A village behind us</h3>
+          <p>Grandparents, cousins, lifelong friends, and a whole community are already cheering for this child and ready to help us raise them.</p>
+        </div>
+        <div class="why-item">
+          <span class="n">Three</span><h3>Open hearts</h3>
+          <p>We believe a child can never have too many people who love them. We are open to staying connected, in whatever way feels right for everyone.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -411,10 +376,10 @@
 
 <!-- ── SUPPORT ──────────────────────────────────────────────── -->
 <section class="support">
-  <div class="wrap narrow" style="margin:0 auto">
+  <div class="wrap">
     <p class="eyebrow">Support our journey</p>
     <h2>Help us bring our baby home.</h2>
-    <p style="margin-top:20px">Adoption is a beautiful path, and an expensive one. Agency fees, legal costs, and home-study expenses add up quickly. If you would like to be part of our story, a gift of any size brings us one step closer.</p>
+    <p style="margin-top:18px;max-width:58ch;color:#CBD6C3">Adoption is a beautiful path, and an expensive one. Agency fees, legal costs, and home-study expenses add up quickly. If you would like to be part of our story, a gift of any size brings us one step closer.</p>
     <div class="meter">
       <div class="bar" role="img" aria-label="13,400 dollars raised of a 35,000 dollar goal"><i></i></div>
       <div class="fig"><span><b>$13,400</b> raised</span><span>Goal: <b>$35,000</b></span></div>
@@ -429,23 +394,23 @@
 <!-- ── CONTACT ──────────────────────────────────────────────── -->
 <section id="contact">
   <div class="wrap">
-    <div class="narrow" style="margin:0">
+    <div class="sheet tilt-l">
       <p class="eyebrow">Get in touch</p>
       <h2>We would love to hear from you.</h2>
-      <p class="lede" style="margin-top:18px">Reach out whenever you are ready, directly to us or through our adoption agency. There is no wrong way and no wrong time.</p>
-    </div>
-    <div class="contact-grid">
-      <div class="cbox">
-        <h3>Marcus &amp; Emily</h3>
-        <div class="crow"><span class="k">Email</span><a href="mailto:hello@bennettfamilyhome.example">hello@bennettfamilyhome.example</a></div>
-        <div class="crow"><span class="k">Call or text</span><a href="tel:+13175550148">(317) 555-0148</a></div>
-        <div class="crow"><span class="k">Where</span><span>Carmel, Indiana</span></div>
-      </div>
-      <div class="cbox">
-        <h3>Our adoption agency</h3>
-        <div class="crow"><span class="k">Agency</span><span>Adoptions of Indiana</span></div>
-        <div class="crow"><span class="k">Caseworker</span><span>Ask for the Bennett family</span></div>
-        <p class="agency-note">If you would prefer to talk with someone other than us first, our agency can answer your questions confidentially and connect you with us whenever you are comfortable.</p>
+      <p style="margin-top:16px;color:var(--ink-soft);max-width:56ch">Reach out whenever you are ready, directly to us or through our adoption agency. There is no wrong way and no wrong time.</p>
+      <div class="contact-grid">
+        <div class="cbox">
+          <h3>Marcus &amp; Emily</h3>
+          <div class="crow"><span class="k">Email</span><a href="mailto:hello@bennettfamilyhome.example">hello@bennettfamilyhome.example</a></div>
+          <div class="crow"><span class="k">Call or text</span><a href="tel:+13175550148">(317) 555-0148</a></div>
+          <div class="crow"><span class="k">Where</span><span>Carmel, Indiana</span></div>
+        </div>
+        <div class="cbox">
+          <h3>Our adoption agency</h3>
+          <div class="crow"><span class="k">Agency</span><span>Adoptions of Indiana</span></div>
+          <div class="crow"><span class="k">Caseworker</span><span>Ask for the Bennett family</span></div>
+          <p class="agency-note">If you would prefer to talk with someone other than us first, our agency can answer your questions confidentially and connect you with us whenever you are comfortable.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -454,7 +419,7 @@
 <footer>
   <div class="brand">
     <span class="mark" aria-hidden="true">B</span>
-    <span><b style="font-family:var(--serif);font-size:18px">The Bennett Family</b></span>
+    <span><b style="font-family:var(--serif);font-size:18px;color:var(--ivory)">The Bennett Family</b></span>
   </div>
   <p class="fnote">A fictional demo site. The Bennett family is not real &mdash; the names, story, letter, photographs, fundraising figures and contact details on this page were invented to show the kind of adoption profile we build.</p>
   <p class="by">Site by <a href="https://frontporchwebllc.com">Front Porch Web</a></p>
