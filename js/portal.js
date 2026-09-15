@@ -805,28 +805,15 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // └──────────────────────────────────────────────────────────────────────────┘
 const STRIPE_TEST_MODE = false;
 const STRIPE_PAYMENT_LINKS = {
-  // ══════════════════════════════════════════════════════════════════════
-  //  !!!  THE THREE LOCAL-BUSINESS LINKS ARE STALE — 2026-09-15  !!!
-  //
-  //  Local-business tiers went up $100 each (now $350/$600/$850), so their
-  //  50% deposits went up $50. Those three links have NOT been regenerated
-  //  and each one CHARGES $50 LESS than the site now advertises:
-  //
-  //    local-business::starter    needs $175  (link still charges $125)
-  //    local-business::standard   needs $300  (link still charges $250)
-  //    local-business::premium    needs $425  (link still charges $375)
-  //
-  //  Create three new Payment Links in Stripe at those amounts, keep the
-  //  product names as "Local Business — <Tier> (50% Deposit)", paste the new
-  //  URLs in below, then open each one to confirm the amount before taking
-  //  any real money.
-  //
-  //  Recruiting, adoption and personal/other were NOT repriced, so their
-  //  nine links remain correct and verified as of 2026-07-31.
-  // ══════════════════════════════════════════════════════════════════════
-  'local-business::starter':     'https://buy.stripe.com/3cI00j1dB12u6HdeQy4Ni0o',
-  'local-business::standard':    'https://buy.stripe.com/9B69ATaObaD4e9FaAi4Ni0p',
-  'local-business::premium':     'https://buy.stripe.com/6oU00j3lJ12u3v1cIq4Ni0q',
+  // Local business — Starter $175 / Standard $300 / Premium $425 (50% deposits)
+  // Relinked 2026-09-15 when local-business pricing moved to $350/$600/$850.
+  // All three created fresh in the dashboard, each with the standard
+  // after-payment redirect, and each opened and confirmed at the right amount.
+  // The previous $125/$250/$375 links have been deactivated, not deleted, so a
+  // half-finished checkout still resolves instead of erroring.
+  'local-business::starter':     'https://buy.stripe.com/9B69ATe0n7qSe9FgYG4Ni0r',
+  'local-business::standard':    'https://buy.stripe.com/6oU6oH5tR12u7Lh8sa4Ni0s',
+  'local-business::premium':     'https://buy.stripe.com/9B6eVd5tR7qSfdJfUC4Ni0t',
   // Recruiting profile — Starter $125 / Standard $225 / Premium $350
   'recruiting-profile::starter': 'https://buy.stripe.com/cNi3cve0n8uW9Tp5fY4Ni0f',
   'recruiting-profile::standard':'https://buy.stripe.com/eVq8wP9K73aC3v16k24Ni0g',
