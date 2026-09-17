@@ -307,6 +307,7 @@
   .bio-body p.bio-item::before{content:"\2013";position:absolute;left:0;color:var(--brass-deep)}
   @media(max-width:560px){.bio-head{flex-direction:column;text-align:center;padding:26px 22px}.bio-head .creds{justify-content:center}.bio-body{padding:22px 22px 28px}.bio-contact{padding:14px 22px}}
 </style>
+<link rel="stylesheet" href="/demos/asfg-assets/refresh.css?v=1">
 </head>
 <body>
 
@@ -407,7 +408,7 @@
       <div class="principle">
         <span class="k">We convene</span>
         <h3>Twice a year, in June and&nbsp;January</h3>
-        <p>Twice a year, typically in June and in January, the group meets in person for a lively educational meeting, time to manage the business items of the group, and time to learn more about each other.</p>
+        <p>Twice a year, typically in June and in January, the group meets in person for a lively educational meeting, time to manage the business items of the group, and time to learn more about each other.</p><p style="margin-top:16px">Group members alternate planning these meetings to make them worthwhile as a travel and time commitment is made. Group members with commonalities or geographical proximity may choose to connect more frequently during the year, and this is encouraged! Having trusted peers to support you across the country is important and valuable.</p>
         <a class="agenda" href="/demos/asfg-assets/asfg-winter-2022-meeting-agenda.pdf" target="_blank" rel="noopener">See A Recent Meeting Agenda</a>
       </div>
       <div class="principle">
@@ -418,7 +419,7 @@
       <div class="principle">
         <span class="k">We contribute</span>
         <h3>Our time and&nbsp;expertise</h3>
-        <p>Our members contribute to the group, with their time and expertise. It is important that each member be willing to give to the group so that all may benefit.</p>
+        <p>Our members contribute to the group, with their time and expertise. To cultivate and grow the ASFG, it is important that members feel connected, welcome, and supported. It is important that each member be willing to give to the group so that all may benefit.</p>
       </div>
     </div>
   </div>
@@ -592,7 +593,14 @@
         c.push('<a href="tel:'+esc(tel)+'">'+label+esc(shown)+'</a>'); }); }
       const CFP = /^CERTIFIED FINANCIAL PLANNER.{0,3} professional$/i;
       let inDisc = false;
-      const parts = (d.bio||[]).map(line=>{
+      const surname = name.split(/\s+/).filter(Boolean).pop() || '';
+      const bioLines = (d.bio||[]).slice();
+      // asfg.org opens some bios with the member's own name and credentials. The
+      // modal head already shows both, so drop that line rather than repeat it.
+      // Name-and-credentials only: a first line carrying digits is something else,
+      // such as J. Ben Vernazza's memorial dates, and has to stay.
+      if(surname && bioLines.length && bioLines[0].length < 60 && bioLines[0].includes(surname) && !/\d/.test(bioLines[0])) bioLines.shift();
+      const parts = bioLines.map(line=>{
         let open = '';
         if(!inDisc && CFP.test(line.trim())){ inDisc = true;
           open = '<div class="bio-disclosure"><p class="bio-disclosure-h">'+esc(line)+'</p>'; return open; }
@@ -633,5 +641,6 @@
     });
   })();
 </script>
+<script src="/demos/asfg-assets/refresh.js?v=1"></script>
 </body>
 </html>
