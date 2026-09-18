@@ -257,13 +257,37 @@ function renderQuickActions(items) {
 }
 
 function renderFooter(f) {
+  // The footer is a machine nameplate: the kind of stamped plate riveted to
+  // every STI machine that leaves the building.
   el("footer").innerHTML = `
-    <div class="footer__big" aria-hidden="true">${f.wordmark}</div>
+    <div class="plate">
+      <div class="plate__name">${f.wordmark}<span>Technologies, Inc.</span></div>
+      <div class="plate__meta"><span>${f.address}</span><span>Est. 1932 &middot; Indianapolis, Ind.</span></div>
+    </div>
     <div class="footer__row">
       <span>${f.copyright}</span>
-      <span>${f.address}</span>
       <span><a href="${f.partnerHref}" target="_blank" rel="noopener">${f.partnerLabel}</a></span>
+      <span class="footer__credit">Redesign concept by <a href="https://frontporchwebllc.com" target="_blank" rel="noopener">Front Porch Web</a></span>
     </div>`;
+}
+
+// Each section's title block carries a fact about that section, computed
+// from the content itself so it can never drift from what is on the page.
+function renderTitleBlocks(d) {
+  const years = d.news.map((n) => +(n.date.match(/\d{4}/) || [0])[0]).filter(Boolean);
+  const span = years.length ? `${Math.min(...years)}&ndash;${Math.max(...years)}` : "";
+  const meta = {
+    legacy: "Est. 1932 &middot; Indianapolis, Ind.",
+    equipment: `${d.machines.length} machines &middot; ${d.divisions.length} divisions`,
+    services: `${d.services.items.length} services &middot; ${d.services.manuals.length} manuals`,
+    team: `${d.team.members.length} people &middot; international partners`,
+    news: `${d.news.length} articles${span ? " &middot; " + span : ""}`,
+    contact: `${d.contact.phonePrimary} &middot; toll-free`,
+  };
+  document.querySelectorAll("[data-tb]").forEach((node) => {
+    const v = meta[node.dataset.tb];
+    if (v) node.innerHTML = v;
+  });
 }
 
 export async function initContent() {
@@ -280,5 +304,6 @@ export async function initContent() {
   renderContact(data.contact);
   renderQuickActions(data.quickActions);
   renderFooter(data.footer);
+  renderTitleBlocks(data);
   return data;
 }
