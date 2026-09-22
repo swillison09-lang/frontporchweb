@@ -6,3 +6,48 @@
 @media(min-width:821px){.hero-in{grid-template-columns:1.6fr .85fr;gap:55px}.hero h1{max-width:none;font-size:clamp(48px,5.3vw,72px);text-wrap:initial}.hero .medallion{width:min(330px,100%)}}
 @media(max-width:560px){.hero h1{font-size:40px;letter-spacing:-.035em;text-wrap:initial}.hero .medallion{margin-bottom:25px}}
 .portrait-review-link{display:none;position:fixed;bottom:18px;left:22px;z-index:100;background:#102639;color:#f3dcac;padding:12px 18px;border:1px solid #ba9b60;border-radius:30px;text-decoration:none;font-size:13px}.local-preview .portrait-review-link{display:block}@media(max-width:560px){.portrait-review-link{bottom:12px;left:12px;font-size:11px;padding:10px 12px}}
+
+/* ── Legibility floor, added after an audit on 2026-09-21 ────────────────────
+   The 560px block above shrank the brand tagline to 7px and the hero buttons
+   to 10px to make them fit. They fit and nobody could read them. These rules
+   come last so they win, and they set a floor rather than re-doing the layout.
+
+   The 44px minimums are the Front Porch tap-target rule: several links in the
+   footer and the meeting-agenda link were 23-24px tall on a phone, which is
+   under half a fingertip. */
+.skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:var(--paper);
+  padding:14px 20px;border:2px solid var(--brass);border-radius:0 0 3px 0;font-size:14px;text-decoration:none}
+.skip-link:focus{left:0}
+
+.foot-links a{display:inline-flex;align-items:center;min-height:44px}
+.principle .agenda{min-height:44px}
+
+/* the tablet band shrank the tagline to 8px; same problem, one breakpoint up */
+@media(max-width:1050px){.brandtext span{font-size:10px}}
+
+/* small-caps labels were bottoming out at 10px, which is hard going for the
+   50-and-over readers this group is actually made of */
+.ledger .lab{font-size:11.5px}
+.reg-note,.reg-sub .count{font-size:11px}
+
+@media(max-width:560px){
+  /* the nav is genuinely tight at this width, so the tagline steps aside there
+     and keeps its place in the footer, where there is room to read it */
+  .nav-in .brandtext span{display:none}
+  .nav-in .brandmark{min-height:44px}
+  .ledger .lab{font-size:11px}
+  .reg-sub .count,.reg-note{font-size:10.5px}
+  footer .brandtext span{font-size:10px;letter-spacing:.12em}
+  .brandtext b{font-size:15px}
+
+  .hero-cta .btn{font-size:13px;padding:15px 20px;min-height:44px;display:inline-flex;align-items:center}
+  .nav-in>.btn{font-size:12px;padding:0 16px;min-height:44px;display:inline-flex;align-items:center}
+  .foot-links{gap:4px 25px}
+}
+nav.links a{padding:12px 0}
+.foot-credit a{color:var(--brass-soft);text-decoration:none;border-bottom:1px solid #b4bdc540}
+.foot-credit a:hover{color:var(--brass)}
+/* the skip target takes focus programmatically; it should not draw a ring
+   around the entire page when it does */
+main:focus{outline:none}
+main{scroll-margin-top:0}

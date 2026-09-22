@@ -14,6 +14,7 @@
 <title>The All-Star Financial Group — Website Redesign Concept · Front Porch Web</title>
 <meta name="description" content="A redesign concept for The All-Star Financial Group — a national society of peer-selected fiduciary advisors. An independent proposal by Front Porch Web." />
 <meta name="robots" content="noindex" />
+<link rel="canonical" href="https://frontporchwebllc.com/demos/asfg" />
 <link rel="icon" type="image/png" href="/demos/asfg-assets/asfg-badge-96.png" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The All-Star Financial Group" />
@@ -310,6 +311,7 @@
 <body>
 
 <script>document.documentElement.className='js';</script>
+<a class="skip-link" href="#main">Skip to content</a>
 <div class="concept-ribbon">
   Redesign concept &middot; an independent proposal for <strong>The All-Star Financial Group</strong> &middot; by <a href="https://frontporchwebllc.com" target="_blank" rel="noopener">Front Porch Web</a>
 </div>
@@ -333,6 +335,7 @@
 </header>
 
 <a id="top"></a>
+<main id="main" tabindex="-1">
 <section class="hero">
   <div class="wrap hero-in">
     <div class="reveal in">
@@ -519,8 +522,10 @@
         <a class="btn" href="/demos/asfg-assets/asfg-membership-application.pdf" target="_blank" rel="noopener">Fill Out Application</a>
         <p class="join-note">Fillable PDF &middot; opens in a new tab</p>
       </div>
+    </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap">
@@ -544,11 +549,12 @@
     <div class="foot-legal">
       <span>&copy; 2026 The All-Star Financial Group</span>
       <span>Peer-selected · Fiduciary · Nationwide</span>
+      <span class="foot-credit">Site by <a href="https://frontporchwebllc.com" target="_blank" rel="noopener">Front Porch Web</a></span>
     </div>
   </div>
 </footer>
 
-<div class="bio-overlay" id="bio-overlay" role="dialog" aria-modal="true" aria-label="Member biography">
+<div class="bio-overlay" id="bio-overlay" role="dialog" aria-modal="true" aria-labelledby="bio-modal-title">
   <div class="bio-modal"></div>
 </div>
 
@@ -611,7 +617,7 @@
         '<button class="bio-close" aria-label="Close biography">&times;</button>' +
         '<div class="bio-head">' +
           (img?'<img src="'+esc(img)+'" alt="'+esc(name)+'" />':'') +
-          '<div><h3 class="bh-name">'+esc(name)+'</h3>' +
+          '<div><h3 class="bh-name" id="bio-modal-title">'+esc(name)+'</h3>' +
           (creds?'<div class="creds">'+creds+'</div>':'') +
           '<div class="bh-firm">'+esc(firm)+(loc?' &middot; '+esc(loc):'')+'</div></div>' +
         '</div>' +
