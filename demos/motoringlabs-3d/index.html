@@ -1,30 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#071125">
 <title>Motoring Labs — Gate-to-Gate Condition Intelligence (redesign concept)</title>
-<script>
-  // support.js checks window.__resources before reaching for unpkg.com, so
-  // pinning these to local copies means React/ReactDOM never touch the
-  // network. Files are byte-identical to what support.js already trusts —
-  // verified against its own baked-in SRI hashes before vendoring them here.
-  // Keeps this demo inside the site's normal CSP with no exceptions needed.
-  window.__resources = {
-    "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "./vendor/react.production.min.js",
-    "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "./vendor/react-dom.production.min.js"
-  };
-</script>
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
-  <link rel="stylesheet" href="_ds/modernist-e829dc26-f183-4c99-a24b-3c3c5190be6f/styles.css">
-  <script src="_ds/modernist-e829dc26-f183-4c99-a24b-3c3c5190be6f/_ds_bundle.js"></script>
-  <script type="module" src="scene.js"></script>
-  <style>
+<link rel="icon" href="assets/logo.png">
+<link rel="preload" href="assets/truck-hero-poster.jpg" as="image">
+<link rel="stylesheet" href="_ds/modernist-e829dc26-f183-4c99-a24b-3c3c5190be6f/styles.css">
+<script type="module" src="scene.js?v=2"></script>
+<style>
     :root {
       --color-bg: #071125;
       --color-text: #eaf2fc;
@@ -63,7 +49,7 @@
       /* At 390px the full-width logo (251px) and the Contact button (91px)
          exactly consume the 342px between the nav's padding, leaving them
          touching. Shrink the mark so the two never collide. */
-      #ml-nav img { height: 22px !important; }
+      #ml-nav img { height: 20px !important; }
 
       section[data-sec="001"] > div[data-rv="400"] {
         grid-template-columns: 1fr !important;
@@ -98,9 +84,102 @@
         grid-template-columns: 1fr !important;
       }
     }
-  </style>
-</helmet>
 
+    /* ════════ Sept 2026 polish layer ════════
+       The page used to be rendered at runtime by a React "DC" runtime that
+       only turned static markup into static markup -- ~200KB of JS, a 4-10s
+       wait before anything was interactive, and a <video> that got swapped
+       out mid-play. It's plain HTML now; everything below is additive. */
+    html { scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+    body { color: var(--color-text); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+    ::selection { background: var(--color-accent); color: var(--color-bg); }
+    :focus-visible { outline: 2px solid var(--color-accent-600); outline-offset: 3px; }
+    .ml-skip { position: fixed; left: 12px; top: -60px; z-index: 90; padding: 10px 14px; background: var(--color-accent); color: var(--color-bg) !important; font-weight: 700; }
+    .ml-skip:focus { top: 12px; }
+
+    /* hero headline fits the first screen with the stat strip showing */
+    .ml-h1 { font-size: clamp(52px, min(7.6vw, 10.4vh), 128px) !important; }
+    #ml-nav a.is-here { color: var(--color-accent-600); }
+    #ml-nav { -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0); transition: background .3s ease, backdrop-filter .3s ease; }
+    #ml-nav.is-solid { background: rgba(7,17,37,.86) !important; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+
+    /* legibility: a soft scrim on the copy side of each chapter so the
+       wireframe never runs through a sentence, while the far side stays clear */
+    .ml-sec { position: relative; isolation: isolate; }
+    .ml-sec::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+    .ml-sec--left::before  { background: linear-gradient(90deg, rgba(7,17,37,.92) 0%, rgba(7,17,37,.8) 40%, rgba(7,17,37,0) 62%); }
+    .ml-sec--right::before { background: linear-gradient(270deg, rgba(7,17,37,.92) 0%, rgba(7,17,37,.8) 46%, rgba(7,17,37,0) 66%); }
+    .ml-sec--wide::before  { background: linear-gradient(90deg, rgba(7,17,37,.9) 0%, rgba(7,17,37,.72) 70%, rgba(7,17,37,.35) 100%); }
+
+    /* HUD: only shown while the 3D chapters are on screen */
+    .ml-hud { transition: opacity .4s ease; top: 78px !important; bottom: auto !important; padding: 6px 10px; background: rgba(7,17,37,.72); border: 1px solid var(--color-neutral-200); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .ml-hud.is-off { opacity: 0; }
+
+    /* mobile menu */
+    .ml-menu-btn { display: none; width: 44px; height: 44px; margin-left: 8px; padding: 0; background: none; border: 2px solid var(--color-divider); color: var(--color-text); cursor: pointer; align-items: center; justify-content: center; flex-direction: column; gap: 5px; }
+    .ml-menu-btn span { display: block; width: 18px; height: 2px; background: currentColor; transition: transform .25s ease, opacity .2s ease; }
+    .ml-menu-btn[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+    .ml-menu-btn[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+    #ml-menu { position: fixed; top: 64px; left: 0; right: 0; z-index: 39; background: rgba(7,17,37,.97); border-bottom: 2px solid var(--color-divider); padding: 8px var(--space-6) 20px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+    #ml-menu[hidden] { display: none; }
+    #ml-menu a { display: flex; align-items: center; justify-content: space-between; min-height: 56px; border-bottom: 1px solid var(--color-neutral-200); font-size: 14px; letter-spacing: .12em; font-weight: 600; }
+    #ml-menu a::after { content: "→"; color: var(--color-accent); letter-spacing: 0; }
+    #ml-menu .btn { width: 100%; justify-content: center; min-height: 48px; margin-top: 18px; }
+
+    /* modal */
+    .ml-close { width: 44px; height: 44px; margin: -10px -12px 0 0; display: inline-flex; align-items: center; justify-content: center; }
+    .ml-modal { background: rgba(3,8,18,.72); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); padding: 16px; }
+    .ml-modal .dialog { max-height: calc(100dvh - 32px); overflow: auto; }
+    .ml-modal .input { font-size: 16px; } /* 16px stops iOS zooming into the field */
+    html.ml-locked { overflow: hidden; }
+    .ml-modal .input { background: #0b1a33; color: var(--color-text); border: 2px solid var(--color-divider); }
+    .ml-modal .input:focus { border-color: var(--color-accent); outline: none; }
+    .ml-modal label { color: var(--color-neutral-800); }
+
+    @media (max-width: 860px) {
+      .ml-menu-btn { display: inline-flex; }
+      #ml-nav { padding: 0 16px !important; }
+      #ml-nav .btn { min-height: 44px; white-space: nowrap; padding-inline: 14px; }
+      .ml-hud { display: none !important; }
+
+      /* hero: tighter so the first screen reads as one piece */
+      section[data-sec="001"] { padding: 104px 20px 0 !important; }
+      section[data-sec="001"] div[data-rv="320"] { flex-wrap: wrap; margin-bottom: 40px !important; }
+      section[data-sec="001"] .btn { min-height: 48px; }
+      section[data-sec="001"] > div[data-rv="400"] { gap: 18px !important; padding-bottom: 28px !important; }
+      section[data-sec="001"] > div[data-rv="400"] > div { padding-top: 18px !important; }
+      section[data-sec="001"] > div[data-rv="400"] > div > div:first-child { font-size: 28px !important; }
+
+      /* each chapter opens with a clear window onto the 3D scene, then the
+         copy slides over a scrim -- on a phone the scene used to be hidden
+         behind wall-to-wall text the whole way down */
+      .ml-sec { min-height: 0 !important; padding: 44svh 20px 72px !important; display: block !important; }
+      .ml-sec::before, .ml-sec--left::before, .ml-sec--right::before, .ml-sec--wide::before {
+        background: linear-gradient(180deg, rgba(7,17,37,0) 0, rgba(7,17,37,0) calc(44svh - 140px), rgba(7,17,37,.9) calc(44svh - 8px), rgba(7,17,37,.9) 100%);
+      }
+      section[data-sec="006"] { padding: 72px 20px !important; }
+      section[data-sec="006"] button { min-height: 52px; }
+      footer { padding: 32px 20px calc(24px + env(safe-area-inset-bottom)) !important; }
+      footer a { display: inline-flex; align-items: center; min-height: 44px; }
+      footer > div:first-child > div > div:last-child { gap: 0 !important; }
+    }
+    @media (min-width: 861px) { #ml-menu { display: none !important; } }
+    @media (max-width: 380px) {
+      .ml-h1 { font-size: 46px !important; }
+      #ml-nav img { height: 17px !important; }
+      #ml-nav .btn { padding-inline: 12px; }
+    }
+    /* tablets have room for the three hero stats side by side */
+    @media (min-width: 600px) and (max-width: 860px) {
+      section[data-sec="001"] > div[data-rv="400"] { grid-template-columns: repeat(3, 1fr) !important; }
+      section[data-sec="001"] > div[data-rv="400"] > div { border-top: none !important; padding: 0 16px 0 0 !important; }
+      section[data-sec="001"] > div[data-rv="400"] > div + div { border-left: 2px solid var(--color-divider) !important; padding-left: 16px !important; }
+      section[data-sec="001"] > div[data-rv="400"] > div > div:first-child { font-size: 26px !important; }
+    }
+</style>
+</head>
+<body>
+<a class="ml-skip" href="#platform">Skip to content</a>
 <div id="ml-loader" style="position:fixed; inset:0; z-index:60; background:var(--color-bg); display:flex; flex-direction:column; justify-content:space-between; padding:var(--space-6); transition:opacity .7s ease, visibility .7s;">
   <div style="font-family:var(--font-heading); font-weight:700; letter-spacing:0.14em; font-size:13px; color:var(--color-text);">MOTORING LABS</div>
   <div>
@@ -111,19 +190,26 @@
   </div>
 </div>
 
-<canvas id="ml-gl" style="position:fixed; inset:0; width:100vw; height:100vh; height:100dvh; pointer-events:none; z-index:0;"></canvas>
+<canvas id="ml-gl" aria-hidden="true" style="position:fixed; top:0; left:0; width:100%; height:100vh; height:100lvh; pointer-events:none; z-index:0; opacity:0;"></canvas>
 
 <div id="ml-progress" style="position:fixed; top:0; left:0; right:0; height:2px; background:var(--color-accent); transform:scaleX(0); transform-origin:left; z-index:50;"></div>
 
 <nav id="ml-nav" style="position:fixed; top:0; left:0; right:0; z-index:40; display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-6); height:64px; border-bottom:2px solid var(--color-divider); background:transparent; transition:background .3s ease;">
-  <a href="#top" style="display:flex; align-items:center;"><img src="assets/logo.png" alt="Motoring Labs" style="height:30px; width:auto; display:block;"></a>
+  <a href="#top" style="display:flex; align-items:center;" aria-label="Motoring Labs home"><img src="assets/logo.png" alt="Motoring Labs" width="251" height="30" style="height:30px; width:auto; display:block;"></a>
   <div style="display:flex; align-items:center; gap:32px; font-size:13px; letter-spacing:0.08em;">
     <a href="#platform">PLATFORM</a>
     <a href="#value">WHY MOTORING</a>
     <a href="#how">HOW IT WORKS</a>
     <button class="btn btn-primary" data-ml-open-modal>Contact us</button>
+    <button class="ml-menu-btn" type="button" aria-expanded="false" aria-controls="ml-menu" aria-label="Open menu"><span></span><span></span></button>
   </div>
 </nav>
+<div id="ml-menu" hidden>
+  <a href="#platform">PLATFORM</a>
+  <a href="#value">WHY MOTORING</a>
+  <a href="#how">HOW IT WORKS</a>
+  <button class="btn btn-primary" data-ml-open-modal>Contact us</button>
+</div>
 
 <main id="top" style="position:relative; z-index:1;">
 
@@ -131,14 +217,14 @@
        headline, opaque over the 3D scene. scene.js keeps the WebGL canvas at
        opacity 0 through this section and fades it in as you scroll past, so
        the 3D "starts" only after the hero. -->
-  <section data-sec="001" style="position:relative; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; justify-content:flex-end; padding:120px var(--space-6) 0; background:#040a14; overflow:hidden;">
-    <video id="ml-hero-video" autoplay muted loop playsinline preload="auto" src="assets/truck-hero.mp4" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.55;"></video>
+  <section data-sec="001" style="position:relative; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; justify-content:flex-end; padding:104px var(--space-6) 0; background:#040a14 url(assets/truck-hero-poster.jpg) center/cover; overflow:hidden;">
+    <video id="ml-hero-video" autoplay muted loop playsinline preload="auto" poster="assets/truck-hero-poster.jpg" src="assets/truck-hero.mp4" aria-hidden="true" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.55;"></video>
     <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,10,20,0.55) 0%, rgba(4,10,20,0.25) 45%, rgba(4,10,20,0.92) 100%);"></div>
     <div style="max-width:1080px; position:relative; z-index:1;">
       <div data-rv="0" data-scramble style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); margin-bottom:var(--space-4); font-weight:600;">MOTORING LOGISIGHT — GATE-TO-GATE CONDITION INTELLIGENCE</div>
-      <h1 data-rv="100" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(52px, 7.6vw, 128px); line-height:0.96; letter-spacing:-0.02em; margin:0 0 32px; color:var(--color-text);">Every truck.<br>Every trailer.<br><span style="color:var(--color-accent);">Proof of condition</span> at the gate.</h1>
+      <h1 data-rv="100" class="ml-h1" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(52px, 7.6vw, 128px); line-height:0.96; letter-spacing:-0.02em; margin:0 0 32px; color:var(--color-text);">Every truck.<br>Every trailer.<br><span style="color:var(--color-accent);">Proof of condition</span> at the gate.</h1>
       <p data-rv="220" style="font-size:18px; line-height:1.55; max-width:560px; color:var(--color-neutral-800); margin:0 0 32px;">Computer vision at your facility gates creates a claims-grade condition record for every asset that enters or exits. No apps. No walk-arounds. No arguments.</p>
-      <div data-rv="320" style="display:flex; gap:var(--space-3); margin-bottom:64px;">
+      <div data-rv="320" style="display:flex; gap:var(--space-3); margin-bottom:48px;">
         <button class="btn btn-primary" data-ml-open-modal>Contact us</button>
         <a href="#value" class="btn btn-secondary">See the business case</a>
       </div>
@@ -160,7 +246,7 @@
   </section>
 
   <!-- EVIDENCE -->
-  <section id="platform" data-sec="002" style="min-height:130vh; display:flex; align-items:center; padding:var(--space-8) var(--space-6);">
+  <section id="platform" data-sec="002" class="ml-sec ml-sec--left" style="min-height:130vh; display:flex; align-items:center; padding:var(--space-8) var(--space-6);">
     <div style="max-width:620px;">
       <div data-rv="0" style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); font-weight:600; margin-bottom:var(--space-4);">THE EVIDENCE LAYER</div>
       <h2 data-rv="80" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(40px, 4.6vw, 76px); line-height:1; letter-spacing:-0.02em; margin:0 0 32px;">Not cameras.<br>Evidence.</h2>
@@ -188,7 +274,7 @@
   </section>
 
   <!-- WHY -->
-  <section id="value" data-sec="003" style="min-height:160vh; padding:var(--space-8) var(--space-6); display:flex; flex-direction:column; justify-content:center;">
+  <section id="value" data-sec="003" class="ml-sec ml-sec--right" style="min-height:160vh; padding:var(--space-8) var(--space-6); display:flex; flex-direction:column; justify-content:center;">
     <div style="max-width:1200px; margin-left:auto; width:min(720px, 100%);">
       <div data-rv="0" style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); font-weight:600; margin-bottom:var(--space-4);">WHY MOTORING</div>
       <h2 data-rv="80" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(36px, 4vw, 64px); line-height:1.02; letter-spacing:-0.02em; margin:0 0 var(--space-3);">Three problems.<br>One record fixes all of them.</h2>
@@ -227,7 +313,7 @@
   </section>
 
   <!-- HOW -->
-  <section id="how" data-sec="004" style="min-height:130vh; display:flex; flex-direction:column; justify-content:center; padding:var(--space-8) var(--space-6);">
+  <section id="how" data-sec="004" class="ml-sec ml-sec--wide" style="min-height:130vh; display:flex; flex-direction:column; justify-content:center; padding:var(--space-8) var(--space-6);">
     <div style="max-width:1200px;">
       <div data-rv="0" style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); font-weight:600; margin-bottom:var(--space-4);">HOW IT WORKS</div>
       <h2 data-rv="80" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(40px, 5vw, 84px); line-height:1; letter-spacing:-0.02em; margin:0 0 var(--space-3);">Drive through.<br>That's the whole workflow.</h2>
@@ -253,7 +339,7 @@
   </section>
 
   <!-- ENTERPRISE -->
-  <section data-sec="005" style="min-height:110vh; display:flex; align-items:center; padding:var(--space-8) var(--space-6);">
+  <section data-sec="005" class="ml-sec ml-sec--right" style="min-height:110vh; display:flex; align-items:center; padding:var(--space-8) var(--space-6);">
     <div style="max-width:1080px; margin-left:auto; width:min(760px,100%);">
       <div data-rv="0" style="font-size:12px; letter-spacing:0.22em; color:var(--color-accent-700); font-weight:600; margin-bottom:var(--space-4);">ENTERPRISE READY</div>
       <h2 data-rv="80" style="font-family:var(--font-heading); font-weight:800; font-size:clamp(36px, 4vw, 64px); line-height:1.02; letter-spacing:-0.02em; margin:0 0 var(--space-6);">Built for fleet-scale operations.</h2>
@@ -305,9 +391,9 @@
         <div style="font-size:12px; letter-spacing:0.18em; color:var(--color-neutral-700); margin-bottom:var(--space-3);">COMPANY</div>
         <div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
           <a href="#contact" data-ml-open-modal>Contact Us</a>
-          <a href="https://www.linkedin.com/company/67482886" target="_blank">LinkedIn</a>
-          <a href="https://www.motoringlabs.com/assets/privacy.html" target="_blank">Privacy Policy</a>
-          <a href="https://www.motoringlabs.com/assets/terms.html" target="_blank">Terms &amp; Conditions</a>
+          <a href="https://www.linkedin.com/company/67482886" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.motoringlabs.com/assets/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+          <a href="https://www.motoringlabs.com/assets/terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>
         </div>
       </div>
     </div>
@@ -316,229 +402,161 @@
 </main>
 
 <!-- HUD -->
-<div style="position:fixed; left:var(--space-6); bottom:var(--space-4); z-index:30; font-size:11px; letter-spacing:0.18em; color:var(--color-neutral-700); pointer-events:none;">
+<div class="ml-hud is-off" aria-hidden="true" style="position:fixed; left:var(--space-6); bottom:var(--space-4); z-index:30; font-size:11px; letter-spacing:0.18em; color:var(--color-neutral-700); pointer-events:none;">
   <span style="display:inline-block; width:8px; height:8px; background:var(--color-accent); margin-right:8px; animation:ml-blink 1.6s steps(1) infinite;"></span>GATE 04 — LIVE
 </div>
-<div style="position:fixed; right:var(--space-6); bottom:var(--space-4); z-index:30; font-size:11px; letter-spacing:0.18em; color:var(--color-neutral-700); pointer-events:none;"><span id="ml-sec">001</span> / 006</div>
+<div class="ml-hud is-off" aria-hidden="true" style="position:fixed; right:var(--space-6); bottom:var(--space-4); z-index:30; font-size:11px; letter-spacing:0.18em; color:var(--color-neutral-700); pointer-events:none;"><span id="ml-sec">001</span> / 006</div>
 
-<!-- MODAL
-     Rewritten as plain hidden-by-default markup toggled by vanilla JS
-     (see the script before </body>) instead of the DC-runtime's templated
-     sc-if/onClick bindings, which require compiling the page's inline
-     <script data-dc-script> logic via new Function() at runtime - blocked
-     under a CSP without 'unsafe-eval', which this site's does not grant. -->
-<div id="ml-modal-form" style="display:none; position:fixed; inset:0; z-index:70; align-items:center; justify-content:center;" data-ml-modal-backdrop>
-  <div class="dialog" style="width:min(460px, calc(100vw - 48px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);" data-ml-modal-panel>
+<!-- MODAL -->
+<div id="ml-modal-form" class="ml-modal" style="display:none; position:fixed; inset:0; z-index:70; align-items:center; justify-content:center;" data-ml-modal-backdrop>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="ml-form-title" style="width:min(460px, calc(100vw - 32px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);" data-ml-modal-panel>
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:var(--space-4);">
-        <h3 style="font-family:var(--font-heading); font-weight:800; font-size:28px; margin:0;">Let's talk.</h3>
-        <button data-ml-close-modal style="background:none; border:none; font-size:22px; cursor:pointer; color:var(--color-text); line-height:1;">×</button>
+        <h3 id="ml-form-title" style="font-family:var(--font-heading); font-weight:800; font-size:28px; margin:0;">Let's talk.</h3>
+        <button type="button" class="ml-close" data-ml-close-modal aria-label="Close" style="background:none; border:none; font-size:26px; cursor:pointer; color:var(--color-text); line-height:1;">×</button>
       </div>
       <p style="font-size:14px; color:var(--color-neutral-700); margin:0 0 var(--space-4);">Tell us about your operation. We respond within one business day.</p>
       <form id="ml-contact-form" style="display:flex; flex-direction:column; gap:var(--space-3);">
-        <div class="field"><label>Name</label><input class="input" type="text" required></div>
-        <div class="field"><label>Company</label><input class="input" type="text" required></div>
-        <div class="field"><label>Work email</label><input class="input" type="email" required></div>
-        <div class="field"><label>What are you dealing with?</label><textarea class="input" rows="3" style="resize:vertical; font-family:var(--font-body);"></textarea></div>
+        <div class="field"><label for="ml-f-name">Name</label><input id="ml-f-name" name="name" class="input" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="ml-f-co">Company</label><input id="ml-f-co" name="company" class="input" type="text" autocomplete="organization" required></div>
+        <div class="field"><label for="ml-f-email">Work email</label><input id="ml-f-email" name="email" class="input" type="email" autocomplete="email" inputmode="email" required></div>
+        <div class="field"><label for="ml-f-msg">What are you dealing with?</label><textarea id="ml-f-msg" name="message" class="input" rows="3" style="resize:vertical; font-family:var(--font-body);"></textarea></div>
         <button class="btn btn-primary" type="submit" style="margin-top:var(--space-2);">Send</button>
       </form>
   </div>
 </div>
-<div id="ml-modal-sent" style="display:none; position:fixed; inset:0; z-index:70; align-items:center; justify-content:center;" data-ml-modal-backdrop>
-  <div class="dialog" style="width:min(460px, calc(100vw - 48px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);" data-ml-modal-panel>
-      <div style="width:44px; height:44px; background:var(--color-accent); color:var(--color-bg); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:var(--space-4);">✓</div>
-      <h3 style="font-family:var(--font-heading); font-weight:800; font-size:28px; margin:0 0 var(--space-2);">Sent.</h3>
+<div id="ml-modal-sent" class="ml-modal" style="display:none; position:fixed; inset:0; z-index:70; align-items:center; justify-content:center;" data-ml-modal-backdrop>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="ml-sent-title" style="width:min(460px, calc(100vw - 32px)); background:var(--color-bg); border:2px solid var(--color-divider); padding:var(--space-6);" data-ml-modal-panel>
+      <div aria-hidden="true" style="width:44px; height:44px; background:var(--color-accent); color:var(--color-bg); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:var(--space-4);">✓</div>
+      <h3 id="ml-sent-title" style="font-family:var(--font-heading); font-weight:800; font-size:28px; margin:0 0 var(--space-2);">Sent.</h3>
       <p style="font-size:14px; color:var(--color-neutral-700); margin:0 0 var(--space-4);">We will get back to you within one business day.</p>
       <button class="btn btn-secondary" data-ml-close-modal>Close</button>
     </div>
   </div>
-</x-dc>
 
-<!-- Plain vanilla replacement for the page's interactivity (modal, loader,
-     scroll reveals, count-up, scramble text, scroll progress/nav/section
-     counter). Functionally identical to the original inline <script
-     data-dc-script> Component - ported method-for-method - but declared as
-     ordinary top-level functions instead of a class the DC-runtime compiles
-     via new Function() at runtime, which needs 'unsafe-eval' in the CSP.
-     This site's CSP doesn't grant that, so the eval'd version silently failed
-     (page rendered, but the loader never hid and nothing was interactive). -->
+<!-- Page behaviour: loader, menu, contact modal, reveals, count-ups, scramble,
+     scroll progress, nav state, section counter. Plain static DOM now, so
+     nodes are looked up once -- nothing re-renders underneath us. -->
 <script>
 (function () {
-  // The DC-runtime replaces <x-dc> and everything inside it (the whole page
-  // body) with a freshly React-rendered tree once React finishes loading -
-  // asynchronously, at an unpredictable time relative to this script tag
-  // reaching the parser. Attaching listeners to specific nodes now would
-  // attach them to the original nodes React is about to discard. Delegating
-  // from `document` sidesteps that entirely: document itself is never
-  // replaced, and matching happens against whatever the click target is at
-  // the moment of the click, long after React has settled.
+  var $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement;
+  var nav = $('ml-nav'), bar = $('ml-progress'), menu = $('ml-menu');
+  var menuBtn = document.querySelector('.ml-menu-btn');
+  var huds = document.querySelectorAll('.ml-hud');
+  var secLabel = $('ml-sec'), cta = $('contact');
+
+  // ---- hero video: belt and braces for autoplay on phones ----
+  var v = $('ml-hero-video');
+  if (v) {
+    v.muted = true; v.loop = true; v.playsInline = true;
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+    // stop decoding a video nobody can see once the hero is scrolled away
+    new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (en.isIntersecting) { var q = v.play(); if (q && q.catch) q.catch(function () {}); }
+        else v.pause();
+      });
+    }).observe(v);
+  }
+
+  // ---- mobile menu ----
+  function setMenu(open) {
+    if (!menu || !menuBtn) return;
+    menu.hidden = !open;
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (open) nav.classList.add('is-solid'); else onScroll();
+  }
+
+  // ---- contact modal ----
+  var lastFocus = null;
+  function show(id) {
+    ['ml-modal-form', 'ml-modal-sent'].forEach(function (x) { $(x).style.display = x === id ? 'flex' : 'none'; });
+    root.classList.add('ml-locked');
+    var first = $(id).querySelector('input, button.btn');
+    if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 30);
+  }
   function openModal(e) {
     if (e && e.preventDefault) e.preventDefault();
-    var sent = document.getElementById('ml-modal-sent');
-    var form = document.getElementById('ml-modal-form');
-    if (sent) sent.style.display = 'none';
-    if (form) form.style.display = 'flex';
+    setMenu(false);
+    lastFocus = document.activeElement;
+    show('ml-modal-form');
   }
   function closeModal() {
-    var form = document.getElementById('ml-modal-form');
-    var sent = document.getElementById('ml-modal-sent');
-    if (form) form.style.display = 'none';
-    if (sent) sent.style.display = 'none';
+    $('ml-modal-form').style.display = 'none';
+    $('ml-modal-sent').style.display = 'none';
+    root.classList.remove('ml-locked');
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
+  function modalOpen() {
+    return $('ml-modal-form').style.display === 'flex' || $('ml-modal-sent').style.display === 'flex';
+  }
+
   document.addEventListener('click', function (e) {
-    if (e.target.closest('[data-ml-open-modal]')) { openModal(e); return; }
-    if (e.target.closest('[data-ml-close-modal]')) { closeModal(); return; }
-    // Backdrop click closes; a click that lands inside the dialog panel
-    // itself must not also count as a backdrop click.
-    if (e.target.closest('[data-ml-modal-backdrop]') && !e.target.closest('[data-ml-modal-panel]')) {
-      closeModal();
+    var t = e.target;
+    if (t.closest('[data-ml-open-modal]')) { openModal(e); return; }
+    if (t.closest('[data-ml-close-modal]')) { closeModal(); return; }
+    if (t.closest('.ml-menu-btn')) { setMenu(menu.hidden); return; }
+    if (t.closest('#ml-menu a')) { setMenu(false); return; }
+    // backdrop click closes; a click inside the panel must not
+    if (t.closest('[data-ml-modal-backdrop]') && !t.closest('[data-ml-modal-panel]')) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { if (modalOpen()) closeModal(); else setMenu(false); return; }
+    // keep Tab inside an open dialog
+    if (e.key === 'Tab' && modalOpen()) {
+      var box = $('ml-modal-form').style.display === 'flex' ? $('ml-modal-form') : $('ml-modal-sent');
+      var f = box.querySelectorAll('button, input, textarea');
+      var a = f[0], z = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
     }
   });
   document.addEventListener('submit', function (e) {
     if (e.target && e.target.id === 'ml-contact-form') {
       e.preventDefault();
-      // Demo only: shows the "Sent" confirmation but does not actually
-      // transmit anywhere - there is no backend wired up to receive it.
-      openModal(); // ensures form panel exists in a known state first
-      document.getElementById('ml-modal-form').style.display = 'none';
-      document.getElementById('ml-modal-sent').style.display = 'flex';
+      // Concept demo: shows the confirmation, nothing is transmitted.
+      e.target.reset();
+      show('ml-modal-sent');
     }
   });
 
-  // Hero video setup. Two traps, both confirmed by inspecting the rendered
-  // element rather than trusting the markup:
-  //
-  //   1. The DC-runtime renders this page through React, and React DROPS the
-  //      bare `loop` and `muted` attributes - the rendered <video> came out
-  //      with autoplay and playsinline but NO loop and NO muted. The video
-  //      therefore played once, hit its 9.2s end, and froze. They have to be
-  //      set as DOM PROPERTIES, not markup attributes. (The upstream site
-  //      works around the same thing by writing loop="{{ true }}".)
-  //   2. `muted` must be a property BEFORE play() or mobile Safari/Chrome
-  //      refuse to autoplay at all.
-  //
-  // configureVideo() is therefore called twice: immediately (so playback
-  // starts as early as possible) and again once the DOM stops mutating,
-  // because the runtime's second render pass replaces the <video> element
-  // outright and the replacement arrives unconfigured.
-  function configureVideo() {
-    var v = document.getElementById('ml-hero-video');
-    if (!v) return false;
-    v.muted = true;
-    v.loop = true;
-    v.playsInline = true;
-    if (v.ended || v.paused) {
-      var p = v.play();
-      if (p && p.catch) p.catch(function () {});
-    }
-    return true;
+  // ---- scroll: progress bar, solid nav, HUD only over the 3D chapters ----
+  var ticking = false;
+  function onScroll() {
+    ticking = false;
+    var y = window.scrollY, h = window.innerHeight;
+    var p = y / Math.max(1, root.scrollHeight - h);
+    if (bar) bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    if (nav) nav.classList.toggle('is-solid', y > 40 || (menu && !menu.hidden));
+    var inScene = y > h * 0.7 && (!cta || cta.getBoundingClientRect().top > h - 60);
+    for (var i = 0; i < huds.length; i++) huds[i].classList.toggle('is-off', !inScene);
   }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
 
-  // The runtime can swap the <video> for a fresh, unconfigured, paused copy at
-  // more or less any point during startup - waiting for a single "settled"
-  // moment and configuring once was measurably not enough (the element came
-  // back paused at t=0 well after the DOM had gone quiet). So instead of
-  // trying to predict the last render, just re-assert the configuration on a
-  // cheap interval through the whole startup window. configureVideo() only
-  // calls play() when the element is actually stopped, so a healthy video is
-  // left completely alone; once the element settles, loop=true carries it.
-  (function () {
-    var ticks = 0;
-    var id = setInterval(function () {
-      configureVideo();
-      if (++ticks > 60) clearInterval(id); // ~30s of startup cover, then stop
-    }, 500);
-    configureVideo();
-  })();
-
-  // Everything below needs real references to elements the DC-runtime
-  // renders. Two hazards, confirmed by instrumenting a real run before
-  // writing this version:
-  //   1. #dc-root is created synchronously by boot() BEFORE
-  //      ReactDOM.createRoot(...).render(...) actually paints into it, so
-  //      polling for its mere existence can fire while it's still empty.
-  //   2. Even once content exists, the runtime commits a SECOND render
-  //      shortly after the first (observed ~4s in) that discards and
-  //      recreates the whole subtree - any DOM reference captured earlier,
-  //      including the one from bullet 1's fix, goes stale silently (no
-  //      error - the mutation just lands on an orphaned node nobody sees).
-  // The robust fix for both: never cache a node across time. Wait for the
-  // DOM to stop mutating (a MutationObserver quiet period) before doing
-  // anything, and re-query fresh at the exact moment each element is
-  // actually touched, everywhere below - not just once at setup.
-  function whenSettled(fn) {
-    var root = document.body;
-    var quiet = null;
-    var cap = setTimeout(finish, 10000); // absolute worst-case fallback
-    var mo = new MutationObserver(function () {
-      clearTimeout(quiet);
-      quiet = setTimeout(finish, 250);
+  // section counter + nav highlight
+  var links = document.querySelectorAll('#ml-nav a[href^="#"]:not([href="#top"])');
+  var secObs = new IntersectionObserver(function (es) {
+    es.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      if (secLabel) secLabel.textContent = en.target.dataset.sec;
+      var id = en.target.id;
+      links.forEach(function (a) { a.classList.toggle('is-here', !!id && a.getAttribute('href') === '#' + id); });
     });
-    mo.observe(root, { childList: true, subtree: true });
-    quiet = setTimeout(finish, 250);
-    var done = false;
-    function finish() {
-      if (done) return; done = true;
-      clearTimeout(cap); clearTimeout(quiet); mo.disconnect();
-      fn();
-    }
-  }
-  whenSettled(function () {
-    // Re-configure the hero video here too: by this point the runtime has
-    // finished its render passes, so this is the element that actually stays
-    // on screen. Without this the looping silently dies on the replacement.
-    configureVideo();
-    initReveal();
-  });
+  }, { rootMargin: '-45% 0px -45% 0px' });
+  document.querySelectorAll('[data-sec]').forEach(function (s) { secObs.observe(s); });
 
-  function initReveal() {
-  var introSpeed = 1;
-
-  // loader: hide on scene ready (min 1.2s), fallback 4s. Re-fetches the
-  // element by id right before mutating it rather than trusting a
-  // reference captured at setup time - see the note above whenSettled.
-  var t0 = performance.now();
-  var hidden = false;
-  function hide() {
-    if (hidden) return; hidden = true;
-    var wait = Math.max(0, 1200 / introSpeed - (performance.now() - t0));
-    setTimeout(function () {
-      var loader = document.getElementById('ml-loader');
-      if (loader) { loader.style.opacity = '0'; loader.style.visibility = 'hidden'; }
-      startReveals();
-    }, wait);
-  }
-  window.addEventListener('ml:ready', hide, { once: true });
-  setTimeout(hide, 4000);
-
-  // prep reveal targets
-  document.querySelectorAll('[data-rv]').forEach(function (el) {
+  // ---- reveals ----
+  var rv = document.querySelectorAll('[data-rv]');
+  rv.forEach(function (el) {
     el.style.opacity = '0';
     el.style.transform = 'translateY(26px)';
     el.style.transition = 'opacity .9s cubic-bezier(.2,.6,.2,1), transform .9s cubic-bezier(.2,.6,.2,1)';
   });
-
-  // scroll progress + nav bg + section counter - queried fresh on every
-  // scroll tick rather than cached, for the same reason.
-  function onScroll() {
-    var d = document.documentElement;
-    var p = window.scrollY / Math.max(1, d.scrollHeight - window.innerHeight);
-    var bar = document.getElementById('ml-progress');
-    var nav = document.getElementById('ml-nav');
-    if (bar) bar.style.transform = 'scaleX(' + p + ')';
-    if (nav) nav.style.background = window.scrollY > 40 ? 'var(--color-bg)' : 'transparent';
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  var secObs = new IntersectionObserver(function (es) {
-    es.forEach(function (en) {
-      if (!en.isIntersecting) return;
-      var secLabel = document.getElementById('ml-sec');
-      if (secLabel) secLabel.textContent = en.target.dataset.sec;
-    });
-  }, { threshold: 0.4 });
-  document.querySelectorAll('[data-sec]').forEach(function (s) { secObs.observe(s); });
-
   function startReveals() {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
@@ -548,13 +566,26 @@
         el.style.opacity = '1';
         el.style.transform = 'translateY(0)';
         io.unobserve(el);
-        el.querySelectorAll('[data-count]').forEach(function (c) { countUp(c); });
+        el.querySelectorAll('[data-count]').forEach(countUp);
         if (el.dataset.count !== undefined) countUp(el);
         if (el.dataset.scramble !== undefined) scramble(el);
       });
-    }, { threshold: 0.2 });
-    document.querySelectorAll('[data-rv]').forEach(function (el) { io.observe(el); });
+    }, { threshold: 0.12 });
+    rv.forEach(function (el) { io.observe(el); });
   }
+
+  // ---- loader: a short brand beat, not a wait on WebGL (the hero is video) ----
+  var t0 = performance.now(), hidden = false;
+  function hide() {
+    if (hidden) return; hidden = true;
+    setTimeout(function () {
+      var l = $('ml-loader');
+      if (l) { l.style.opacity = '0'; l.style.visibility = 'hidden'; }
+      startReveals();
+    }, Math.max(0, 900 - (performance.now() - t0)));
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(hide);
+  setTimeout(hide, 2200);
 
   function countUp(el) {
     if (el.dataset.done) return; el.dataset.done = '1';
@@ -573,6 +604,7 @@
 
   function scramble(el) {
     var finalText = el.textContent;
+    el.setAttribute('aria-label', finalText);
     var chars = 'ABCDEFGHKMNPRSTX0123456789—';
     var dur = 900, s = performance.now();
     function tick(now) {
@@ -587,7 +619,6 @@
     }
     requestAnimationFrame(tick);
   }
-  } // end initReveal
 })();
 </script>
 </body>

@@ -209,9 +209,20 @@ const KEYS = [
   { p: [15, 4.0, 30], t: [0, 2.6, 14] },     // hero: three-quarter, truck approaching
   { p: [8.5, 2.6, 13], t: [-2.5, 3.2, 0] }, // evidence: gate composed right of center (copy sits left)
   { p: [4, 16, 5], t: [3.5, 1, -1] },        // why: overhead, truck composed left (copy sits right)
-  { p: [-11, 3.2, -7], t: [1.5, 2.6, 0.5] }, // how: past the gate looking back
-  { p: [-19, 8, -22], t: [-2.5, 2, -5] },    // enterprise: wide, scene composed left (copy sits right)
+  { p: [-18, 7, 2], t: [1, 2, -13] },       // how: pulled back past the gate, rig composed right of the copy
+  { p: [-16, 9, -58], t: [-7, 2, -20] },     // enterprise: wide from beyond the truck, rig composed left (copy sits right)
   { p: [-3, 2.2, -30], t: [0, 2.6, -12] },   // cta: truck departing
+];
+// Phones: the copy stacks under a window onto the scene instead of beside
+// it, and the screen is tall. Looking down the lane makes the lane run up the
+// screen, so truck and gate share the frame instead of falling off the sides.
+const KEYS_PORTRAIT = [
+  { p: [7, 13, 60], t: [0, 1.5, 14] },       // evidence window: behind the truck, gate up the lane
+  { p: [9, 14, 44], t: [0, 1.5, 8] },        // why window: higher, truck closing on the gate
+  { p: [14, 16, 20], t: [0, 1.5, 0] },       // mid-scan: high over the gate
+  { p: [14, 12, 2], t: [0, 1.5, -6] },       // how window: truck inside the gate, curtain lit
+  { p: [12, 15, 6], t: [0, 1.5, -20] },      // enterprise window: over the gate, truck heading out
+  { p: [4, 6, -14], t: [0, 2, -40] },        // cta: truck departing
 ];
 
 const ease = x => x * x * (3 - 2 * x);
@@ -236,9 +247,10 @@ function start() {
       return;
     }
   }
-  console.log('[scene] init ok');
-  window.__mlDebug = true;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  // phones: cap the pixel ratio -- a wireframe gains nothing from 3x and the
+  // GPU (and battery) pay for every extra pixel
+  const coarse = window.matchMedia('(pointer: coarse)').matches;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, coarse ? 1.5 : 2));
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(BG, 45, 115);
   const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 300);
@@ -258,10 +270,12 @@ function start() {
   const gate = buildGate();
   scene.add(gate);
 
-  let target = 0, prog = 0, mx = 0, my = 0, fade = 0;
+  let target = 0, prog = 0, mx = 0, my = 0, fade = 0, portrait = false;
+  const hero = document.querySelector('[data-sec="001"]');
   const readScroll = () => {
     const d = document.documentElement;
-    const hh = window.innerHeight; // hero occupies the first viewport â 3D starts after it
+    // the hero occupies the top of the page -- the 3D starts after it
+    const hh = hero ? hero.offsetHeight : window.innerHeight;
     const max = Math.max(1, d.scrollHeight - window.innerHeight - hh);
     target = Math.min(1, Math.max(0, (window.scrollY - hh) / max));
     fade = Math.min(1, Math.max(0, (window.scrollY - hh * 0.45) / (hh * 0.5)));
@@ -273,11 +287,23 @@ function start() {
     my = (e.clientY / window.innerHeight - 0.5) * 2;
   }, { passive: true });
 
+  // Sized from the canvas itself (100lvh), so a phone's URL bar sliding in
+  // and out never triggers a resize -- that used to make the scene jump.
+  let lastW = 0, lastH = 0;
   const resize = () => {
-    const w = window.innerWidth, h = window.innerHeight;
+    const w = canvas.clientWidth || window.innerWidth, h = canvas.clientHeight || window.innerHeight;
+    if (w === lastW && Math.abs(h - lastH) < (coarse ? 160 : 1)) return;
+    lastW = w; lastH = h;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
+    // a tall phone screen sees a sliver of the 36deg desktop lens; widen it
+    portrait = camera.aspect < 0.9;
+    camera.fov = portrait ? 50 : 36;
+    // on a phone the scene is seen through a window in the top ~40% of the
+    // screen (the copy scrolls up under it), so lift the optical center there
+    if (portrait) camera.setViewOffset(w, h, 0, h * 0.2, w, h); else camera.clearViewOffset();
     camera.updateProjectionMatrix();
+    readScroll();
   };
   window.addEventListener('resize', resize);
   resize(); readScroll();
@@ -287,9 +313,9 @@ function start() {
   let first = true, tPrev = performance.now();
 
   function frame(now) {
-    // if a live template update replaced the canvas node, swap our rendering canvas back in
-    const domC = document.getElementById('ml-gl');
-    if (domC && domC !== renderer.domElement) { domC.replaceWith(renderer.domElement); resize(); }
+    requestAnimationFrame(frame);
+    // hidden behind the hero video: don't spend a frame on it
+    if (fade === 0 && !first) { tPrev = now; return; }
     const dt = Math.min(0.05, (now - tPrev) / 1000); tPrev = now;
     prog += (target - prog) * Math.min(1, dt * 4.5);
 
@@ -317,11 +343,12 @@ function start() {
     });
 
     // camera through keyframes
-    const seg = prog * (KEYS.length - 1);
-    const i = Math.min(KEYS.length - 2, Math.floor(seg));
+    const K = portrait ? KEYS_PORTRAIT : KEYS;
+    const seg = prog * (K.length - 1);
+    const i = Math.min(K.length - 2, Math.floor(seg));
     const k = ease(seg - i);
-    A.fromArray(KEYS[i].p); B.fromArray(KEYS[i + 1].p); camPos.lerpVectors(A, B, k);
-    A.fromArray(KEYS[i].t); B.fromArray(KEYS[i + 1].t); camTgt.lerpVectors(A, B, k);
+    A.fromArray(K[i].p); B.fromArray(K[i + 1].p); camPos.lerpVectors(A, B, k);
+    A.fromArray(K[i].t); B.fromArray(K[i + 1].t); camTgt.lerpVectors(A, B, k);
     // keep the truck in frame: pull the look-target 30% toward the truck itself
     camTgt.z = camTgt.z * 0.7 + THREE.MathUtils.clamp(tz, -20, 16) * 0.3;
     camera.position.set(camPos.x + mx * 1.1, camPos.y - my * 0.7, camPos.z);
@@ -329,7 +356,6 @@ function start() {
 
     renderer.render(scene, camera);
     if (first) { first = false; window.dispatchEvent(new Event('ml:ready')); }
-    requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 }
