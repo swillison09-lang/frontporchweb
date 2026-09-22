@@ -1,6 +1,6 @@
 
 import * as THREE from '../assets/three.module.js';
-import { enhanceEnvironment } from './environment.js?v=5';
+import { enhanceEnvironment } from './environment.js?v=6';
 // Reduced motion — Front Porch Web house rule: ambient decorative motion (lamp
 // flicker, firefly drift, swing sway, foliage gust, handheld camera drift) is
 // deliberately EXEMPT from prefers-reduced-motion and keeps running. Scroll is
@@ -8,6 +8,26 @@ import { enhanceEnvironment } from './environment.js?v=5';
 // change the line below to:  const reducedMotion = prefersReducedMotion;
 const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const reducedMotion = false;
+
+/* ---------- loader: real progress, real readiness ----------
+   The loader in index.html starts moving on its own before this module has
+   downloaded. From here it gets facts: this module running is worth 35%, each
+   texture landing moves it toward 90%, and it closes only once the first frame
+   has drawn AND every texture is in. Before this, it was a 650ms countdown that
+   began on the first frame -- so on a phone the forest floor and the timber
+   walls popped in several seconds after the loader had already gone. */
+const porchLoad = window.__porchLoad || { set() {}, finish() {} };
+porchLoad.set(35);
+let frameReady = false, assetsReady = false, loaderClosed = false;
+function maybeFinishLoader(reason) {
+  if (loaderClosed || !frameReady) return;
+  if (!assetsReady && reason !== 'timeout') return;
+  loaderClosed = true;
+  porchLoad.finish();
+}
+const loadManager = new THREE.LoadingManager();
+loadManager.onProgress = (url, loaded, total) => porchLoad.set(35 + 55 * (loaded / Math.max(1, total)));
+loadManager.onLoad = () => { assetsReady = true; maybeFinishLoader('assets'); };
 
 /* ════════════════════════════════════════════════════════════
    FRONT PORCH — AN EVENING VISIT
@@ -308,7 +328,7 @@ const swing = new THREE.Group();
 swing.position.set(-1.75, 3.05, 2.45);
 scene.add(swing);
 
-const environment = enhanceEnvironment({ THREE, scene, house, materials: M, renderer, mobile: isMobile });
+const environment = enhanceEnvironment({ THREE, scene, house, materials: M, renderer, mobile: isMobile, manager: loadManager });
 /* ---------- fireflies + stars ---------- */
 function makePoints(n, spread, sizePx, color, opacity) {
   const pos = new Float32Array(n * 3);
@@ -611,28 +631,17 @@ function frame() {
   if (Math.abs(p - lastCaptionP) > 0.0004) { updateCaptions(p); lastCaptionP = p; }
   environment.update(reducedMotion ? 0 : t);
   renderer.render(scene, camera);
-  if (!firstFrame) { firstFrame = true; beginReveal(); }
+  if (!firstFrame) {
+    firstFrame = true; frameReady = true; maybeFinishLoader('frame');
+    // a texture that never arrives must not trap the visitor behind the loader
+    setTimeout(() => maybeFinishLoader('timeout'), 12000);
+  }
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
 
-/* ---------- loader reveal ---------- */
-function beginReveal() {
-  const count = document.getElementById('loadCount');
-  const bar = document.getElementById('loadBar');
-  const t0 = performance.now(), dur = reducedMotion ? 0 : 650;
-  (function tick(now) {
-    const k = dur ? Math.min(1, (now - t0) / dur) : 1;
-    const eased = 1 - Math.pow(1 - k, 3);
-    count.textContent = Math.round(eased * 100);
-    bar.style.width = (eased * 100) + '%';
-    if (k < 1) requestAnimationFrame(tick);
-    else {
-      document.getElementById('loader').classList.add('done');
-      document.getElementById('hint').classList.add('show');
-    }
-  })(t0);
-}
+/* ---------- loader reveal ----------
+   Handled by the controller in index.html; see maybeFinishLoader() above. */
 
 /* ---------- resize ---------- */
 addEventListener('resize', () => {

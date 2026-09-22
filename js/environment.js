@@ -1,6 +1,6 @@
 // Organic forest geometry and architectural details for the original porch scene.
 // Deterministic instancing keeps the scenery consistent and the GPU workload bounded.
-export function enhanceEnvironment({THREE,scene,house,materials:M,renderer,mobile}) {
+export function enhanceEnvironment({THREE,scene,house,materials:M,renderer,mobile,manager}) {
   let seed=43027;
   const random=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646;};
   const time={value:0};
@@ -8,7 +8,7 @@ export function enhanceEnvironment({THREE,scene,house,materials:M,renderer,mobil
   const up=new THREE.Vector3(0,1,0), direction=new THREE.Vector3();
   const foliageData=[],branchData=[],trunkData=[];
   const heightAt=(x,z)=>{const edge=Math.min(1,Math.max(0,(Math.abs(x)-3.8)/9));return edge*(Math.sin(x*.13+z*.04)*.9+Math.cos(z*.17)*.4+.8);};
-  const textureLoader=new THREE.TextureLoader();
+  const textureLoader=new THREE.TextureLoader(manager);
   const materialTexture=(url,rx,ry)=>{const t=textureLoader.load(url);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return t;};
   M.ground.color.set(0x9c9066);
   M.ground.map=materialTexture('assets/forest-floor.jpg',30,30);
