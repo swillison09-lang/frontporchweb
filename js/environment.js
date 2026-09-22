@@ -11,14 +11,14 @@ export function enhanceEnvironment({THREE,scene,house,materials:M,renderer,mobil
   const textureLoader=new THREE.TextureLoader(manager);
   const materialTexture=(url,rx,ry)=>{const t=textureLoader.load(url);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return t;};
   M.ground.color.set(0x9c9066);
-  M.ground.map=materialTexture('assets/forest-floor.jpg',30,30);
-  M.ground.normalMap=materialTexture('assets/forest-normal.jpg',30,30);
+  M.ground.map=materialTexture('assets/forest-floor.jpg?v=2',30,30);
+  M.ground.normalMap=materialTexture('assets/forest-normal.jpg?v=2',30,30);
   M.ground.normalMap.colorSpace=THREE.NoColorSpace;
   M.ground.normalScale.set(.55,.55);
-  M.wall.map=materialTexture('assets/timber.jpg',2,1);
+  M.wall.map=materialTexture('assets/timber.jpg?v=2',2,1);
   M.wall.color.set(0xcdbb95);
   M.wall.roughness=.94;
-  M.wood.map=materialTexture('assets/timber.jpg',2,1);
+  M.wood.map=materialTexture('assets/timber.jpg?v=2',2,1);
   M.wood.color.set(0xa88a5c);
   M.trunk.color.set(0x6b5440);
   // A gently undulating forest floor, with a flat clear corridor for the stone path.
