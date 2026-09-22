@@ -19,3 +19,9 @@
 # Safe to delete once the cache has aged out.
 /demos/hartman-plumbing.OLD.html  /demos/hartman-plumbing.html  301
 /demos/hartman-plumbing.OLD       /demos/hartman-plumbing.html  301
+
+# The classic page was replaced by the standard view on 2026-09-22. The 3D
+# homepage's "Standard Site" button links to /standard; anything still pointing
+# at the old URL lands there too.
+/classic.html  /standard  301
+/classic       /standard  301

@@ -19,15 +19,16 @@
 <meta property="og:site_name" content="Front Porch Web, LLC">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..700,0..100,0..1&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/porch.css?v=3">
+<link rel="stylesheet" href="css/porch-remake.css?v=3">
 </head>
 <body>
 <noscript>
   <div style="position:fixed;inset:0;z-index:100;background:#0a120e;color:#FAF5EC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:30px;font-family:Georgia,serif">
     <h1 style="font-weight:500">Front Porch Web</h1>
     <p style="opacity:.8">This animated experience needs JavaScript.</p>
-    <a href="classic.html" style="color:#F6C889;font-weight:600">Visit the classic site &rarr;</a>
+    <a href="standard.html" style="color:#F6C889;font-weight:600">Open the standard view &rarr;</a>
   </div>
 </noscript>
 
@@ -36,6 +37,7 @@
   <div class="tag" id="loadTag">An Evening Visit</div>
   <div class="count" id="loadCount">0</div>
   <div class="bar"><i id="loadBar"></i></div>
+  <a class="skip-3d" href="standard.html">Slow connection? Open the standard view &rarr;</a>
 </div>
 <script>
 /* Loader controller. This runs before the 3D engine has even started
@@ -102,7 +104,7 @@
       <a href="portal.html">Client Login</a>
     </nav>
     <a class="nav-cta" href="portal.html">Start Your Project</a>
-    <a class="classic-link" href="classic.html">Classic Site</a>
+    <a class="classic-link" href="standard.html">Standard Site</a>
   </div>
 </header>
 
@@ -164,11 +166,11 @@
     <p class="eyebrow">Sample Designs</p>
     <h2>Explore sample <em>websites.</em></h2>
     <p class="lede">These examples demonstrate the style and quality you can expect while we build our client portfolio.</p>
-    <ul class="work-list">
-      <li><a href="demos/bennett-family-adoption.html" target="_blank" rel="noopener"><span class="w-name">The Bennett Family</span><span class="w-right"><span class="kind">Adoption Profile</span><span class="w-arrow" aria-hidden="true">&#8599;</span></span></a></li>
-      <li><a href="demos/dunn-right.html" target="_blank" rel="noopener"><span class="w-name">Fresh Cut Lawn Care</span><span class="w-right"><span class="kind">Local Business</span><span class="w-arrow" aria-hidden="true">&#8599;</span></span></a></li>
-      <li><a href="demos/hartman-plumbing.html" target="_blank" rel="noopener"><span class="w-name">Hartman Plumbing</span><span class="w-right"><span class="kind">Local Business</span><span class="w-arrow" aria-hidden="true">&#8599;</span></span></a></li>
-      <li><a href="demos/recruiting.html" target="_blank" rel="noopener"><span class="w-name">College Recruiting Profile</span><span class="w-right"><span class="kind">Student-Athlete</span><span class="w-arrow" aria-hidden="true">&#8599;</span></span></a></li>
+    <ul class="work-shots">
+      <li><a href="demos/bennett-family-adoption.html" target="_blank" rel="noopener"><img src="assets/work/bennett-family-adoption.jpg" alt="The Bennett Family homepage" width="1200" height="750" loading="lazy"><span class="ws"><span class="ws-kind">Adoption Profile</span><span class="ws-name">The Bennett Family &#8599;</span></span></a></li>
+      <li><a href="demos/dunn-right.html" target="_blank" rel="noopener"><img src="assets/work/dunn-right.jpg" alt="Fresh Cut Lawn Care homepage" width="1200" height="750" loading="lazy"><span class="ws"><span class="ws-kind">Local Business</span><span class="ws-name">Fresh Cut Lawn Care &#8599;</span></span></a></li>
+      <li><a href="demos/hartman-plumbing.html" target="_blank" rel="noopener"><img src="assets/work/hartman-plumbing.jpg" alt="Hartman Plumbing homepage" width="1200" height="750" loading="lazy"><span class="ws"><span class="ws-kind">Local Business</span><span class="ws-name">Hartman Plumbing &#8599;</span></span></a></li>
+      <li><a href="demos/recruiting.html" target="_blank" rel="noopener"><img src="assets/work/recruiting.jpg" alt="College Recruiting Profile homepage" width="1200" height="750" loading="lazy"><span class="ws"><span class="ws-kind">Student-Athlete</span><span class="ws-name">College Recruiting Profile &#8599;</span></span></a></li>
     </ul>
     <p class="work-hint">Tap any sample to open the live demo</p>
   </div>
@@ -249,7 +251,7 @@
            wants the second one first. -->
       <a class="btn btn-ghost" href="mailto:frontporchwebllc@gmail.com">frontporchwebllc@gmail.com</a>
     </div>
-    <p class="classic-note">Prefer the classic version? <a href="classic.html">Visit the classic site</a>.</p>
+    <p class="classic-note">Prefer a simpler page? <a href="standard.html">Switch to the standard view</a>.</p>
     <p class="footer-line">
       <a href="terms.html">Terms &amp; Refunds</a> &middot;
       <a href="privacy.html">Privacy</a>
@@ -264,7 +266,7 @@
 <div id="fallback">
   <h1>This little world needs WebGL.</h1>
   <p>Your browser could not start the 3D scene.</p>
-  <a class="btn btn-amber" href="classic.html">Visit the classic site</a>
+  <a class="btn btn-amber" href="standard.html">Open the standard view</a>
 </div>
 
 <div id="runway"></div>

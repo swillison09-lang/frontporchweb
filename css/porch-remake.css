@@ -1,0 +1,54 @@
+/* ════════════════════════════════════════════════════════════
+   3D VIEW — REMAKE LAYER
+   Loaded after porch.css. Everything here is additive: the mobile
+   layout, the rule that nothing blocks the house, and the iPhone
+   scroll behaviour all live in porch.css and stay exactly as they
+   were. This layer gives the 3D view the same voice as the standard
+   view -- same type, same labels, same switch -- and shows the work
+   instead of listing it.
+   ════════════════════════════════════════════════════════════ */
+
+:root{
+  --sans:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,sans-serif;
+  --mono:"Atkinson Hyperlegible Mono",ui-monospace,Consolas,monospace;
+}
+h1,h2,h3,.brand span,.pname,.pprice{font-variation-settings:"SOFT" 100,"WONK" 0}
+h1 em,h2 em{font-variation-settings:"SOFT" 100,"WONK" 1}
+.eyebrow{font-family:var(--mono);font-weight:500;letter-spacing:.18em}
+
+/* ─── the view switch: same control as the standard view ─── */
+.viewswitch{pointer-events:auto;display:inline-flex;align-items:center;padding:3px;border-radius:999px;border:1px solid #faf5ec40;
+  background:#0a120e59;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.viewswitch a,.viewswitch span{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border-radius:999px;text-decoration:none;color:var(--cream-soft)}
+.viewswitch a:hover{color:var(--amber-soft)}
+.viewswitch [aria-current]{background:var(--cream);color:#0a120e}
+@media (max-width:700px){.viewswitch{font-size:10px}.viewswitch a,.viewswitch span{padding:0 9px;min-height:32px}}
+
+/* ─── loader: a way out for anyone on a slow connection ───
+   Fades in only after 1.4s, so on a normal connection nobody sees it. */
+#loader .skip-3d{margin-top:24px;color:var(--amber-soft);font-size:14px;text-decoration:none;border-bottom:1px solid #f6c88966;
+  padding:10px 2px;opacity:0;animation:skip3dIn .6s 1.4s forwards}
+#loader .skip-3d:hover{border-color:var(--amber-soft)}
+@keyframes skip3dIn{to{opacity:1}}
+
+/* ─── our work: real screenshots instead of a list of names ─── */
+.work-shots{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px;pointer-events:auto}
+.work-shots a{display:block;text-decoration:none;color:var(--cream);border-radius:12px;overflow:hidden;background:#0a120ed9;
+  border:1px solid #faf5ec24;transition:transform .3s,border-color .3s,box-shadow .3s}
+.work-shots a:hover{transform:translateY(-3px);border-color:var(--amber-soft);box-shadow:0 14px 30px -14px #000}
+.work-shots img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.work-shots .ws{display:block;padding:9px 12px 11px}
+.work-shots .ws-kind{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber-soft)}
+.work-shots .ws-name{display:block;font-family:var(--serif);font-size:16.5px;line-height:1.2;margin-top:3px;font-variation-settings:"SOFT" 100}
+@media (max-width:700px){
+  /* on a phone the chapter sits low so the house stays visible; a compact
+     row per sample keeps it that way */
+  .work-shots{grid-template-columns:1fr;gap:7px;margin-top:14px}
+  .work-shots a{display:grid;grid-template-columns:84px 1fr;align-items:center;background:#0a120e33;border-color:#faf5ec1f}
+  .work-shots .ws-kind,.work-shots .ws-name{text-shadow:0 1px 2px #050906,0 1px 8px #050906e6}
+  .work-shots img{height:100%;aspect-ratio:auto;min-height:52px}
+  .work-shots .ws{padding:7px 11px}
+  .work-shots .ws-name{font-size:15px}
+  .work-shots .ws-kind{font-size:9.5px}
+}
