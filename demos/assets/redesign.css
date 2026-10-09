@@ -16,3 +16,13 @@
 @media(max-width:700px){.links:not(.open){visibility:hidden}.links.open{visibility:visible}}
 @media(max-width:600px){.bennett .opening .scene-photo{object-position:30% top}.lawn .weights{grid-template-columns:repeat(3,1fr)}.lawn .weights div{border-bottom:0}.lawn .weights span{letter-spacing:0}.baseball .burger{background:#172d38}}
 @media print{.scene-photo{display:none!important}.opening,.hero{min-height:0!important;padding:20px 0!important;color:black!important}.opening:after,.hero:after{display:none!important}.hero *{color:black!important}.sc-left{min-height:0!important}.oncall{margin-top:0!important}.skip{display:none}}
+
+/* Accessibility pass (Oct 2026): text that fell under WCAG AA contrast. */
+.bennett .demo-flag strong,.bennett .demo-flag a{color:#E2BE78}
+.bennett .eyebrow{color:#7A5A1F}
+.plumbing .rubber>span{color:#5E3C2E}
+.plumbing .rubber b{color:#6E3A24}
+.bennett .person .role{color:#555D51}
+.plumbing .stamp{color:#8A3F22}
+.bennett .why-item .n{color:#56634A}
+.bennett .by>a{color:#E2BE78}

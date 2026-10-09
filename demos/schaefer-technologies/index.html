@@ -194,7 +194,7 @@
         <div class="field"><input type="email" id="fEmail" required placeholder=" " /><label for="fEmail">Email *</label></div>
         <div class="field"><input type="tel" id="fPhone" placeholder=" " /><label for="fPhone">Phone</label></div>
         <div class="field field--select">
-          <select id="fDept" required>
+          <select id="fDept" required aria-label="How can we direct your inquiry?">
             <option value="" disabled selected>How can we direct your inquiry?</option>
             <option>Service</option>
             <option>Parts</option>
@@ -215,7 +215,7 @@
 </main>
 
 <!-- news article detail modal -->
-<div class="news-modal" id="newsModal" aria-hidden="true">
+<div class="news-modal" id="newsModal" aria-hidden="true" inert>
   <div class="news-modal__backdrop" id="newsModalBackdrop"></div>
   <div class="news-modal__panel" role="dialog" aria-modal="true" aria-labelledby="newsModalTitle">
     <button class="news-modal__close" id="newsModalClose" type="button" aria-label="Close">✕</button>
@@ -240,5 +240,12 @@
   }
 </script>
 <script type="module" src="js/main.js?v=18"></script>
+<script>
+// Keep the closed article dialog out of the keyboard order: mirror its
+// aria-hidden onto inert, whichever script opens or closes it.
+(function(){var m=document.getElementById('newsModal');if(!m)return;
+function sync(){m.inert=m.getAttribute('aria-hidden')==='true';}
+new MutationObserver(sync).observe(m,{attributes:true,attributeFilter:['aria-hidden']});sync();})();
+</script>
 </body>
 </html>

@@ -215,7 +215,7 @@ blockquote{margin:0 0 22px;font-family:var(--display);font-style:italic;font-siz
 .disclose{font-size:14.5px;color:var(--muted);margin:16px 0 28px}
 .tabs{display:inline-flex;gap:6px;padding:6px;border-radius:999px;background:#fff;border:1.5px solid var(--line);margin-bottom:22px;flex-wrap:wrap}
 .tabs button{min-height:46px;padding:0 20px;border:0;border-radius:999px;background:transparent;font:inherit;font-weight:500;cursor:pointer;color:var(--muted)}
-.tabs button small{margin-left:6px;font-size:12px;opacity:.7}
+.tabs button small{margin-left:6px;font-size:12px}
 .tabs button[aria-selected="true"]{background:var(--forest);color:#fff}
 .shelf-note{margin:0 0 22px;max-width:86ch;font-size:15.5px}
 .cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}

@@ -120,6 +120,7 @@ section{position:relative;padding:clamp(80px,10vw,136px) 0;scroll-margin-top:76p
 .portrait img{border-radius:18px;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;width:100%;height:auto;box-shadow:0 30px 60px -30px rgba(27,39,31,.55)}
 .portrait figcaption{margin-top:14px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .letter-body p{font-size:clamp(18px,1.4vw,20px);margin:0 0 20px;max-width:60ch}
+.letter-body .eyebrow{color:#9A5A14} /* amber on cream read 2.2:1; this is 5:1 */
 .letter-body .story>p:first-child::first-letter{font-family:var(--display);float:left;font-size:4.3em;line-height:.82;margin:.06em .1em 0 0;color:var(--pine);font-variation-settings:"SOFT" 100,"WONK" 1}
 .sig{font-family:var(--display);font-style:italic;font-size:30px;color:var(--pine);font-variation-settings:"SOFT" 100,"WONK" 1;margin-top:8px}
 
@@ -273,7 +274,7 @@ footer{background:var(--night);color:rgba(246,239,223,.7);padding:48px 0 calc(40
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
 </header>
-<div class="sheet" id="sheet" aria-hidden="true">
+<div class="sheet" id="sheet" aria-hidden="true" inert>
   <a href="#about">About</a><a href="#work">Our Work</a><a href="#process">Process</a><a href="#pricing">Pricing</a><a href="#hosting">Hosting</a><a href="portal.html">Client Login</a>
   <a class="btn btn-amber" href="portal.html">Start Your Project</a>
   <div class="viewswitch" role="group" aria-label="Choose how to view this site"><a href="/">3D view</a><span aria-current="page">Standard</span></div>
@@ -597,7 +598,7 @@ footer{background:var(--night);color:rgba(246,239,223,.7);padding:48px 0 calc(40
 
   /* mobile sheet */
   var burger=document.getElementById('burger'), sheet=document.getElementById('sheet');
-  function setSheet(open){sheet.classList.toggle('open',open);sheet.setAttribute('aria-hidden',String(!open));burger.setAttribute('aria-expanded',String(open));document.body.style.overflow=open?'hidden':''}
+  function setSheet(open){sheet.classList.toggle('open',open);sheet.setAttribute('aria-hidden',String(!open));sheet.inert=!open;burger.setAttribute('aria-expanded',String(open));document.body.style.overflow=open?'hidden':''}
   burger.addEventListener('click',function(){setSheet(!sheet.classList.contains('open'))});
   sheet.addEventListener('click',function(e){if(e.target.closest('a'))setSheet(false)});
   addEventListener('keydown',function(e){if(e.key==='Escape')setSheet(false)});
