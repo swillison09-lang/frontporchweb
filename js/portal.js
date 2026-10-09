@@ -718,7 +718,7 @@ const DEFAULT_TIERS_BY_TYPE = {
     { id: 'fallback-standard', name: 'Standard', price: '$600',   badge: 'Most Popular',
       features: ['Up to 8 sections', 'Photo gallery', 'Basic SEO setup', '2 rounds of revisions'] },
     { id: 'fallback-premium',  name: 'Premium',  price: '$850',   badge: null,
-      features: ['All the sections you need', 'Blog you update yourself', 'Online enquiry / booking', '3 rounds of revisions'] },
+      features: ['All the sections you need', 'Blog you update yourself', 'Online booking + priority support', 'Full SEO + visitor analytics', '3 rounds of revisions'] },
   ],
   'recruiting-profile': [
     { id: 'fallback-starter',  name: 'Starter',  price: '$250',   badge: null,

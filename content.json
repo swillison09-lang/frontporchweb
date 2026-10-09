@@ -117,7 +117,7 @@
         "name": "Premium",
         "price": "from $850",
         "term": "one-time project",
-        "features": ["All the sections your story needs", "Looks great on every device", "Your own custom domain", "Contact form + photo gallery", "3 rounds of revisions", "Full Google visibility (SEO)", "Blog you update yourself", "See how visitors find you (analytics)", "Priority support"],
+        "features": ["All the sections your story needs", "Looks great on every device", "Your own custom domain", "Contact form + photo gallery", "3 rounds of revisions", "Full Google visibility (SEO)", "Blog you update yourself", "Online booking setup", "See how visitors find you (analytics)", "Priority support"],
         "cta": { "label": "Get Started", "href": "portal.html" },
         "featured": false
       }

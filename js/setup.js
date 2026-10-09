@@ -71,7 +71,7 @@ const SEED_BUSINESS_TYPES = [
       // Premium stays generous but finite rather than "unlimited".
       { id: 'professional-starter',  name: 'Starter',  price: '$350',   badge: null,            features: ['Up to 4 sections', 'Mobile-friendly', 'Contact form', '1 round of revisions'] },
       { id: 'professional-standard', name: 'Standard', price: '$600',   badge: 'Most Popular',  features: ['Up to 8 sections', 'Photo gallery', 'Basic SEO setup', '2 rounds of revisions'] },
-      { id: 'professional-premium',  name: 'Premium',  price: '$850',   badge: null,            features: ['All the sections you need', 'Blog you update yourself', 'Online enquiry / booking', '3 rounds of revisions'] },
+      { id: 'professional-premium',  name: 'Premium',  price: '$850',   badge: null,            features: ['All the sections you need', 'Blog you update yourself', 'Online booking + priority support', 'Full SEO + visitor analytics', '3 rounds of revisions'] },
     ],
     photoCategories: [
       { key: 'general', label: 'Storefront, team, products', helpText: 'A handful of favorites — we recommend 3 to 5.' },
