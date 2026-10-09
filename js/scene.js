@@ -1,5 +1,5 @@
 
-import * as THREE from '../assets/three.module.js';
+import * as THREE from '../assets/three.module.min.js';
 import { enhanceEnvironment } from './environment.js?v=6';
 // Reduced motion — Front Porch Web house rule: ambient decorative motion (lamp
 // flicker, firefly drift, swing sway, foliage gust, handheld camera drift) is
@@ -62,7 +62,7 @@ const isMobile = matchMedia('(max-width: 820px), (pointer: coarse)').matches;
 let renderer;
 try {
   renderer = new THREE.WebGLRenderer({
-    canvas, antialias: !isMobile, preserveDrawingBuffer: true,
+    canvas, antialias: !isMobile,
     powerPreference: 'high-performance',
   });
 } catch (e) {
@@ -638,7 +638,13 @@ function frame() {
   }
   requestAnimationFrame(frame);
 }
-requestAnimationFrame(frame);
+// Compile every shader before the first frame instead of during it. Done
+// inside the first render, compiling froze the page for a second or more
+// (the loader bar stalled and a tap did nothing); compileAsync lets the GPU
+// driver build them in parallel while the page stays responsive.
+const startLoop = () => requestAnimationFrame(frame);
+if (renderer.compileAsync) renderer.compileAsync(scene, camera).then(startLoop, startLoop);
+else startLoop();
 
 /* ---------- loader reveal ----------
    Handled by the controller in index.html; see maybeFinishLoader() above. */
