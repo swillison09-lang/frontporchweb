@@ -417,6 +417,11 @@ window.__snap = p => {
    snapping by direction (not nearest) is what makes it feel responsive. */
 const SNAPS = CFG.chapters.map(c => c.at);
 let snapping = false, snapIdle = 0, snapDone = 0, interacted = false, curIdx = 0;
+// Where the page last came to rest. It starts at the very top, which sits a
+// little above the first section's snap point, so the first swipe is measured
+// from where the visitor actually is (a short first flick used to park the
+// page between sections).
+let restAt = 0;
 ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(ev =>
   addEventListener(ev, () => { interacted = true; }, { passive: true }));
 
@@ -434,6 +439,7 @@ function animateScrollTo(y) {
 // Ease to a specific section index and remember it as the current one.
 function goToIndex(i) {
   curIdx = Math.max(0, Math.min(SNAPS.length - 1, i));
+  restAt = SNAPS[curIdx];
   const max = document.documentElement.scrollHeight - innerHeight;
   if (max > 0) animateScrollTo(SNAPS[curIdx] * max);
 }
@@ -450,31 +456,42 @@ function goToIndex(i) {
 // Native scrolling plus the idle snap below is the whole mechanism now, which
 // is also what lets the inner panels scroll normally on touch.
 //
+// Never snap while a finger is still on the glass: a slow or paused drag would
+// otherwise trip the idle timer mid-gesture and jump the page under the finger. Lifting the finger re-arms
+// the check; momentum scroll events keep pushing it back until the page rests.
+let touching = false;
+addEventListener('touchstart', () => { touching = true; }, { passive: true });
+['touchend', 'touchcancel'].forEach(ev => addEventListener(ev, () => {
+  touching = false;
+  if (interacted && !snapping) { clearTimeout(snapIdle); snapIdle = setTimeout(snapCheck, 110); }
+}, { passive: true }));
 addEventListener('scroll', () => {
   if (snapping || !interacted) return;
   clearTimeout(snapIdle);
-  snapIdle = setTimeout(() => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    if (max <= 0) return;
-    const p = scrollY / max;
-    const cur = SNAPS[curIdx];
-    const TH = 34 / max;                         // ~34px: a gentle swipe advances
-    let target = curIdx;
-    if (p > cur + TH) {                          // scrolled down → go forward
-      target = curIdx + 1;
-      // if they scrolled far, keep going to the section they actually reached
-      while (target < SNAPS.length - 1 && p >= (SNAPS[target] + SNAPS[target + 1]) / 2) target++;
-    } else if (p < cur - TH) {                   // scrolled up → go back
-      target = curIdx - 1;
-      while (target > 0 && p <= (SNAPS[target] + SNAPS[target - 1]) / 2) target--;
-    }
-    target = Math.max(0, Math.min(SNAPS.length - 1, target));
-    // Didn't cross into a new section (a small scroll, or at an edge): leave it
-    // where it is rather than yanking it back — that back-snap is the "hesitation".
-    if (target === curIdx) return;
-    goToIndex(target);
-  }, 110);
+  snapIdle = setTimeout(snapCheck, 110);
 }, { passive: true });
+function snapCheck() {
+  if (touching) return;
+  const max = document.documentElement.scrollHeight - innerHeight;
+  if (max <= 0) return;
+  const p = scrollY / max;
+  const cur = restAt;
+  const TH = 34 / max;                         // ~34px: a gentle swipe advances
+  let target = curIdx;
+  if (p > cur + TH) {                          // scrolled down → go forward
+    target = curIdx + 1;
+    // if they scrolled far, keep going to the section they actually reached
+    while (target < SNAPS.length - 1 && p >= (SNAPS[target] + SNAPS[target + 1]) / 2) target++;
+  } else if (p < cur - TH) {                   // scrolled up → go back
+    target = curIdx - 1;
+    while (target > 0 && p <= (SNAPS[target] + SNAPS[target - 1]) / 2) target--;
+  }
+  target = Math.max(0, Math.min(SNAPS.length - 1, target));
+  // Didn't cross into a new section (a small scroll, or at an edge): leave it
+  // where it is rather than yanking it back — that back-snap is the "hesitation".
+  if (target === curIdx) return;
+  goToIndex(target);
+}
 
 /* ---------- captions ---------- */
 const chapters = [...document.querySelectorAll('.chapter')].map(el => ({
