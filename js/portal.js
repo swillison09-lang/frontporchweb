@@ -1335,9 +1335,13 @@ function initAuthToggle() {
     e.preventDefault();
     toggleAuthMode();
   });
+  // "Start Your Project" buttons link to portal.html#start. Those visitors are
+  // new, so open on Create Account instead of "Welcome back" (no autofocus:
+  // on a phone it would throw the keyboard over the form before they read it).
+  if (window.location.hash === '#start' && authMode === 'signin') toggleAuthMode(false);
 }
 
-function toggleAuthMode() {
+function toggleAuthMode(focus = true) {
   authMode = authMode === 'signin' ? 'signup' : 'signin';
   clearAllErrors();
   const isSignup = authMode === 'signup';
@@ -1353,7 +1357,7 @@ function toggleAuthMode() {
   document.getElementById('confirmGroup')?.classList.toggle('hidden', !isSignup);
   document.getElementById('authPassword')?.setAttribute('autocomplete', isSignup ? 'new-password' : 'current-password');
 
-  document.getElementById(isSignup ? 'authName' : 'authEmail')?.focus();
+  if (focus) document.getElementById(isSignup ? 'authName' : 'authEmail')?.focus();
 }
 
 

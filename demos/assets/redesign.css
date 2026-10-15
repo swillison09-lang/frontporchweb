@@ -26,3 +26,6 @@
 .plumbing .stamp{color:#8A3F22}
 .bennett .why-item .n{color:#56634A}
 .bennett .by>a{color:#E2BE78}
+
+/* the 2.4:1 ratio plus a 350px floor forces the film box 840px wide; below that, let the height lead */
+@media(max-width:920px){.baseball .film .slot{aspect-ratio:auto}}
