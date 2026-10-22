@@ -1,0 +1,11 @@
+/* Halloween skin for the 3D homepage. Loaded after porch-remake.css; only
+   recolours. Pumpkin orange replaces amber, night goes violet. */
+:root{--amber:#ff7a1a;--amber-soft:#ffab5e;--night:#0d0814}
+.btn-amber,.nav-cta{background:linear-gradient(180deg,#ff9a3d,#ff7a1a 55%,#d4560c);box-shadow:0 4px 18px #d4560c73}
+.btn-amber:hover,.nav-cta:hover{background:linear-gradient(180deg,#ffab55,#ff8a2a 55%,#e0640f);box-shadow:0 8px 30px #ff7a1a99}
+.pcard.feat{background:#3a1f48b8;border-color:#ff7a1a8c}
+.rail button.on{box-shadow:0 0 13px #ff7a1acc}
+.hud-top{background:linear-gradient(#0d081499,#0000)}
+.scene-shade{background:linear-gradient(90deg,#08040dcc 0%,#08040d87 28%,#08040d14 57%,#0000 78%)}
+@media (max-width:700px){.scene-shade{background:linear-gradient(#0000,#08040d45 35%,#08040dd6)}}
+#loader .word::after{content:" \1F383";font-size:.8em}

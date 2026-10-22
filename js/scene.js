@@ -119,8 +119,9 @@ function makeSky() {
     new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, fog: false })
   );
   scene.add(dome);
+  return dome;
 }
-makeSky();
+const skyDome = makeSky();
 
 /* ---------- lights (warm family only, no blues) ---------- */
 scene.add(new THREE.HemisphereLight(0x6e5c3c, 0x25301f, 1.45));
@@ -360,6 +361,18 @@ const stars = makePoints(260, [220, 60, 34, 220, -110], 0.12, '#fdf3dd', 0.55);
 scene.add(stars);
 const ffBaseA = firefliesA.geometry.attributes.position.array.slice();
 const ffBaseB = firefliesB.geometry.attributes.position.array.slice();
+
+/* ---------- seasonal skin (off unless index.html sets window.__season) ----------
+   A season module receives the scene's parts and returns { update(t, p) }, which
+   runs after the normal frame logic. With no season set, nothing below loads. */
+let seasonal = null;
+if (window.__season) {
+  try {
+    const mod = await import(`./season-${window.__season}.js?v=1`);
+    seasonal = mod.default({ THREE, scene, camera, renderer, M, lamp, bulb, halo, doorLight, doorHalo, dusk, skyDome,
+      firefliesA, firefliesB, stars, house, swing, makeGlowSprite, isMobile, manager: loadManager });
+  } catch (e) { console.warn('season skin failed to load', e); }
+}
 
 /* ---------- the walk: camera + gaze curves ---------- */
 const camPath = new THREE.CatmullRomCurve3([
@@ -647,6 +660,7 @@ function frame() {
   // thread (a big cause of scroll jank alongside the inline-style thrash).
   if (Math.abs(p - lastCaptionP) > 0.0004) { updateCaptions(p); lastCaptionP = p; }
   environment.update(reducedMotion ? 0 : t);
+  if (seasonal) seasonal.update(t, p);
   renderer.render(scene, camera);
   if (!firstFrame) {
     firstFrame = true; frameReady = true; maybeFinishLoader('frame');
