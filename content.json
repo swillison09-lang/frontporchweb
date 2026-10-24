@@ -137,10 +137,17 @@
         "featured": false
       },
       {
-        "name": "Let us handle it",
+        "name": "Website Health",
+        "price": "$10",
+        "term": "a month",
+        "features": ["Hosting, your domain, and keeping your site online", "We keep it secure and fix anything that breaks", "Cancel anytime — we'll hand the site over to you, or take it offline"],
+        "featured": false
+      },
+      {
+        "name": "Care Package",
         "price": "$30",
         "term": "a month",
-        "features": ["Hosting, your domain, and keeping your site online", "Small updates (text and photo changes) whenever you need them", "Cancel anytime — we'll hand the site over to you, or take it offline"],
+        "features": ["Everything in Website Health", "Small updates (text and photo changes) whenever you need them", "Cancel anytime — we'll hand the site over to you, or take it offline"],
         "featured": true
       }
     ]
