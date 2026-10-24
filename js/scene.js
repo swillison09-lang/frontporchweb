@@ -397,9 +397,20 @@ const gazePath = new THREE.CatmullRomCurve3([
 
 /* ---------- scroll plumbing (native scroll, lerped) ---------- */
 let target = 0, progress = 0;
+// Phones: a flick's momentum can carry the page two or three chapters past
+// where the finger let go, so the scene swept past the next chapter and then
+// snapped back to it. While the last input was touch, the camera is held to
+// the chapters either side of the one you're on, and snapCheck moves exactly
+// one chapter per swipe. Wheel and keyboard are unchanged.
+let touchMode = false;
 function readScroll() {
   const max = document.documentElement.scrollHeight - innerHeight;
   target = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+  if (touchMode) {
+    const lo = curIdx > 0 ? SNAPS[curIdx - 1] : 0;
+    const hi = curIdx < SNAPS.length - 1 ? SNAPS[curIdx + 1] : 1;
+    target = Math.min(hi, Math.max(lo, target));
+  }
   // The scroll hint's only job is to prompt the FIRST scroll. Past that it
   // just collides with content (pricing fine print, footer), so hide it as
   // soon as the reader has moved a meaningful amount, and bring it back if
@@ -473,7 +484,9 @@ function goToIndex(i) {
 // otherwise trip the idle timer mid-gesture and jump the page under the finger. Lifting the finger re-arms
 // the check; momentum scroll events keep pushing it back until the page rests.
 let touching = false;
-addEventListener('touchstart', () => { touching = true; }, { passive: true });
+addEventListener('touchstart', () => { touching = true; touchMode = true; }, { passive: true });
+addEventListener('wheel', () => { touchMode = false; }, { passive: true });
+addEventListener('keydown', () => { touchMode = false; }, { passive: true });
 ['touchend', 'touchcancel'].forEach(ev => addEventListener(ev, () => {
   touching = false;
   if (interacted && !snapping) { clearTimeout(snapIdle); snapIdle = setTimeout(snapCheck, 110); }
@@ -494,10 +507,11 @@ function snapCheck() {
   if (p > cur + TH) {                          // scrolled down → go forward
     target = curIdx + 1;
     // if they scrolled far, keep going to the section they actually reached
-    while (target < SNAPS.length - 1 && p >= (SNAPS[target] + SNAPS[target + 1]) / 2) target++;
+    // (wheel/keyboard only: on touch that distance is mostly flick momentum)
+    while (!touchMode && target < SNAPS.length - 1 && p >= (SNAPS[target] + SNAPS[target + 1]) / 2) target++;
   } else if (p < cur - TH) {                   // scrolled up → go back
     target = curIdx - 1;
-    while (target > 0 && p <= (SNAPS[target] + SNAPS[target - 1]) / 2) target--;
+    while (!touchMode && target > 0 && p <= (SNAPS[target] + SNAPS[target - 1]) / 2) target--;
   }
   target = Math.max(0, Math.min(SNAPS.length - 1, target));
   // Didn't cross into a new section (a small scroll, or at an edge): leave it
