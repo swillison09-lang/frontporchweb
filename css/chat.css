@@ -1,0 +1,84 @@
+/* "Ask a question" bubble (js/chat.js). Same porch palette on every page so it
+   reads as one assistant whether the page around it is the dark 3D homepage or
+   the light standard view. */
+.fpwc{
+  --c-night:#0d1611; --c-panel:#111c15; --c-cream:#faf5ec; --c-cream-soft:#faf5ecb8;
+  --c-line:#faf5ec24; --c-amber:#e9973e; --c-amber-soft:#f6c889; --c-pine:#2f4a38;
+  --c-serif:"Fraunces",Georgia,serif;
+  --c-sans:"Inter","Atkinson Hyperlegible Next",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-family:var(--c-sans);
+}
+.fpwc *,.fpwc *::before,.fpwc *::after{box-sizing:border-box}
+
+/* launcher */
+.fpwc-launch{
+  position:fixed;z-index:90;right:max(20px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));
+  display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 20px 0 16px;border-radius:999px;
+  border:1px solid #e9973e8c;background:#0d1611e6;color:var(--c-cream);cursor:pointer;
+  font:600 14px/1 var(--c-sans);letter-spacing:.01em;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  box-shadow:0 10px 30px -10px #000c,0 0 0 4px #e9973e14;
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.fpwc-launch:hover{transform:translateY(-2px);border-color:var(--c-amber);box-shadow:0 14px 34px -10px #000d,0 0 0 5px #e9973e24}
+.fpwc-launch svg{width:20px;height:20px;flex:none;color:var(--c-amber)}
+.fpwc-launch .dot{width:8px;height:8px;border-radius:50%;background:var(--c-amber);box-shadow:0 0 10px #e9973ecc;animation:fpwc-glow 2.4s ease-in-out infinite}
+@keyframes fpwc-glow{50%{opacity:.45}}
+.fpwc.open .fpwc-launch{opacity:0;pointer-events:none;transform:translateY(8px)}
+/* the 3D homepage keeps its chapter counter in the bottom-right corner */
+.fpwc.lift .fpwc-launch{bottom:max(68px,calc(env(safe-area-inset-bottom) + 48px))}
+
+/* panel */
+.fpwc-panel{
+  position:fixed;z-index:91;right:max(20px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));
+  width:min(392px,calc(100vw - 40px));height:min(600px,calc(100dvh - 120px));
+  display:flex;flex-direction:column;border-radius:16px;overflow:hidden;
+  background:var(--c-panel);color:var(--c-cream);border:1px solid var(--c-line);
+  box-shadow:0 30px 70px -20px #000e,0 0 0 1px #0006;
+  opacity:0;visibility:hidden;transform:translateY(14px) scale(.98);transform-origin:bottom right;
+  transition:opacity .22s,transform .22s,visibility 0s .22s;
+}
+.fpwc.open .fpwc-panel{opacity:1;visibility:visible;transform:none;transition:opacity .22s,transform .22s}
+
+.fpwc-head{display:flex;align-items:flex-start;gap:12px;padding:16px 14px 14px 18px;border-bottom:1px solid var(--c-line);background:linear-gradient(180deg,#2f4a3866,transparent)}
+.fpwc-head h2{margin:0;font:500 19px/1.2 var(--c-serif);color:var(--c-cream);letter-spacing:-.01em}
+.fpwc-head p{margin:4px 0 0;font-size:12.5px;line-height:1.45;color:var(--c-cream-soft)}
+.fpwc-close{margin-left:auto;flex:none;width:44px;height:44px;margin-top:-6px;border:0;border-radius:10px;background:transparent;color:var(--c-cream-soft);cursor:pointer;display:grid;place-items:center}
+.fpwc-close:hover{background:#faf5ec14;color:var(--c-cream)}
+.fpwc-close svg{width:20px;height:20px}
+
+.fpwc-log{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:16px 16px 6px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:#faf5ec33 transparent}
+.fpwc-msg{max-width:88%;padding:10px 13px;border-radius:14px;font-size:15px;line-height:1.55;overflow-wrap:anywhere;white-space:normal}
+.fpwc-msg.bot{align-self:flex-start;background:#faf5ec0f;border:1px solid var(--c-line);border-bottom-left-radius:4px}
+.fpwc-msg.you{align-self:flex-end;background:#e9973e2e;border:1px solid #e9973e55;border-bottom-right-radius:4px}
+.fpwc-msg a{color:var(--c-amber-soft);text-underline-offset:3px}
+.fpwc-msg.wait::after{content:"";display:inline-block;width:22px;height:8px;vertical-align:middle;background:radial-gradient(circle,var(--c-amber) 2.5px,transparent 3px) 0 50%/8px 8px repeat-x;animation:fpwc-dots 1s steps(4) infinite}
+@keyframes fpwc-dots{0%{width:0}100%{width:30px}}
+
+.fpwc-chips{display:flex;flex-wrap:wrap;gap:8px;padding:2px 16px 10px}
+.fpwc-chips button{min-height:36px;padding:0 13px;border-radius:999px;border:1px solid #f6c88966;background:transparent;color:var(--c-amber-soft);font:500 13px var(--c-sans);cursor:pointer}
+.fpwc-chips button:hover{background:#e9973e1f;border-color:var(--c-amber)}
+
+.fpwc-form{display:flex;align-items:flex-end;gap:8px;padding:10px 12px 8px;border-top:1px solid var(--c-line)}
+.fpwc-form textarea{flex:1;min-height:46px;max-height:120px;resize:none;padding:12px 14px;border-radius:12px;border:1px solid #faf5ec33;background:#0a120e;color:var(--c-cream);font:16px/1.4 var(--c-sans)}
+.fpwc-form textarea::placeholder{color:#faf5ec80}
+.fpwc-form textarea:focus{outline:none;border-color:var(--c-amber);box-shadow:0 0 0 3px #e9973e33}
+.fpwc-send{flex:none;width:46px;height:46px;border:0;border-radius:12px;cursor:pointer;display:grid;place-items:center;color:#241708;background:linear-gradient(180deg,#f2a854,var(--c-amber) 55%,#c9741f)}
+.fpwc-send:disabled{opacity:.45;cursor:default}
+.fpwc-send svg{width:20px;height:20px}
+.fpwc-foot{margin:0;padding:0 16px 12px;font-size:11.5px;line-height:1.45;color:#faf5ec99}
+.fpwc-foot a{color:var(--c-cream-soft)}
+
+.fpwc :focus-visible{outline:2px solid var(--c-amber-soft);outline-offset:2px}
+
+/* phones: full-screen sheet, launcher shrinks to an icon */
+@media (max-width:600px){
+  .fpwc-launch{min-height:52px;padding:0 16px;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom))}
+  .fpwc-launch .label{display:none}
+  .fpwc.lift .fpwc-launch{bottom:max(60px,calc(env(safe-area-inset-bottom) + 44px))}
+  .fpwc-panel{inset:0;width:100%;height:100%;height:100dvh;border-radius:0;border:0;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  .fpwc-msg{max-width:92%}
+  html.fpwc-lock,html.fpwc-lock body{overflow:hidden}
+}
+@media (max-width:600px) and (max-height:500px){ .fpwc-chips{display:none} }
