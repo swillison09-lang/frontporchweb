@@ -12,7 +12,7 @@
 
   var css = document.createElement('link');
   css.rel = 'stylesheet';
-  css.href = '/css/chat.css?v=1';
+  css.href = '/css/chat.css?v=3';
   document.head.appendChild(css);
 
   var ICON_CHAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z"/></svg>';
@@ -21,21 +21,25 @@
 
   var root = document.createElement('div');
   root.className = 'fpwc';
+  // The 3D homepage (it has the chapter counter) gets the frosted-glass look;
+  // every other page gets the cream "paper" look of /standard.
   if (document.querySelector('.chapter-meter')) root.classList.add('lift');
+  else root.classList.add('paper');
   root.innerHTML =
     '<button class="fpwc-launch" type="button" aria-expanded="false" aria-controls="fpwc-panel">' + ICON_CHAT +
       '<span class="label">Ask a question</span><span class="dot" aria-hidden="true"></span></button>' +
-    '<section class="fpwc-panel" id="fpwc-panel" role="dialog" aria-modal="false" aria-labelledby="fpwc-title">' +
-      '<header class="fpwc-head"><div><h2 id="fpwc-title">Ask Front Porch Web</h2>' +
-        '<p>AI assistant · answers come from our published prices and terms</p></div>' +
-        '<button class="fpwc-close" type="button" aria-label="Close chat">' + ICON_X + '</button></header>' +
+    // Plain divs on purpose: /standard styles every <section> and <header> on the page.
+    '<div class="fpwc-panel" id="fpwc-panel" role="dialog" aria-modal="false" aria-labelledby="fpwc-title">' +
+      '<div class="fpwc-head"><div><p class="fpwc-eyebrow">AI assistant · from our published prices &amp; terms</p>' +
+        '<h2 id="fpwc-title">Ask a <em>question.</em></h2></div>' +
+        '<button class="fpwc-close" type="button" aria-label="Close chat">' + ICON_X + '</button></div>' +
       '<div class="fpwc-log" role="log" aria-live="polite" aria-label="Conversation"></div>' +
       '<div class="fpwc-chips" aria-label="Suggested questions"></div>' +
       '<form class="fpwc-form"><label class="fpwc-sr" for="fpwc-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your question</label>' +
         '<textarea id="fpwc-input" rows="1" maxlength="600" placeholder="Type your question…" autocomplete="off"></textarea>' +
         '<button class="fpwc-send" type="submit" aria-label="Send">' + ICON_SEND + '</button></form>' +
       '<p class="fpwc-foot">AI can make mistakes. Sean answers personally at <a href="mailto:' + CONTACT + '">' + CONTACT + '</a>.</p>' +
-    '</section>';
+    '</div>';
   document.body.appendChild(root);
 
   var launch = root.querySelector('.fpwc-launch');
