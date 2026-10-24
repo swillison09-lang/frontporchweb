@@ -67,10 +67,10 @@
         "title": "College Recruiting Profile",
         "tag": "Student-Athlete",
         "description": "A standout recruiting page for a student-athlete looking to get noticed by college coaches.",
-        "href": "demos/recruiting.html",
+        "href": "demos/gavin-mcgee/",
         "theme": "athlete",
-        "image": "assets/demos/baseball-hero.jpg",
-        "imageAlt": "College recruiting profile website"
+        "image": "assets/work/gavin-mcgee.webp",
+        "imageAlt": "Gavin McGee college recruiting profile website"
       }
     ]
   },
