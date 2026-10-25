@@ -163,9 +163,8 @@ const SEED_BUSINESS_TYPES = [
     siteTypes: ['recruiting-profile'],
     note: 'The athlete\'s recruiting site is the central hub a coach reaches from any social bio. Lead with grad year, sport/position, and the PRIMARY highlight video. NCAA fields are collected as athlete-provided input — never as eligibility guarantees (rules change; verify at eligibilitycenter.org). Mark measurables as verified vs self-reported.',
     tiers: [
-      { id: 'recruiting-starter',  name: 'Starter',  price: '$250',   badge: null,            features: ['Single-page recruiting profile', 'Embedded highlight video', 'Stats and academics', 'Contact + coach info'] },
-      { id: 'recruiting-standard', name: 'Standard', price: '$450',   badge: 'Most Popular',  features: ['Up to 8 sections', 'Photo gallery + multiple highlight videos', 'Social bio link block', 'Basic SEO so coaches find you'] },
-      { id: 'recruiting-premium',  name: 'Premium',  price: '$700',   badge: null,            features: ['Everything in Standard', 'Game film library', 'News / season updates section', 'Custom domain + analytics'] },
+      { id: 'recruiting-standard', name: 'Standard', price: '$250',   badge: null,            features: ['Full recruiting profile', 'Stats, measurables & highlight video', 'Printable coach one-pager', '2 rounds of revisions'] },
+      { id: 'recruiting-3d',       name: '3D',       price: '$350',   badge: 'New',           features: ['Everything in Standard', 'Interactive 3D version of the profile', 'Both versions link to each other', '2 rounds of revisions'] },
     ],
     photoCategories: [
       { key: 'headshot',    label: 'Headshot',    helpText: 'One clean portrait — coaches expect this front-and-center.' },

@@ -720,13 +720,14 @@ const DEFAULT_TIERS_BY_TYPE = {
     { id: 'fallback-premium',  name: 'Premium',  price: '$850',   badge: null,
       features: ['All the sections you need', 'Blog you update yourself', 'Online booking + priority support', 'Full SEO + visitor analytics', '3 rounds of revisions'] },
   ],
+  // Recruiting has two options, not three (changed 2026-10-24): the standard
+  // profile, or the same profile plus an interactive 3D version (the Gavin
+  // McGee build, demos/gavin-mcgee/ and 3d.html).
   'recruiting-profile': [
-    { id: 'fallback-starter',  name: 'Starter',  price: '$250',   badge: null,
-      features: ['Up to 4 sections', 'Mobile-friendly', 'Coach contact form', '1 round of revisions'] },
-    { id: 'fallback-standard', name: 'Standard', price: '$450',   badge: 'Most Popular',
-      features: ['Up to 8 sections', 'Stats & highlight video', 'Photo gallery', '2 rounds of revisions'] },
-    { id: 'fallback-premium',  name: 'Premium',  price: '$700',   badge: null,
-      features: ['All the sections you need', 'Blog you update yourself', 'Schedule & recruiting goals', '3 rounds of revisions'] },
+    { id: 'fallback-standard', name: 'Standard', price: '$250',   badge: null,
+      features: ['Full recruiting profile', 'Stats, measurables & highlight video', 'Printable coach one-pager', '2 rounds of revisions'] },
+    { id: 'fallback-3d',       name: '3D',       price: '$350',   badge: 'New',
+      features: ['Everything in Standard', 'Interactive 3D version of the profile', 'Both versions link to each other', '2 rounds of revisions'] },
   ],
   'adoption-profile': [
     { id: 'fallback-starter',  name: 'Starter',  price: '$300',   badge: null,
@@ -780,7 +781,7 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // │  "Front Porch Web, LLC". Each deposit is exactly half the tier price in │
 // │  setup.js:                                                              │
 // │    local-business  $350/$600/$850    -> $175 / $300 / $425              │
-// │    recruiting      $250/$450/$700    -> $125 / $225 / $350              │
+// │    recruiting      $250/$350 (Standard/3D) -> $125 / $175               │
 // │    adoption        $300/$500/$750    -> $150 / $250 / $375              │
 // │    personal-other  $350/$650/$1,000  -> $175 / $325 / $500              │
 // │  Note the tiers are NOT priced the same across site types — recruiting  │
@@ -814,10 +815,13 @@ const STRIPE_PAYMENT_LINKS = {
   'local-business::starter':     'https://buy.stripe.com/9B69ATe0n7qSe9FgYG4Ni0r',
   'local-business::standard':    'https://buy.stripe.com/6oU6oH5tR12u7Lh8sa4Ni0s',
   'local-business::premium':     'https://buy.stripe.com/9B6eVd5tR7qSfdJfUC4Ni0t',
-  // Recruiting profile — Starter $125 / Standard $225 / Premium $350
-  'recruiting-profile::starter': 'https://buy.stripe.com/cNi3cve0n8uW9Tp5fY4Ni0f',
-  'recruiting-profile::standard':'https://buy.stripe.com/eVq8wP9K73aC3v16k24Ni0g',
-  'recruiting-profile::premium': 'https://buy.stripe.com/5kQ14n4pN9z01mT4bU4Ni0h',
+  // Recruiting profile — Standard $125 / 3D $175 (50% deposits)
+  // Relinked 2026-10-24 when recruiting became two options, Standard $250 and
+  // 3D $350. Both created fresh with the standard after-payment redirect and
+  // confirmed at the right amount. The old Starter/Standard/Premium
+  // ($125/$225/$350) links were deactivated, not deleted.
+  'recruiting-profile::standard':'https://buy.stripe.com/5kQ6oH09xeTk6Hd37Q4Ni0w',
+  'recruiting-profile::3d':      'https://buy.stripe.com/aFabJ1f4r9z0c1xdMu4Ni0x',
   // Adoption profile — Starter $150 / Standard $250 / Premium $375
   'adoption-profile::starter':   'https://buy.stripe.com/dRm14n7BZfXod5B7o64Ni0i',
   'adoption-profile::standard':  'https://buy.stripe.com/14A8wP4pN8uWfdJ9we4Ni0j',
@@ -1053,6 +1057,7 @@ function revisionRoundsForTier(tierName) {
     case 'starter':  return 1;
     case 'standard': return 2;
     case 'premium':  return 3;
+    case '3d':       return 2;   // recruiting 3D
     default:         return null;
   }
 }

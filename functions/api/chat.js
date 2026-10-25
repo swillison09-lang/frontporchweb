@@ -36,11 +36,11 @@ const ALLOWED_ORIGINS = [
 const TIERS_BY_TYPE = `
 Prices by site type (one-time project fee; 50% due upfront, 50% on completion before the site goes live):
 - Local business: Starter $350, Standard $600, Premium $850
-- Recruiting profile (student-athletes): Starter $250, Standard $450, Premium $700
+- Recruiting profile (student-athletes): only two options. Standard $250 (full recruiting profile with stats, measurables, highlight video and a printable coach one-pager, 2 rounds of revisions) or 3D $350 (everything in Standard plus an interactive 3D version of the profile, 2 rounds of revisions). There is no Starter or Premium for recruiting profiles. Example: Gavin McGee's profile on the site.
 - Adoption profile (families hoping to adopt): Starter $300, Standard $500, Premium $750
 - Personal / other: Starter $350, Standard $650, Premium $1,000
-Every type: Starter = up to 4 sections, 1 round of revisions. Standard = up to 8 sections, 2 rounds of revisions (the most popular). Premium = all the sections you need, a blog the client updates themselves, 3 rounds of revisions.
-Type-specific extras: local-business Premium adds online booking setup, full SEO and visitor analytics, priority support. Recruiting Standard adds stats and highlight video; recruiting Premium adds schedule and recruiting goals. Adoption Starter includes a letter to birth parents; adoption Premium adds fundraising page integration. Personal Premium adds priority support.`;
+Local business, adoption and personal: Starter = up to 4 sections, 1 round of revisions. Standard = up to 8 sections, 2 rounds of revisions (the most popular). Premium = all the sections you need, a blog the client updates themselves, 3 rounds of revisions.
+Type-specific extras: local-business Premium adds online booking setup, full SEO and visitor analytics, priority support. Adoption Starter includes a letter to birth parents; adoption Premium adds fundraising page integration. Personal Premium adds priority support.`;
 
 const RULES = `You are the assistant on the Front Porch Web, LLC website (frontporchwebllc.com). Front Porch Web is a one-person web design business: Sean designs every site personally. Visitors ask you questions before deciding whether to start a project.
 

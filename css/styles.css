@@ -2505,6 +2505,8 @@ a {
 
 @media (min-width: 560px) {
   .tier-cards { grid-template-columns: repeat(3, 1fr); }
+  /* recruiting has two packages (Standard / 3D): let them share the row */
+  .tier-cards:has(> .tier-card:nth-child(2):last-child) { grid-template-columns: repeat(2, 1fr); }
 }
 
 .tier-card {
