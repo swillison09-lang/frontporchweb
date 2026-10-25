@@ -93,4 +93,5 @@ create policy "owner reads all submissions"
   on public.submissions
   for select
   to authenticated
-  using (auth.jwt() ->> 'email' = 'swillison09@gmail.com');
+  -- fpw_verified_login() is defined in blog-schema.sql (Google or emailed-link login)
+  using (auth.jwt() ->> 'email' = 'swillison09@gmail.com' and public.fpw_verified_login());

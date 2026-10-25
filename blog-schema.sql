@@ -22,6 +22,23 @@
 
 -- ─── Owner ────────────────────────────────────────────────────────────────
 -- Single place to change who the owner is. Used by every policy below.
+-- Did this login prove the email address? Email sign-ups are auto-confirmed,
+-- so a password login on an address proves nothing; Google or an emailed
+-- sign-in link does. Owner and editor powers require it (fix of 2026-10-24).
+create or replace function public.fpw_verified_login()
+returns boolean
+language sql
+stable
+set search_path = public
+as $$
+  select coalesce(auth.jwt() -> 'app_metadata' ->> 'provider', '') = 'google'
+      or exists (
+           select 1
+           from jsonb_array_elements(coalesce(auth.jwt() -> 'amr', '[]'::jsonb)) a
+           where a ->> 'method' in ('oauth', 'otp', 'magiclink')
+         );
+$$;
+
 create or replace function public.fpw_is_owner()
 returns boolean
 language sql
@@ -33,7 +50,7 @@ as $$
     'swillison09@gmail.com',
     'swillison@motoringlabs.com',
     'frontporchwebllc@gmail.com'
-  );
+  ) and public.fpw_verified_login();
 $$;
 
 
@@ -64,12 +81,12 @@ security definer
 set search_path = public
 as $$
   select public.fpw_is_owner()
-      or exists (
+      or (public.fpw_verified_login() and exists (
            select 1
            from public.site_editors se
            where se.site_slug = target_slug
              and lower(se.user_email) = lower(coalesce(auth.jwt() ->> 'email', ''))
-         );
+         ));
 $$;
 
 

@@ -181,7 +181,7 @@ async function loadPosts() {
     .eq('site_slug', slug)
     .order('updated_at', { ascending: false });
 
-  if (error) { box.innerHTML = `<p class="muted">Could not load posts: ${error.message}</p>`; return; }
+  if (error) { box.innerHTML = '<p class="muted"></p>'; box.firstChild.textContent = 'Could not load posts: ' + error.message; return; }
 
   if (!data.length) {
     box.innerHTML = '<p class="muted">No posts yet. Click “New post” to write the first one.</p>';
@@ -195,11 +195,14 @@ async function loadPosts() {
 
     const t = document.createElement('div');
     t.className = 't';
-    t.innerHTML = `${p.title || '(untitled)'}<small>${
-      p.status === 'published'
-        ? 'Published ' + fmtDate(p.published_at)
-        : 'Edited ' + fmtDate(p.updated_at)
-    }</small>`;
+    // Title is client-written text: set it as text, never as HTML, or a title
+    // like <img onerror=…> would run in the owner's session when listed.
+    t.textContent = p.title || '(untitled)';
+    const when = document.createElement('small');
+    when.textContent = p.status === 'published'
+      ? 'Published ' + fmtDate(p.published_at)
+      : 'Edited ' + fmtDate(p.updated_at);
+    t.appendChild(when);
 
     const pill = document.createElement('span');
     pill.className = 'pill ' + p.status;

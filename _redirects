@@ -25,3 +25,13 @@
 # at the old URL lands there too.
 /classic.html  /standard  301
 /classic       /standard  301
+
+# Internal setup files live in the repo but are not for the public: they map out
+# the database rules, the upload worker and the Cloudflare setup. Pages serves
+# every repo file, and these rules take priority over the asset.
+/README.md             /  301
+/CLOUDFLARE-SETUP.md   /  301
+/supabase-schema.sql   /  301
+/blog-schema.sql       /  301
+/.gitignore            /  301
+/worker/*              /  301
