@@ -1057,6 +1057,15 @@ function revisionRoundsForTier(tierName) {
   }
 }
 
+// After-launch plan picked on the payment step (Step 8). Prices must match the
+// Hosting & Care section of the site and the monthly Stripe links.
+const HOSTING_PLAN_LABELS = {
+  take:      'Take it with you ($0)',
+  health:    'Website Health ($10/month)',
+  care:      'Care Package ($30/month)',
+  undecided: 'Not sure yet',
+};
+
 async function sendOrderNotification({ submissionId, submittedAt, savedToDb }) {
   if (!NOTIFY_ACCESS_KEY) return; // not configured yet — skip quietly
   const name     = currentUser?.name  || qData.contactName  || qData.name  || 'Unknown';
@@ -1077,6 +1086,7 @@ async function sendOrderNotification({ submissionId, submittedAt, savedToDb }) {
     `Phone:      ${phone}`,
     `Site type:  ${siteType}`,
     `Package:    ${tier}`,
+    `Hosting:    ${qData.hostingPlan || 'Not sure yet'}`,
     `Revisions:  ${revisions}`,
     `Submitted:  ${when}`,
     `Reference:  ${submissionId}`,
@@ -2264,6 +2274,7 @@ function qGenerateBuildPrompt() {
       ? ` | 50/50 terms: $${tierHalf} due now (upfront), $${tierHalf} due on completion and client approval`
       : '';
     lines.push(`PACKAGE: ${qData.tier.name} — ${qData.tier.price} total${tierSplit}`);
+    if (qData.hostingPlan) lines.push(`AFTER LAUNCH: ${qData.hostingPlan}`);
     lines.push('');
   }
   lines.push(`Build a ${siteTypeLabel.toLowerCase()} website for ${name}.`);
@@ -3654,6 +3665,7 @@ function qSaveStep(step) {
       qData.tier = qSelectedTier
         ? { id: qSelectedTier.id, name: qSelectedTier.name, price: qSelectedTier.price }
         : null;
+      qData.hostingPlan = HOSTING_PLAN_LABELS[document.querySelector('input[name="qHosting"]:checked')?.value] || HOSTING_PLAN_LABELS.undecided;
       break;
   }
 }

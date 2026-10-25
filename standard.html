@@ -121,7 +121,9 @@ section{position:relative;padding:clamp(80px,10vw,136px) 0;scroll-margin-top:76p
 .portrait img{border-radius:18px;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;width:100%;height:auto;box-shadow:0 30px 60px -30px rgba(27,39,31,.55)}
 .portrait figcaption{margin-top:14px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .letter-body p{font-size:clamp(18px,1.4vw,20px);margin:0 0 20px;max-width:60ch}
-.letter-body .eyebrow{color:#9A5A14} /* amber on cream read 2.2:1; this is 5:1 */
+.letter-body .eyebrow{color:#9A5A14}
+/* small amber labels on the cream sections: the deeper amber passes 4.5:1, the bright one only ~2:1 */
+.work-head .eyebrow,#pricing .eyebrow,#hosting .eyebrow,.hcard:not(.feat) .kind{color:#9A5A14} /* amber on cream read 2.2:1; this is 5:1 */
 .letter-body .story>p:first-child::first-letter{font-family:var(--display);float:left;font-size:4.3em;line-height:.82;margin:.06em .1em 0 0;color:var(--pine);font-variation-settings:"SOFT" 100,"WONK" 1}
 .sig{font-family:var(--display);font-style:italic;font-size:30px;color:var(--pine);font-variation-settings:"SOFT" 100,"WONK" 1;margin-top:8px}
 
@@ -577,7 +579,19 @@ footer{background:var(--night);color:rgba(246,239,223,.7);padding:48px 0 calc(40
       },
       {
         "@type": "Offer",
-        "name": "Hosting and small updates",
+        "name": "Website Health",
+        "priceCurrency": "USD",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "10",
+          "priceCurrency": "USD",
+          "unitText": "month"
+        },
+        "description": "Hosting, your domain, keeping the site online and secure, and fixing anything that breaks. Cancel any time."
+      },
+      {
+        "@type": "Offer",
+        "name": "Care Package",
         "priceCurrency": "USD",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
@@ -585,7 +599,7 @@ footer{background:var(--night);color:rgba(246,239,223,.7);padding:48px 0 calc(40
           "priceCurrency": "USD",
           "unitText": "month"
         },
-        "description": "Hosting, your domain, keeping the site online, and small text or photo updates. Cancel any time."
+        "description": "Everything in Website Health plus small text or photo updates. Cancel any time."
       }
     ]
   }

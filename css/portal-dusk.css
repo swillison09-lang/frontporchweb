@@ -365,3 +365,22 @@ option { background: var(--dusk-deep); color: var(--dusk-cream); }
 .upload-overlay-status, .upload-overlay-count { color: var(--dusk-soft); }
 .upload-overlay-bar { background: rgba(250, 245, 236, 0.12); }
 .upload-overlay-bar-fill { background: var(--dusk-amber); }
+
+/* ---------- payment step: terms box + after-launch plan ----------
+   styles.css gives these a light cream box; under dusk the text is cream,
+   so without this they read as cream-on-cream. Match the tier cards. */
+.q-terms,
+.q-hosting label {
+  background: var(--dusk-glass2);
+  border-color: var(--dusk-line);
+  color: var(--dusk-cream);
+}
+.q-terms:hover,
+.q-hosting label:hover { border-color: rgba(250, 245, 236, 0.4); }
+.q-hosting label:has(input:checked) { border-color: var(--dusk-amber); box-shadow: 0 0 0 1px var(--dusk-amber); }
+.q-terms a { color: var(--dusk-amber-soft); }
+.q-terms a:hover { color: var(--dusk-cream); }
+.q-terms input, .q-hosting input { accent-color: var(--dusk-amber); }
+.q-hosting legend { color: var(--dusk-cream); }
+.q-hosting strong { color: var(--dusk-cream); }
+.q-hosting-note { color: var(--dusk-soft); }
