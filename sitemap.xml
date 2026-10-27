@@ -4,7 +4,8 @@
   Deliberately excluded:
     classic.html  - alternate rendering of the homepage, canonical points to /
     admin / blog-admin / setup  - owner only, noindex
-    demos/asfg, demos/motoringlabs-3d, demos/schaefer-technologies  - noindex
+    demos/asfg, demos/motoringlabs-3d, demos/schaefer-technologies and the other
+    pitch demos, athletes/gavin-mcgee  - noindex
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -21,22 +22,22 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://frontporchwebllc.com/demos/hartman-plumbing.html</loc>
+    <loc>https://frontporchwebllc.com/demos/hartman-plumbing/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://frontporchwebllc.com/demos/dunn-right.html</loc>
+    <loc>https://frontporchwebllc.com/demos/fresh-cut-lawn-care/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://frontporchwebllc.com/demos/bennett-family-adoption.html</loc>
+    <loc>https://frontporchwebllc.com/demos/bennett-family/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://frontporchwebllc.com/demos/recruiting.html</loc>
+    <loc>https://frontporchwebllc.com/athletes/tyler-brooks/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>

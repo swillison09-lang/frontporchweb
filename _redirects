@@ -10,6 +10,29 @@
 
 # The front-porch-evening demo became the homepage on 2026-09-12.
 /demos/front-porch-evening/*  /  301
+# Sites were sorted into two sections on 2026-10-27: /demos/<slug>/ for
+# businesses, families and orgs, /athletes/<slug>/ for recruiting profiles.
+# Old addresses (already sent to prospects and coaches) keep working. Pages
+# serves /x.html at /x too, so each old page gets both forms.
+/demos/dunn-right.html                /demos/fresh-cut-lawn-care/  301
+/demos/dunn-right                     /demos/fresh-cut-lawn-care/  301
+/demos/fresh-cut-logo.png             /demos/fresh-cut-lawn-care/logo.png  301
+/demos/hartman-plumbing.html          /demos/hartman-plumbing/  301
+/demos/bennett-family-adoption.html   /demos/bennett-family/  301
+/demos/bennett-family-adoption        /demos/bennett-family/  301
+/demos/bennett-assets/*               /demos/bennett-family/img/:splat  301
+/demos/asfg.html                      /demos/asfg/  301
+/demos/asfg-assets/*                  /demos/asfg/img/:splat  301
+/demos/recruiting.html                /athletes/tyler-brooks/  301
+/demos/recruiting                     /athletes/tyler-brooks/  301
+/demos/gavin-mcgee                    /athletes/gavin-mcgee/  301
+/demos/gavin-mcgee/*                  /athletes/gavin-mcgee/:splat  301
+
+# The section folders themselves have no page; send them to the work grid.
+/demos      /#work  302
+/demos/     /#work  302
+/athletes   /#work  302
+/athletes/  /#work  302
 
 # Retire the stale Hartman backup. The file was removed from the repo, but
 # Pages keeps serving its cached copy at both the .html and extensionless URL
@@ -17,8 +40,8 @@
 # s-maxage, so a zone purge does not clear it). These rules take priority over
 # the stale asset and send anyone who lands there to the real demo.
 # Safe to delete once the cache has aged out.
-/demos/hartman-plumbing.OLD.html  /demos/hartman-plumbing.html  301
-/demos/hartman-plumbing.OLD       /demos/hartman-plumbing.html  301
+/demos/hartman-plumbing.OLD.html  /demos/hartman-plumbing/  301
+/demos/hartman-plumbing.OLD       /demos/hartman-plumbing/  301
 
 # The classic page was replaced by the standard view on 2026-09-22. The 3D
 # homepage's "Standard Site" button links to /standard; anything still pointing

@@ -28,7 +28,8 @@ frontporchweb/
 ├── assets/
 │   ├── logo.png             # Round badge logo
 │   └── demos/               # Demo site screenshots
-├── demos/                   # HTML demo pages linked from index.html
+├── demos/<slug>/            # Sample and pitch sites: businesses, families, orgs
+├── athletes/<slug>/         # Student-athlete recruiting profiles
 ├── CLOUDFLARE-SETUP.md      # Step-by-step R2 + Worker setup
 └── README.md                # This file
 ```

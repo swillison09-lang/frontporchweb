@@ -40,7 +40,7 @@
         "title": "The Bennett Family",
         "tag": "Adoption Profile",
         "description": "A warm adoption profile for a loving Indianapolis family hoping to welcome a child home.",
-        "href": "demos/bennett-family-adoption.html",
+        "href": "demos/bennett-family/",
         "theme": "family",
         "image": "assets/demos/bennett-family.png",
         "imageAlt": "The Bennett Family adoption profile website"
@@ -49,7 +49,7 @@
         "title": "Fresh Cut Lawn Care",
         "tag": "Local Business",
         "description": "A clean, conversion-focused site for an Indianapolis lawn care company.",
-        "href": "demos/dunn-right.html",
+        "href": "demos/fresh-cut-lawn-care/",
         "theme": "lawn",
         "image": "assets/demos/dunn-right.png",
         "imageAlt": "Fresh Cut Lawn Care website"
@@ -58,7 +58,7 @@
         "title": "Hartman Plumbing",
         "tag": "Local Business",
         "description": "A trust-building site for a 24/7 emergency plumbing and drain service.",
-        "href": "demos/hartman-plumbing.html",
+        "href": "demos/hartman-plumbing/",
         "theme": "plumbing",
         "image": "assets/demos/hartman-plumbing.png",
         "imageAlt": "Hartman Plumbing website"
@@ -67,7 +67,7 @@
         "title": "College Recruiting Profile",
         "tag": "Student-Athlete",
         "description": "A standout recruiting page for a student-athlete looking to get noticed by college coaches.",
-        "href": "demos/gavin-mcgee/",
+        "href": "athletes/gavin-mcgee/",
         "theme": "athlete",
         "image": "assets/work/gavin-mcgee.webp",
         "imageAlt": "Gavin McGee college recruiting profile website"

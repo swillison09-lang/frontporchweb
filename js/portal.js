@@ -722,7 +722,7 @@ const DEFAULT_TIERS_BY_TYPE = {
   ],
   // Recruiting has two options, not three (changed 2026-10-24): the standard
   // profile, or the same profile plus an interactive 3D version (the Gavin
-  // McGee build, demos/gavin-mcgee/ and 3d.html).
+  // McGee build, athletes/gavin-mcgee/ and 3d.html).
   'recruiting-profile': [
     { id: 'fallback-standard', name: 'Standard', price: '$250',   badge: null,
       features: ['Full recruiting profile', 'Stats, measurables & highlight video', 'Printable coach one-pager', '2 rounds of revisions'] },
