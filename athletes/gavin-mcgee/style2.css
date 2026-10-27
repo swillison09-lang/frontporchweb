@@ -26,7 +26,7 @@ h1,h2{font-family:var(--display);font-weight:800;text-transform:uppercase;line-h
 .top nav{display:flex;gap:2px}
 .top nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 11px;text-decoration:none;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:#C9D4F0}
 .top nav a:hover{color:#fff}
-.print{min-height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--red-dk);color:#fff;font:700 14px var(--body);cursor:pointer;white-space:nowrap}
+.print{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:0;background:var(--red-dk);color:#fff;font:700 14px var(--body);text-decoration:none;cursor:pointer;white-space:nowrap}
 .print:hover{background:var(--red)}
 @media (max-width:860px){.top nav{display:none}}
 
@@ -205,20 +205,44 @@ td:last-child{font-family:var(--mono);font-weight:700;color:var(--navy)}
 .foot .links a{display:inline-flex;align-items:center;min-height:44px;color:#fff;text-underline-offset:4px}
 .foot .small{margin:0;font-size:13px}
 
-.sheet{display:none}
+/* coach one-pager: shown on the page as a sheet of paper, and it is the only
+   thing that prints */
+.op-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 24px;margin-bottom:26px}
+.op-head .sec-head{margin-bottom:0}
+.op-print{min-height:48px;padding:0 22px;border-radius:999px;border:0;background:var(--navy);color:#fff;font:700 16px var(--body);cursor:pointer}
+.op-print:hover{background:var(--blue)}
+.sheet{max-width:880px;margin:0 auto;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:6px;box-shadow:0 34px 60px -42px rgba(11,28,63,.5);padding:clamp(20px,5vw,48px)}
+.sheet::after{content:"";display:block;clear:both}
+.s-name{font-size:clamp(46px,8vw,76px);color:var(--navy)}
+.s-photo{float:right;width:clamp(96px,22vw,170px);aspect-ratio:1/1;object-fit:cover;border-radius:10px;margin:0 0 12px 16px}
+.s-role{margin:10px 0 18px;padding-bottom:12px;border-bottom:3px solid var(--navy);font-size:15px;line-height:1.5;color:var(--muted)}
+.s-cols{clear:both;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:28px}
+@media (max-width:700px){.s-cols{grid-template-columns:minmax(0,1fr);gap:8px}}
+.sheet h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px;color:var(--blue)}
+.sheet table{min-width:0;font-size:15px;margin-bottom:18px}
+.sheet th,.sheet td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+.sheet th{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sheet td{font-variant-numeric:tabular-nums}
+.sheet ul{margin:0;padding-left:18px;font-size:15px;line-height:1.55}
+.s-foot{clear:both;margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted);overflow-wrap:anywhere}
 /* print: one page a coach can hand to the head coach */
 @media print{
-  @page{size:letter;margin:.5in}
+  /* .35in page margin + .15in sheet padding = .5in; the padding keeps a white
+     edge even when someone picks "Margins: None" in the print dialog */
+  @page{size:letter;margin:.35in}
   body{background:#fff;font-size:11pt}
-  .skip,.ribbon,.top,main,.foot{display:none!important}
-  .sheet{display:block!important;color:#000}
-  .sheet h1{font-family:var(--display);font-size:46pt;color:#0B1C3F}
-  .s-photo{float:right;width:1.6in;height:1.6in;object-fit:cover;border-radius:8pt;margin:0 0 8pt 14pt}
-  .s-role{font-size:11pt;margin:4pt 0 12pt;border-bottom:2pt solid #0B1C3F;padding-bottom:8pt}
-  .s-cols{display:grid;grid-template-columns:1.1fr .9fr;gap:20pt}
-  .sheet h3{font-family:var(--mono);font-size:9pt;letter-spacing:.1em;text-transform:uppercase;margin:0 0 6pt;color:#2457E6}
-  .sheet table{min-width:0;font-size:10pt;margin-bottom:12pt}
+  .skip,.ribbon,.top,.foot,.op-head,main > section:not(.onepager){display:none!important}
+  .onepager{padding:0!important;background:#fff}
+  .onepager .wrap{max-width:none;padding:0}
+  .sheet{color:#000;max-width:none;border:0;border-radius:0;box-shadow:none;padding:.15in}
+  .sheet .s-name{font-family:var(--display);font-size:46pt;color:#0B1C3F}
+  .s-photo{width:1.6in;height:1.6in;border-radius:8pt;margin:0 0 8pt 14pt}
+  .s-role{font-size:11pt;color:#000;margin:4pt 0 12pt;border-bottom:2pt solid #0B1C3F;padding-bottom:8pt}
+  .s-cols{grid-template-columns:1.1fr .9fr;gap:20pt}
+  .sheet h3{font-size:9pt;margin:0 0 6pt;color:#2457E6}
+  .sheet table{font-size:10pt;margin-bottom:12pt}
   .sheet th,.sheet td{padding:3pt 6pt;border-bottom:.5pt solid #ccc}
-  .sheet ul{margin:0;padding-left:14pt;font-size:10pt}
-  .s-foot{margin-top:14pt;font-size:9pt;border-top:1pt solid #999;padding-top:8pt}
+  .sheet th{font-size:8pt;color:#000}
+  .sheet ul{padding-left:14pt;font-size:10pt}
+  .s-foot{margin-top:14pt;font-size:9pt;color:#000;border-top:1pt solid #999;padding-top:8pt}
 }
