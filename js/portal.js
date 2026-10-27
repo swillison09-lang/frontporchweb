@@ -805,6 +805,10 @@ const OWNER_PROMPTS_KEY = 'frontporch_owner_prompts';
 // │  (50% Deposit)".)                                                       │
 // └──────────────────────────────────────────────────────────────────────────┘
 const STRIPE_TEST_MODE = false;
+// 2026-10-26: the local-business, adoption and personal links were re-created
+// without Stripe "Managed Payments" (a 3.5% add-on that can't be switched off
+// on an existing link). Same prices, products and redirect; the old links were
+// deactivated after this deploy went live.
 const STRIPE_PAYMENT_LINKS = {
   // Local business — Starter $175 / Standard $300 / Premium $425 (50% deposits)
   // Relinked 2026-09-15 when local-business pricing moved to $350/$600/$850.
@@ -812,9 +816,9 @@ const STRIPE_PAYMENT_LINKS = {
   // after-payment redirect, and each opened and confirmed at the right amount.
   // The previous $125/$250/$375 links have been deactivated, not deleted, so a
   // half-finished checkout still resolves instead of erroring.
-  'local-business::starter':     'https://buy.stripe.com/9B69ATe0n7qSe9FgYG4Ni0r',
-  'local-business::standard':    'https://buy.stripe.com/6oU6oH5tR12u7Lh8sa4Ni0s',
-  'local-business::premium':     'https://buy.stripe.com/9B6eVd5tR7qSfdJfUC4Ni0t',
+  'local-business::starter':     'https://buy.stripe.com/3cI7sL09x6mO1mT4bU4Ni0A',
+  'local-business::standard':    'https://buy.stripe.com/dRm7sLaObfXofdJaAi4Ni0z',
+  'local-business::premium':     'https://buy.stripe.com/00weVd1dB3aC2qXaAi4Ni0y',
   // Recruiting profile — Standard $125 / 3D $175 (50% deposits)
   // Relinked 2026-10-24 when recruiting became two options, Standard $250 and
   // 3D $350. Both created fresh with the standard after-payment redirect and
@@ -823,13 +827,13 @@ const STRIPE_PAYMENT_LINKS = {
   'recruiting-profile::standard':'https://buy.stripe.com/5kQ6oH09xeTk6Hd37Q4Ni0w',
   'recruiting-profile::3d':      'https://buy.stripe.com/aFabJ1f4r9z0c1xdMu4Ni0x',
   // Adoption profile — Starter $150 / Standard $250 / Premium $375
-  'adoption-profile::starter':   'https://buy.stripe.com/dRm14n7BZfXod5B7o64Ni0i',
-  'adoption-profile::standard':  'https://buy.stripe.com/14A8wP4pN8uWfdJ9we4Ni0j',
-  'adoption-profile::premium':   'https://buy.stripe.com/14A9ATf4rfXo5D96k24Ni0k',
+  'adoption-profile::starter':   'https://buy.stripe.com/bJe00jbSfbH89Tp23M4Ni0G',
+  'adoption-profile::standard':  'https://buy.stripe.com/7sYfZhe0nbH86Hd8sa4Ni0F',
+  'adoption-profile::premium':   'https://buy.stripe.com/00wdR9f4rbH8d5B7o64Ni0E',
   // Personal / other — Starter $175 / Standard $325 / Premium $500
-  'personal-other::starter':     'https://buy.stripe.com/4gMfZh9K76mOfdJdMu4Ni0l',
-  'personal-other::standard':    'https://buy.stripe.com/5kQ5kD5tR5iK1mTbEm4Ni0m',
-  'personal-other::premium':     'https://buy.stripe.com/8x29ATcWjdPgfdJgYG4Ni0n',
+  'personal-other::starter':     'https://buy.stripe.com/6oUeVd4pN8uWd5B37Q4Ni0D',
+  'personal-other::standard':    'https://buy.stripe.com/14AcN5e0n3aC3v137Q4Ni0C',
+  'personal-other::premium':     'https://buy.stripe.com/6oU8wPg8vdPgd5BcIq4Ni0B',
 };
 
 // Look up the Stripe Payment Link for a given (siteType, tier). Returns
