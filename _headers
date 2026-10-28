@@ -12,6 +12,17 @@
 /setup.html
   X-Robots-Tag: noindex, nofollow
 
+# Glass (Sean's own app, unlisted). Replaces the site-wide policies above for this
+# folder only: it needs the camera and microphone (see-through mode, voice commands),
+# keeping the screen awake, and photos/videos from the Supabase "glass" bucket.
+/apps/glass/*
+  ! Content-Security-Policy
+  ! Permissions-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://hxxtsthfqwyvkyuwnnsu.supabase.co; media-src 'self' blob: https://hxxtsthfqwyvkyuwnnsu.supabase.co; connect-src 'self' https://hxxtsthfqwyvkyuwnnsu.supabase.co wss://hxxtsthfqwyvkyuwnnsu.supabase.co; worker-src 'self'; manifest-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'
+  Permissions-Policy: geolocation=(), payment=(), usb=(), interest-cohort=(), camera=(self), microphone=(self), screen-wake-lock=(self)
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
+
 # Images, textures and the 3D library change name (or ?v=) when they change,
 # so browsers can keep them for a week instead of re-checking every 4 hours.
 /assets/*

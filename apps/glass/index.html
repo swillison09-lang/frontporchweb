@@ -1,0 +1,1133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glass</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#08050c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Glass">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #e879f9;
+    --cyan-dim: rgba(232, 121, 249, .35);
+    --cyan-faint: rgba(232, 121, 249, .12);
+    --glass: rgba(235, 190, 255, .07);
+    --warn: #ffb347;
+    --bg: #08050c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--cyan);
+    font-family: 'Rajdhani', system-ui, sans-serif;
+    overflow: hidden;
+    -webkit-user-select: none; user-select: none;
+    touch-action: none;
+  }
+
+  /* ---------- the room behind the glass ---------- */
+  #room {
+    position: fixed; inset: -40px;
+    background:
+      radial-gradient(ellipse at 30% 20%, #3a2c1d 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 70%, #1a2430 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, #2b1a12 0%, transparent 50%),
+      #0b0d10;
+    filter: blur(22px) brightness(.8);
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes drift { to { transform: translate(30px, -20px) scale(1.05); } }
+  #cam {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0; transition: opacity .8s;
+  }
+  body.glass-on #cam { opacity: 1; }
+  body.glass-on #room { opacity: 0; }
+
+  /* ---------- the device ---------- */
+  .stage {
+    position: fixed; inset: 0;
+    display: grid; place-items: center;
+    perspective: 1400px;
+  }
+  .phone {
+    position: relative;
+    width: min(92vw, 640px);
+    border-radius: 26px;
+    background:
+      linear-gradient(115deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 70%, rgba(255,255,255,.06) 100%),
+      var(--glass);
+    -webkit-backdrop-filter: blur(1.5px) saturate(1.2);
+    backdrop-filter: blur(1.5px) saturate(1.2);
+    border: 1.5px solid rgba(240, 200, 255, .35);
+    box-shadow:
+      inset 0 0 0 6px rgba(30, 20, 36, .55),
+      inset 0 0 40px rgba(232, 121, 249, .08),
+      0 30px 80px rgba(0,0,0,.6),
+      0 0 30px rgba(232, 121, 249, .12);
+    transform-style: preserve-3d;
+    transform: scale(var(--fit, 1));
+    transition: transform .25s ease-out;
+    padding: 4.2% 4.5%;
+    display: grid;
+    grid-template-columns: 1fr 13%;
+    grid-template-rows: auto minmax(0, 1fr) auto auto; /* spare height goes to the terminal */
+    gap: clamp(8px, 2vw, 16px);
+  }
+  @media (orientation: portrait) and (max-width: 600px) {
+    /* on a phone the device fills the screen, so the terminal gets the spare height */
+    .phone {
+      width: 94vw; grid-template-columns: 1fr 18%; padding: 6% 5%;
+      height: calc(100svh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    }
+    .terminal { height: auto; }
+    .terminal .feeds { grid-template-columns: repeat(2, 1fr); }
+    .hint { display: none; } /* the device fills the screen; the hint would sit on its header */
+  }
+  .phone::after { /* moving glare */
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.10) 48%, transparent 56%);
+    background-size: 250% 100%; background-position: var(--glare, 50%) 0;
+  }
+  .glow { text-shadow: 0 0 6px rgba(232,121,249,.7); }
+
+  header {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--cyan-dim);
+    padding-bottom: 1.2%;
+    font-weight: 700; letter-spacing: .18em; font-size: clamp(11px, 2vw, 15px);
+  }
+  header .brand::after { content: " ⟋"; color: var(--cyan-dim); }
+  header .status { font-family: 'Share Tech Mono', monospace; font-weight: 400; letter-spacing: .05em; opacity: .85; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--cyan-dim); margin-right: 6px; vertical-align: middle; }
+  .dot.live { background: #ff4d4d; box-shadow: 0 0 8px #ff4d4d; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .2; } }
+
+  .panel {
+    border: 1px solid var(--cyan-dim);
+    border-radius: 6px;
+    background: rgba(40, 10, 50, .28);
+    position: relative; overflow: hidden;
+  }
+  .terminal {
+    display: flex; flex-direction: column;
+    padding: 2% 3%;
+    min-height: 0;
+    height: clamp(260px, 50vh, 400px); /* fixed, so long tabs scroll instead of stretching the device */
+  }
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--cyan-faint); }
+  .tabs button {
+    flex: 1; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--cyan);
+    font: 600 clamp(9px, 1.6vw, 12px) 'Rajdhani', sans-serif; letter-spacing: .16em; opacity: .55;
+    padding: 4px 0 5px; cursor: pointer;
+  }
+  .tabs button.on { opacity: 1; border-bottom-color: var(--cyan); text-shadow: 0 0 6px rgba(232,121,249,.7); }
+  .view { display: none; }
+  .view.on { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .view:not([data-view="term"]) { overflow-y: auto; touch-action: pan-y; overscroll-behavior: contain; padding-bottom: 6px; }
+  .view > * { flex-shrink: 0; }
+  .view[data-view="term"] > #log { flex-shrink: 1; }
+  .row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+  .chip {
+    background: rgba(40, 10, 50, .35); border: 1px solid var(--cyan-dim); border-radius: 4px; color: var(--cyan);
+    font: 11px 'Share Tech Mono', monospace; padding: 5px 9px; cursor: pointer; letter-spacing: .05em;
+  }
+  .chip:hover, .chip.on { background: rgba(232,121,249,.18); border-color: var(--cyan); box-shadow: 0 0 10px rgba(232,121,249,.3); }
+  .chip small { opacity: .6; margin-left: 4px; }
+  .muted { font: 11px 'Share Tech Mono', monospace; opacity: .6; margin-top: 8px; line-height: 1.5; }
+  #thumbs { display: flex; gap: 6px; overflow-x: auto; margin-top: 8px; min-height: 58px; padding-bottom: 2px; touch-action: pan-x; }
+  .thumb {
+    flex: 0 0 auto; width: 84px; aspect-ratio: 16/10; border: 1px solid var(--cyan-dim); border-radius: 4px;
+    background: #000 center/cover no-repeat; position: relative; cursor: pointer;
+  }
+  .thumb.on { border-color: var(--cyan); box-shadow: 0 0 12px rgba(232,121,249,.5); }
+  .thumb span { position: absolute; left: 3px; bottom: 2px; font: 9px 'Share Tech Mono', monospace; background: #000a; padding: 0 3px; }
+  .thumb.uploading { opacity: .45; }
+  #pad {
+    display: block; width: 100%; aspect-ratio: 16/9; margin-top: 8px; touch-action: none; cursor: crosshair;
+    border: 1px dashed var(--cyan-dim); border-radius: 4px; background: rgba(0,0,0,.25);
+  }
+  .swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+  .swatch.on { border-color: #fff; box-shadow: 0 0 8px currentColor; }
+  #screenList { min-height: 40px; }
+  .field {
+    display: block; width: 100%; margin-top: 6px; padding: 7px 9px;
+    background: rgba(0,0,0,.35); border: 1px solid var(--cyan-dim); border-radius: 4px; color: #fff;
+    font: 13px 'Share Tech Mono', monospace; outline: none;
+    -webkit-user-select: text; user-select: text; touch-action: manipulation;
+  }
+  .field:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(232,121,249,.35); }
+  .bfield { display: flex; align-items: center; gap: 8px; }
+  .bfield span { font: 11px 'Share Tech Mono', monospace; opacity: .6; width: 10px; padding-top: 6px; }
+  .field::placeholder { color: rgba(232,121,249,.45); }
+  #log {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(8px, 1.45vw, 11px);
+    line-height: 1.45;
+    overflow: hidden;
+    margin-top: 8px;
+    flex: 1; min-height: 70px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  #log div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .9; }
+  #log div.ok { color: #fbe2ff; text-shadow: 0 0 6px rgba(232,121,249,.55); }
+  #log div.warn { color: var(--warn); }
+  .feeds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; flex-shrink: 0; }
+  .feed {
+    aspect-ratio: 16/10; min-height: 48px;
+    border: 1px solid var(--cyan-dim); border-radius: 4px;
+    background: rgba(0,0,0,.35);
+    display: grid; place-items: end start;
+    font-family: 'Share Tech Mono', monospace; font-size: clamp(7px, 1.3vw, 10px);
+    padding: 3%; cursor: pointer; position: relative; overflow: hidden;
+    transition: border-color .2s, box-shadow .2s, transform .15s;
+    touch-action: none;
+  }
+  .feed canvas, .feed video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .75; }
+  .feed span { position: relative; background: rgba(0,0,0,.5); padding: 1px 4px; }
+  .feed.on { border-color: var(--cyan); box-shadow: 0 0 12px rgba(232,121,249,.5); }
+  .feed:active { transform: scale(.96); }
+  .feed.throw { animation: throw .45s ease-in; }
+  @keyframes throw { to { transform: translateY(-160%) scale(.6); opacity: 0; } }
+
+  .side { display: flex; flex-direction: column; justify-content: space-around; align-items: center; gap: 6px; }
+  .btn {
+    width: min(100%, 44px); aspect-ratio: 1; border-radius: 50%;
+    border: 1.5px solid var(--cyan-dim);
+    background: rgba(40, 10, 50, .3);
+    color: var(--cyan);
+    display: grid; place-items: center;
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s;
+  }
+  .btn svg { width: 46%; height: 46%; }
+  .btn:hover, .btn.on { background: rgba(232,121,249,.18); box-shadow: 0 0 14px rgba(232,121,249,.35); }
+  .btn-label { font-family: 'Share Tech Mono', monospace; font-size: clamp(7px, 1.2vw, 9px); opacity: .7; margin-top: -3px; }
+  .btn.live { border-color: #ff4d4d; color: #ff8080; box-shadow: 0 0 14px rgba(255,77,77,.5); animation: blink 1.2s steps(2) infinite; }
+
+  /* the commandeer strip */
+  .commandeer {
+    grid-column: 1 / -1;
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 3%;
+    padding: 8px 3%; min-height: 48px;
+    cursor: pointer;
+  }
+  .commandeer .label { font-weight: 700; letter-spacing: .14em; font-size: clamp(10px, 1.9vw, 14px); }
+  .commandeer .label small { display: block; font-weight: 400; letter-spacing: .1em; opacity: .7; font-size: .7em; }
+  .bar { height: 9px; border: 1px solid var(--cyan-dim); border-radius: 2px; position: relative; overflow: hidden; }
+  .bar i {
+    position: absolute; inset: 0; width: 0%;
+    background: repeating-linear-gradient(90deg, var(--cyan) 0 6px, transparent 6px 8px);
+    box-shadow: 0 0 10px var(--cyan);
+    transition: width .2s linear;
+  }
+  #pct { font-family: 'Share Tech Mono', monospace; font-size: clamp(9px, 1.6vw, 12px); min-width: 4ch; text-align: right; }
+  .commandeer.busy { pointer-events: none; }
+  .commandeer.done { border-color: var(--cyan); box-shadow: 0 0 16px rgba(232,121,249,.35); }
+
+  .dock {
+    grid-column: 1 / -1;
+    display: flex; justify-content: space-around; align-items: center;
+    border-top: 1px solid var(--cyan-faint); padding-top: 1.5%;
+  }
+  .dock button {
+    background: none; border: 0; color: var(--cyan); opacity: .7; cursor: pointer;
+    width: clamp(20px, 4.5vw, 30px); aspect-ratio: 1; display: grid; place-items: center;
+  }
+  .dock button:hover, .dock button.on { opacity: 1; filter: drop-shadow(0 0 5px var(--cyan)); }
+  .dock svg { width: 100%; height: 100%; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
+    font-family: 'Share Tech Mono', monospace; font-size: 13px;
+    background: rgba(22, 6, 28, .85); border: 1px solid var(--cyan-dim); border-radius: 6px;
+    padding: 8px 14px; opacity: 0; transition: .3s; max-width: 92vw; text-align: center;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%); }
+  /* glass mode: the camera is behind the UI, so thin the panels and add contrast to the text */
+  body.glass-on .phone { --glass: rgba(235, 190, 255, .025); -webkit-backdrop-filter: none; backdrop-filter: none; border-color: rgba(245, 215, 255, .55); }
+  body.glass-on .panel { background: rgba(20, 6, 26, .22); }
+  body.glass-on .phone * { text-shadow: 0 0 2px #000, 0 0 6px rgba(0,0,0,.8), 0 0 10px rgba(232,121,249,.45); }
+  body.glass-on .feeds, body.glass-on #thumbs { opacity: .85; }
+  .hint {
+    position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+    font-family: 'Share Tech Mono', monospace; font-size: 12px; opacity: .5; text-align: center; width: 92vw;
+  }
+</style>
+</head>
+<body>
+<div id="room"></div>
+<video id="cam" playsinline muted></video>
+<div class="hint">tap COMMANDEERING SYSTEM to seize the screens · flick a feed upward to throw it</div>
+
+<div class="stage">
+  <div class="phone" id="phone">
+    <header>
+      <span class="brand glow">GLASS</span>
+      <span class="status"><span class="dot" id="liveDot"></span><span id="status">0 SCREENS</span> · <span id="clock">--:--</span></span>
+    </header>
+
+    <section class="panel terminal">
+      <nav class="tabs" id="tabs">
+        <button data-tab="term" class="on">TERMINAL</button>
+        <button data-tab="media">MEDIA</button>
+        <button data-tab="draw">DRAW</button>
+        <button data-tab="screens">SCREENS</button>
+      </nav>
+
+      <div class="view on" data-view="term">
+        <div id="log"></div>
+        <div class="feeds" id="feeds">
+          <div class="feed" data-feed="intel"><canvas></canvas><span>01 INTEL</span></div>
+          <div class="feed" data-feed="radar"><canvas></canvas><span>02 RADAR</span></div>
+          <div class="feed" data-feed="globe"><canvas></canvas><span>03 GLOBAL</span></div>
+          <div class="feed" data-feed="cam"><video playsinline muted></video><span>04 LIVE CAM</span></div>
+        </div>
+      </div>
+
+      <div class="view" data-view="media">
+        <div class="row">
+          <div id="signin" hidden style="width:100%">
+            <div class="muted" style="margin-top:0">UPLOADS · sign in with your Front Porch owner account</div>
+            <div class="row" style="margin-top:4px">
+              <button class="chip on" id="googleIn">SIGN IN WITH GOOGLE</button>
+            </div>
+            <div class="row" style="margin-top:4px">
+              <input class="field" id="emailIn" type="email" autocomplete="email" placeholder="or email me a sign-in link…" style="flex:1;margin-top:0">
+              <button class="chip" id="emailBtn">SEND</button>
+            </div>
+          </div>
+          <div class="muted" id="signedIn" hidden style="width:100%;margin-top:0"></div>
+          <button class="chip" id="addMedia">+ PHOTOS / VIDEO</button>
+          <input type="file" id="mediaInput" accept="image/*,video/*" multiple hidden>
+        </div>
+        <div id="thumbs"></div>
+        <div class="row">
+          <button class="chip" id="mPrev" title="Previous">◀ PREV</button>
+          <button class="chip" id="mNext" title="Next">NEXT ▶</button>
+          <button class="chip" id="mPlay" title="Play / pause video">▶ ❚❚</button>
+          <button class="chip" id="mRestart" title="Restart video">⟲</button>
+        </div>
+        <div class="muted" id="mediaHint">Tap a thumbnail to throw it. The demo show plays these in order.</div>
+      </div>
+
+      <div class="view" data-view="draw">
+        <canvas id="pad"></canvas>
+        <div class="row">
+          <span class="swatch on" data-color="#e879f9" style="background:#e879f9;color:#e879f9"></span>
+          <span class="swatch" data-color="#ff4d4d" style="background:#ff4d4d;color:#ff4d4d"></span>
+          <span class="swatch" data-color="#ffd84d" style="background:#ffd84d;color:#ffd84d"></span>
+          <span class="swatch" data-color="#ffffff" style="background:#ffffff;color:#ffffff"></span>
+          <button class="chip" id="padClear" style="margin-left:auto">CLEAR</button>
+        </div>
+      </div>
+
+      <div class="view" data-view="screens">
+        <div class="row" id="screenList"></div>
+        <div class="row"><button class="chip" id="identify">IDENTIFY DISPLAYS</button></div>
+        <div class="muted" style="margin-top:12px">SCREEN LINK · open this on a TV or laptop</div>
+        <input class="field" id="screenLink" readonly>
+        <div class="row">
+          <button class="chip on" id="copyLink">COPY</button>
+          <button class="chip" id="shareLink">SHARE…</button>
+        </div>
+        <div class="muted" style="margin-top:12px">SEND A BANNER NOW</div>
+        <div class="row" style="margin-top:4px">
+          <input class="field" id="customBanner" maxlength="60" placeholder="Type anything…" enterkeyhint="send" style="flex:1;margin-top:0">
+          <button class="chip on" id="sendBanner">SEND</button>
+        </div>
+        <div class="muted" style="margin-top:12px">DOCK BANNERS · the six buttons along the bottom, left to right</div>
+        <div id="bannerFields"></div>
+        <div class="muted" style="margin-top:12px">TITLE SLIDE · shown on screens before you take over</div>
+        <input class="field" id="tInput" maxlength="80" placeholder="Title" enterkeyhint="send">
+        <input class="field" id="sInput" maxlength="120" placeholder="Subtitle (optional)" enterkeyhint="send">
+        <div class="row">
+          <button class="chip on" id="sendTitle">UPDATE SLIDE</button>
+          <button class="chip" id="addBg">+ BACKGROUND PHOTOS</button>
+          <button class="chip" id="clearBg">CLEAR PHOTOS</button>
+          <input type="file" id="bgInput" accept="image/*" multiple hidden>
+        </div>
+        <div class="muted" id="screensHint"></div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <button class="btn" id="btnGlass" title="Glass mode — camera passthrough">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+      <div class="btn-label">GLASS</div>
+      <button class="btn" id="btnMic" title="Voice commands">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+      </button>
+      <div class="btn-label">VOICE</div>
+      <button class="btn" id="btnScene" title="Run the demo show">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16v12H4zM4 7l3-4M10 7l3-4M16 7l3-4"/><path d="m10 10 5 3-5 3z" fill="currentColor"/></svg>
+      </button>
+      <div class="btn-label">SHOW</div>
+      <button class="btn" id="btnCast" title="Cast to a TV / Chromecast">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/><path d="M2 12a9 9 0 0 1 8 8M2 16a5 5 0 0 1 4 4"/><circle cx="2.5" cy="19.5" r=".8" fill="currentColor"/></svg>
+      </button>
+      <div class="btn-label">CAST</div>
+      <button class="btn" id="btnRelease" title="Release the screens">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
+      </button>
+      <div class="btn-label">RELEASE</div>
+    </aside>
+
+    <section class="panel commandeer" id="commandeer" role="button" tabindex="0">
+      <div class="label glow">COMMANDEERING SYSTEM<small id="cmdSub">TAP TO ENGAGE</small></div>
+      <div class="bar"><i id="bar"></i></div>
+      <span id="pct">0%</span>
+    </section>
+
+    <nav class="dock">
+      <button data-act="b1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
+      <button data-act="b2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/></svg></button>
+      <button data-act="b3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg></button>
+      <button data-act="b4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/></svg></button>
+      <button data-act="b5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></button>
+      <button data-act="b6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg></button>
+    </nav>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="feeds.js"></script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
+<script src="bus.js"></script>
+<script src="sfx.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const logEl = $('#log'), barEl = $('#bar'), pctEl = $('#pct');
+  const phone = $('#phone');
+  const bus = Bus('handset');
+
+  // ---------- screens we control ----------
+  // Each target: { id, kind: 'bus' | 'cast', send(msg) }
+  const targets = new Map();
+  let currentFeed = null;
+  let seized = false;
+  let aim = 'all'; // 'all' or one screen id — where feeds, media, ink and banners go
+
+  function updateStatus() {
+    const n = targets.size;
+    if (aim !== 'all' && !targets.has(aim)) aim = 'all';
+    const where = aim === 'all' ? '' : ` → ${aim.replace('cast-', '').slice(0, 6).toUpperCase()}`;
+    $('#status').textContent = `${n} SCREEN${n === 1 ? '' : 'S'}${where}`;
+    $('#liveDot').classList.toggle('live', seized && n > 0);
+    renderScreens();
+  }
+  // Sends to the aimed screen(s); takeover/release/title slide always go everywhere.
+  function broadcast(msg, opts) {
+    const everywhere = aim === 'all' || ['takeover', 'release', 'titleslide', 'identify'].includes(msg.type);
+    if (everywhere) bus.post(msg, opts);
+    else if (!aim.startsWith('cast-')) bus.post({ ...msg, to: aim }, opts);
+    for (const t of targets.values()) if (t.kind === 'cast' && (everywhere || t.id === aim)) t.send(msg);
+  }
+  // What a screen that joins (or is re-aimed) late should be shown right now.
+  function stateFor(to) {
+    if (currentFeed === 'media' && payloadIndex() >= 0) return { type: 'media', items: mediaPayload(), index: payloadIndex(), to };
+    return { type: 'takeover', feed: currentFeed, to };
+  }
+
+  // Screens announce themselves (same browser or anywhere on the LAN); we track them by id.
+  bus.on(data => {
+    if (data.type === 'hello') {
+      const isNew = !targets.has(data.id);
+      targets.set(data.id, { id: data.id, kind: 'bus', send: m => bus.post(m) });
+      updateStatus();
+      if (isNew) log(`handshake ← display ${data.id.slice(0, 6).toUpperCase()} (${data.w}×${data.h})`, 'ok');
+      if (isNew && (titleSlide.title || titleSlide.subtitle || titleSlide.items.length)) bus.post({ type: 'titleslide', ...titleSlide, to: data.id });
+      // Only seize screens we haven't seen: screens re-announce whenever any handset pings,
+      // and answering every time would make two handsets keep overriding each other.
+      if (seized && isNew) { bus.post({ type: 'takeover', feed: currentFeed, to: data.id }); if (currentFeed === 'media') bus.post(stateFor(data.id)); }
+    } else if (data.type === 'bye' && targets.delete(data.id)) {
+      updateStatus();
+      log(`display ${data.id.slice(0, 6).toUpperCase()} dropped`, 'warn');
+    }
+  });
+  bus.onopen(() => bus.post({ type: 'ping' })); // also re-pings after a relay reconnect
+  bus.ready.then(mode => {
+    log({
+      relay: 'uplink: Wi-Fi relay (devices on this network)',
+      supabase: `uplink: online · room ${bus.room.slice(0, 4).toUpperCase()}…`,
+      local: 'uplink: this browser only — add Supabase keys to config.js to go online',
+    }[mode], mode === 'local' ? 'warn' : 'ok');
+    renderScreens();
+  });
+  const screenUrl = () => bus.linkFor('screen.html');
+
+  // ---------- terminal log (typed out one character at a time) ----------
+  const typeQueue = [];
+  let typing = false;
+  function log(text, cls = '') {
+    const d = document.createElement('div');
+    if (cls) d.className = cls;
+    typeQueue.push({ d, text: `${new Date().toTimeString().slice(0, 8)}  ${text}` });
+    if (!typing) typeNext();
+  }
+  function typeNext() {
+    const job = typeQueue.shift();
+    if (!job) { typing = false; return; }
+    typing = true;
+    logEl.appendChild(job.d);
+    while (logEl.children.length > 40) logEl.firstChild.remove();
+    // Type faster when lines are backing up, so the log never falls behind the action.
+    const per = typeQueue.length > 2 ? 6 : 2;
+    let i = 0;
+    const step = () => {
+      i = Math.min(job.text.length, i + per);
+      job.d.textContent = job.text.slice(0, i) + (i < job.text.length ? '▌' : '');
+      if (i % 6 < per) SFX.key();
+      if (i < job.text.length) setTimeout(step, 16);
+      else typeNext();
+    };
+    step();
+  }
+  // Audio may only start after a gesture; the first touch anywhere arms it.
+  ['click', 'touchend', 'keydown'].forEach(ev => addEventListener(ev, () => { if (!SFX.ready) SFX.unlock(); }, { passive: true }));
+  addEventListener('click', e => { if (e.target.closest('button, .chip, .feed, .thumb, #commandeer')) SFX.tap(); });
+  const toastEl = $('#toast'); let toastT;
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 3200);
+  }
+  [
+    'boot sequence complete',
+    'sensors and battery nominal',
+    'encrypted uplink: STANDBY',
+    'scanning local display controllers...',
+  ].forEach(l => log(l));
+
+  // ---------- clock ----------
+  const tick = () => $('#clock').textContent = new Date().toTimeString().slice(0, 5);
+  tick(); setInterval(tick, 10000);
+
+  // ---------- open screen windows (real multi-monitor if allowed) ----------
+  function openScreenWindow(left, top, width, height) {
+    const features = left == null ? 'popup,width=960,height=540' :
+      `popup,left=${left},top=${top},width=${width},height=${height}`;
+    return window.open('screen.html', '_blank', features);
+  }
+
+  async function acquireScreens() {
+    // Screens already on the network get seized as they are; only spawn windows when there are none.
+    if (targets.size > 0) return;
+    // On a phone, popups just open a tab behind us — the screens belong on other devices.
+    if (matchMedia('(pointer: coarse)').matches) {
+      log('no displays on network — awaiting screen.html', 'warn');
+      toast(`Open ${screenUrl()} on the TV or laptop. It will be seized as soon as it loads.`);
+      return;
+    }
+    let opened = 0;
+    // Open one window immediately, while we still have the click's user gesture.
+    const first = openScreenWindow();
+    if (first) opened++;
+    // If the Window Management API is available, put a screen window on every other monitor.
+    if ('getScreenDetails' in window) {
+      try {
+        const details = await window.getScreenDetails();
+        const others = details.screens.filter(s => s !== details.currentScreen);
+        if (others.length && first) {
+          const s0 = others[0];
+          first.moveTo(s0.availLeft, s0.availTop); first.resizeTo(s0.availWidth, s0.availHeight);
+          for (const s of others.slice(1)) {
+            if (openScreenWindow(s.availLeft, s.availTop, s.availWidth, s.availHeight)) opened++;
+          }
+          log(`window mgmt: ${details.screens.length} physical displays detected`, 'ok');
+        }
+      } catch { log('window mgmt denied — single display mode', 'warn'); }
+    }
+    if (!opened && targets.size === 0) {
+      log('popup blocked — allow popups or open screen.html', 'warn');
+      toast('Popup blocked. Allow popups for this page, or open screen.html on another tab/device and tap again.');
+    }
+  }
+
+  // ---------- the commandeering sequence ----------
+  const cmd = $('#commandeer');
+  const steps = [
+    [8,  'pinging room displays'],
+    [22, 'requesting display priority'],
+    [38, 'routing handset feed'],
+    [55, 'locking room control'],
+    [72, 'syncing displays to handset'],
+    [88, 'uplink stable'],
+    [100,'ALL SCREENS COMMANDEERED'],
+  ];
+  let engaging = false;
+  async function commandeer() {
+    if (seized) { toast('Screens already yours. Flick a feed to throw it up.'); return; }
+    if (engaging) return;
+    engaging = true;
+    cmd.classList.add('busy');
+    $('#cmdSub').textContent = 'ENGAGING...';
+    log('commandeering system ENGAGED', 'warn');
+    acquireScreens(); // gesture-bound; runs alongside the progress animation
+    let p = 0, i = 0;
+    await new Promise(res => {
+      const iv = setInterval(() => {
+        p += 1 + Math.random() * 2.2;
+        if (p >= 100) p = 100;
+        barEl.style.width = p + '%'; pctEl.textContent = Math.floor(p) + '%';
+        while (i < steps.length && p >= steps[i][0]) {
+          log(steps[i][1], steps[i][0] === 100 ? 'ok' : ''); i++;
+        }
+        if (Math.random() < .25) SFX.tick();
+        if (navigator.vibrate && Math.random() < .08) navigator.vibrate(8);
+        if (p >= 100) { clearInterval(iv); res(); }
+      }, 60);
+    });
+    engaging = false; seized = true; keepAwake(true);
+    cmd.classList.remove('busy'); cmd.classList.add('done');
+    $('#cmdSub').textContent = 'ACTIVE · FLICK A FEED TO THROW';
+    if (navigator.vibrate) navigator.vibrate([30, 40, 60]);
+    SFX.granted();
+    selectFeed(currentFeed || 'intel');
+    broadcast({ type: 'takeover', feed: currentFeed });
+    updateStatus();
+    if (targets.size === 0) toast(`No screens yet. Open ${screenUrl()} on any device — it will be seized on load.`);
+  }
+  cmd.addEventListener('click', commandeer);
+  cmd.addEventListener('keydown', e => (e.key === 'Enter' || e.key === ' ') && commandeer());
+
+  // Keep the phone awake while it owns the room, so it doesn't dim mid-demo.
+  let wake = null;
+  async function keepAwake(on) {
+    if (!('wakeLock' in navigator)) return;
+    try {
+      if (on && !wake) { wake = await navigator.wakeLock.request('screen'); wake.addEventListener('release', () => { wake = null; }); }
+      else if (!on && wake) { await wake.release(); wake = null; }
+    } catch {} // denied on low battery etc.; harmless
+  }
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && seized) keepAwake(true); });
+
+  function release() {
+    if (!seized) return;
+    seized = false; keepAwake(false);
+    broadcast({ type: 'release' });
+    cmd.classList.remove('done');
+    barEl.style.width = '0%'; pctEl.textContent = '0%';
+    $('#cmdSub').textContent = 'TAP TO ENGAGE';
+    document.querySelectorAll('.feed, .thumb').forEach(f => f.classList.remove('on'));
+    currentFeed = null;
+    log('screens released');
+    updateStatus();
+  }
+  $('#btnRelease').addEventListener('click', release);
+
+  // ---------- feeds: tap or flick upward to throw ----------
+  function selectFeed(name) {
+    currentFeed = name;
+    document.querySelectorAll('.feed').forEach(f => f.classList.toggle('on', f.dataset.feed === name));
+    if (name !== 'media') document.querySelectorAll('.thumb').forEach(t => t.classList.remove('on'));
+    if (name === 'cam' && !camStream) startCamera(true);
+  }
+  function throwFeed(el) {
+    const name = el.dataset.feed;
+    if (!seized) { toast('Commandeer the screens first.'); return; }
+    el.classList.remove('throw'); void el.offsetWidth; el.classList.add('throw');
+    setTimeout(() => el.classList.remove('throw'), 460);
+    selectFeed(name);
+    broadcast({ type: 'feed', feed: name });
+    log(`feed ${name.toUpperCase()} → ${aimLabel()}`, 'ok');
+    SFX.whoosh();
+    if (navigator.vibrate) navigator.vibrate(15);
+  }
+  const throwFeedNamed = name => throwFeed(document.querySelector(`.feed[data-feed="${name}"]`));
+  const aimLabel = () => aim === 'all' ? `${targets.size} display(s)` : 'display ' + aim.replace('cast-', '').slice(0, 6).toUpperCase();
+  document.querySelectorAll('.feed').forEach(el => {
+    let y0 = null;
+    el.addEventListener('pointerdown', e => { y0 = e.clientY; el.setPointerCapture(e.pointerId); });
+    el.addEventListener('pointerup', e => {
+      if (y0 == null) return;
+      const dy = y0 - e.clientY; y0 = null;
+      if (dy > 25 || Math.abs(dy) < 8) throwFeed(el); // flick up or plain tap
+    });
+  });
+
+  // ---------- live camera: glass passthrough + relay to screens ----------
+  let camStream = null;
+  const camBg = $('#cam'), camTile = document.querySelector('.feed[data-feed="cam"] video');
+  async function startCamera(quiet) {
+    if (camStream) return true;
+    try {
+      camStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 } }, audio: false,
+      });
+      camBg.srcObject = camStream; camTile.srcObject = camStream;
+      camBg.play(); camTile.play();
+      log('optical sensor online', 'ok');
+      return true;
+    } catch (err) {
+      if (!quiet) toast('Camera unavailable: ' + err.message);
+      log('optical sensor: ' + err.name, 'warn');
+      return false;
+    }
+  }
+  $('#btnGlass').addEventListener('click', async () => {
+    const on = !document.body.classList.contains('glass-on');
+    if (on && !(await startCamera())) return;
+    document.body.classList.toggle('glass-on', on);
+    $('#btnGlass').classList.toggle('on', on);
+    log(on ? 'glass mode: transparent' : 'glass mode: off');
+  });
+
+  // Stream camera frames to the screens while the CAM feed is up.
+  const grab = document.createElement('canvas'); grab.width = 640; grab.height = 360;
+  const gctx = grab.getContext('2d');
+  setInterval(() => {
+    if (!seized || currentFeed !== 'cam' || !camStream || camBg.readyState < 2) return;
+    const vw = camBg.videoWidth, vh = camBg.videoHeight;
+    const s = Math.max(grab.width / vw, grab.height / vh);
+    gctx.drawImage(camBg, (grab.width - vw * s) / 2, (grab.height - vh * s) / 2, vw * s, vh * s);
+    broadcast({ type: 'frame', data: grab.toDataURL('image/jpeg', .6) }, { lossy: true });
+  }, 100);
+
+  // ---------- cast to a TV via the Presentation API ----------
+  $('#btnCast').addEventListener('click', async () => {
+    if (!('PresentationRequest' in window)) { toast('Casting needs Chrome or Edge (Presentation API).'); return; }
+    try {
+      const conn = await new PresentationRequest(['screen.html']).start();
+      const id = 'cast-' + conn.id;
+      const t = { id, kind: 'cast', send: m => conn.state === 'connected' && conn.send(JSON.stringify(m)) };
+      const add = () => {
+        targets.set(id, t); updateStatus();
+        log('cast display connected', 'ok');
+        if (seized) t.send({ type: 'takeover', feed: currentFeed });
+      };
+      conn.state === 'connected' ? add() : conn.addEventListener('connect', add);
+      conn.addEventListener('close', () => { targets.delete(id); updateStatus(); });
+      conn.addEventListener('terminate', () => { targets.delete(id); updateStatus(); });
+    } catch (err) {
+      if (err.name !== 'AbortError') toast('Cast failed: ' + err.message);
+    }
+  });
+
+  // ---------- dock: six banner buttons, text editable in the Screens tab ----------
+  const DEFAULT_BANNERS = {
+    b1: 'THANK YOU', b2: 'QUIET PLEASE', b3: 'ALL SYSTEMS ONLINE',
+    b4: 'WELCOME, EVERYONE', b5: 'QUESTIONS?', b6: 'BACK IN 5 MINUTES',
+  };
+  const dockMsgs = { ...DEFAULT_BANNERS };
+  try { Object.assign(dockMsgs, JSON.parse(localStorage.getItem('glass-banners') || '{}')); } catch {}
+  const bannerFor = key => dockMsgs[key].trim() || DEFAULT_BANNERS[key];
+  const dockButtons = [...document.querySelectorAll('.dock button')];
+  const titleDock = () => dockButtons.forEach(b => { b.title = `Banner: ${bannerFor(b.dataset.act)}`; });
+  dockButtons.forEach(b => b.addEventListener('click', () => banner(bannerFor(b.dataset.act))));
+  // The editor: one field per dock button, numbered left to right.
+  Object.keys(DEFAULT_BANNERS).forEach((key, i) => {
+    const row = document.createElement('label'); row.className = 'bfield';
+    const n = document.createElement('span'); n.textContent = String(i + 1);
+    const inp = document.createElement('input'); inp.className = 'field'; inp.maxLength = 60;
+    inp.value = dockMsgs[key]; inp.placeholder = DEFAULT_BANNERS[key];
+    inp.addEventListener('input', () => {
+      dockMsgs[key] = inp.value;
+      try { localStorage.setItem('glass-banners', JSON.stringify(dockMsgs)); } catch {}
+      titleDock();
+    });
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') e.target.blur(); });
+    row.append(n, inp); $('#bannerFields').append(row);
+  });
+  titleDock();
+  // One-off banner: type anything and send it straight to the screens.
+  function sendCustomBanner() {
+    const text = $('#customBanner').value.trim();
+    if (!text) return;
+    if (!seized) { toast('Commandeer the screens first.'); return; }
+    banner(text); $('#customBanner').value = '';
+  }
+  $('#sendBanner').addEventListener('click', sendCustomBanner);
+  $('#customBanner').addEventListener('keydown', e => { if (e.key === 'Enter') sendCustomBanner(); });
+  function banner(text) {
+    log(text);
+    if (seized) broadcast({ type: 'banner', text });
+  }
+
+  // ---------- tabs ----------
+  document.querySelectorAll('#tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+  function showTab(name) {
+    document.querySelectorAll('#tabs button').forEach(x => x.classList.toggle('on', x.dataset.tab === name));
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.dataset.view === name));
+    tiltOff = name === 'draw';
+    if (tiltOff) tilt(0, 0);
+    if (name === 'draw') sizePad();
+  }
+  let tiltOff = false;
+
+  // ---------- media: your own photos / videos / slides ----------
+  let mediaItems = [], mediaIdx = 0, videoPlaying = true; // { kind, url, thumb, ready }
+  // Screens only ever get uploaded items, so positions on the phone (which include
+  // items still uploading) are translated through the item's url.
+  const mediaPayload = () => mediaItems.filter(m => m.ready).map(({ kind, url }) => ({ kind, url }));
+  const payloadIndex = () => mediaPayload().findIndex(m => m.url === mediaItems[mediaIdx]?.url);
+  // Nearest uploaded item from position i, stepping by d (skips ones still uploading).
+  function readyFrom(i, d) {
+    const n = mediaItems.length;
+    for (let k = 0; k < n; k++) {
+      const j = ((i + k * d) % n + n) % n;
+      if (mediaItems[j].ready) return j;
+    }
+    return -1;
+  }
+  const sendMediaState = () => broadcast({ type: 'media', items: mediaPayload(), index: payloadIndex() });
+  // ---------- sign-in (online only): uploads go to your Supabase project ----------
+  let signedIn = true; // the Wi-Fi relay and same-browser modes need no account
+  function showAuth(session) {
+    signedIn = !!session;
+    $('#signin').hidden = signedIn;
+    const who = $('#signedIn');
+    who.hidden = !signedIn;
+    if (signedIn) {
+      who.textContent = `signed in as ${session.user.email} · `;
+      const out = document.createElement('button'); out.className = 'chip'; out.textContent = 'SIGN OUT';
+      out.addEventListener('click', async () => { await bus.signOut(); log('signed out'); });
+      who.append(out);
+    }
+  }
+  bus.ready.then(async mode => {
+    if (mode !== 'supabase') return;
+    showAuth(await bus.session());
+    bus.onauth(session => { showAuth(session); if (session) log(`signed in: ${session.user.email}`, 'ok'); });
+  });
+  $('#googleIn').addEventListener('click', async () => {
+    const { error } = await bus.signInGoogle();
+    if (error) toast(error.message);
+  });
+  async function emailLink() {
+    const email = $('#emailIn').value.trim();
+    if (!email) { toast('Type your email first.'); return; }
+    $('#emailBtn').disabled = true;
+    const { error } = await bus.signInEmail(email);
+    $('#emailBtn').disabled = false;
+    toast(error ? error.message : 'Check your email for the sign-in link.');
+  }
+  $('#emailBtn').addEventListener('click', emailLink);
+  $('#emailIn').addEventListener('keydown', e => { if (e.key === 'Enter') emailLink(); });
+  // Uploading online needs the sign-in; say so instead of opening the file picker.
+  const needSignIn = () => {
+    if (signedIn) return false;
+    showTab('media'); toast('Sign in first to upload photos and videos.');
+    return true;
+  };
+
+  $('#addMedia').addEventListener('click', () => { if (!needSignIn()) $('#mediaInput').click(); });
+
+  // Uploads one at a time; resolves to a URL, or null if that file failed.
+  async function uploadOne(f, label) {
+    log(`${label}: uploading ${f.name} (${(f.size / 1e6).toFixed(1)} MB)`);
+    try { return await bus.upload(f); }
+    catch (err) { log(`${f.name}: ${err.message}`, 'warn'); toast(`${f.name}: ${err.message}`); return null; }
+  }
+
+  $('#mediaInput').addEventListener('change', async e => {
+    const files = [...e.target.files].filter(f => /^(image|video)\//.test(f.type));
+    e.target.value = '';
+    if (!files.length) return;
+    const added = files.map(f => ({ kind: f.type.startsWith('video') ? 'video' : 'image', url: null, thumb: URL.createObjectURL(f), ready: false }));
+    mediaItems.push(...added);
+    renderThumbs();
+    let ok = 0;
+    for (const [i, f] of files.entries()) {
+      const url = await uploadOne(f, 'media');
+      if (url) {
+        Object.assign(added[i], { url, ready: true }); ok++;
+        if (seized && currentFeed === 'media') sendMediaState(); // screens learn about the new item
+      } else {
+        const gone = mediaItems.indexOf(added[i]);
+        mediaItems.splice(gone, 1);
+        if (gone < mediaIdx) mediaIdx--;
+        mediaIdx = Math.max(0, Math.min(mediaIdx, mediaItems.length - 1));
+      }
+      renderThumbs();
+    }
+    if (ok) log(`${ok} item(s) ready to throw`, 'ok');
+  });
+
+  // ---------- title slide (what screens show before the takeover) ----------
+  const titleSlide = { title: '', subtitle: '', items: [] };
+  try { Object.assign(titleSlide, JSON.parse(localStorage.getItem('glass-title') || '{}'), { items: [] }); } catch {}
+  $('#tInput').value = titleSlide.title; $('#sInput').value = titleSlide.subtitle;
+  function sendTitle(quiet) {
+    titleSlide.title = $('#tInput').value.trim(); titleSlide.subtitle = $('#sInput').value.trim();
+    try { localStorage.setItem('glass-title', JSON.stringify({ title: titleSlide.title, subtitle: titleSlide.subtitle })); } catch {}
+    broadcast({ type: 'titleslide', ...titleSlide });
+    if (!quiet) { log(`title slide: "${titleSlide.title || 'Presentation begins shortly'}"`, 'ok'); toast('Title slide updated on all displays.'); }
+  }
+  $('#sendTitle').addEventListener('click', () => sendTitle());
+  ['#tInput', '#sInput'].forEach(sel => $(sel).addEventListener('keydown', e => { if (e.key === 'Enter') { e.target.blur(); sendTitle(); } }));
+  $('#addBg').addEventListener('click', () => { if (!needSignIn()) $('#bgInput').click(); });
+  $('#clearBg').addEventListener('click', () => { titleSlide.items = []; sendTitle(true); log('title slide photos cleared'); });
+  $('#bgInput').addEventListener('change', async e => {
+    const files = [...e.target.files].filter(f => f.type.startsWith('image/'));
+    e.target.value = '';
+    for (const f of files) { const url = await uploadOne(f, 'background'); if (url) titleSlide.items.push(url); }
+    if (titleSlide.items.length) { sendTitle(true); log(`title slide: ${titleSlide.items.length} background photo(s)`, 'ok'); }
+  });
+  // Screens that were already open get the saved title as soon as we're connected.
+  bus.onopen(() => { if (titleSlide.title || titleSlide.subtitle) sendTitle(true); });
+
+  function renderThumbs() {
+    const box = $('#thumbs');
+    box.innerHTML = '';
+    mediaItems.forEach((m, i) => {
+      const t = document.createElement('div');
+      t.className = 'thumb' + (m.ready ? '' : ' uploading') + (currentFeed === 'media' && i === mediaIdx ? ' on' : '');
+      if (m.kind === 'image') t.style.backgroundImage = `url("${m.thumb}")`;
+      else { const v = document.createElement('video'); v.src = m.thumb + '#t=0.5'; v.muted = true; v.playsInline = true; v.style.cssText = 'width:100%;height:100%;object-fit:cover'; t.append(v); }
+      const s = document.createElement('span'); s.textContent = `${String(i + 1).padStart(2, '0')} ${m.kind === 'video' ? 'VID' : 'IMG'}`;
+      t.append(s);
+      t.addEventListener('click', () => m.ready && throwMedia(i));
+      box.append(t);
+    });
+    $('#mediaHint').style.display = mediaItems.length ? 'none' : '';
+  }
+
+  function throwMedia(i) {
+    if (!seized) { toast('Commandeer the screens first.'); return; }
+    const j = readyFrom(Math.max(0, Math.min(i, mediaItems.length - 1)), 1);
+    if (j < 0) { toast(mediaItems.length ? 'Still uploading…' : 'Add photos or video first.'); return; }
+    mediaIdx = j;
+    selectFeed('media'); videoPlaying = true;
+    sendMediaState();
+    renderThumbs();
+    log(`slide ${mediaIdx + 1} → ${aimLabel()}`, 'ok');
+    SFX.whoosh();
+  }
+  function stepMedia(d) {
+    if (!mediaItems.length) { toast('Add photos or video first.'); return; }
+    if (currentFeed !== 'media') { throwMedia(mediaIdx); return; }
+    const j = readyFrom(mediaIdx + d, d);
+    if (j < 0) return;
+    mediaIdx = j; videoPlaying = true; // screens autoplay each new video
+    sendMediaState();
+    renderThumbs(); SFX.tick();
+  }
+  function videoCtl(action) {
+    if (action === 'toggle') { videoPlaying = !videoPlaying; action = videoPlaying ? 'play' : 'pause'; }
+    if (action === 'restart') videoPlaying = true;
+    broadcast({ type: 'vctl', action });
+  }
+  $('#mPrev').addEventListener('click', () => stepMedia(-1));
+  $('#mNext').addEventListener('click', () => stepMedia(1));
+  $('#mPlay').addEventListener('click', () => videoCtl('toggle'));
+  $('#mRestart').addEventListener('click', () => videoCtl('restart'));
+  renderThumbs();
+
+  // ---------- draw pad: ink appears on the screens ----------
+  const pad = $('#pad'), pctx = pad.getContext('2d');
+  let inkColor = '#e879f9', padStrokes = [], live = null, pending = [], strokeN = 0;
+  function sizePad() {
+    const r = pad.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    if (!r.width) return;
+    pad.width = Math.round(r.width * dpr); pad.height = Math.round(r.height * dpr);
+    redrawPad();
+  }
+  function redrawPad() {
+    const w = pad.width, h = pad.height, now = performance.now();
+    pctx.clearRect(0, 0, w, h);
+    pctx.lineCap = pctx.lineJoin = 'round'; pctx.lineWidth = Math.max(2, w / 160);
+    padStrokes = padStrokes.filter(st => st === live || now - st.t < 5000);
+    for (const st of padStrokes) {
+      pctx.globalAlpha = st === live ? 1 : Math.max(0, 1 - (now - st.t - 4000) / 1000);
+      pctx.strokeStyle = st.color; pctx.shadowColor = st.color; pctx.shadowBlur = 8;
+      pctx.beginPath();
+      st.pts.forEach(([x, y], i) => i ? pctx.lineTo(x * w, y * h) : pctx.moveTo(x * w, y * h));
+      pctx.stroke();
+    }
+    pctx.globalAlpha = 1;
+    if (padStrokes.length) requestAnimationFrame(redrawPad);
+  }
+  const padPoint = e => {
+    const r = pad.getBoundingClientRect();
+    return [Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), Math.min(1, Math.max(0, (e.clientY - r.top) / r.height))];
+  };
+  pad.addEventListener('pointerdown', e => {
+    if (!seized) { toast('Commandeer the screens first.'); return; }
+    try { pad.setPointerCapture(e.pointerId); } catch {} // keep drawing if the finger leaves the pad
+    live = { id: `${bus.id}-${strokeN++}`, color: inkColor, pts: [padPoint(e)], t: performance.now() };
+    padStrokes.push(live); pending = [...live.pts];
+    requestAnimationFrame(redrawPad);
+  });
+  pad.addEventListener('pointermove', e => {
+    if (!live) return;
+    const pt = padPoint(e); live.pts.push(pt); pending.push(pt); live.t = performance.now();
+  });
+  const endStroke = () => { if (live) { live.t = performance.now(); flushInk(); live = null; } };
+  pad.addEventListener('pointerup', endStroke);
+  pad.addEventListener('pointercancel', endStroke);
+  function flushInk() {
+    if (!live || !pending.length) return;
+    broadcast({ type: 'draw', stroke: live.id, color: live.color, pts: pending.map(([x, y]) => [+x.toFixed(4), +y.toFixed(4)]) });
+    pending = [];
+  }
+  setInterval(flushInk, 40);
+  document.querySelectorAll('.swatch').forEach(sw => sw.addEventListener('click', () => {
+    inkColor = sw.dataset.color;
+    document.querySelectorAll('.swatch').forEach(x => x.classList.toggle('on', x === sw));
+  }));
+  $('#padClear').addEventListener('click', () => { padStrokes = []; redrawPad(); broadcast({ type: 'draw-clear' }); });
+  addEventListener('resize', () => $('[data-view="draw"]').classList.contains('on') && sizePad());
+
+  // ---------- screens tab: aim at one display or all ----------
+  function renderScreens() {
+    const box = $('#screenList');
+    if (!box) return;
+    box.innerHTML = '';
+    const mk = (id, text, sub) => {
+      const b = document.createElement('button');
+      b.className = 'chip' + (aim === id ? ' on' : '');
+      b.textContent = text;
+      if (sub) { const s = document.createElement('small'); s.textContent = sub; b.append(s); }
+      b.addEventListener('click', () => {
+        aim = id; updateStatus();
+        log(`aiming at ${id === 'all' ? 'ALL displays' : text}`);
+        if (seized && id !== 'all') { const t = targets.get(id); t && t.send(stateFor(t.kind === 'cast' ? undefined : id)); }
+        if (seized && id === 'all' && currentFeed) broadcast(stateFor());
+      });
+      box.append(b);
+    };
+    mk('all', 'ALL DISPLAYS', `${targets.size}`);
+    for (const t of targets.values()) mk(t.id, t.id.replace('cast-', '').slice(0, 6).toUpperCase(), t.kind === 'cast' ? 'cast' : '');
+    const link = $('#screenLink'); if (link) link.value = screenUrl();
+    $('#screensHint').textContent = targets.size
+      ? 'Pick a display to send feeds, media, ink and banners to just that one.'
+      : `No displays yet. Open ${screenUrl()} on a TV or laptop.`;
+  }
+  $('#copyLink').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(screenUrl()); toast('Screen link copied.'); }
+    catch { $('#screenLink').select(); toast('Select the link and copy it.'); }
+  });
+  $('#shareLink').addEventListener('click', async () => {
+    if (!navigator.share) { $('#copyLink').click(); return; }
+    try { await navigator.share({ title: 'Glass screen', url: screenUrl() }); } catch {} // dismissed
+  });
+  $('#identify').addEventListener('click', () => { broadcast({ type: 'identify' }); log('identify → all displays'); });
+
+  // ---------- voice commands ----------
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null, listening = false;
+  const voiceCommands = [
+    [/commandeer|take over|seize/, () => commandeer()],
+    [/release|give (it|them) back/, () => release()],
+    [/radar/, () => throwFeedNamed('radar')],
+    [/intel|model|scan/, () => throwFeedNamed('intel')],
+    [/globe|global|world|map/, () => throwFeedNamed('globe')],
+    [/camera|live|cam\b/, () => throwFeedNamed('cam')],
+    [/next/, () => stepMedia(1)],
+    [/previous|go back/, () => stepMedia(-1)],
+    [/slide|show (the )?(photo|video|picture)/, () => throwMedia(mediaIdx)],
+    [/pause|stop/, () => videoCtl('pause')],
+    [/play|resume/, () => videoCtl('play')],
+    [/clear/, () => $('#padClear').click()],
+    [/identify/, () => $('#identify').click()],
+    [/\b(demo|showtime|run the show|start the show)\b/, () => scene()],
+  ];
+  function onSpeech(text) {
+    const t = text.toLowerCase().trim();
+    // "banner <anything>" or "say <anything>" sends that text as a banner.
+    const said = t.match(/^(?:banner|say)\s+(.+)/);
+    if (said) { log(`voice: "${t}"`, 'ok'); banner(said[1].toUpperCase()); return; }
+    const hit = voiceCommands.find(([re]) => re.test(t));
+    log(`voice: "${t}"${hit ? '' : ' — no match'}`, hit ? 'ok' : 'warn');
+    if (hit) hit[1]();
+  }
+  $('#btnMic').addEventListener('click', () => {
+    if (!SR) { toast('Voice commands need Chrome, Edge or Safari.'); return; }
+    if (listening) { listening = false; rec?.stop(); $('#btnMic').classList.remove('live'); log('voice control off'); return; }
+    rec = new SR();
+    rec.lang = 'en-US'; rec.continuous = true; rec.interimResults = false;
+    rec.onresult = e => { for (let i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) onSpeech(e.results[i][0].transcript); };
+    rec.onerror = e => { if (e.error === 'not-allowed') { listening = false; toast('Microphone permission denied.'); $('#btnMic').classList.remove('live'); } };
+    rec.onend = () => { if (listening) try { rec.start(); } catch {} }; // browsers stop after silence; keep listening
+    listening = true; rec.start();
+    $('#btnMic').classList.add('live');
+    log('voice control on — try "commandeer", "show radar", "run the show"', 'ok');
+  });
+
+  // ---------- demo show: title slide → takeover → feeds → your media → thank you ----------
+  let sceneRun = 0, sceneActive = false;
+  function stopScene() { sceneActive = false; $('#btnScene').classList.remove('on'); log('show stopped', 'warn'); }
+  // Video length from the local copy, so the show waits for each clip (capped at 20 s).
+  const clipLength = m => new Promise(res => {
+    if (m.kind !== 'video') return res(5000);
+    const v = document.createElement('video'); v.preload = 'metadata'; v.muted = true; v.src = m.thumb;
+    v.onloadedmetadata = () => res(Math.min(20000, (v.duration || 8) * 1000 + 500));
+    v.onerror = () => res(8000);
+  });
+  async function scene() {
+    if (sceneActive) return;
+    const me = ++sceneRun;
+    sceneActive = true; $('#btnScene').classList.add('on');
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const alive = () => sceneActive && me === sceneRun;
+    const title = $('#tInput').value.trim();
+    log(`▶ show${title ? ': ' + title : ''}`, 'ok');
+    if (seized) { release(); await wait(1800); }
+    if (!alive()) return;
+    await wait(3000); if (!alive()) return; // let the room see the title slide
+    await commandeer(); if (!alive()) return;
+    await wait(2500); if (!alive()) return;
+    if (title) { banner(title.toUpperCase()); await wait(3500); if (!alive()) return; }
+    for (const feed of ['intel', 'radar', 'globe']) {
+      throwFeedNamed(feed); await wait(4500); if (!alive()) return;
+    }
+    for (const m of mediaItems.filter(x => x.ready)) { // snapshot: the list may change mid-show
+      const i = mediaItems.indexOf(m);
+      if (i < 0) continue;
+      throwMedia(i); await wait(await clipLength(m)); if (!alive()) return;
+    }
+    if (camStream) { throwFeedNamed('cam'); await wait(5000); if (!alive()) return; }
+    banner('THANK YOU'); await wait(4000); if (!alive()) return;
+    release();
+    log('■ show complete', 'ok');
+    sceneActive = false; $('#btnScene').classList.remove('on');
+  }
+  $('#btnScene').addEventListener('click', () => sceneActive ? stopScene() : scene());
+
+  // ---------- installable app (offline shell) ----------
+  if ('serviceWorker' in navigator && isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
+
+  // ---------- 3D tilt (mouse or device orientation) ----------
+  function tilt(rx, ry) {
+    if (tiltOff) rx = ry = 0;
+    phone.style.transform = `scale(var(--fit, 1)) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    phone.style.setProperty('--glare', `${50 + ry * 4}%`);
+  }
+  window.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+    tilt(-y * 12, x * 16);
+  });
+  window.addEventListener('deviceorientation', e => {
+    if (e.gamma == null) return;
+    tilt(Math.max(-12, Math.min(12, (e.beta - 45) / 3)), Math.max(-15, Math.min(15, e.gamma / 3)));
+  });
+
+  // Shrink the device to fit short screens (landscape phones, small windows).
+  const fit = () => phone.style.setProperty('--fit', Math.min(1, (innerHeight - 24) / phone.offsetHeight, (innerWidth - 16) / phone.offsetWidth));
+  new ResizeObserver(fit).observe(phone);
+  addEventListener('resize', fit);
+
+  // ---------- live previews in the feed tiles ----------
+  document.querySelectorAll('.feed canvas').forEach(c => {
+    Feeds.attach(c, c.parentElement.dataset.feed);
+  });
+
+  addEventListener('pagehide', () => seized && broadcast({ type: 'release' }));
+})();
+</script>
+</body>
+</html>

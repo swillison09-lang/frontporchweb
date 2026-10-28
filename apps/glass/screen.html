@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glass Display</title>
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root { --cyan: #e879f9; --bg: #000; --navy: #0e1d36; --gold: #c9a65a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); overflow: hidden; cursor: pointer; }
+  body { font-family: 'Rajdhani', system-ui, sans-serif; color: #fff; }
+  .layer { position: absolute; inset: 0; transition: opacity .4s; }
+  .hidden { opacity: 0; pointer-events: none; }
+
+  /* title slide shown before the handset takes over */
+  #idle {
+    background:
+      radial-gradient(ellipse at 15% 0%, #2a0f3a 0%, transparent 60%),
+      radial-gradient(ellipse at 100% 100%, #1d0833 0%, transparent 55%),
+      #0c0410;
+    overflow: hidden;
+  }
+  .tbg img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity 1.6s ease; filter: saturate(.85);
+  }
+  .tbg img.on { opacity: .38; }
+  .tbg::after { /* keep the title readable over any photo */
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(12,4,16,.92) 0%, rgba(12,4,16,.55) 55%, rgba(12,4,16,.2) 100%);
+  }
+  .tcontent { position: absolute; left: 8vw; right: 8vw; top: 50%; transform: translateY(-58%); }
+  .kicker {
+    display: flex; align-items: center; gap: 1.6vw;
+    font-family: 'Share Tech Mono', monospace; font-size: 2vh; letter-spacing: .4em; color: var(--cyan);
+  }
+  .kicker::before { content: ""; width: 6vw; height: 2px; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+  #tTitle {
+    font: 700 10vh/1.02 'Rajdhani', sans-serif; letter-spacing: .02em; color: #fff;
+    margin-top: 2.4vh; max-width: 80vw; text-shadow: 0 0 40px rgba(232,121,249,.35);
+    overflow-wrap: anywhere;
+  }
+  #tSub { font-size: 3.4vh; color: rgba(255,255,255,.72); margin-top: 2vh; letter-spacing: .06em; max-width: 70vw; }
+  #tTitle.swap, #tSub.swap { animation: fadein .7s; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(1vh); } }
+  #idle footer {
+    position: absolute; left: 5vw; right: 5vw; bottom: 4vh;
+    font-family: 'Share Tech Mono', monospace; font-size: 1.8vh; color: #b9a3c9; display: flex; justify-content: space-between;
+  }
+
+  /* static/glitch between states */
+  #static { mix-blend-mode: screen; }
+
+  /* commandeered */
+  #seized { background: #0c0410; }
+  #feed, #camImg, #mediaImg, #mediaVid, #ink { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #camImg { object-fit: cover; }
+  #mediaImg, #mediaVid { object-fit: contain; background: #000; }
+  #camImg, #mediaImg, #mediaVid { display: none; }
+  .on { display: block !important; }
+  #ink { pointer-events: none; }
+  .hud {
+    position: absolute; inset: 2vh 2vw; pointer-events: none;
+    border: 1px solid rgba(232,121,249,.4);
+    font-family: 'Share Tech Mono', monospace; color: var(--cyan); text-shadow: 0 0 8px rgba(232,121,249,.6);
+  }
+  .hud .tl, .hud .tr, .hud .bl, .hud .br { position: absolute; font-size: 1.8vh; padding: 1vh 1vw; background: rgba(0,0,0,.35); }
+  .tl { top: 0; left: 0; } .tr { top: 0; right: 0; } .bl { bottom: 0; left: 0; } .br { bottom: 0; right: 0; }
+  .rec::before { content: "● "; color: #ff4d4d; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .2; } }
+
+  #splash {
+    display: grid; place-items: center; text-align: center;
+    background: rgba(14, 4, 18, .85);
+    color: var(--cyan); text-shadow: 0 0 14px var(--cyan);
+  }
+  #splash h2 { font-size: 9vh; letter-spacing: .15em; }
+  #splash p { font-family: 'Share Tech Mono', monospace; font-size: 2.4vh; opacity: .8; }
+  #banner {
+    position: absolute; left: 50%; top: 12vh; transform: translateX(-50%);
+    font-family: 'Share Tech Mono', monospace; font-size: 4vh; color: var(--cyan);
+    border: 1px solid var(--cyan); background: rgba(14,4,18,.8); padding: 1.5vh 3vw;
+    box-shadow: 0 0 30px rgba(232,121,249,.4); max-width: 90vw; text-align: center;
+  }
+  #ident {
+    display: grid; place-items: center; background: rgba(14, 4, 18, .7); z-index: 5;
+    font-family: 'Share Tech Mono', monospace; color: var(--cyan); text-shadow: 0 0 20px var(--cyan); text-align: center;
+  }
+  #ident b { display: block; font-size: 22vh; letter-spacing: .1em; }
+  #ident span { font-size: 3vh; letter-spacing: .3em; opacity: .8; }
+  .wipe {
+    position: absolute; top: 0; bottom: 0; width: 8vw; pointer-events: none; z-index: 4;
+    background: linear-gradient(90deg, transparent, rgba(232,121,249,.55), transparent);
+    box-shadow: 0 0 40px rgba(232,121,249,.5);
+    animation: wipe .55s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  @keyframes wipe { from { left: -12vw; } to { left: 112vw; } }
+  .glitch { animation: glitch .35s steps(3) 2; }
+  @keyframes glitch {
+    /* small hue swings only, so the flash stays in the magenta/violet family */
+    0% { transform: translate(0); filter: none; }
+    33% { transform: translate(-1.5vw, .5vh) skewX(4deg); filter: hue-rotate(28deg) brightness(1.5) contrast(1.2); }
+    66% { transform: translate(1vw, -.5vh); filter: hue-rotate(-24deg) saturate(2.2); }
+    100% { transform: translate(0); filter: none; }
+  }
+  #pair {
+    position: absolute; right: 5vw; bottom: 9vh; display: flex; gap: 1.5vw; align-items: center;
+    background: rgba(20, 8, 28, .92); border: 1px solid #4a2d5c; padding: 1.5vh 1.2vw;
+    font-family: 'Share Tech Mono', monospace; color: #dccbe6; font-size: 1.6vh; line-height: 1.5;
+  }
+  #pair[hidden] { display: none; }
+  #qr { width: 13vh; height: 13vh; background: #fff; padding: .6vh; }
+  #qr svg { width: 100%; height: 100%; display: block; }
+  #pair b { color: var(--cyan); letter-spacing: .1em; }
+  #tip {
+    position: fixed; bottom: 1.2vh; left: 50%; transform: translateX(-50%); z-index: 9;
+    font: 13px 'Share Tech Mono', monospace; color: #fffa; background: #000a; padding: 4px 10px; border: 1px solid #fff3;
+  }
+</style>
+</head>
+<body>
+<section class="layer" id="idle">
+  <div class="tbg" id="tbg"></div>
+  <div class="tcontent">
+    <div class="kicker">GLASS · PRESENTATION</div>
+    <h1 id="tTitle">Presentation begins shortly</h1>
+    <p id="tSub">Please take your seats</p>
+  </div>
+  <footer><span>DISPLAY <b id="did"></b></span><span id="idleClock"></span></footer>
+  <div id="pair" hidden><div id="qr"></div><div><b>GLASS</b><br>scan to pair handset<br><span id="pairUrl"></span></div></div>
+</section>
+
+<section class="layer hidden" id="seized">
+  <canvas id="feed"></canvas>
+  <img id="camImg" alt="">
+  <img id="mediaImg" alt="">
+  <video id="mediaVid" playsinline></video>
+  <canvas id="ink"></canvas>
+  <div class="hud">
+    <div class="tl rec" id="feedName">FEED</div>
+    <div class="tr">SOURCE: HANDHELD · ENCRYPTED</div>
+    <div class="bl" id="hudClock"></div>
+    <div class="br">ROOM CONTROL: <b>HANDSET</b></div>
+  </div>
+  <div id="banner" class="hidden"></div>
+</section>
+
+<canvas class="layer hidden" id="static"></canvas>
+<section class="layer hidden" id="splash"><div><h2>OVERRIDE</h2><p>DISPLAY COMMANDEERED BY REMOTE HANDSET</p></div></section>
+<section class="layer hidden" id="ident"><div><span>DISPLAY</span><b id="identId"></b><span id="identRes"></span></div></section>
+<div id="tip">click once to arm this display · fullscreen + sound</div>
+
+<script src="feeds.js"></script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
+<script src="bus.js"></script>
+<script src="sfx.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const bus = Bus('screen'), id = bus.id, label = id.slice(0, 6).toUpperCase();
+  $('#did').textContent = label;
+
+  const hello = () => bus.post({ type: 'hello', id, w: screen.width, h: screen.height });
+  bus.onopen(hello);
+  // On the LAN relay, show a QR code so a phone can open the handset in one scan.
+  // Show a QR code so a phone can open the handset (in this screen's room) in one scan.
+  bus.ready.then(mode => {
+    if (mode === 'local') return;
+    const url = mode === 'relay'
+      ? (bus.urls.find(u => u.includes(location.hostname)) || bus.urls[0] || location.origin) + '/'
+      : bus.linkFor('');
+    $('#pairUrl').textContent = url.replace(/^https?:\/\//, '').replace(/#room=(\w{4})\w*/, ' · room $1…');
+    if (window.qrcode) {
+      const q = qrcode(0, 'M'); q.addData(url); q.make();
+      $('#qr').innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+    } else $('#qr').remove();
+    $('#pair').hidden = false;
+  });
+  addEventListener('pagehide', () => bus.post({ type: 'bye', id }));
+
+  // One click arms the display: fullscreen, and lets it play sound and unmuted video.
+  document.addEventListener('click', () => {
+    SFX.unlock();
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {});
+    document.getElementById('tip')?.remove();
+  });
+
+  const clock = () => {
+    const t = new Date().toLocaleTimeString();
+    $('#idleClock').textContent = t; $('#hudClock').textContent = t;
+  };
+  clock(); setInterval(clock, 1000);
+
+  // TV static
+  const st = $('#static'), sctx = st.getContext('2d');
+  let staticOn = false;
+  function drawStatic() {
+    if (!staticOn) return;
+    st.width = 320; st.height = 180;
+    const img = sctx.createImageData(320, 180);
+    for (let i = 0; i < img.data.length; i += 4) {
+      // violet-tinted snow, to match the theme
+      const v = Math.random() * 255; img.data[i] = v; img.data[i + 1] = v * .72; img.data[i + 2] = v * .95; img.data[i + 3] = 255;
+    }
+    sctx.putImageData(img, 0, 0);
+    requestAnimationFrame(drawStatic);
+  }
+  st.style.width = '100%'; st.style.height = '100%';
+  function burstStatic(ms) {
+    staticOn = true; st.classList.remove('hidden'); drawStatic(); SFX.static(ms / 1000);
+    return new Promise(r => setTimeout(() => { staticOn = false; st.classList.add('hidden'); r(); }, ms));
+  }
+
+  let seized = false, stopFeed = null, current = null, wanted = null, revealing = false;
+  const feedLabels = { intel: 'FEED 01 · INTEL', radar: 'FEED 02 · RADAR', globe: 'FEED 03 · GLOBAL', cam: 'FEED 04 · LIVE OPTICAL' };
+
+  // ---------- title slide: text and background photos set from the handset ----------
+  let bgPhotos = [], bgIdx = 0, bgTimer = null;
+  function showBg() {
+    const box = $('#tbg');
+    if (!bgPhotos.length) { box.innerHTML = ''; return; }
+    const img = document.createElement('img'); img.alt = ''; img.src = bgPhotos[bgIdx % bgPhotos.length];
+    img.onload = () => {
+      box.append(img); void img.offsetWidth; img.classList.add('on');
+      const old = [...box.querySelectorAll('img')].slice(0, -1);
+      old.forEach(o => o.classList.remove('on'));
+      setTimeout(() => old.forEach(o => o.remove()), 1700); // after the crossfade
+    };
+  }
+  function setTitleSlide({ title, subtitle, items }) {
+    const swap = (el, text) => { if (el.textContent === text) return; el.textContent = text; el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); };
+    swap($('#tTitle'), title || 'Presentation begins shortly');
+    swap($('#tSub'), subtitle || '');
+    bgPhotos = items || []; bgIdx = 0; clearInterval(bgTimer);
+    showBg();
+    if (bgPhotos.length > 1) bgTimer = setInterval(() => { bgIdx++; showBg(); }, 8000);
+  }
+
+  // ---------- handset media (photos / videos / slides) ----------
+  let media = [], mediaIdx = 0;
+  const vid = $('#mediaVid'), mimg = $('#mediaImg');
+  function renderMedia() {
+    const item = media[mediaIdx];
+    if (!item) return;
+    $('#feedName').textContent = `SLIDE ${mediaIdx + 1}/${media.length} · HANDSET UPLOAD`;
+    const isVid = item.kind === 'video';
+    mimg.classList.toggle('on', !isVid); vid.classList.toggle('on', isVid);
+    if (isVid) {
+      if (vid.src !== new URL(item.url, location.href).href) vid.src = item.url;
+      vid.currentTime = 0; vid.muted = false;
+      vid.play().catch(() => { vid.muted = true; vid.play().catch(() => {}); }); // unarmed screens can only autoplay muted
+    } else {
+      vid.pause(); mimg.src = item.url;
+    }
+  }
+  function videoControl(action) {
+    if (!vid.classList.contains('on')) return;
+    if (action === 'play') vid.play().catch(() => {});
+    else if (action === 'pause') vid.pause();
+    else if (action === 'restart') { vid.currentTime = 0; vid.play().catch(() => {}); }
+  }
+
+  // ---------- live ink from the handset's draw pad ----------
+  const ink = $('#ink'), ictx = ink.getContext('2d');
+  const strokes = new Map(); // id -> { pts: [[x, y]], color, t }
+  let inkRaf = 0;
+  function drawInk() {
+    const dpr = Math.min(devicePixelRatio || 1, 2), w = ink.clientWidth, h = ink.clientHeight;
+    if (ink.width !== Math.round(w * dpr)) { ink.width = Math.round(w * dpr); ink.height = Math.round(h * dpr); }
+    ictx.setTransform(dpr, 0, 0, dpr, 0, 0); ictx.clearRect(0, 0, w, h);
+    const now = performance.now();
+    ictx.lineCap = ictx.lineJoin = 'round';
+    for (const [k, st] of strokes) {
+      const age = now - st.t, alpha = age < 4000 ? 1 : 1 - (age - 4000) / 1000; // hold 4 s, fade 1 s
+      if (alpha <= 0) { strokes.delete(k); continue; }
+      ictx.globalAlpha = alpha; ictx.strokeStyle = st.color; ictx.shadowColor = st.color;
+      ictx.shadowBlur = 18; ictx.lineWidth = Math.max(4, h / 140);
+      ictx.beginPath();
+      st.pts.forEach(([x, y], i) => i ? ictx.lineTo(x * w, y * h) : ictx.moveTo(x * w, y * h));
+      if (st.pts.length === 1) ictx.lineTo(st.pts[0][0] * w + .1, st.pts[0][1] * h);
+      ictx.stroke();
+    }
+    ictx.globalAlpha = 1;
+    inkRaf = strokes.size ? requestAnimationFrame(drawInk) : 0;
+  }
+  function addInk(msg) {
+    const st = strokes.get(msg.stroke) || { pts: [], color: msg.color || '#e879f9' };
+    st.pts.push(...msg.pts); st.t = performance.now(); strokes.set(msg.stroke, st);
+    if (!inkRaf) inkRaf = requestAnimationFrame(drawInk);
+  }
+
+  // ---------- identify: big display label so you know which screen is which ----------
+  let identT;
+  function identify() {
+    $('#identId').textContent = label; $('#identRes').textContent = `${screen.width}×${screen.height}`;
+    $('#ident').classList.remove('hidden'); SFX.beep();
+    clearTimeout(identT); identT = setTimeout(() => $('#ident').classList.add('hidden'), 2500);
+  }
+
+  function showFeed(name) {
+    name = name || 'intel';
+    wanted = name;
+    if (revealing) return; // applied once the takeover animation finishes
+    if (name === current) return;
+    current = name;
+    stopFeed?.(); stopFeed = null;
+    $('#feedName').textContent = feedLabels[name] || name.toUpperCase();
+    const cam = name === 'cam', isMedia = name === 'media';
+    $('#camImg').classList.toggle('on', cam);
+    if (!isMedia) { mimg.classList.remove('on'); vid.classList.remove('on'); vid.pause(); }
+    if (isMedia) renderMedia();
+    else if (!cam) stopFeed = Feeds.attach($('#feed'), name, true);
+    wipe();
+  }
+  // A bright bar sweeps across whenever the handset throws something new.
+  function wipe() {
+    const s = $('#seized');
+    if (s.classList.contains('hidden')) return;
+    const bar = document.createElement('div'); bar.className = 'wipe';
+    s.append(bar); bar.addEventListener('animationend', () => bar.remove());
+    glitch(s); SFX.whoosh();
+  }
+  const glitch = el => { el.classList.remove('glitch'); void el.offsetWidth; el.classList.add('glitch'); };
+  // Live camera: show the real frame rate so a slow link is visible on screen.
+  const frameTimes = [];
+  function noteFrame() {
+    const now = performance.now(); frameTimes.push(now);
+    while (frameTimes.length && now - frameTimes[0] > 2000) frameTimes.shift();
+    if (current === 'cam') $('#feedName').textContent = `${feedLabels.cam} · ${(frameTimes.length / 2).toFixed(0)} FPS`;
+  }
+
+  // `epoch` changes on every takeover/release, so a takeover animation that is
+  // still running when the handset releases stops instead of revealing the feed.
+  let epoch = 0;
+  async function takeover(feed) {
+    if (seized) { showFeed(feed); return; }
+    const my = ++epoch;
+    seized = true; revealing = true; wanted = feed || 'intel';
+    document.body.classList.add('glitch');
+    await burstStatic(700);
+    if (my !== epoch) return;
+    $('#idle').classList.add('hidden');
+    $('#splash').classList.remove('hidden'); SFX.hum();
+    await new Promise(r => setTimeout(r, 1300));
+    $('#splash').classList.add('hidden');
+    if (my !== epoch) return;
+    $('#seized').classList.remove('hidden');
+    revealing = false; current = null; showFeed(wanted);
+  }
+  async function release() {
+    if (!seized) return;
+    const my = ++epoch;
+    seized = false; current = null; revealing = false;
+    $('#splash').classList.add('hidden');
+    stopFeed?.(); stopFeed = null; vid.pause(); strokes.clear();
+    await burstStatic(400);
+    if (my !== epoch) return; // re-taken during the static
+    $('#seized').classList.add('hidden');
+    $('#idle').classList.remove('hidden');
+  }
+
+  let bannerT;
+  function banner(text) {
+    const b = $('#banner'); b.textContent = text; b.classList.remove('hidden'); SFX.banner();
+    clearTimeout(bannerT); bannerT = setTimeout(() => b.classList.add('hidden'), 3500);
+  }
+
+  function handle(msg) {
+    if (msg.to && msg.to !== id) return;
+    switch (msg.type) {
+      case 'ping': hello(); break;
+      case 'takeover': takeover(msg.feed); break;
+      case 'feed': seized ? showFeed(msg.feed) : takeover(msg.feed); break;
+      case 'frame': if (seized && current === 'cam') { $('#camImg').src = msg.data; noteFrame(); } break;
+      case 'banner': if (seized) banner(msg.text); break;
+      case 'release': release(); break;
+      case 'titleslide': setTitleSlide(msg); break;
+      case 'identify': identify(); break;
+      case 'media': {
+        const items = msg.items || [];
+        if (!items.length || !(msg.index >= 0 && msg.index < items.length)) break;
+        // The handset re-sends the list whenever an upload finishes; if the item on
+        // screen didn't change, just take the new list and keep playing.
+        const same = current === 'media' && media[mediaIdx]?.url === items[msg.index].url;
+        media = items; mediaIdx = msg.index;
+        if (!seized) takeover('media');
+        else if (same) $('#feedName').textContent = `SLIDE ${mediaIdx + 1}/${media.length} · HANDSET UPLOAD`;
+        else if (current === 'media') { renderMedia(); wipe(); }
+        else showFeed('media');
+        break;
+      }
+      case 'slide':
+        if (!media.length) break;
+        mediaIdx = (msg.index % media.length + media.length) % media.length;
+        if (current === 'media') { renderMedia(); wipe(); }
+        break;
+      case 'vctl': videoControl(msg.action); break;
+      case 'draw': if (seized) addInk(msg); break;
+      case 'draw-clear': strokes.clear(); break;
+    }
+  }
+  bus.on(handle);
+
+  // When opened by the Presentation API on a TV, messages arrive over the connection instead.
+  if (navigator.presentation?.receiver) {
+    navigator.presentation.receiver.connectionList.then(list => {
+      const hook = c => c.addEventListener('message', e => handle(JSON.parse(e.data)));
+      list.connections.forEach(hook);
+      list.addEventListener('connectionavailable', e => hook(e.connection));
+    });
+  }
+})();
+</script>
+</body>
+</html>
