@@ -209,8 +209,11 @@ td:last-child{font-family:var(--mono);font-weight:700;color:var(--navy)}
    thing that prints */
 .op-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 24px;margin-bottom:26px}
 .op-head .sec-head{margin-bottom:0}
-.op-print{min-height:48px;padding:0 22px;border-radius:999px;border:0;background:var(--navy);color:#fff;font:700 16px var(--body);cursor:pointer}
-.op-print:hover{background:var(--blue)}
+.op-actions{display:flex;flex-wrap:wrap;gap:10px}
+.op-print{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:999px;border:1.5px solid var(--navy);background:var(--navy);color:#fff;font:700 16px var(--body);text-decoration:none;cursor:pointer}
+.op-print:hover{background:var(--blue);border-color:var(--blue)}
+.op-print.ghost{background:transparent;color:var(--navy)}
+.op-print.ghost:hover{background:var(--navy);color:#fff}
 .sheet{max-width:880px;margin:0 auto;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:6px;box-shadow:0 34px 60px -42px rgba(11,28,63,.5);padding:clamp(20px,5vw,48px)}
 .sheet::after{content:"";display:block;clear:both}
 .s-name{font-size:clamp(46px,8vw,76px);color:var(--navy)}
