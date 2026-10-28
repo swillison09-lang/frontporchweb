@@ -1,5 +1,5 @@
 // Offline shell for the installed app. Relay traffic (/relay/*) always goes to the network.
-const CACHE = 'glass-v9';
+const CACHE = 'glass-v10';
 const SHELL = ['./', 'index.html', 'screen.html', 'config.js', 'feeds.js', 'bus.js', 'sfx.js',
   'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png'];
 

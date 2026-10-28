@@ -459,14 +459,18 @@
     }
   });
   bus.onopen(() => bus.post({ type: 'ping' })); // also re-pings after a relay reconnect
+  const onlineLine = () => `uplink: online · room ${bus.room.slice(0, 4).toUpperCase()}…`;
+  let stillConnecting = false;
   bus.ready.then(mode => {
-    log({
+    stillConnecting = mode === 'supabase' && !bus.connected;
+    log(stillConnecting ? 'uplink: connecting… (retrying in the background)' : {
       relay: 'uplink: Wi-Fi relay (devices on this network)',
-      supabase: `uplink: online · room ${bus.room.slice(0, 4).toUpperCase()}…`,
+      supabase: onlineLine(),
       local: 'uplink: this browser only — add Supabase keys to config.js to go online',
-    }[mode], mode === 'local' ? 'warn' : 'ok');
+    }[mode], mode === 'local' || stillConnecting ? 'warn' : 'ok');
     renderScreens();
   });
+  bus.onopen(() => { if (stillConnecting) { stillConnecting = false; log(onlineLine(), 'ok'); } });
   const screenUrl = () => bus.linkFor('screen.html');
 
   // ---------- terminal log (typed out one character at a time) ----------

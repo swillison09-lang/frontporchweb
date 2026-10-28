@@ -9,7 +9,8 @@ window.Bus = function Bus(role) {
   const handlers = [], openHandlers = [], authHandlers = [];
   // Where a sign-in sends you back to: this page, minus the #hash (the room comes from storage).
   const returnUrl = () => location.href.split('#')[0];
-  let mode = 'local', channel = null, sb = null, framesInflight = 0, lastFrame = 0, queue = Promise.resolve();
+  // channel: BroadcastChannel (local mode). rt: the Supabase realtime channel (online mode).
+  let mode = 'local', channel = null, rt = null, sb = null, framesInflight = 0, lastFrame = 0, queue = Promise.resolve();
 
   const deliver = msg => handlers.forEach(h => h(msg));
   const room = joinRoom();
@@ -32,10 +33,14 @@ window.Bus = function Bus(role) {
     const cfg = window.GLASS_CONFIG || {};
     if (cfg.supabaseUrl && cfg.supabaseAnonKey && window.supabase?.createClient) {
       try {
+        // Online from here on, even while the first connection is still being made:
+        // a slow or failed first attempt (phone locked, tab in the background, weak
+        // signal) is retried by supabase-js, never a reason to drop to one-browser mode.
+        mode = 'supabase';
         await joinSupabase(cfg);
         return mode;
       } catch (err) {
-        console.warn('Supabase unavailable, falling back to this browser only:', err);
+        console.warn('Supabase could not start, falling back to this browser only:', err);
       }
     }
 
@@ -55,23 +60,25 @@ window.Bus = function Bus(role) {
     await sb.auth.getSession();
     if (!/room=/.test(location.hash)) history.replaceState(null, '', `${location.pathname}${location.search}#room=${room}`);
     sb.auth.onAuthStateChange((_event, session) => authHandlers.forEach(h => h(session)));
-    channel = sb.channel(`glass:${room}`, { config: { broadcast: { self: false }, presence: { key: id } } });
-    channel.on('broadcast', { event: 'msg' }, ({ payload }) => deliver(payload));
+    rt = sb.channel(`glass:${room}`, { config: { broadcast: { self: false }, presence: { key: id } } });
+    rt.on('broadcast', { event: 'msg' }, ({ payload }) => deliver(payload));
     // Presence tells the handset when a screen goes away (closed tab, TV off, lost Wi-Fi).
-    channel.on('presence', { event: 'leave' }, ({ leftPresences }) => {
+    rt.on('presence', { event: 'leave' }, ({ leftPresences }) => {
       for (const p of leftPresences) if (p.role === 'screen') deliver({ type: 'bye', id: p.id });
     });
-    await new Promise((resolve, reject) => {
-      let first = true;
-      channel.subscribe(status => {
+    // Resolves on the first successful join, or after 8 s regardless so the app can carry
+    // on ("connecting…") while supabase-js keeps retrying in the background.
+    await new Promise(resolve => {
+      const giveUpWaiting = setTimeout(resolve, 8000);
+      rt.subscribe((status, err) => {
         if (status === 'SUBSCRIBED') {
-          mode = 'supabase';
-          channel.track({ id, role });
+          bus.connected = true;
+          rt.track({ id, role });
           openHandlers.forEach(h => h()); // also after a reconnect
-          if (first) { first = false; resolve(); }
-        } else if (first && (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT')) {
-          first = false; reject(new Error(status));
-        } else if (!first) {
+          clearTimeout(giveUpWaiting); resolve();
+        } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+          bus.connected = false;
+          if (status !== 'CLOSED') console.warn('Glass: realtime', status, err || '', '(retrying)');
           bus.onstatus?.('reconnecting');
         }
       });
@@ -79,7 +86,7 @@ window.Bus = function Bus(role) {
   }
 
   const bus = {
-    id, role, ready, room, urls: [],
+    id, role, ready, room, urls: [], connected: false,
     get mode() { return mode; },
     on(h) { handlers.push(h); },
     onopen(h) { openHandlers.push(h); },
@@ -111,7 +118,7 @@ window.Bus = function Bus(role) {
           if (framesInflight > 0 || now - lastFrame < 200) return;
           lastFrame = now; framesInflight++;
         }
-        const p = channel.send({ type: 'broadcast', event: 'msg', payload: { ...msg, from: id } }).catch(() => {});
+        const p = rt ? rt.send({ type: 'broadcast', event: 'msg', payload: { ...msg, from: id } }).catch(() => {}) : Promise.resolve();
         if (lossy) p.finally(() => framesInflight--);
         return; // one websocket, so order is already preserved
       }
