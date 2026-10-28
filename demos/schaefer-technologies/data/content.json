@@ -1,8 +1,8 @@
 {
   "hero": {
     "overline": "Indianapolis, Indiana &nbsp;·&nbsp; Founded in 1932",
-    "titleLine1": "92&nbsp;years&nbsp;of",
-    "titleLine2": "doing&nbsp;it&nbsp;right.",
+    "titleLine1": "Doing&nbsp;it&nbsp;right",
+    "titleLine2": "since&nbsp;1932.",
     "sub": "Schaefer is an international manufacturer and distributor of quality <strong>capsule filling equipment</strong> — machines to fit the needs of the pharmaceutical, health, nutrition, cannabis, automotive and manufacturing industries.",
     "ctaPrimaryLabel": "Explore Equipment",
     "ctaPrimaryHref": "#equipment",
@@ -17,13 +17,13 @@
       "caption": "Where it began — the original Snodgrass &amp; Schaefer shop, 2514 Bethel Ave. From the STI archives."
     },
     "stats": [
-      { "value": 92, "suffix": "yrs", "label": "Of doing it right — founded 1932" },
+      { "value": 1932, "suffix": "", "label": "Founded in Indianapolis — doing it right ever since" },
       { "value": 60, "suffix": "k ft²", "label": "Indianapolis headquarters" },
       { "value": 25, "suffix": "k cph", "label": "STI Model 10 — capsules per hour" },
       { "value": 400, "suffix": "k cph", "label": "CP-4200 polisher throughput" }
     ],
     "timeline": [
-      { "year": "1932", "title": "Founded in Indianapolis", "body": "Schaefer Technologies, Inc. is founded — the start of 92 years of doing it right." },
+      { "year": "1932", "title": "Founded in Indianapolis", "body": "Schaefer Technologies, Inc. is founded — the start of doing it right." },
       { "year": "1952", "title": "Hamblen Gage opens", "body": "Hamblen Gage Corporation (HGC) goes into business, specializing in automated post-process measuring and gaging equipment." },
       { "year": "2004", "title": "STI purchases HGC", "body": "STI purchases Hamblen Gage Corporation, bringing its automated post-process measuring and gaging expertise in-house." },
       { "year": "Today", "title": "Worldwide reach", "body": "From the 60,000 sq ft Indianapolis headquarters, STI serves customers globally with international partners Operio Group." }
@@ -257,7 +257,7 @@
   ],
   "footer": {
     "wordmark": "SCHAEFER",
-    "copyright": "© Schaefer Technologies, Inc. — Founded in 1932 ~ 92 Years of Doing it Right",
+    "copyright": "© Schaefer Technologies, Inc. — Doing it right since 1932",
     "address": "4901 W. Raymond Street, Indianapolis, IN 46241",
     "partnerLabel": "Our International Partners — Operio Group",
     "partnerHref": "https://www.operiogroup.com/"

@@ -6,24 +6,30 @@
 <title>Schaefer Technologies — Website Redesign Concept · Front Porch Web</title>
 <meta name="description" content="An independent redesign concept for Schaefer Technologies, Inc. by Front Porch Web. Not affiliated with or endorsed by Schaefer Technologies." />
 <meta name="robots" content="noindex, nofollow" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Schaefer Technologies: website concept" />
+<meta property="og:description" content="Capsule filling equipment and precision machining from Indianapolis, since 1932. A redesign concept by Front Porch Web." />
+<meta property="og:image" content="https://frontporchwebllc.com/demos/schaefer-technologies/img/share-card.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/style.css?v=19" />
+<link rel="stylesheet" href="css/style.css?v=24" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23050b16'/><rect x='30' y='16' width='40' height='68' rx='20' fill='%234da3ff'/><rect x='30' y='50' width='40' height='34' rx='17' fill='%23e8f1ff'/></svg>" />
 </head>
 <body>
 
 <!-- ═══════════ WEBGL BACKDROP ═══════════ -->
-<canvas id="webgl"></canvas>
+<canvas id="webgl" aria-hidden="true"></canvas>
 
 <!-- ═══════════ NAV ═══════════ -->
 <header class="nav" id="nav">
+  <div class="nav__ribbon">Website redesign concept by <a href="https://frontporchwebllc.com" target="_blank" rel="noopener">Front Porch Web</a> &middot; not the official Schaefer Technologies site</div>
+  <div class="nav__row">
   <a class="nav__logo" href="#top" data-hover>
-    <span class="nav__logo-mark">
-      <svg viewBox="0 0 100 100" width="30" height="30" aria-hidden="true"><rect x="30" y="10" width="40" height="80" rx="20" fill="var(--accent)"/><rect x="30" y="50" width="40" height="40" rx="18" fill="#eaf2ff"/></svg>
-    </span>
-    <span class="nav__logo-text">SCHAEFER<em>TECHNOLOGIES</em></span>
+    <img src="img/sti-logo.png" alt="Schaefer Technologies, Inc." width="600" height="138" />
   </a>
   <nav class="nav__links">
     <a href="#legacy" data-hover>Legacy</a>
@@ -37,9 +43,10 @@
     <span class="nav__cta-dot"></span> <span id="navCtaText">800-435-7174</span>
   </a>
   <button class="nav__burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  </div>
 </header>
 
-<div class="mobile-menu" id="mobileMenu">
+<nav class="mobile-menu" id="mobileMenu" aria-label="Menu">
   <a href="#legacy">Legacy</a>
   <a href="#equipment">Equipment</a>
   <a href="#services">Services</a>
@@ -47,7 +54,7 @@
   <a href="#news">News</a>
   <a href="#contact">Connect</a>
   <a href="tel:8004357174" class="mobile-menu__phone" id="mobileMenuPhone">800-435-7174</a>
-</div>
+</nav>
 
 <main id="top">
 
@@ -65,12 +72,10 @@
       <div class="hero__scroll-track"><div class="hero__scroll-thumb"></div></div>
       <span>SCROLL</span>
     </div>
-    <div class="hero__badge" data-reveal>
-      <svg viewBox="0 0 120 120" class="hero__badge-svg">
-        <defs><path id="circlePath" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
-        <text><textPath href="#circlePath">· FOUNDED 1932 · 92 YEARS OF DOING IT RIGHT · SCHAEFER TECHNOLOGIES </textPath></text>
-      </svg>
-      <span class="hero__badge-center">STI</span>
+    <div class="hero__gage" id="gage" data-reveal aria-hidden="true">
+      <span class="hero__gage-label">Hamblen Gage &middot; post-process</span>
+      <span class="hero__gage-read" id="gageRead">&Oslash; 0.0000 in</span>
+      <span class="hero__gage-tol" id="gageTol">&plusmn;0.0003 &middot; scanning</span>
     </div>
   </section>
 
@@ -91,7 +96,7 @@
       <span class="section__num">01</span>
       <div>
         <span class="section__tag" data-reveal>Our Legacy</span>
-        <h2 class="section__title" data-reveal>Doing it right<br /><em>since 1932.</em></h2>
+        <h2 class="section__title" data-reveal>From Bethel Avenue<br /><em>to the world.</em></h2>
       </div>
     </div>
 
@@ -110,7 +115,7 @@
   <div class="banner" id="processBanner" aria-label="Softgel encapsulation die rolls up close"></div>
 
   <!-- ═══════════ EQUIPMENT ═══════════ -->
-  <section class="section equipment" id="equipment" data-accent="#5fd4a7">
+  <section class="section equipment" id="equipment" data-accent="#4da3ff">
     <div class="section__head">
       <span class="section__num">02</span>
       <div>
@@ -131,7 +136,7 @@
   </section>
 
   <!-- ═══════════ SERVICES ═══════════ -->
-  <section class="section services" id="services" data-accent="#ffb454">
+  <section class="section services" id="services" data-accent="#4da3ff">
     <div class="section__head">
       <span class="section__num">03</span>
       <div>
@@ -147,7 +152,7 @@
   </section>
 
   <!-- ═══════════ TEAM ═══════════ -->
-  <section class="section team" id="team" data-accent="#b48aff">
+  <section class="section team" id="team" data-accent="#4da3ff">
     <div class="section__head">
       <span class="section__num">04</span>
       <div>
@@ -161,7 +166,7 @@
   </section>
 
   <!-- ═══════════ NEWS ═══════════ -->
-  <section class="section news" id="news" data-accent="#6fd4e8">
+  <section class="section news" id="news" data-accent="#4da3ff">
     <div class="section__head">
       <span class="section__num">05</span>
       <div>
@@ -239,7 +244,7 @@
     }
   }
 </script>
-<script type="module" src="js/main.js?v=18"></script>
+<script type="module" src="js/main.js?v=22"></script>
 <script>
 // Keep the closed article dialog out of the keyboard order: mirror its
 // aria-hidden onto inert, whichever script opens or closes it.

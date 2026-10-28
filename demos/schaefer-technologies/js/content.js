@@ -263,7 +263,8 @@ function renderFooter(f) {
       <span>${f.copyright}</span>
       <span>${f.address}</span>
       <span><a href="${f.partnerHref}" target="_blank" rel="noopener">${f.partnerLabel}</a></span>
-    </div>`;
+    </div>
+    <p class="footer__credit">Redesign concept by <a href="https://frontporchwebllc.com" target="_blank" rel="noopener">Front Porch Web</a> &middot; not the official Schaefer Technologies site</p>`;
 }
 
 export async function initContent() {

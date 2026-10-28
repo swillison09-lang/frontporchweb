@@ -1,8 +1,10 @@
 /* ═══════════════════════════════════════════════════════
    SCHAEFER TECHNOLOGIES — TOOL ROOM ENGINE
-   One scroll-aware WebGL scene behind the hero:
-   giant die rolls, gears, and a machined shaft being
-   measured by an automated gage. Precision, not spectacle.
+   One scroll-aware WebGL scene behind the hero: two die
+   rolls forming a stream of softgels, background gears,
+   and a machined shaft being measured by an automated
+   gage whose reading shows in the page's HUD.
+   Precision, not spectacle.
 
    All page copy is loaded from data/content.json via
    content.js — see that file to change what's on the page.
@@ -10,7 +12,11 @@
 
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { initContent, setNewsCardHandler } from "./content.js?v=3";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { initContent, setNewsCardHandler } from "./content.js?v=4";
 
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
@@ -34,15 +40,21 @@ if (!prefersReduced && !isTouch && typeof Lenis !== "undefined") {
 
 /* ════════════════ RENDERER / SCENE ════════════════ */
 const canvas = document.getElementById("webgl");
+const BG = 0x050b16;
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x050b16, 0.045);
+scene.background = new THREE.Color(BG);
+scene.fog = new THREE.FogExp2(BG, 0.045);
 
 const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
 camera.position.set(0, 0, 11);
 
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+// Opaque canvas: the bloom pass composites onto whatever the renderer cleared
+// to, and with an alpha canvas that composite goes black. The page background
+// is the same navy as BG, so nothing is lost by clearing to it.
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
+renderer.setClearColor(BG, 1);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
 
@@ -124,7 +136,10 @@ function makeRoll(x) {
 const rollL = makeRoll(isMobile ? -4.2 : -4.6);
 const rollR = makeRoll(isMobile ? 4.2 : 4.6);
 rig.add(rollL, rollR);
-const rigBaseY = isMobile ? -1.6 : 0;
+// wide screens: slide the rig right so the nip, the softgels and the gaged
+// shaft sit beside the headline instead of behind it
+const rigBaseX = () => (isMobile ? 0 : innerWidth > 1180 ? 3.1 : 1.6);
+const rigBaseY = isMobile ? -3.3 : 0;
 const rigBaseZ = isMobile ? -3.5 : 0;
 
 /* background gears */
@@ -148,9 +163,42 @@ function makeGear(radius, teeth, z) {
   return gear;
 }
 const gear1 = makeGear(6.8, 26, -11);
+gear1.position.y = isMobile ? 1.5 : 0.1; // desktop: keep its teeth below the nav links
 const gear2 = makeGear(3.6, 16, -9);
 gear2.position.set(-7.5, -3.5, -9);
 rig.add(gear1, gear2);
+
+/* ── the softgel stream ──
+   This is what the die rolls are for. Gelatin capsules come off the nip
+   between the rolls and fall, tumbling, into the shop light. Instanced so
+   the whole stream is one draw call. */
+const GEL_N = isMobile ? 18 : 48;
+const gelGeo = new THREE.CapsuleGeometry(0.17, 0.26, 6, 14);
+const gelMat = new THREE.MeshPhysicalMaterial({
+  color: 0xf2a541,
+  emissive: 0x8a4c0e,
+  emissiveIntensity: 0.32,
+  roughness: 0.2,
+  metalness: 0,
+  transmission: isMobile ? 0 : 0.5,
+  thickness: 0.7,
+  ior: 1.42,
+  transparent: true,
+  opacity: 0.96,
+  envMapIntensity: 1.3,
+});
+const gels = new THREE.InstancedMesh(gelGeo, gelMat, GEL_N);
+gels.frustumCulled = false;
+const gelSeed = new Float32Array(GEL_N * 4);
+for (let i = 0; i < GEL_N; i++) {
+  gelSeed[i * 4] = Math.random(); // phase along the fall
+  gelSeed[i * 4 + 1] = (Math.random() - 0.5) * 2.6; // spawn x
+  gelSeed[i * 4 + 2] = Math.random() * Math.PI * 2; // tumble offset
+  gelSeed[i * 4 + 3] = 0.75 + Math.random() * 0.5; // fall speed
+}
+const gelDummy = new THREE.Object3D();
+const GEL_FALL = 7.6; // world units from nip to fade-out
+rig.add(gels);
 
 /* ── the measured part: stepped shaft + pinion under a scanning gage ──
    (automated post-process gaging is STI's crown jewel — gages since 1952) */
@@ -158,11 +206,15 @@ const partHolder = new THREE.Group();
 const part = new THREE.Group();
 partHolder.add(part);
 
+// Each feature remembers its diameter so the HUD can read it out as the
+// gage passes over. Model units are treated as inches for the readout.
+const features = [];
 const shaftSeg = (r, len, x) => {
   const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 40), steelBright);
   m.rotation.z = Math.PI / 2;
   m.position.x = x;
   part.add(m);
+  features.push({ x, half: len / 2, dia: r * 2 });
 };
 shaftSeg(0.16, 1.3, -1.85);
 shaftSeg(0.34, 1.5, -0.5);
@@ -172,6 +224,7 @@ const pinion = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.62, 0.42, 40), 
 pinion.rotation.z = Math.PI / 2;
 pinion.position.x = 0.9;
 part.add(pinion);
+features.push({ x: 0.9, half: 0.21, dia: 1.36, name: "PINION OD" });
 const toothGeo = new THREE.BoxGeometry(0.4, 0.22, 0.17);
 for (let i = 0; i < 14; i++) {
   const a = (i / 14) * Math.PI * 2;
@@ -197,7 +250,7 @@ const tickGeo = new THREE.BoxGeometry(0.05, 0.14, 0.02);
 });
 partHolder.add(scanner);
 
-partHolder.position.set(0, isMobile ? 1.1 : 0.75, 2.2);
+partHolder.position.set(0, isMobile ? 0.2 : 0.75, 2.2);
 partHolder.rotation.z = 0.05;
 if (isMobile) partHolder.scale.setScalar(0.72);
 rig.add(partHolder);
@@ -217,6 +270,17 @@ const particles = new THREE.Points(
   new THREE.PointsMaterial({ color: 0x8b97a5, size: 0.03, transparent: true, opacity: 0.4 })
 );
 scene.add(particles);
+
+/* ════════════════ POST: a little bloom on the gage and the gelatin ════════════════ */
+// Desktop only — the bloom pass is the one thing in this scene that a
+// mid-range phone would feel.
+let composer = null;
+if (!isMobile) {
+  composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.5, 0.65, 0.78));
+  composer.addPass(new OutputPass());
+}
 
 /* ════════════════ DRIVERS ════════════════ */
 const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -251,6 +315,34 @@ document.querySelectorAll("[data-accent]").forEach((s) => {
   ).observe(s);
 });
 
+/* ════════════════ GAGE READOUT (DOM) ════════════════
+   The ring in the scene is a post-process gage. This turns its position
+   into a reading so the animation means something: pass over the pinion
+   and the HUD reports the pinion's diameter, in tolerance. */
+const gageRead = document.getElementById("gageRead");
+const gageTol = document.getElementById("gageTol");
+const gageEl = document.getElementById("gage");
+let gageFrame = 0;
+function updateGage() {
+  if (!gageRead || !gageTol) return;
+  if (++gageFrame % 6) return; // ~10 updates a second reads like an instrument, not a slot machine
+  const sx = scanner.position.x;
+  let hit = null;
+  for (const f of features) {
+    if (Math.abs(sx - f.x) <= f.half) { hit = f; break; }
+  }
+  if (hit) {
+    const jitter = (Math.floor(Math.random() * 3) - 1) * 0.0001;
+    gageRead.textContent = `Ø ${(hit.dia + jitter).toFixed(4)} in`;
+    gageTol.textContent = `±0.0003 · ${hit.name || "SHAFT"} · PASS`;
+    gageEl.classList.add("is-pass");
+  } else {
+    gageRead.textContent = `Ø ${(Math.abs(sx) * 0.37 + 0.3).toFixed(4)} in`;
+    gageTol.textContent = "±0.0003 · SCANNING";
+    gageEl.classList.remove("is-pass");
+  }
+}
+
 /* ════════════════ RENDER LOOP ════════════════ */
 const clock = new THREE.Clock();
 let smoothScroll = 0;
@@ -265,10 +357,12 @@ function renderFrame(forcedT, force) {
   // the scene only shows behind the hero — skip GPU work once it's covered
   if (!force && p > 0.35) return;
 
+  // handheld drift from the pointer, plus a slow rise as the reader scrolls
+  // so the floor drops away beneath the rig
   camera.position.x = mouse.x * 0.8;
-  camera.position.y = -mouse.y * 0.5;
+  camera.position.y = -mouse.y * 0.5 + p * 2.4;
   camera.position.z = 11;
-  camera.lookAt(0, 0, 0);
+  camera.lookAt(0, -p * 1.6, 0);
 
   rimLight.color.copy(accentColor);
 
@@ -283,16 +377,41 @@ function renderFrame(forcedT, force) {
   scanRing.material.opacity = 0.55 + 0.35 * Math.sin(t * 5);
   scanRing.scale.setScalar(1 + Math.sin(t * 5) * 0.02);
 
+  // softgels: each instance runs its own loop from the nip down into the light,
+  // popping in small, tumbling, and shrinking away before it would hit anything
+  for (let i = 0; i < GEL_N; i++) {
+    const phase = gelSeed[i * 4];
+    const sx = gelSeed[i * 4 + 1];
+    const tumble = gelSeed[i * 4 + 2];
+    const speed = gelSeed[i * 4 + 3];
+    const life = (t * 0.16 * speed + phase) % 1; // 0 = just formed, 1 = gone
+    const y = 1.35 - life * GEL_FALL;
+    const x = sx + Math.sin(t * 0.9 + tumble) * 0.18 + life * sx * 0.35;
+    const z = 1.05 + Math.cos(t * 0.7 + tumble) * 0.25;
+    const grow = Math.min(1, life * 9); // pop in
+    const fade = 1 - Math.max(0, (life - 0.78) / 0.22); // shrink out
+    gelDummy.position.set(x, y, z);
+    gelDummy.rotation.set(t * 1.3 + tumble, t * 0.8 + tumble * 0.7, tumble);
+    gelDummy.scale.setScalar(grow * fade);
+    gelDummy.updateMatrix();
+    gels.setMatrixAt(i, gelDummy.matrix);
+  }
+  gels.instanceMatrix.needsUpdate = true;
+
   // the rig parts and recedes as content arrives
   rollL.position.x = (isMobile ? -4.2 : -4.6) - p * 3.2;
   rollR.position.x = (isMobile ? 4.2 : 4.6) + p * 3.2;
+  rig.position.x = rigBaseX();
   rig.position.z = rigBaseZ - p * 5;
   rig.position.y = rigBaseY + p * 1.6;
   rig.rotation.y = mouse.x * 0.04;
 
   particles.rotation.y = t * 0.012;
 
-  renderer.render(scene, camera);
+  updateGage();
+
+  if (composer) composer.render();
+  else renderer.render(scene, camera);
 }
 
 function tick() {
@@ -311,6 +430,7 @@ window.addEventListener("resize", () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
+  if (composer) composer.setSize(innerWidth, innerHeight);
   updateScrollProgress();
 });
 

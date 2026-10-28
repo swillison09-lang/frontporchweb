@@ -1,7 +1,8 @@
 /* ═══════════════════════════════════════════════════════
-   SCHAEFER TECHNOLOGIES — MIDNIGHT STEEL THEME
-   Deep navy + electric blue glass, machine-shop content:
-   gaging hero scene, quick-action lane, compact sections.
+   SCHAEFER TECHNOLOGIES — MIDNIGHT BLUEPRINT THEME
+   Deep navy + electric blue glass on a faint blueprint grid.
+   The hero is an animated section drawing of softgel
+   encapsulation, drawn in blueprint line work (no 3D).
    ═══════════════════════════════════════════════════════ */
 
 :root {
@@ -17,16 +18,25 @@
   --font-head: "Space Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --gel: #f2a541;
+  --blueprint: #9ecbff;
+
+  /* blueprint grid: fine 24px squares, a stronger line every five */
+  --grid:
+    linear-gradient(rgba(77, 163, 255, 0.075) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(90deg, rgba(77, 163, 255, 0.075) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(rgba(77, 163, 255, 0.035) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(77, 163, 255, 0.035) 1px, transparent 1px) 0 0 / 24px 24px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; overflow-x: hidden; }
+html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 110px; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
 body {
-  background: var(--bg);
+  background: var(--grid), var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
   font-weight: 300;
@@ -59,20 +69,34 @@ main { position: relative; z-index: 3; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 50;
+  background: linear-gradient(180deg, rgba(5, 11, 22, 0.92) 0%, rgba(5, 11, 22, 0.55) 70%, rgba(5, 11, 22, 0) 100%);
+  transition: transform 0.5s var(--ease), background 0.4s, backdrop-filter 0.4s;
+}
+.nav.is-scrolled {
+  background: rgba(5, 11, 22, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--line);
+}
+.nav__ribbon {
+  background: #02060e;
+  color: var(--ink-dim);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.nav__ribbon a { color: var(--ink); }
+.nav__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 20px 48px;
-  transition: transform 0.5s var(--ease), background 0.4s, backdrop-filter 0.4s, padding 0.4s;
+  padding: 18px 48px;
+  transition: padding 0.4s;
 }
-.nav.is-scrolled {
-  background: rgba(5, 11, 22, 0.72);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  padding: 13px 48px;
-  border-bottom: 1px solid var(--line);
-}
+.nav.is-scrolled .nav__row { padding: 11px 48px; }
 .nav.is-hidden { transform: translateY(-110%); }
 
 .nav__logo {
@@ -82,7 +106,7 @@ main { position: relative; z-index: 3; }
   text-decoration: none;
   color: var(--ink);
 }
-.nav__logo-mark { display: grid; place-items: center; }
+.nav__logo img { height: 34px; width: auto; display: block; filter: brightness(0) invert(1); opacity: 0.95; }
 .nav__logo-text {
   font-family: var(--font-head);
   font-weight: 700;
@@ -192,18 +216,29 @@ main { position: relative; z-index: 3; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 140px 48px 90px;
+  padding: 150px 48px 100px;
   position: relative;
 }
+/* keep the words clear of the machine */
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 110% 85% at 28% 55%, rgba(5, 11, 22, 0.66) 15%, rgba(5, 11, 22, 0.26) 55%, transparent 80%);
+  background: radial-gradient(ellipse 80% 85% at 22% 52%, rgba(5, 11, 22, 0.78) 18%, rgba(5, 11, 22, 0.3) 58%, transparent 82%);
   pointer-events: none;
 }
-.hero__content, .hero__scroll, .hero__badge { position: relative; }
-.hero__content { max-width: 900px; }
+/* the blueprint grid continues over the scene, fading out toward the bottom */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--grid);
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
+  mask-image: linear-gradient(180deg, #000 55%, transparent);
+  pointer-events: none;
+}
+.hero__content, .hero__scroll { position: relative; z-index: 1; }
+.hero__content { max-width: 760px; }
 
 .hero__overline {
   display: inline-flex;
@@ -230,7 +265,7 @@ main { position: relative; z-index: 3; }
 
 .hero__title {
   font-family: var(--font-head);
-  font-size: clamp(50px, 9vw, 118px);
+  font-size: clamp(44px, 5.7vw, 96px);
   font-weight: 600;
   line-height: 0.99;
   letter-spacing: -0.03em;
@@ -317,32 +352,59 @@ main { position: relative; z-index: 3; }
   100% { top: 110%; }
 }
 
-.hero__badge {
+/* the gage readout — driven from the scene by main.js */
+.hero__gage {
   position: absolute;
   bottom: 42px;
   right: 60px;
-  width: 120px;
-  height: 120px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 236px;
+  padding: 16px 36px 18px 20px;
+  z-index: 1;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
-.hero__badge-svg {
+.hero__gage::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  animation: spin 26s linear infinite;
-  fill: var(--ink-dim);
-  font-size: 10.5px;
+  top: 14px; right: 16px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.hero__gage.is-pass::before { background: var(--green); box-shadow: 0 0 12px var(--green); }
+.hero__gage-label {
+  font-family: var(--font-head);
+  font-size: 9.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.hero__gage-read {
+  font-family: var(--font-head);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.hero__gage-tol {
+  font-family: var(--font-head);
+  font-size: 11px;
   letter-spacing: 0.18em;
-  font-family: var(--font-head);
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.hero__badge-center {
-  font-family: var(--font-head);
-  font-weight: 700;
+  text-transform: uppercase;
   color: var(--accent);
-  font-size: 20px;
-  letter-spacing: 0.1em;
+  transition: color 0.3s;
 }
+.hero__gage.is-pass .hero__gage-tol { color: var(--green); }
 
 /* ═══════════ MARQUEE ═══════════ */
 .marquee {
@@ -429,7 +491,7 @@ main { position: relative; z-index: 3; }
   left: 50%;
   width: 100vw;
   transform: translateX(-50%);
-  background: var(--bg);
+  background: var(--grid), var(--bg);
   z-index: -1;
 }
 
@@ -1356,6 +1418,8 @@ main { position: relative; z-index: 3; }
 }
 .footer__row a { color: var(--ink-dim); text-decoration: none; transition: color 0.3s; }
 .footer__row a:hover { color: var(--accent); }
+.footer__credit { margin-top: 18px; font-size: 12px; color: var(--ink-dim); text-align: right; }
+.footer__credit a { color: var(--ink); }
 
 /* ═══════════ REVEAL STATES ═══════════ */
 [data-reveal] { opacity: 0; transform: translateY(28px); }
@@ -1364,6 +1428,7 @@ html.no-anim [data-reveal], html.no-anim .reveal-line { opacity: 1; transform: n
 
 /* ═══════════ RESPONSIVE ═══════════ */
 @media (max-width: 1100px) {
+  .hero__title { font-size: clamp(44px, 9.5vw, 96px); }
   .divisions { grid-template-columns: 1fr; }
   .team__grid { grid-template-columns: repeat(3, 1fr); }
   .services__grid { grid-template-columns: repeat(2, 1fr); }
@@ -1381,13 +1446,17 @@ html.no-anim [data-reveal], html.no-anim .reveal-line { opacity: 1; transform: n
   .contact__grid { grid-template-columns: 1fr; gap: 50px; }
 }
 @media (max-width: 760px) {
-  .nav { padding: 16px 22px; }
-  .nav.is-scrolled { padding: 12px 22px; }
+  .nav__row, .nav.is-scrolled .nav__row { padding: 12px 20px; }
+  .nav__logo img { height: 28px; }
+  .nav__ribbon { font-size: 10px; padding: 6px 12px; }
   .nav__links, .nav__cta { display: none; }
   .nav__burger { display: flex; }
-  .hero { padding: 120px 22px 100px; }
-  .hero__badge { display: none; }
-  .hero__scroll { left: 22px; }
+  .hero { padding: 132px 20px 64px; }
+  .hero::before { background: linear-gradient(180deg, rgba(5, 11, 22, 0.86) 0%, rgba(5, 11, 22, 0.8) 62%, rgba(5, 11, 22, 0.25) 88%, transparent 100%); }
+  .hero__gage { position: static; margin-top: 30px; width: 100%; max-width: 320px; }
+  .hero__overline { font-size: 9.5px; letter-spacing: 0.16em; padding: 9px 14px; }
+  .hero__scroll { display: none; }
+  .footer__credit { text-align: left; }
   .section { padding: 60px 22px; }
   .machines.is-collapsed { max-height: 900px; }
   .news__grid.is-collapsed { max-height: 900px; }
@@ -1422,7 +1491,6 @@ html.no-anim [data-reveal], html.no-anim .reveal-line { opacity: 1; transform: n
   .nav__cta-dot,
   .pulse-dot,
   .hero__scroll-thumb,
-  .hero__badge-svg,
   .spotlight__rings i {
     animation-play-state: paused !important;
   }
