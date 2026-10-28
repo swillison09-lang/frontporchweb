@@ -460,9 +460,12 @@
   });
   bus.onopen(() => bus.post({ type: 'ping' })); // also re-pings after a relay reconnect
   const onlineLine = () => `uplink: online · room ${bus.room.slice(0, 4).toUpperCase()}…`;
-  let stillConnecting = false;
+  // The first join can land just before or just after `ready` settles, so remember
+  // whether it ever connected rather than reading `bus.connected` at one moment.
+  let stillConnecting = false, everOpened = false;
+  bus.onopen(() => { everOpened = true; });
   bus.ready.then(mode => {
-    stillConnecting = mode === 'supabase' && !bus.connected;
+    stillConnecting = mode === 'supabase' && !bus.connected && !everOpened;
     log(stillConnecting ? 'uplink: connecting… (retrying in the background)' : {
       relay: 'uplink: Wi-Fi relay (devices on this network)',
       supabase: onlineLine(),
