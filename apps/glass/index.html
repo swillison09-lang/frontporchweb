@@ -453,6 +453,8 @@
       // Only seize screens we haven't seen: screens re-announce whenever any handset pings,
       // and answering every time would make two handsets keep overriding each other.
       if (seized && isNew) { bus.post({ type: 'takeover', feed: currentFeed, to: data.id }); if (currentFeed === 'media') bus.post(stateFor(data.id)); }
+      // Connecting only pairs the screen; the OVERRIDE takeover happens on COMMANDEER.
+      if (!seized && !engaging && isNew) toast('Screen connected. Tap COMMANDEERING SYSTEM to take it over.');
     } else if (data.type === 'bye' && targets.delete(data.id)) {
       updateStatus();
       log(`display ${data.id.slice(0, 6).toUpperCase()} dropped`, 'warn');

@@ -11,7 +11,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; background: var(--bg); overflow: hidden; cursor: pointer; }
   body { font-family: 'Rajdhani', system-ui, sans-serif; color: #fff; }
-  .layer { position: absolute; inset: 0; transition: opacity .4s; }
+  .layer { position: absolute; top: 0; right: 0; bottom: 0; left: 0; transition: opacity .4s; }
   .hidden { opacity: 0; pointer-events: none; }
 
   /* title slide shown before the handset takes over */
@@ -23,12 +23,12 @@
     overflow: hidden;
   }
   .tbg img {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
     opacity: 0; transition: opacity 1.6s ease; filter: saturate(.85);
   }
   .tbg img.on { opacity: .38; }
   .tbg::after { /* keep the title readable over any photo */
-    content: ""; position: absolute; inset: 0;
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0;
     background: linear-gradient(90deg, rgba(12,4,16,.92) 0%, rgba(12,4,16,.55) 55%, rgba(12,4,16,.2) 100%);
   }
   .tcontent { position: absolute; left: 8vw; right: 8vw; top: 50%; transform: translateY(-58%); }
@@ -55,14 +55,14 @@
 
   /* commandeered */
   #seized { background: #0c0410; }
-  #feed, #camImg, #mediaImg, #mediaVid, #ink { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #feed, #camImg, #mediaImg, #mediaVid, #ink { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; }
   #camImg { object-fit: cover; }
   #mediaImg, #mediaVid { object-fit: contain; background: #000; }
   #camImg, #mediaImg, #mediaVid { display: none; }
   .on { display: block !important; }
   #ink { pointer-events: none; }
   .hud {
-    position: absolute; inset: 2vh 2vw; pointer-events: none;
+    position: absolute; top: 2vh; right: 2vw; bottom: 2vh; left: 2vw; pointer-events: none;
     border: 1px solid rgba(232,121,249,.4);
     font-family: 'Share Tech Mono', monospace; color: var(--cyan); text-shadow: 0 0 8px rgba(232,121,249,.6);
   }
