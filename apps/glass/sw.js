@@ -1,6 +1,6 @@
 // Offline shell for the installed app. Relay traffic (/relay/*) always goes to the network.
-const CACHE = 'glass-v12';
-const SHELL = ['./', 'index.html', 'screen.html', 'config.js', 'feeds.js', 'bus.js', 'sfx.js',
+const CACHE = 'glass-v13';
+const SHELL = ['./', 'index.html', 'screen.html', 'config.js', 'feeds.js', 'bus.js', 'sfx.js', 'legacy.js', 'vendor/supabase.js',
   'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {
