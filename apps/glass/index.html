@@ -335,6 +335,10 @@
       <div class="view" data-view="screens">
         <div class="row" id="screenList"></div>
         <div class="row"><button class="chip" id="identify">IDENTIFY DISPLAYS</button></div>
+        <div id="hubBox" hidden>
+          <div class="muted" style="margin-top:12px">CAST TO A TV · through the Glass hub on your Wi-Fi</div>
+          <div class="row" id="hubTvs"></div>
+        </div>
         <div class="muted" style="margin-top:12px">SCREEN LINK · open this on a TV or laptop</div>
         <input class="field" id="screenLink" readonly>
         <div class="row">
@@ -456,6 +460,11 @@
       if (seized && isNew) { bus.post({ type: 'takeover', feed: currentFeed, to: data.id }); if (currentFeed === 'media') bus.post(stateFor(data.id)); }
       // Connecting only pairs the screen; the OVERRIDE takeover happens on COMMANDEER.
       if (!seized && !engaging && isNew) toast('Screen connected. Tap COMMANDEERING SYSTEM to take it over.');
+    } else if (data.type === 'hub') {
+      if (!hubTvs) log(`hub online · ${data.tvs.length} TV${data.tvs.length === 1 ? '' : 's'} on its Wi-Fi`, 'ok');
+      hubTvs = data.tvs; renderHub();
+    } else if (data.type === 'hub-status') {
+      log(`hub: ${data.text}`); toast(data.text);
     } else if (data.type === 'bye' && targets.delete(data.id)) {
       updateStatus();
       log(`display ${data.id.slice(0, 6).toUpperCase()} dropped`, 'warn');
@@ -1015,6 +1024,25 @@
     $('#screensHint').textContent = targets.size
       ? 'Pick a display to send feeds, media, ink and banners to just that one.'
       : `No displays yet. Open ${screenUrl()} on a TV or laptop.`;
+  }
+  // The Glass hub (glass_hub.py on a computer at home) announces the Cast TVs it can see;
+  // each gets a button that puts this room's screen on that TV.
+  let hubTvs = null;
+  function renderHub() {
+    const box = $('#hubTvs');
+    $('#hubBox').hidden = !hubTvs;
+    box.innerHTML = '';
+    const mk = (text, sub, on, fn) => {
+      const b = document.createElement('button');
+      b.className = 'chip' + (on ? ' on' : ''); b.textContent = text;
+      if (sub) { const s = document.createElement('small'); s.textContent = sub; b.append(s); }
+      b.addEventListener('click', fn); box.append(b);
+    };
+    for (const tv of hubTvs || []) {
+      mk(tv.toUpperCase(), 'cast', true, () => { bus.post({ type: 'hub-cast', tv, url: screenUrl() }); log(`hub ← cast to ${tv}`); });
+      mk('STOP', tv, false, () => { bus.post({ type: 'hub-stop', tv }); log(`hub ← stop ${tv}`); });
+    }
+    mk('RESCAN', hubTvs && hubTvs.length ? '' : 'no TVs found', false, () => bus.post({ type: 'hub-scan' }));
   }
   $('#copyLink').addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(screenUrl()); toast('Screen link copied.'); }

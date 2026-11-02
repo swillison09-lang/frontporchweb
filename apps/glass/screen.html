@@ -183,6 +183,9 @@
   });
   addEventListener('pagehide', () => bus.post({ type: 'bye', id }));
 
+  // A Cast receiver (Chromecast, Google TV, Cast-built-in TVs) can't be clicked, but it is
+  // allowed to play sound and is already fullscreen, so it arms itself.
+  if (/CrKey/.test(navigator.userAgent)) { SFX.unlock(); $('#tip')?.remove(); }
   // One click arms the display: fullscreen, and lets it play sound and unmuted video.
   document.addEventListener('click', () => {
     SFX.unlock();
