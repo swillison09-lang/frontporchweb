@@ -451,7 +451,7 @@
   bus.on(data => {
     if (data.type === 'hello') {
       const isNew = !targets.has(data.id);
-      targets.set(data.id, { id: data.id, kind: 'bus', send: m => bus.post(m) });
+      targets.set(data.id, { id: data.id, kind: 'bus', since: targets.get(data.id)?.since || Date.now(), send: m => bus.post(m) });
       updateStatus();
       if (isNew) log(`handshake ← display ${data.id.slice(0, 6).toUpperCase()} (${data.w}×${data.h})`, 'ok');
       if (isNew && (titleSlide.title || titleSlide.subtitle || titleSlide.items.length)) bus.post({ type: 'titleslide', ...titleSlide, to: data.id });
@@ -460,14 +460,28 @@
       if (seized && isNew) { bus.post({ type: 'takeover', feed: currentFeed, to: data.id }); if (currentFeed === 'media') bus.post(stateFor(data.id)); }
       // Connecting only pairs the screen; the OVERRIDE takeover happens on COMMANDEER.
       if (!seized && !engaging && isNew) toast('Screen connected. Tap COMMANDEERING SYSTEM to take it over.');
-    } else if (data.type === 'hub') {
-      if (!hubTvs) log(`hub online · ${data.tvs.length} TV${data.tvs.length === 1 ? '' : 's'} on its Wi-Fi`, 'ok');
-      hubTvs = data.tvs; renderHub();
-    } else if (data.type === 'hub-status') {
-      log(`hub: ${data.text}`); toast(data.text);
+    } else if (data.type === 'roster' && Array.isArray(data.ids)) {
+      // Presence from the server: drop displays that left while this phone was offline.
+      // Only ones we've known a while, so a screen whose hello beat its presence isn't lost.
+      const ids = new Set(data.ids), now = Date.now();
+      let dropped = 0;
+      for (const t of targets.values()) {
+        if (t.kind === 'bus' && !ids.has(t.id) && now - t.since > 10000) { targets.delete(t.id); dropped++; log(`display ${t.id.slice(0, 6).toUpperCase()} dropped`, 'warn'); }
+      }
+      if (dropped) updateStatus();
+    } else if (data.type === 'hub' && Array.isArray(data.tvs)) {
+      const tvs = data.tvs.filter(t => typeof t === 'string').slice(0, 20);
+      if (!hubTvs) log(`hub online · ${tvs.length} TV${tvs.length === 1 ? '' : 's'} on its Wi-Fi`, 'ok');
+      hubTvs = tvs; renderHub();
+    } else if (data.type === 'hub-status' && typeof data.text === 'string') {
+      log(`hub: ${data.text.slice(0, 120)}`); toast(data.text.slice(0, 120));
     } else if (data.type === 'bye' && targets.delete(data.id)) {
       updateStatus();
       log(`display ${data.id.slice(0, 6).toUpperCase()} dropped`, 'warn');
+    } else if ((data.type === 'release' || data.type === 'takeover') && seized) {
+      // We never receive our own messages, so this is another handset in the room taking
+      // the screens: let go here too, or we'd keep streaming camera frames into nothing.
+      release(true);
     }
   });
   bus.onopen(() => bus.post({ type: 'ping' })); // also re-pings after a relay reconnect
@@ -633,16 +647,18 @@
   }
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && seized) keepAwake(true); });
 
-  function release() {
+  // release(true) = another handset took the room; let go without telling the screens.
+  function release(yielded) {
     if (!seized) return;
     seized = false; keepAwake(false);
-    broadcast({ type: 'release' });
+    if (yielded === true) log('another handset has the screens now', 'warn');
+    else broadcast({ type: 'release' });
     cmd.classList.remove('done');
     barEl.style.width = '0%'; pctEl.textContent = '0%';
     $('#cmdSub').textContent = 'TAP TO ENGAGE';
     document.querySelectorAll('.feed, .thumb').forEach(f => f.classList.remove('on'));
     currentFeed = null;
-    log('screens released');
+    if (yielded !== true) log('screens released');
     updateStatus();
   }
   $('#btnRelease').addEventListener('click', release);

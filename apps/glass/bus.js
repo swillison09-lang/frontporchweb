@@ -12,7 +12,8 @@ window.Bus = function Bus(role) {
   // channel: BroadcastChannel (local mode). rt: the Supabase realtime channel (online mode).
   let mode = 'local', channel = null, rt = null, sb = null, framesInflight = 0, lastFrame = 0, queue = Promise.resolve();
 
-  const deliver = msg => handlers.forEach(h => h(msg));
+  // A malformed message from any device in the room must not break the handlers after it.
+  const deliver = msg => handlers.forEach(h => { try { h(msg); } catch (err) { console.warn('Glass: bad message', msg, err); } });
   const room = joinRoom();
 
   const ready = (async () => {
@@ -65,6 +66,13 @@ window.Bus = function Bus(role) {
     // Presence tells the handset when a screen goes away (closed tab, TV off, lost Wi-Fi).
     rt.on('presence', { event: 'leave' }, ({ leftPresences }) => {
       for (const p of leftPresences) if (p.role === 'screen') deliver({ type: 'bye', id: p.id });
+    });
+    // The full list after every change (and after this device reconnects), so a screen that
+    // left while the phone was asleep doesn't linger as a ghost.
+    rt.on('presence', { event: 'sync' }, () => {
+      const state = rt.presenceState(), ids = [];
+      for (const key in state) for (const p of state[key]) if (p.role === 'screen' && p.id) ids.push(p.id);
+      deliver({ type: 'roster', ids });
     });
     // Resolves on the first successful join, or after 8 s regardless so the app can carry
     // on ("connecting…") while supabase-js keeps retrying in the background.

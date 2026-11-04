@@ -179,8 +179,12 @@
       const q = qrcode(0, 'M'); q.addData(url); q.make();
       $('#qr').innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
     } else $('#qr').remove();
-    $('#pair').hidden = false;
+    $('#pair').hidden = paired;
   });
+  // The QR code carries the room code, so it comes down as soon as a handset is in the room:
+  // otherwise anyone who can see the TV during the demo could scan their way in.
+  let paired = false;
+  function handsetSeen() { if (!paired) { paired = true; $('#pair').hidden = true; } }
   addEventListener('pagehide', () => bus.post({ type: 'bye', id }));
 
   // A Cast receiver (Chromecast, Google TV, Cast-built-in TVs) can't be clicked, but it is
@@ -292,7 +296,8 @@
     inkRaf = strokes.size ? requestAnimationFrame(drawInk) : 0;
   }
   function addInk(msg) {
-    const st = strokes.get(msg.stroke) || { pts: [], color: msg.color || '#e879f9' };
+    if (!Array.isArray(msg.pts)) return;
+    const st = strokes.get(msg.stroke) || { pts: [], color: /^#[0-9a-f]{3,8}$/i.test(msg.color) ? msg.color : '#e879f9' };
     st.pts.push(...msg.pts); st.t = performance.now(); strokes.set(msg.stroke, st);
     if (!inkRaf) inkRaf = requestAnimationFrame(drawInk);
   }
@@ -303,6 +308,8 @@
     $('#identId').textContent = label; $('#identRes').textContent = `${screen.width}×${screen.height}`;
     $('#ident').classList.remove('hidden'); SFX.beep();
     clearTimeout(identT); identT = setTimeout(() => $('#ident').classList.add('hidden'), 2500);
+    // IDENTIFY is the owner asking for the pairing details: bring the QR code back.
+    paired = false; if ($('#pairUrl').textContent) $('#pair').hidden = false;
   }
 
   function showFeed(name) {
@@ -375,18 +382,20 @@
 
   function handle(msg) {
     if (msg.to && msg.to !== id) return;
+    if (['ping', 'takeover', 'feed', 'titleslide', 'media'].includes(msg.type)) handsetSeen();
     switch (msg.type) {
       case 'ping': hello(); break;
       case 'takeover': takeover(msg.feed); break;
       case 'feed': seized ? showFeed(msg.feed) : takeover(msg.feed); break;
       case 'frame': if (seized && current === 'cam') { $('#camImg').src = msg.data; noteFrame(); } break;
-      case 'banner': if (seized) banner(msg.text); break;
+      case 'banner': if (seized && typeof msg.text === 'string') banner(msg.text.slice(0, 80)); break;
       case 'release': release(); break;
       case 'titleslide': setTitleSlide(msg); break;
       case 'identify': identify(); break;
       case 'media': {
-        const items = msg.items || [];
-        if (!items.length || !(msg.index >= 0 && msg.index < items.length)) break;
+        // Only the kinds of link the handset's own uploads produce (never javascript: etc.).
+        const items = (Array.isArray(msg.items) ? msg.items : []).filter(it => it && /^(https:|blob:|data:(image|video)\/)/.test(it.url || ''));
+        if (!items.length || !(Number.isInteger(msg.index) && msg.index >= 0 && msg.index < items.length)) break;
         // The handset re-sends the list whenever an upload finishes; if the item on
         // screen didn't change, just take the new list and keep playing.
         const same = current === 'media' && media[mediaIdx]?.url === items[msg.index].url;
@@ -398,7 +407,7 @@
         break;
       }
       case 'slide':
-        if (!media.length) break;
+        if (!media.length || !Number.isInteger(msg.index)) break;
         mediaIdx = (msg.index % media.length + media.length) % media.length;
         if (current === 'media') { renderMedia(); wipe(); }
         break;

@@ -1,6 +1,7 @@
 // Offline shell for the installed app. Relay traffic (/relay/*) always goes to the network.
-const CACHE = 'glass-v13';
-const SHELL = ['./', 'index.html', 'screen.html', 'config.js', 'feeds.js', 'bus.js', 'sfx.js', 'legacy.js', 'vendor/supabase.js',
+const CACHE = 'glass-v14';
+// (not index.html: hosts that redirect it to ./ would leave a redirected response in the cache)
+const SHELL = ['./', 'screen.html', 'config.js', 'feeds.js', 'bus.js', 'sfx.js', 'legacy.js', 'vendor/supabase.js',
   'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -16,7 +17,7 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin || url.pathname.includes('/relay/')) return;
   e.respondWith(fetch(e.request).then(res => {
-    if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
+    if (res.ok && !res.redirected) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
     return res;
   }).catch(() => caches.match(e.request)));
 });
