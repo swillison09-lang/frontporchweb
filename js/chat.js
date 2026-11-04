@@ -12,7 +12,7 @@
 
   var css = document.createElement('link');
   css.rel = 'stylesheet';
-  css.href = '/css/chat.css?v=3';
+  css.href = '/css/chat.css?v=4';
   document.head.appendChild(css);
 
   var ICON_CHAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.8 7L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z"/></svg>';
