@@ -1259,11 +1259,13 @@ a {
 .q-step.done { cursor: pointer; }
 .q-step.done:hover .q-step-bubble { background: var(--door-navy); border-color: var(--door-navy); }
 
-/* TEMP TESTING: all dots clickable — REMOVE to restore validation */
-.q-step.active   { cursor: default; }
-.q-step.upcoming { cursor: pointer; }
-.q-step.upcoming:hover .q-step-bubble { background: var(--door-navy); border-color: var(--door-navy); color: var(--cream); }
-/* END TEMP TESTING */
+/* Only finished steps can be reopened; the current and later ones are not links. */
+.q-step.active,
+.q-step.upcoming { cursor: default; }
+
+/* Draft autosave line above the form */
+.q-draft-note { max-width: 640px; margin: 0 auto 12px; font-size: 14px; line-height: 1.5; color: var(--navy); }
+.q-draft-reset { margin-left: 6px; padding: 6px 4px; min-height: 32px; background: none; border: 0; font: inherit; font-weight: 600; text-decoration: underline; color: inherit; cursor: pointer; }
 
 /* Swap number for checkmark when done */
 .q-step.done .q-step-bubble span  { display: none; }

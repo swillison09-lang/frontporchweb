@@ -1177,7 +1177,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initSupabaseAuth();          // session check + onAuthStateChange listener
   restoreEmailDraft();
   initAdminView();
-  initTempSetupAccess(); // TEMP TESTING — remove before launch
   initColorModeToggle();
 });
 
@@ -1402,6 +1401,13 @@ function showDashboard(user) {
   const name = titleCase(user.name || user.email.split('@')[0]);
   const el   = document.getElementById('welcomeName');
   if (el) el.textContent = name;
+
+  // Someone who already started gets told so, instead of a button that
+  // sounds like it starts over.
+  const startBtn = document.getElementById('startQuestionnaireBtn');
+  if (startBtn && !qInitialized) {
+    startBtn.textContent = qDraftRead(user.id) ? 'Continue My Questionnaire' : 'Start My Website Questionnaire';
+  }
 }
 
 function initDashboardButtons() {
@@ -1419,6 +1425,7 @@ function openQuestionnaire() {
   if (!qInitialized) {
     initQuestionnaire();
     qInitialized = true;
+    qDraftRestore();
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2625,6 +2632,9 @@ function qGenerateBuildPrompt() {
       lines.push('└─────────────────────────────────────────────────────────┘');
       lines.push(rc.athleteStatement);
       lines.push('');
+    } else {
+      lines.push('ATHLETE STATEMENT: not provided yet. Ask the family for it before the profile is published. Do not write one for them.');
+      lines.push('');
     }
     if (rc.remember) {
       // Coaches skim. This is the athlete's own answer to what should survive
@@ -2957,19 +2967,17 @@ function initQuestionnaire() {
   document.getElementById('qPrevBtn')?.addEventListener('click', qPrev);
   document.getElementById('qPayBtn')?.addEventListener('click', qPaySubmit);
 
-  // TEMP TESTING: clickable step jump — REMOVE to restore validation
-  // Every step dot (not just completed ones) is clickable. Jumps freely
-  // without running qValidateStep so any step is reachable at any time.
+  // Step dots go BACK only: a finished step can be reopened, but nobody can
+  // jump ahead past the required fields or straight to payment.
   document.querySelectorAll('#qSteps .q-step[data-step]').forEach(dot => {
     dot.addEventListener('click', () => {
       const target = parseInt(dot.dataset.step, 10);
-      if (target === qCurrentStep) return;
+      if (!(target < qCurrentStep)) return;
       qSaveStep(qCurrentStep);
       qCurrentStep = target;
-      qShowStep(target, target < qCurrentStep ? 'back' : 'forward');
+      qShowStep(target, 'back');
     });
   });
-  // END TEMP TESTING
   document.getElementById('qExitBtn')?.addEventListener('click',  (e) => { e.preventDefault(); backToDashboard(); });
   document.getElementById('qExitBtn2')?.addEventListener('click', (e) => { e.preventDefault(); backToDashboard(); });
   document.getElementById('qReturnBtn')?.addEventListener('click', () => {
@@ -2985,6 +2993,168 @@ function initQuestionnaire() {
   initPaymentStep();
   document.getElementById('qrPrimarySport')?.addEventListener('input', updateClubTeamLabels);
   applyFlowVariant();
+  qDraftInit();
+}
+
+
+// ════════════════════════════════════════════════════════════════════════════
+//  QUESTIONNAIRE — Draft autosave (this device only)
+//  ─────────────────────────────────────────────────────────────────────────
+//  Answers used to live only in the page's memory until Pay & Submit, so a
+//  refresh or a closed tab lost a long form. Typed answers are now kept in
+//  this browser's localStorage, per signed-in user, and put back the next
+//  time that user opens the questionnaire here. Photos are File objects and
+//  cannot be stored this way, so they have to be picked again. Nothing is
+//  sent to the server until Pay & Submit, same as before.
+// ════════════════════════════════════════════════════════════════════════════
+
+const Q_DRAFT_PREFIX     = 'fpw_q_draft_v1_';
+const Q_DRAFT_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;   // a month-old draft is thrown away
+let qDraftOwner = null;    // user id whose answers are in the form right now
+let qDraftReady = false;   // false until the restore attempt has run
+let qDraftBusy  = false;   // true while a restore is filling the form
+let qDraftDone  = false;   // true once the brief is submitted
+let qDraftDirty = false;   // true once the client has changed something
+let qDraftTimer = null;
+
+function qDraftRead(userId) {
+  if (!userId) return null;
+  const draft = getLocalStorage(Q_DRAFT_PREFIX + userId);
+  if (!draft || draft.v !== 1 || !draft.fields) return null;
+  if (!(Date.now() - Date.parse(draft.savedAt) < Q_DRAFT_MAX_AGE_MS)) return null;
+  return draft;
+}
+
+// Every answer field in the questionnaire, minus the two things that must
+// never be remembered: file pickers and the terms checkbox.
+function qDraftFields() {
+  return Array.from(document.querySelectorAll('#questionnaireSection input, #questionnaireSection select, #questionnaireSection textarea'))
+    .filter(el => el.type !== 'file' && el.id !== 'qAcceptTerms');
+}
+
+function qDraftIsToggle(el) { return el.type === 'checkbox' || el.type === 'radio'; }
+function qDraftCheckKey(el) { return el.id ? `#${el.id}` : `${el.name}=${el.value}`; }
+
+function qDraftCollect() {
+  const fields = {}, checks = {}, extras = [];
+  qDraftFields().forEach(el => {
+    if (el.closest('#qBrandExtraColors')) return;                      // added rows are collected below
+    if (qDraftIsToggle(el)) { checks[qDraftCheckKey(el)] = el.checked; return; }
+    if (!el.id) return;
+    if (el.type === 'color' && el.dataset.touched !== '1') return;     // an untouched picker is not an answer
+    fields[el.id] = el.value;
+  });
+  document.querySelectorAll('#qBrandExtraColors .brand-hex').forEach(t => { if (t.value.trim()) extras.push(t.value.trim()); });
+  return { v: 1, step: qCurrentStep, savedAt: new Date().toISOString(), fields, checks, extras };
+}
+
+function qDraftSave() {
+  clearTimeout(qDraftTimer);
+  if (!qDraftReady || qDraftBusy || qDraftDone || !qDraftDirty) return;
+  // Only ever save for the person whose answers these are. If someone else
+  // signs in on the same page, their id will not match and nothing is written.
+  if (!currentUser?.id || currentUser.id !== qDraftOwner) return;
+  setLocalStorage(Q_DRAFT_PREFIX + qDraftOwner, qDraftCollect());
+  qDraftNote('Your answers are saved on this device as you go. Photos are not saved until you submit.');
+}
+
+function qDraftClear() {
+  qDraftDone = true;
+  clearTimeout(qDraftTimer);
+  if (qDraftOwner) clearLocalStorage(Q_DRAFT_PREFIX + qDraftOwner);
+  document.getElementById('qDraftNote')?.remove();
+}
+
+function qDraftInit() {
+  const section = document.getElementById('questionnaireSection');
+  if (!section) return;
+  const touch = () => {
+    if (qDraftBusy || qDraftDone) return;
+    qDraftDirty = true;
+    clearTimeout(qDraftTimer);
+    qDraftTimer = setTimeout(qDraftSave, 500);
+  };
+  section.addEventListener('input', touch);
+  section.addEventListener('change', touch);
+  // Closing the tab or switching apps on a phone: write whatever is pending.
+  window.addEventListener('pagehide', qDraftSave);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') qDraftSave(); });
+}
+
+// Runs once, the first time the questionnaire is opened after a page load.
+function qDraftRestore() {
+  qDraftOwner = currentUser?.id || null;
+  const draft = qDraftRead(qDraftOwner);
+  qDraftReady = true;
+  if (!draft) return;
+
+  qDraftBusy = true;
+  try {
+    Object.entries(draft.fields).forEach(([id, value]) => {
+      const el = document.getElementById(id);
+      if (!el || el.type === 'file' || typeof value !== 'string') return;
+      el.value = value;
+      if (el.type === 'color') el.dataset.touched = '1';
+    });
+    const all = qDraftFields();
+    Object.entries(draft.checks || {}).forEach(([key, on]) => {
+      const el = all.find(f => qDraftIsToggle(f) && qDraftCheckKey(f) === key);
+      if (el) el.checked = !!on;
+    });
+    (draft.extras || []).forEach(hex => { if (typeof hex === 'string') addBrandColorRow(hex.slice(0, 7)); });
+
+    // Let everything that mirrors a field catch up (labels, previews, the
+    // palette/brand switch). Colour pickers are skipped: their listener copies
+    // the picker's value into the hex box, which would invent a colour.
+    qDraftFields().forEach(el => {
+      if (el.type === 'color') return;
+      if (el.type === 'radio' && !el.checked) return;
+      const kind = (qDraftIsToggle(el) || el.tagName === 'SELECT') ? 'change' : 'input';
+      el.dispatchEvent(new Event(kind, { bubbles: true }));
+    });
+    document.activeElement?.blur?.();
+
+    // Rebuild qData from the restored fields, then land on the step they left.
+    // Payment (step 8) reopens on Review, because the package is chosen again.
+    for (let i = 1; i < Q_REVIEW; i++) qSaveStep(i);
+    qCurrentStep = Math.min(Math.max(1, parseInt(draft.step, 10) || 1), Q_REVIEW);
+    qShowStep(qCurrentStep);
+    qDraftDirty = true;
+  } finally {
+    qDraftBusy = false;
+  }
+
+  const when = new Date(draft.savedAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+  qDraftNote(`Welcome back. Your answers from ${when} are filled in. Photos are not saved, so please add them again on the Photos step.`, true);
+}
+
+// One quiet line above the form. `withReset` adds the Start over button.
+function qDraftNote(text, withReset = false) {
+  const wrap = document.querySelector('#questionnaireSection .q-wrap');
+  if (!wrap) return;
+  let note = document.getElementById('qDraftNote');
+  if (!note) {
+    note = document.createElement('p');
+    note.id = 'qDraftNote';
+    note.className = 'q-draft-note';
+    note.setAttribute('role', 'status');
+    wrap.parentNode.insertBefore(note, wrap);
+  }
+  if (note.dataset.restored === '1' && !withReset) return;   // keep the welcome-back line up
+  note.textContent = text;
+  if (withReset) {
+    note.dataset.restored = '1';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'q-draft-reset';
+    btn.textContent = 'Start over';
+    btn.addEventListener('click', () => {
+      if (!window.confirm('Clear your saved answers and start again from a blank form?')) return;
+      qDraftClear();
+      window.location.reload();
+    });
+    note.append(' ', btn);
+  }
 }
 
 function initPageToggles() {
@@ -3161,6 +3331,8 @@ async function qSubmit() {
       `We couldn't save your submission to the server:\n\n${result.error.message}\n\n` +
       `A local backup was kept. Please contact us so we don't miss your project.`
     );
+  } else {
+    qDraftClear();
   }
 
   qShowComplete();
@@ -3258,6 +3430,7 @@ async function qPaySubmit() {
     );
     return; // Do NOT redirect to Stripe — we haven't saved the brief.
   }
+  qDraftClear();
 
   // ── Fail-safe: no Stripe link matches this (siteType, tier) ─────────────
   // Common reason: owner renamed a tier in setup.html so the case-insensitive
@@ -3330,6 +3503,8 @@ function qShowStep(step, direction = 'forward') {
 
   // Clear any lingering errors
   clearQErrors();
+
+  qDraftSave();
 
   document.getElementById('questionnaireSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -3682,8 +3857,9 @@ function qSaveStep(step) {
 // Validate step-specific required fields:
 //   Step 1: name, site type, email (all required for all flows)
 //   Step 2: adoption letter (required for adoption flow only)
-//   Step 4: athlete statement (required for recruiting flow only)
-// Other steps are low-friction (optional).
+// Other steps are low-friction (optional). The athlete statement used to be
+// required on step 4; a parent often does not have it yet, so it can be sent
+// later and the build prompt flags it as missing.
 function qValidateStep(step) {
   clearQErrors();
   let valid = true;
@@ -3716,14 +3892,6 @@ function qValidateStep(step) {
     }
   }
 
-  // ── Step 4: Recruiting athlete statement (required for recruiting only) ───
-  if (step === 4 && isRecruitFlow()) {
-    if (!getVal('qrAthleteStatement')) {
-      showQError('qrAthleteStatementError', 'Tell coaches why you play, your goals, and your work ethic. This is how they get to know you.');
-      valid = false;
-    }
-  }
-
   // Shake the first errored field on invalid
   if (!valid) {
     const firstErr = document.querySelector('.q-error:not(:empty)');
@@ -3750,40 +3918,6 @@ function initAdminView() {
   });
 }
 
-
-// ════════════════════════════════════════════════════════════════════════════
-//  TEMP TESTING — Owner setup-page access (REMOVE / LOCK DOWN BEFORE LAUNCH)
-//  ─────────────────────────────────────────────────────────────────────────
-//  Two reliable ways to reach the owner-only setup page during testing:
-//
-//    1. URL:  portal.html#setup
-//       Typing this in the address bar (or following a link) redirects
-//       straight to /setup.html.
-//
-//    2. Keyboard shortcut: Ctrl+Shift+S (Cmd+Shift+S on Mac)
-//       From any portal page, this jumps to /setup.html.
-//
-//  BEFORE LAUNCH: replace this whole function with a real auth gate
-//  (e.g. only show the link when the signed-in user matches the owner
-//  Supabase user ID). Until then the setup page is unauthenticated and
-//  the only thing keeping clients out is obscurity — fine for local
-//  testing, NOT fine for production.
-// ════════════════════════════════════════════════════════════════════════════
-
-function initTempSetupAccess() {
-  // Hash route — typing portal.html#setup in the address bar redirects
-  // to the setup page. (The keyboard shortcut is wired globally in main.js
-  // so it works from index.html and setup.html too.)
-  if (window.location.hash === '#setup') {
-    window.location.href = '/setup.html';
-    return;
-  }
-  window.addEventListener('hashchange', () => {
-    if (window.location.hash === '#setup') {
-      window.location.href = '/setup.html';
-    }
-  });
-}
 
 function showAdminView() {
   hide('portalStage');

@@ -9,28 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavScroll();
   initScrollReveal();
   initSmoothScrolling();
-  initTempSetupShortcut(); // TEMP TESTING — remove before launch
 });
-
-/*
-  TEMP TESTING — global owner-setup shortcut.
-  Ctrl+Shift+S (Cmd+Shift+S on Mac) from any page jumps to /setup.html.
-  Also: navigating to /portal.html#setup redirects there (handled in portal.js).
-  Remove this function and the matching block in portal.js before launch,
-  or replace with a real owner-auth gate.
-*/
-function initTempSetupShortcut() {
-  document.addEventListener('keydown', (e) => {
-    const mod = e.ctrlKey || e.metaKey;
-    if (mod && e.shiftKey && (e.key === 'S' || e.key === 's')) {
-      // Skip if a setup page is already open
-      if (window.location.pathname.endsWith('/setup.html')) return;
-      e.preventDefault();
-      window.location.href = '/setup.html';
-    }
-  });
-}
-
 
 /* Mobile hamburger — toggles .open on #navLinks and aria-expanded on button */
 function initNavToggle() {

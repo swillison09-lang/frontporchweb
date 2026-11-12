@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta name="description" content="Start your Front Porch Web project or check on one in progress: answer a few questions, pick a plan, and see your site before you pay the rest.">
   <link rel="stylesheet" href="css/theme.css?v=2">
-  <link rel="stylesheet" href="css/styles.css?v=6">
-  <link rel="stylesheet" href="css/portal-dusk.css?v=3">
+  <link rel="stylesheet" href="css/styles.css?v=7">
+  <link rel="stylesheet" href="css/portal-dusk.css?v=4">
 </head>
 <body>
 
@@ -144,7 +144,7 @@
           setup page's example price list, and from then on their checkout
           showed those prices instead of the real ones — and tier names from
           that list match no Stripe link, so they would be routed past payment
-          entirely. Sean still reaches setup via /setup or Ctrl+Shift+S.
+          entirely. Sean still reaches setup by typing /setup in the address bar.
           Do not put a link to it on a client-facing view again.
         -->
       </div>
@@ -1070,9 +1070,9 @@
             <h3 class="q-subsection-title">Athlete statement</h3>
             <p class="q-help">Written in the athlete's own words, we will keep this verbatim on the site.</p>
             <div class="form-group">
-              <label for="qrAthleteStatement">Why you play, your goals, your work ethic <span class="req-star">*</span></label>
+              <label for="qrAthleteStatement">Why you play, your goals, your work ethic <span class="q-optional">(you can send this later)</span></label>
               <textarea id="qrAthleteStatement" rows="8"
-                placeholder="I started playing because... What drives me is... My goal is to..." required></textarea>
+                placeholder="I started playing because... What drives me is... My goal is to..."></textarea>
               <span class="field-error q-error" id="qrAthleteStatementError" aria-live="polite"></span>
             </div>
             <div class="form-group">
@@ -1590,12 +1590,12 @@
 </footer>
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/main.js?v=2"></script>
+<script src="js/main.js?v=3"></script>
 <!-- Supabase JS client (v2) via CDN, then our init wrapper. Must load BEFORE portal.js. -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous"></script>
 <script src="js/supabase-client.js?v=2"></script>
 <!-- R2 uploader (uses sbClient for auth) — must load before portal.js -->
 <script src="js/r2-upload.js?v=2"></script>
-<script src="js/portal.js?v=11"></script>
+<script src="js/portal.js?v=12"></script>
 </body>
 </html>

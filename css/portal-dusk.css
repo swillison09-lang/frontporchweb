@@ -188,8 +188,7 @@ option { background: var(--dusk-deep); color: var(--dusk-cream); }
   border-color: var(--dusk-pine);
   color: var(--dusk-cream);
 }
-.q-step.done:hover .q-step-bubble,
-.q-step.upcoming:hover .q-step-bubble {
+.q-step.done:hover .q-step-bubble {
   background: var(--dusk-amber-deep);
   border-color: var(--dusk-amber-deep);
   color: var(--dusk-cream);
@@ -384,3 +383,7 @@ option { background: var(--dusk-deep); color: var(--dusk-cream); }
 .q-hosting legend { color: var(--dusk-cream); }
 .q-hosting strong { color: var(--dusk-cream); }
 .q-hosting-note { color: var(--dusk-soft); }
+
+/* Draft autosave line above the form */
+.q-draft-note { color: var(--dusk-soft); }
+.q-draft-reset { color: var(--dusk-amber-soft); }
