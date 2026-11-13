@@ -92,3 +92,185 @@ h2{text-wrap:balance}
   .work-shots a:active{transform:scale(.98)}
   .work-list a:hover .w-arrow{transform:none}
 }
+
+/* ════════════════════════════════════════════════════════════
+   POLISH PASS (2026-11-12)
+   Type hierarchy, solid cards, phone and landscape fit. Selectors
+   that have to beat the phone tiers in porch.css use the chapter
+   ids, so they win whatever the screen height.
+   ════════════════════════════════════════════════════════════ */
+
+/* Body copy a step brighter: 72% cream was getting lost over the lit path. */
+.chapter p.lede{color:#faf5ecde}
+
+/* Eyebrow: a short amber rule leads into the label. */
+.chapter .eyebrow{display:flex;align-items:center;gap:12px}
+.chapter .eyebrow::before,
+.chapter-pricing .eyebrow::after{content:"";flex:none;width:28px;height:1px;background:var(--amber);opacity:.85}
+.chapter-pricing .eyebrow,.chapter.align-center .eyebrow{justify-content:center}
+
+/* Buttons: a lit top edge on the amber one, a darker glass under the ghost
+   one so its label holds up over the bright path. */
+.btn-amber,.nav-cta{box-shadow:inset 0 1px 0 #ffe0b08c,0 4px 18px #c9741f73}
+.btn-amber:hover,.nav-cta:hover{box-shadow:inset 0 1px 0 #ffe0b0a6,0 8px 30px #c9741f99}
+.btn-ghost{background:#0a120e73;border-color:#faf5ec80}
+.btn-ghost:hover{background:#0a120e99}
+
+/* Loader: the same voice as the page, with a little lamplight behind the name. */
+#loader{background:radial-gradient(60% 46% at 50% 45%,#2b1d0d 0%,#12160f 55%,var(--night) 100%)}
+#loader .tag{font-family:var(--mono);font-weight:500;letter-spacing:.24em;text-indent:.24em}
+#loader .count{font-family:var(--mono);font-style:normal;font-size:13px;letter-spacing:.08em}
+#loader .bar{height:2px;border-radius:2px;width:min(240px,54vw)}
+#loader .bar i{border-radius:2px;background:linear-gradient(90deg,#c9741f,var(--amber-soft));box-shadow:0 0 12px #e9973eb3}
+
+/* Process: numbered like the chapter counter, each step on its own hairline. */
+.step{border-top:1px solid #faf5ec2f;padding-top:14px;max-width:46ch}
+.step .n{font-family:var(--mono);font-style:normal;font-size:13px;letter-spacing:.1em;color:var(--amber-soft);
+  text-shadow:0 1px 2px rgba(5,9,6,.95),0 1px 6px rgba(5,9,6,.85)}
+
+/* ─── pricing and hosting cards ───
+   These were 55% glass, so the lit porch and path showed through the words.
+   Now they are close to solid, the prices lead, and "Most Popular" sits on
+   the card's top edge so all three plans line up. */
+.pcard,.chapter-pricing .pcard{
+  position:relative;
+  background:linear-gradient(180deg,rgba(17,26,20,.93),rgba(9,15,11,.9));
+  border:1px solid rgba(250,245,236,.17);
+  border-radius:6px;
+  box-shadow:inset 0 1px 0 rgba(250,245,236,.07),0 26px 50px -30px rgba(0,0,0,.9);
+}
+.pcard.feat,.chapter-pricing .pcard.feat{
+  background:linear-gradient(180deg,rgba(43,68,51,.96),rgba(25,42,31,.93));
+  border-color:rgba(233,151,62,.8);
+  box-shadow:inset 0 1px 0 rgba(246,200,137,.18),0 28px 60px -28px rgba(0,0,0,.9),0 0 44px -14px rgba(233,151,62,.45);
+}
+.pcard *{text-shadow:none}
+.badge-feat{position:absolute;top:0;left:22px;transform:translateY(-50%);margin:0;padding:4px 10px;
+  font-family:var(--mono);letter-spacing:.1em;box-shadow:0 4px 12px -4px #000c}
+.pname{font-family:var(--mono);font-weight:500;letter-spacing:.14em}
+.pprice small{font-family:var(--sans);font-size:max(.42em,12px);font-weight:500;color:var(--cream-soft);margin-right:.3em}
+.pcard ul{border-top:1px solid #faf5ec1f;margin-top:14px;padding-top:10px}
+.pcard li{color:#faf5ecdb}
+
+/* The fine print under the cards gets a quiet backing (grown with a shadow
+   spread, not padding) instead of sitting straight on the scene. */
+.pricing-note{color:#faf5ecd6;background:rgba(9,15,11,.62);box-shadow:0 0 0 9px rgba(9,15,11,.62);border-radius:4px;margin-top:27px}
+
+/* ─── closing chapter ───
+   The door opens onto a bright wall. A darker, card-like backing and
+   full-strength text keep the last lines readable against it. */
+#begin .inner{
+  background:rgba(15,10,5,.84);
+  box-shadow:0 0 0 28px rgba(15,10,5,.84),0 0 0 29px rgba(250,245,236,.16),0 30px 90px 40px rgba(10,6,3,.5);
+}
+#begin .inner p.lede{color:var(--cream)}
+#begin .classic-note,#begin .footer-line,#begin .footer-line a{color:#faf5ecd9}
+
+/* ─── phones ─── */
+@media (max-width:700px){
+  /* Plan cards: name on the left, price on the right, then the features in a
+     single column at a size you can read (they were two cramped columns of
+     11px). The space comes from the shared header row. */
+  #pricing .pcard,#hosting .pcard{display:grid;grid-template-columns:1fr auto;column-gap:12px;align-items:baseline;padding:10px 14px 9px}
+  #pricing .pname,#hosting .pname{font-size:11px}
+  #pricing .pprice,#hosting .pprice{grid-column:2;text-align:right;font-size:22px;margin:0}
+  #hosting .pprice[style]{font-size:17px!important}
+  #pricing .pprice span,#hosting .pprice span{font-size:11.5px;margin-top:1px}
+  #pricing .pcard ul,#hosting .pcard ul{grid-column:1/-1;display:block;margin-top:6px;padding-top:5px}
+  #pricing .pcard li,#hosting .pcard li{font-size:13px;line-height:1.3;padding:1px 0;gap:7px}
+  #pricing .price-cards,#hosting .price-cards{gap:10px;margin-top:10px}
+  #pricing h2,#hosting h2{margin-bottom:8px}
+  #pricing .eyebrow,#hosting .eyebrow{margin-bottom:6px}
+  #pricing .pricing-note,#hosting .pricing-note{font-size:12px;line-height:1.36;margin-top:16px;box-shadow:0 0 0 7px rgba(9,15,11,.62)}
+  #hosting .lede{font-size:13px;line-height:1.4;margin-top:0}
+  .badge-feat{left:auto;right:14px;font-size:9.5px;padding:3px 8px}
+  .step{padding-top:11px}
+
+  /* Leave the bottom strip to the chat button and the chapter counter, so
+     neither ever sits on top of the fine print. */
+  #pricing .inner,#hosting .inner{
+    max-height:calc(100vh - 162px);
+    max-height:calc(100dvh - 146px - max(16px,env(safe-area-inset-bottom)));
+  }
+  #about .inner{
+    max-height:calc(100vh - 176px);
+    max-height:calc(100dvh - 160px - max(16px,env(safe-area-inset-bottom)));
+  }
+  #begin .inner{box-shadow:0 0 0 16px rgba(15,10,5,.84),0 0 0 17px rgba(250,245,236,.16),0 20px 60px 20px rgba(10,6,3,.5)}
+}
+@media (max-width:700px) and (max-height:740px){
+  #pricing .pcard,#hosting .pcard{padding:10px 13px 8px}
+  #pricing .pcard li,#hosting .pcard li{font-size:12.5px;line-height:1.32;padding:1px 0}
+  #pricing .pcard ul,#hosting .pcard ul{margin-top:6px;padding-top:5px}
+  #pricing .price-cards,#hosting .price-cards{gap:10px;margin-top:10px}
+  #pricing .pricing-note,#hosting .pricing-note{font-size:12px;line-height:1.38}
+  #hosting .lede{font-size:13px}
+}
+/* The chat button drops into the corner on phones (css/chat.css) and the
+   chapter counter moves in beside it. */
+@media (max-width:600px){
+  .chapter-meter{right:102px;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 20px)}
+}
+@media (max-width:420px){
+  #chapter-name{display:none}
+}
+
+/* ─── phones held sideways ───
+   Wider than 700px, so the desktop layout applied, but only ~390px tall: every
+   chapter ran off the bottom. Here the header shrinks, lists go side by side
+   to use the width, and a panel that is still too tall scrolls inside itself. */
+@media (min-width:701px) and (max-height:500px){
+  .hud-top{padding:10px 3.5vw}
+  .brand img{width:30px;height:30px}
+  .brand span{font-size:15px}
+  .nav-cta{padding:8px 14px;font-size:12px}
+  .rail{gap:11px}
+  .chapter{padding:56px 78px 12px 5vw}
+  .chapter .inner,.chapter.align-center .inner{max-height:calc(100vh - 68px);max-height:calc(100dvh - 68px);overflow-y:auto;
+    scrollbar-width:thin;scrollbar-color:#d5c09a55 transparent}
+  .chapter h1{font-size:30px}
+  .chapter h2,.chapter-about h2{font-size:25px}
+  .chapter .eyebrow{margin-bottom:6px;font-size:10.5px}
+  .chapter p.lede{font-size:13.5px;line-height:1.45;margin-top:8px}
+  .cta-row{margin-top:12px;gap:10px}
+  .btn{padding:10px 18px;font-size:13px}
+  .footer-line,.classic-note{margin-top:8px;font-size:12px}
+  .hint{display:none}
+  /* no room for the counter down here; the dots on the right show the chapter */
+  .chapter-meter{display:none}
+
+  .chapter .inner.wide,.chapter-about .inner,.chapter-pricing .inner,#work .inner,#process .inner{max-width:none;width:100%}
+  .about-row{margin-top:10px;gap:16px}
+  .about-photo,.chapter-about .about-photo{display:block;width:64px;height:80px}
+  .about-story{max-width:none;columns:2;column-gap:24px}
+  .about-story p.lede{font-size:12.5px;line-height:1.42}
+  .attrib{margin-top:6px;font-size:13px}
+
+  .why-grid{grid-template-columns:repeat(3,1fr);gap:12px 22px;margin-top:12px;max-width:none}
+  .why-item{padding-top:8px}
+  .why-item h3{font-size:16px;margin-bottom:2px}
+  .why-item p{font-size:12.5px;line-height:1.4}
+
+  .work-shots{grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+  .work-shots .ws{padding:6px 9px 8px}
+  .work-shots .ws-name{font-size:13.5px}
+  .work-hint{margin-top:6px;font-size:12px}
+
+  .steps{flex-direction:row;gap:22px;margin-top:12px}
+  .step{flex:1;padding-top:9px;gap:10px}
+  .step .t b{font-size:16px}
+  .step .t span{font-size:12.5px;line-height:1.4}
+
+  .price-cards{gap:10px;margin-top:14px}
+  .pcard,.chapter-pricing .pcard{padding:13px 14px 10px}
+  .pcard li,.chapter-pricing .pcard li{font-size:12px;line-height:1.34;padding:1.5px 0}
+  .pcard ul{margin-top:8px;padding-top:6px}
+  .pprice{font-size:22px}
+  .pprice span{font-size:12px}
+  .pname{font-size:11px}
+  .pricing-note{font-size:12px;line-height:1.4;margin-top:20px;max-width:none}
+
+  #begin .inner{box-shadow:0 0 0 14px rgba(15,10,5,.84),0 0 0 15px rgba(250,245,236,.16)}
+  .chapter.align-center{padding-right:5vw}
+  .chapter.align-center .inner{max-height:calc(100dvh - 96px)}
+}
