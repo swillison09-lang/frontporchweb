@@ -96,32 +96,131 @@ applyFov();
 
 /* ---------- dusk sky dome (green-black up top, amber at the horizon) ---------- */
 function makeSky() {
+  // Painted once into a canvas: the dusk gradient, the brighter patch of sky
+  // where the sun went down (behind the house, a little to the left), and thin
+  // clouds catching the last light from underneath. Seeded, so it is the same
+  // sky on every visit.
+  const W = isMobile ? 1024 : 2048, H = W / 2;
   const c = document.createElement('canvas');
-  c.width = 16; c.height = 512;
+  c.width = W; c.height = H;
   const g = c.getContext('2d');
-  const grad = g.createLinearGradient(0, 0, 0, 512);
+  const grad = g.createLinearGradient(0, 0, 0, H);
   // stop 0.0 is the zenith, 0.5 is the horizon, 1.0 is under the ground
-  grad.addColorStop(0.00, '#070f0c');   // night, straight up
-  grad.addColorStop(0.22, '#0f1a14');
-  grad.addColorStop(0.36, '#22362a');   // pine
-  grad.addColorStop(0.44, '#4a4a26');   // olive
-  grad.addColorStop(0.48, '#a66c26');
-  grad.addColorStop(0.50, '#e2a24e');   // amber — the last light, right at the horizon
+  grad.addColorStop(0.00, '#060d0b');   // night, straight up
+  grad.addColorStop(0.20, '#0d1813');
+  grad.addColorStop(0.32, '#1b2d22');   // pine
+  grad.addColorStop(0.395, '#33402a');
+  grad.addColorStop(0.44, '#5d5128');   // olive
+  grad.addColorStop(0.47, '#a66c26');
+  grad.addColorStop(0.492, '#dc9a48');
+  grad.addColorStop(0.50, '#eaaa56');   // amber: the last light, right at the horizon
   grad.addColorStop(0.53, '#c77d2e');   // fading under the treeline
   grad.addColorStop(0.58, '#5e3b16');
   grad.addColorStop(0.66, '#2a1c0c');
   grad.addColorStop(1.00, '#120c05');
-  g.fillStyle = grad; g.fillRect(0, 0, 16, 512);
+  g.fillStyle = grad; g.fillRect(0, 0, W, H);
+
+  let seed = 90210;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+  const SUN_U = 0.806;                  // matches the key light / dusk glow direction
+  const blob = (x, y, rx, ry, stops) => {
+    g.save(); g.translate(x, y); g.scale(1, ry / rx);
+    const rg = g.createRadialGradient(0, 0, 0, 0, 0, rx);
+    stops.forEach(([o, col]) => rg.addColorStop(o, col));
+    g.fillStyle = rg; g.fillRect(-rx, -rx, rx * 2, rx * 2);
+    g.restore();
+  };
+
+  // the afterglow: the horizon burns brighter on the sunset side
+  g.globalCompositeOperation = 'screen';
+  for (const wrap of [0, -W]) {
+    blob(SUN_U * W + wrap, H * 0.497, W * 0.24, H * 0.2, [
+      [0, 'rgba(255,160,84,.44)'], [0.16, 'rgba(240,132,60,.32)'],
+      [0.48, 'rgba(204,104,50,.15)'], [1, 'rgba(204,104,50,0)']]);
+  }
+
+  // clouds: long thin streaks. Each is a dusky body with a lit underside; the
+  // closer to the sunset and the horizon, the more it glows.
+  for (let i = 0; i < 24; i++) {
+    const nearSun = rnd() < 0.7;
+    const u = nearSun ? SUN_U + (rnd() - 0.5) * 0.34 : 0.5 + rnd() * 0.52;
+    const v = 0.36 + Math.pow(rnd(), 0.6) * 0.112;        // 0.36 (high) .. 0.472 (low)
+    const low = (v - 0.36) / 0.112;
+    const len = W * (0.02 + rnd() * 0.075) * (0.6 + low * 0.7);
+    const thick = H * (0.003 + rnd() * 0.008) * (1.25 - low * 0.55);
+    const heat = Math.max(0, 1 - Math.abs(u - SUN_U) / 0.24) * (0.35 + low * 0.65);
+    const tilt = (rnd() - 0.5) * 0.05;
+    const puffs = 5 + Math.floor(rnd() * 5);
+    for (let k = 0; k < puffs; k++) {
+      const t = k / (puffs - 1) - 0.5;
+      const px = u * W + t * len * 2 + (rnd() - 0.5) * len * 0.2;
+      const py = v * H + t * len * 2 * tilt + (rnd() - 0.5) * thick * 0.6;
+      const rx = len * (0.42 + rnd() * 0.3) * (1 - Math.abs(t) * 0.7);
+      const ry = thick * (0.7 + rnd() * 0.7) * (1 - Math.abs(t) * 0.5);
+      for (const wrap of [0, -W]) {
+        g.globalCompositeOperation = 'source-over';
+        blob(px + wrap, py, rx, ry, [
+          [0, `rgba(40,40,28,${(0.3 - heat * 0.14).toFixed(3)})`], [0.6, 'rgba(40,40,28,.1)'], [1, 'rgba(40,40,28,0)']]);
+        g.globalCompositeOperation = 'screen';
+        blob(px + wrap, py + ry * 0.45, rx * 0.92, ry * 0.6, [
+          [0, `rgba(255,150,84,${(0.03 + heat * 0.46).toFixed(3)})`], [0.55, `rgba(232,116,64,${(0.01 + heat * 0.15).toFixed(3)})`], [1, 'rgba(232,116,64,0)']]);
+      }
+    }
+  }
+  g.globalCompositeOperation = 'source-over';
+
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   const dome = new THREE.Mesh(
-    new THREE.SphereGeometry(140, 24, 18),
+    new THREE.SphereGeometry(140, 48, 24),
     new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, fog: false })
   );
   scene.add(dome);
   return dome;
 }
 const skyDome = makeSky();
+
+/* ---------- far ridgelines ----------
+   Two rings of pine-topped hills beyond the forest. The far one takes on the
+   colour of the haze, the near one the colour of the fog, so the eye reads
+   distance: trees, then a ridge, then a paler ridge, then sky. Before this the
+   ground simply stopped at a flat line. Two draw calls, no lighting. */
+function makeRidge(radius, height, baseY, color, seed0, repeat) {
+  const W = 2048, H = 128;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  let seed = seed0;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+  const TAU = Math.PI * 2;
+  const ph = [rnd() * TAU, rnd() * TAU, rnd() * TAU];
+  // whole-number wave counts, so the two ends of the strip meet
+  const hill = x => {
+    const a = x / W * TAU;
+    return H * (0.5 + 0.13 * Math.sin(a * 2 + ph[0]) + 0.09 * Math.sin(a * 5 + ph[1]) + 0.05 * Math.sin(a * 11 + ph[2]));
+  };
+  g.fillStyle = '#fff';
+  g.beginPath(); g.moveTo(0, H);
+  for (let x = 0; x <= W; x += 4) g.lineTo(x, H - hill(x));
+  g.lineTo(W, H); g.closePath(); g.fill();
+  for (let i = 0; i < 520; i++) {          // the pines along the crest
+    const x = rnd() * W, w = 5 + rnd() * 7, h = 12 + rnd() * 26, y = H - hill(x) + 3;
+    for (const wrap of [0, -W, W]) {
+      g.beginPath(); g.moveTo(x + wrap - w, y); g.lineTo(x + wrap, y - h); g.lineTo(x + wrap + w, y); g.closePath(); g.fill();
+    }
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = THREE.RepeatWrapping; tex.repeat.x = repeat;
+  const ridge = new THREE.Mesh(
+    new THREE.CylinderGeometry(radius, radius, height, 72, 1, true),
+    new THREE.MeshBasicMaterial({ map: tex, color, alphaTest: 0.5, side: THREE.BackSide, fog: false })
+  );
+  ridge.position.y = baseY + height / 2;
+  scene.add(ridge);
+  return ridge;
+}
+makeRidge(132, 26, -3, 0x4a4426, 7717, 2);    // far: hazy, warm
+makeRidge(104, 15, -2, 0x1f2318, 4211, 3);    // near: the fog colour
 
 /* ---------- lights (warm family only, no blues) ---------- */
 scene.add(new THREE.HemisphereLight(0x6e5c3c, 0x25301f, 1.45));
@@ -259,6 +358,46 @@ const house = new THREE.Group();
 }
 scene.add(house);
 
+// Lit windows: warm lamplight that is brighter low down, as if from a table
+// lamp inside, instead of two flat cream rectangles.
+{
+  const c = document.createElement('canvas');
+  c.width = 32; c.height = 64;
+  const g = c.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, 64);
+  grad.addColorStop(0, '#c9772a'); grad.addColorStop(0.45, '#f2ae5c'); grad.addColorStop(1, '#ffe3ae');
+  g.fillStyle = grad; g.fillRect(0, 0, 32, 64);
+  const lampGlow = g.createRadialGradient(20, 50, 0, 20, 50, 26);
+  lampGlow.addColorStop(0, 'rgba(255,244,214,.9)'); lampGlow.addColorStop(1, 'rgba(255,244,214,0)');
+  g.fillStyle = lampGlow; g.fillRect(0, 0, 32, 64);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  M.glow.map = tex; M.glow.color.set(0xffffff);
+}
+
+// Chimney, with a thread of smoke: somebody is home.
+const smoke = [];
+{
+  const stone = new THREE.MeshStandardMaterial({ color: 0x6a5a48, roughness: 1 });
+  const stack = new THREE.Mesh(new THREE.BoxGeometry(0.62, 1.7, 0.62), stone);
+  stack.position.set(1.75, 5.0, -1.6);
+  const cap = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.1, 0.78), M.woodDark);
+  cap.position.set(1.75, 5.9, -1.6);
+  house.add(stack, cap);
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d');
+  const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grad.addColorStop(0, 'rgba(255,255,255,.9)'); grad.addColorStop(0.45, 'rgba(255,255,255,.35)'); grad.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = grad; g.fillRect(0, 0, 64, 64);
+  const tex = new THREE.CanvasTexture(c);
+  for (let i = 0; i < (isMobile ? 5 : 8); i++) {
+    const puff = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, color: 0xd9bf9a, transparent: true, opacity: 0, depthWrite: false }));
+    scene.add(puff);
+    smoke.push(puff);
+  }
+}
+
 /* ---------- the door (opens at the end, hinged on the left) ---------- */
 const doorPivot = new THREE.Group();
 doorPivot.position.set(-0.58, 0, 1.53);
@@ -306,6 +445,12 @@ function makeGlowSprite(size, color, opacity) {
 const halo = makeGlowSprite(2.6, '#ffb15c', 0.55);
 halo.position.copy(lamp.position);
 scene.add(halo);
+// a soft bloom in front of each lit window
+[-1.9, 1.9].forEach(x => {
+  const glow = makeGlowSprite(2.5, '#ffb15c', 0.3);
+  glow.position.set(x, 1.8, 1.72);
+  scene.add(glow);
+});
 const doorHalo = makeGlowSprite(3.4, '#ffc46b', 0.0);
 doorHalo.position.set(0, 1.5, 1.8);
 scene.add(doorHalo);
@@ -358,6 +503,12 @@ const firefliesA = makePoints(80, [44, 2.4, 0.3, 52, 0], 0.22, '#ffd98f', 0.9);
 const firefliesB = makePoints(70, [30, 2.0, 0.4, 30, 0], 0.18, '#f6c889', 0.7);
 scene.add(firefliesA, firefliesB);
 const stars = makePoints(260, [220, 60, 34, 220, -110], 0.12, '#fdf3dd', 0.55);
+// The first stars of the evening. They were being fogged out completely and
+// drawn smaller than a pixel, so none ever showed; now they are fixed-size
+// points that the fog leaves alone.
+stars.material.fog = false;
+stars.material.sizeAttenuation = false;
+stars.material.size = 2.2;
 scene.add(stars);
 const ffBaseA = firefliesA.geometry.attributes.position.array.slice();
 const ffBaseB = firefliesB.geometry.attributes.position.array.slice();
@@ -668,6 +819,14 @@ function frame() {
   firefliesA.material.opacity = 0.55 + 0.4 * Math.sin(t * 1.9);
   firefliesB.material.opacity = 0.5 + 0.4 * Math.sin(t * 2.3 + 2);
   stars.material.opacity = 0.42 + 0.14 * Math.sin(t * 0.9);
+  // chimney smoke: each puff rises, drifts with the breeze, swells and thins out
+  for (let i = 0; i < smoke.length; i++) {
+    const life = (t * 0.085 + i / smoke.length) % 1;
+    const puff = smoke[i];
+    puff.position.set(1.75 - life * life * 2.6 + Math.sin(t * 0.6 + i * 2.1) * 0.12 * life, 6.0 + life * 5.2, -1.6 - life * 0.8);
+    puff.scale.setScalar(0.45 + life * 2.6);
+    puff.material.opacity = 0.34 * Math.sin(Math.PI * Math.min(1, life * 1.15)) * (1 - life * 0.55);
+  }
 
   // Skip the per-frame caption style writes once the scroll has settled: when p
   // is essentially unchanged there's nothing to repaint, which frees the main
