@@ -25,6 +25,69 @@ async function r2GetAccessToken() {
   return session?.access_token || null;
 }
 
+// The upload server takes only these types (see worker/upload-worker.js).
+const R2_ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif', 'image/gif'];
+const R2_TYPE_BY_EXT   = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp',
+                           heic: 'image/heic', heif: 'image/heif', gif: 'image/gif' };
+
+// Turn a picked file into one the upload server accepts.
+//   - An allowed type goes as it is.
+//   - An allowed extension with a blank or generic type (common for HEIC
+//     on Windows and Chromebooks) is relabelled with the right type.
+//   - Anything else the browser can draw (SVG, BMP, AVIF, TIFF in Safari)
+//     is converted here: SVG to PNG, so a logo keeps its transparency,
+//     and the rest to JPEG.
+// Throws a plain-English error if the browser cannot read the file.
+async function r2PrepareFile(file) {
+  if (R2_ALLOWED_TYPES.includes(file.type)) return file;
+
+  const m       = /\.([a-z0-9]+)$/i.exec(file.name || '');
+  const ext     = m ? m[1].toLowerCase() : '';
+  const generic = !file.type || file.type === 'application/octet-stream';
+  if (generic && R2_TYPE_BY_EXT[ext]) {
+    return new File([file], file.name, { type: R2_TYPE_BY_EXT[ext], lastModified: file.lastModified });
+  }
+
+  const isSvg = file.type === 'image/svg+xml' || ext === 'svg';
+  const url   = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((resolve, reject) => {
+      const im   = new Image();
+      im.onload  = () => resolve(im);
+      im.onerror = () => reject(new Error('decode'));
+      im.src     = url;
+    });
+
+    let w = img.naturalWidth  || 0;
+    let h = img.naturalHeight || 0;
+    if (!w || !h) { w = 2000; h = 2000; }           // an SVG with no size of its own
+    const MAX = 4000;                               // longest side we send
+    let scale = Math.min(1, MAX / Math.max(w, h));
+    if (isSvg) {                                    // draw vector logos big enough to stay sharp
+      scale = Math.min(MAX / Math.max(w, h), Math.max(1, 2000 / Math.max(w, h)));
+    }
+    const cw = Math.max(1, Math.round(w * scale));
+    const ch = Math.max(1, Math.round(h * scale));
+
+    const canvas  = document.createElement('canvas');
+    canvas.width  = cw;
+    canvas.height = ch;
+    const ctx = canvas.getContext('2d');
+    if (!isSvg) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, cw, ch); }
+    ctx.drawImage(img, 0, 0, cw, ch);
+
+    const outType = isSvg ? 'image/png' : 'image/jpeg';
+    const blob    = await new Promise((resolve) => canvas.toBlob(resolve, outType, 0.92));
+    if (!blob) throw new Error('encode');
+    const base = (file.name || 'photo').replace(/\.[^.]*$/, '') || 'photo';
+    return new File([blob], `${base}.${isSvg ? 'png' : 'jpg'}`, { type: outType, lastModified: file.lastModified });
+  } catch (e) {
+    throw new Error(`"${file.name}" is a kind of image we can't upload. Please save it as a JPEG or PNG and try again.`);
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
 // Upload a single file via XHR (so we get upload-progress events;
 // fetch() does not expose those in browsers).
 //
@@ -97,8 +160,10 @@ async function uploadAllPhotos(items, { submissionId, onProgress } = {}) {
     reportItem(0);
 
     let result;
+    let sendFile = file;
     try {
-      result = await uploadFileToR2(file, {
+      sendFile = await r2PrepareFile(file);
+      result = await uploadFileToR2(sendFile, {
         submissionId,
         category,
         token,
@@ -112,9 +177,9 @@ async function uploadAllPhotos(items, { submissionId, onProgress } = {}) {
 
     uploaded.push({
       key:      result.key,
-      filename: file.name,
-      size:     file.size,
-      type:     file.type,
+      filename: sendFile.name,
+      size:     sendFile.size,
+      type:     sendFile.type,
       caption:  caption || '',
       category,
       originalId,
