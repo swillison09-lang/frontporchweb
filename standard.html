@@ -6,38 +6,380 @@
 <title>Front Porch Web, LLC — Websites Built on Trust</title>
 <link rel="icon" type="image/png" href="/assets/favicon-64.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<meta name="description" content="Front Porch Web builds custom, mobile-friendly websites for businesses, adoptive families, and student-athletes. Honest prices, no surprises."/>
-<meta property="og:title" content="Front Porch Web, LLC — Websites Built on Trust"/>
-<meta property="og:description" content="Custom, mobile-friendly websites for local businesses. Honest prices, no surprises. Most sites ready to preview in 2-4 days."/>
-<meta property="og:image" content="https://frontporchwebllc.com/assets/share-card.jpg"/>
+<meta name="description" content="Front Porch Web builds custom, mobile-friendly websites for businesses, adoptive families, and student-athletes. Honest prices, no surprises.">
+<meta property="og:title" content="Front Porch Web, LLC — Websites Built on Trust">
+<meta property="og:description" content="Custom, mobile-friendly websites for local businesses. Honest prices, no surprises. Most sites ready to preview in 2-4 days.">
+<meta property="og:image" content="https://frontporchwebllc.com/assets/share-card.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="A lit front porch at dusk at the end of a forest path, with the headline: When someone looks you up, give them a reason to choose you.">
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Front Porch Web, LLC — Websites Built on Trust"/>
-<meta name="twitter:description" content="Custom, mobile-friendly websites for local businesses. Honest prices, no surprises."/>
-<meta name="twitter:image" content="https://frontporchwebllc.com/assets/share-card.jpg"/>
-<link rel="canonical" href="https://frontporchwebllc.com/standard">
+<meta name="twitter:image" content="https://frontporchwebllc.com/assets/share-card.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://frontporchwebllc.com/">
 <meta property="og:site_name" content="Front Porch Web, LLC">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://frontporchwebllc.com/standard">
+<meta property="og:url" content="https://frontporchwebllc.com/standard">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,100,0..1;1,9..144,400..700,100,0..1&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/studio.css?v=1">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,100,0..1;1,9..144,400..700,100,0..1&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;1,400&family=Atkinson+Hyperlegible+Mono:wght@500&display=swap" rel="stylesheet">
+<script>document.documentElement.className+=' js'</script>
+<style>
+/* ════════════════════════════════════════════════════════════
+   FRONT PORCH WEB — STANDARD VIEW
+   One evening at one house. You come up the path at dusk and the
+   porch light switches on; a letter is waiting; the front window
+   is lit and you can see straight in; the house numbers are brass
+   on the siding; the door is open by the time you reach it.
+   Everything dark is the house at night. Everything on paper is
+   something Sean hands you: his letter, the price list.
+   Palette is the brand's own: the logo's pine and cream, and the
+   amber of a porch light at golden hour.
+   Type: Fraunces with its soft axis turned up reads like painted
+   porch signage; Atkinson Hyperlegible Next -- drawn by the
+   Braille Institute for low-vision readers -- carries the reading,
+   because the people deciding whether to trust this page are not
+   all twenty-five.
+   ════════════════════════════════════════════════════════════ */
+:root{
+  --night:#0b130f; --night-2:#101a14; --pine:#394f3c; --pine-2:#2c3d30; --pine-3:#1b271f;
+  --cream:#f6efdf; --paper:#fbf7ee; --ink:#1c2920; --muted:#56635a; --line:rgba(28,41,32,.14);
+  --amber:#e9973e; --amber-ink:#9A5A14; --glow:#f6c889; --brass-1:#f0d496; --brass-2:#c79a4e; --brass-3:#8d6a2f;
+  --trim:#d9ceb0; --trim-2:#bfb393; --trim-3:#a3977a;
+  --display:"Fraunces", Georgia, serif;
+  --body:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,sans-serif;
+  --mono:"Atkinson Hyperlegible Mono",ui-monospace,Consolas,monospace;
+  --wrap:1240px; --ease:cubic-bezier(.22,1,.36,1);
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--night);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:4px}
+.wrap{position:relative;z-index:1;width:100%;max-width:var(--wrap);margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.skip{position:absolute;left:-9999px;top:8px;z-index:100;background:var(--night);color:var(--cream);padding:12px 18px;border-radius:8px}
+.skip:focus{left:8px}
+h1,h2,h3{font-family:var(--display);font-variation-settings:"SOFT" 100,"WONK" 0;font-weight:560;letter-spacing:-.015em;margin:0}
+h2{font-size:clamp(36px,5vw,68px);line-height:1;font-variation-settings:"SOFT" 100,"WONK" 0,"opsz" 144;text-wrap:balance}
+h2 em,h1 em{font-style:normal;font-weight:inherit}
+.eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;margin:0 0 20px;color:var(--amber)}
+.eyebrow::before{content:"";flex:0 0 auto;width:34px;height:2px;border-radius:2px;background:currentColor;opacity:.8}
+.lede{font-size:clamp(18px,1.5vw,21px);color:var(--muted);max-width:56ch;margin:22px 0 0}
+section{position:relative;padding:clamp(84px,10vw,144px) 0;scroll-margin-top:76px}
+
+/* the night sections share one film of grain, so flat colour never looks like a screen */
+.letter::before,.promises::before,.process::before,.begin::before{content:"";position:absolute;inset:0;background:var(--grain);opacity:.09;mix-blend-mode:overlay;pointer-events:none}
+/* a trim board wherever a wall meets paper: the page is built like the house */
+.board{display:block;height:16px;background:linear-gradient(#e6dcc0,var(--trim) 30%,var(--trim-2) 78%,var(--trim-3));box-shadow:0 10px 18px -8px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,250,232,.7);position:relative;z-index:2}
+
+/* ─── buttons ─── */
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:54px;padding:0 28px;border-radius:999px;font-family:var(--body);font-weight:600;font-size:17px;text-decoration:none;transition:transform .25s var(--ease),background .25s,box-shadow .25s,color .25s,border-color .25s;border:1.5px solid transparent;cursor:pointer}
+.btn-amber{background:linear-gradient(#f3a851,var(--amber));color:#1c1305;box-shadow:inset 0 1px 0 rgba(255,236,196,.75),0 12px 32px -10px rgba(233,151,62,.75)}
+.btn-amber:hover{background:linear-gradient(#f7b566,#eea047);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,236,196,.75),0 18px 38px -10px rgba(233,151,62,.85)}
+.btn-line{border-color:rgba(246,239,223,.45);color:var(--cream);background:rgba(11,19,15,.25)}
+.btn-line:hover{border-color:var(--glow);color:var(--glow)}
+.btn:active{transform:scale(.97)}
+.btn .arr{transition:transform .25s var(--ease)} .btn:hover .arr{transform:translateX(4px)}
+@media (hover:none){.btn-amber:hover{transform:none}}
+
+/* ─── nav ─── */
+.nav{position:fixed;inset:0 0 auto 0;z-index:40;padding-top:env(safe-area-inset-top,0px);transition:background .35s,box-shadow .35s}
+.nav.solid{background:rgba(11,19,15,.94);box-shadow:0 1px 0 rgba(246,239,223,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.nav-in{display:flex;align-items:center;gap:22px;height:76px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--cream);min-height:44px}
+.brand img{width:42px;height:42px;border-radius:50%}
+.brand span{font-family:var(--display);font-size:21px;font-weight:600;font-variation-settings:"SOFT" 100;letter-spacing:-.01em}
+.links{display:flex;gap:4px;margin-left:auto}
+.links a{position:relative;color:rgba(246,239,223,.82);text-decoration:none;font-size:15.5px;padding:12px 11px;border-radius:8px;transition:color .2s}
+.links a::after{content:"";position:absolute;left:11px;right:11px;bottom:7px;height:1.5px;background:var(--glow);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.links a:hover{color:var(--glow)} .links a:hover::after{transform:scaleX(1)}
+.viewswitch{display:inline-flex;align-items:center;padding:4px;border-radius:999px;border:1px solid rgba(246,239,223,.22);background:rgba(11,19,15,.35);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.viewswitch a,.viewswitch span{display:inline-flex;align-items:center;min-height:36px;padding:0 13px;border-radius:999px;text-decoration:none;color:rgba(246,239,223,.72)}
+.viewswitch a:hover{color:var(--glow)}
+.viewswitch [aria-current]{background:var(--cream);color:var(--night)}
+.nav .btn{min-height:46px;padding:0 20px;font-size:15.5px}
+.burger{display:none;margin-left:auto;width:48px;height:48px;border-radius:12px;border:1px solid rgba(246,239,223,.25);background:rgba(11,19,15,.35);color:var(--cream);cursor:pointer}
+.burger svg{width:22px;height:22px}
+.sheet{position:fixed;inset:0;z-index:39;background:var(--night);padding:110px 28px 40px;display:flex;flex-direction:column;gap:6px;opacity:0;pointer-events:none;transition:opacity .3s;overflow-y:auto}
+.sheet.open{opacity:1;pointer-events:auto}
+.sheet a{color:var(--cream);text-decoration:none;font-family:var(--display);font-size:32px;padding:8px 0;font-variation-settings:"SOFT" 100}
+.sheet .btn{margin-top:18px;font-family:var(--body);font-size:18px;align-self:flex-start}
+.sheet .viewswitch{margin-top:22px;align-self:flex-start}
+.sheet .viewswitch a{font-family:var(--mono);font-size:12px;padding:0 13px}
+
+/* ─── hero ─── */
+.hero{min-height:100svh;padding:0;background:linear-gradient(#0a1410,#16241c 38%,#2f3421 66%,#8d5a28);color:var(--cream);overflow:hidden;isolation:isolate}
+.scene{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.scene svg{width:100%;height:100%;display:block}
+.fireflies{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(8,14,11,.8) 0%,rgba(8,14,11,.46) 34%,transparent 58%),linear-gradient(0deg,#0a120d 0,rgba(10,18,13,0) 14%)}
+.hero-copy{position:relative;z-index:1;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:110px;padding-bottom:90px}
+.hero h1{font-size:clamp(46px,6.9vw,104px);line-height:.95;max-width:12.5ch;font-variation-settings:"SOFT" 100,"WONK" 0,"opsz" 144;text-shadow:0 2px 30px rgba(0,0,0,.35);text-wrap:balance}
+.hero .lede{color:rgba(246,239,223,.9);max-width:40ch;text-shadow:0 1px 16px rgba(0,0,0,.4)}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
+.hero .note{margin-top:28px;font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:rgba(246,239,223,.7)}
+.star{fill:#f4ebd4;animation:twinkle 5s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.85}50%{opacity:.25}}
+#light{opacity:0}
+.lit #light{animation:lampOn 1.6s linear forwards,lampHum 7s 1.6s ease-in-out infinite}
+@keyframes lampOn{0%{opacity:0}7%{opacity:.75}11%{opacity:.08}19%{opacity:.95}23%{opacity:.25}34%{opacity:1}100%{opacity:1}}
+@keyframes lampHum{0%,100%{opacity:1}48%{opacity:.93}52%{opacity:.99}}
+#lamp-glass{fill:#3a3a2f;transition:fill .2s}
+.lit #lamp-glass{fill:#fff2c8}
+.fern{transform-box:view-box;transform-origin:1455px 512px;animation:sway 6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.6deg)}}
+.blend{mix-blend-mode:screen}
+/* chimney smoke: someone has a fire going */
+.puff{fill:#d2c4a6;opacity:0;transform-box:fill-box;transform-origin:center;animation:puff 11s linear infinite}
+.puff:nth-child(2){animation-delay:-2.7s}.puff:nth-child(3){animation-delay:-5.5s}.puff:nth-child(4){animation-delay:-8.2s}
+@keyframes puff{0%{opacity:0;transform:translate(0,0) scale(.45)}10%{opacity:.3}55%{opacity:.16}100%{opacity:0;transform:translate(-120px,-250px) scale(2.8)}}
+.cloud{animation:drift 90s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateX(-18px)}to{transform:translateX(26px)}}
+
+/* ─── the letter: paper, in the last of the light ─── */
+.letter{background:radial-gradient(ellipse 46% 38% at 72% 22%,rgba(233,151,62,.2),transparent 70%),linear-gradient(#0a120d,#0f1a14 34%,#14231a);padding-top:clamp(40px,6vw,90px);padding-bottom:clamp(64px,7vw,104px)}
+.letter-stage{display:grid;grid-template-columns:minmax(0,330px) minmax(0,1fr);align-items:start;justify-content:center;max-width:1160px}
+.print{position:relative;z-index:2;margin:clamp(40px,7vw,96px) -56px 0 0;padding:14px 14px 0;background:#fdfaf2;border-radius:3px;transform:rotate(-2.6deg);box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 30px 50px -24px rgba(0,0,0,.75),0 4px 10px rgba(0,0,0,.35)}
+.print img{aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;width:100%;height:auto;border-radius:1px}
+.print figcaption{padding:13px 4px 15px;font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:center}
+.page{position:relative;background:var(--paper);border-radius:3px;padding:clamp(40px,5.4vw,84px) clamp(28px,5.4vw,88px) clamp(40px,5vw,72px) clamp(28px,7.4vw,118px);box-shadow:0 50px 90px -40px rgba(0,0,0,.85),0 6px 16px rgba(0,0,0,.35)}
+.page::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(118deg,rgba(255,214,150,.26),transparent 42%),var(--grain);background-blend-mode:normal;opacity:.55;mix-blend-mode:multiply}
+.page>*{position:relative}
+.page h2{margin-bottom:34px;font-size:clamp(34px,4.4vw,58px)}
+.page .eyebrow{color:var(--amber-ink)}
+.story p{font-size:clamp(18px,1.4vw,20px);margin:0 0 20px;max-width:60ch}
+.story>p:first-child::first-letter{font-family:var(--display);float:left;font-size:4.3em;line-height:.82;margin:.06em .1em 0 0;color:var(--pine);font-variation-settings:"SOFT" 100,"WONK" 1}
+.story .sig{font-family:var(--display);font-style:italic;font-size:32px;color:var(--pine);font-variation-settings:"SOFT" 100,"WONK" 1;margin:30px 0 0}
+
+/* ─── the front window: six panes, lit, and you can see straight in ─── */
+.promises{color:var(--cream);padding-top:clamp(64px,7vw,104px);padding-bottom:clamp(110px,12vw,176px);background:
+  linear-gradient(180deg,#14231a 0,rgba(20,35,26,0) 140px),
+  radial-gradient(ellipse 60% 50% at 50% 62%,rgba(246,180,90,.13),transparent 70%),
+  repeating-linear-gradient(180deg,#15211a 0 42px,#0d1611 42px 44px,#1a281f 44px 45px)}
+.promises .eyebrow{color:var(--glow)}
+.window{position:relative;margin:64px auto 0;max-width:1100px}
+.casing{padding:14px;border-radius:4px;background:linear-gradient(145deg,#ece2c6,var(--trim) 40%,var(--trim-2));box-shadow:0 0 0 1px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,250,232,.8),0 0 110px 6px rgba(246,180,90,.26),0 50px 90px -40px #000}
+.panes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;background:linear-gradient(145deg,#e2d7b9,var(--trim-2))}
+.pane{position:relative;overflow:hidden;min-height:214px;padding:36px 32px 40px;color:#2a1a05;background:radial-gradient(130% 120% at 50% 30%,#fff0c6,#f8cc83 52%,#eaa450);box-shadow:inset 0 0 0 1px rgba(92,58,22,.35),inset 0 14px 26px -14px rgba(120,70,20,.45),inset 0 -22px 30px -22px rgba(120,60,10,.3)}
+.pane::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(112deg,transparent 58%,rgba(255,255,255,.15) 58.2%,rgba(255,255,255,.04) 70%,transparent 70.2%)}
+.pane>*{position:relative}
+.pane::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#1a261d,#0d1611);opacity:0;pointer-events:none;transition:opacity 1s ease}
+.pane h3{font-size:clamp(24px,2.3vw,32px);line-height:1.06}
+.pane p{margin:12px 0 0;font-size:17.5px;line-height:1.5;color:rgba(42,26,5,.88);max-width:24ch}
+/* dark glass until you reach it, then the lights come on room by room */
+.js .window:not(.in) .pane::after{opacity:.93}
+.window.in .pane:nth-child(1)::after{transition-delay:.15s}.window.in .pane:nth-child(2)::after{transition-delay:.55s}
+.window.in .pane:nth-child(3)::after{transition-delay:.3s}.window.in .pane:nth-child(4)::after{transition-delay:.75s}
+.window.in .pane:nth-child(5)::after{transition-delay:.05s}.window.in .pane:nth-child(6)::after{transition-delay:.45s}
+.sill{height:20px;margin:0 -20px;border-radius:2px;background:linear-gradient(#efe6cb,var(--trim) 35%,var(--trim-3));box-shadow:0 16px 22px -10px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,250,232,.8)}
+.window::after{content:"";position:absolute;left:4%;right:4%;top:100%;height:150px;pointer-events:none;background:radial-gradient(ellipse 50% 100% at 50% 0,rgba(246,190,110,.2),transparent 70%)}
+
+/* ─── sample websites ─── */
+.work{background:var(--cream);padding-bottom:clamp(120px,15vw,230px)}
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px 60px;flex-wrap:wrap}
+.work-head .eyebrow,#pricing .eyebrow,#hosting .eyebrow{color:var(--amber-ink)} /* bright amber on cream read 2.2:1; this is 5:1 */
+.honest{margin:0;max-width:40ch;font-size:16px;color:var(--muted);padding-left:18px;border-left:2px solid rgba(154,90,20,.45)}
+.work-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(34px,4.6vw,70px) clamp(24px,3.6vw,56px);margin-top:64px}
+.demo{position:relative;display:block;text-decoration:none;color:inherit}
+.demo:nth-child(even){top:clamp(40px,7vw,104px)}
+.shot{border-radius:14px;overflow:hidden;background:#e6dcc4;border:1px solid rgba(28,41,32,.22);box-shadow:0 34px 60px -34px rgba(27,39,31,.55),0 2px 6px rgba(27,39,31,.08);transition:transform .45s var(--ease),box-shadow .45s}
+.bar{display:flex;align-items:center;gap:7px;height:38px;padding:0 14px;background:linear-gradient(#26382c,#1e2d23);border-bottom:1px solid rgba(0,0,0,.4)}
+.bar i{width:9px;height:9px;border-radius:50%;background:rgba(246,239,223,.28)}
+.bar i:first-child{background:var(--amber)}
+.bar span{margin-left:10px;min-width:0;flex:1;height:22px;padding:0 12px;border-radius:999px;background:rgba(11,19,15,.55);color:rgba(246,239,223,.74);font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;line-height:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shot .img{aspect-ratio:16/10;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .7s var(--ease)}
+.demo:hover .shot{transform:translateY(-6px);box-shadow:0 46px 70px -34px rgba(27,39,31,.6),0 2px 6px rgba(27,39,31,.08)}
+.demo:hover .shot img{transform:scale(1.035)}
+.demo .meta{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 4px 0}
+.demo .kind{font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.demo h3{font-size:clamp(24px,2.2vw,31px);line-height:1.1}
+.demo .go{flex:0 0 auto;width:50px;height:50px;border-radius:50%;border:1.5px solid rgba(28,41,32,.3);display:grid;place-items:center;font-size:18px;transition:background .25s,border-color .25s,color .25s,transform .35s var(--ease)}
+.demo:hover .go{background:var(--pine);border-color:var(--pine);color:var(--cream);transform:rotate(45deg)}
+@media (hover:none){.demo:hover .shot{transform:none}.demo:hover .go{transform:none}}
+
+/* ─── process: brass house numbers on lap siding ─── */
+.process{color:var(--cream);background:
+  radial-gradient(ellipse 50% 70% at 88% 0,rgba(246,200,137,.2),transparent 70%),
+  linear-gradient(180deg,rgba(0,0,0,.22),transparent 26%,transparent 70%,rgba(0,0,0,.3)),
+  repeating-linear-gradient(180deg,#34493b 0 40px,#27372c 40px 42px,#3b5142 42px 43px)}
+.process .eyebrow{color:var(--glow)}
+.steps{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,56px);margin:70px 0 0;list-style:none;padding:0}
+.steps::before{content:"";position:absolute;left:56px;right:16%;top:70px;height:2px;background:linear-gradient(90deg,rgba(240,212,150,.55),rgba(240,212,150,.12));box-shadow:0 1px 0 rgba(0,0,0,.35)}
+.plaque{position:relative;width:112px;height:140px;border-radius:13px;display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--brass-1),var(--brass-2) 48%,var(--brass-3) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,246,220,.8),inset 0 -2px 3px rgba(60,40,10,.4),0 18px 30px -10px rgba(0,0,0,.65),0 0 0 1px rgba(60,40,10,.35)}
+.plaque b{font-family:var(--display);font-size:92px;line-height:1;font-weight:650;color:#3b2a10;font-variation-settings:"SOFT" 30,"WONK" 1,"opsz" 144;text-shadow:0 1px 0 rgba(255,238,196,.65),0 -1px 0 rgba(0,0,0,.25);transform:translateY(-3px)}
+.plaque i{position:absolute;left:50%;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff1c9,#8d6a2f 70%);box-shadow:0 1px 1px rgba(0,0,0,.4)}
+.plaque i::after{content:"";position:absolute;inset:4px 1px;background:#5b431c;transform:rotate(35deg)}
+.plaque i:first-of-type{top:9px} .plaque i:last-of-type{bottom:9px}
+.steps h3{font-size:clamp(26px,2.5vw,34px);line-height:1.08;margin-top:30px}
+.steps p{margin:12px 0 0;color:rgba(246,239,223,.82);max-width:34ch}
+
+/* ─── pricing: the price list, on paper ─── */
+.pricing{background:var(--paper);padding-bottom:clamp(64px,7vw,100px)}
+.pricing::before{content:"";position:absolute;inset:0;background:var(--grain);opacity:.35;mix-blend-mode:multiply;pointer-events:none}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:76px;align-items:stretch;border:1px solid rgba(28,41,32,.2);border-radius:24px;background:#fffdf8;box-shadow:0 40px 70px -50px rgba(27,39,31,.5)}
+.tier{position:relative;padding:42px clamp(24px,2.8vw,40px) 40px;display:flex;flex-direction:column}
+.tier.feat{margin:-22px 0;padding-top:64px;padding-bottom:62px;border-radius:24px;color:var(--cream);background:radial-gradient(120% 70% at 50% 0,#466249,var(--pine) 55%,#2f4433);box-shadow:0 40px 70px -30px rgba(27,39,31,.8),inset 0 1px 0 rgba(255,255,255,.12)}
+.tier .badge{position:absolute;top:22px;left:clamp(24px,2.8vw,40px);background:var(--amber);color:#1c1305;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+.tier h3{font-size:30px}
+.tier .price{font-family:var(--display);font-size:clamp(60px,6vw,92px);line-height:.95;margin:16px 0 6px;letter-spacing:-.03em;font-variation-settings:"SOFT" 100,"opsz" 144;font-weight:560}
+.tier .per{font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 26px;padding-bottom:26px;border-bottom:1px solid var(--line)}
+.tier.feat .per{color:rgba(246,239,223,.75);border-color:rgba(246,239,223,.2)}
+.tier ul{list-style:none;padding:0;margin:0;display:grid;gap:13px;align-content:start}
+.tier li{display:grid;grid-template-columns:24px 1fr;gap:8px;font-size:16.5px;line-height:1.45}
+.tier li::before{content:"";width:13px;height:7px;margin-top:6px;border-left:2.5px solid var(--amber-ink);border-bottom:2.5px solid var(--amber-ink);transform:rotate(-45deg)}
+.tier.feat li::before{border-color:var(--glow)}
+.types{margin-top:64px;display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:0;align-items:stretch;border-top:2px solid var(--ink);border-bottom:1px solid var(--line)}
+.types strong{font-family:var(--display);font-size:24px;font-weight:600;font-variation-settings:"SOFT" 100;padding:22px 34px 22px 0;align-self:center}
+.types span{font-size:16.5px;padding:22px 24px;border-left:1px solid var(--line);align-self:stretch;display:block}
+.types b{font-family:var(--display);font-size:22px;font-weight:600;font-variation-settings:"SOFT" 100}
+.terms{margin:22px 0 0;font-size:15.5px;color:var(--muted);max-width:80ch}
+
+/* ─── hosting: three ways to keep it, read like a ledger ─── */
+.hosting{background:linear-gradient(var(--paper),var(--cream) 220px);padding-top:clamp(64px,7vw,100px)}
+.plans{margin-top:56px;border-top:2px solid var(--ink)}
+.plan{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr) minmax(0,1.5fr);gap:clamp(20px,3vw,48px);align-items:start;padding:36px clamp(0px,2vw,28px);border-bottom:1px solid rgba(28,41,32,.2)}
+.plan .kind{font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber-ink);margin:0 0 10px}
+.plan h3{font-size:clamp(28px,2.8vw,38px);line-height:1.05}
+.plan .price{font-family:var(--display);font-size:clamp(46px,4.6vw,66px);line-height:1;margin:0;font-weight:560;letter-spacing:-.02em;font-variation-settings:"SOFT" 100,"opsz" 144}
+.plan .price small{display:block;margin-top:8px;font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.plan ul{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:11px}
+.plan li{display:grid;grid-template-columns:24px 1fr;gap:8px;font-size:16.5px;line-height:1.45}
+.plan li::before{content:"";width:13px;height:7px;margin-top:6px;border-left:2.5px solid var(--amber-ink);border-bottom:2.5px solid var(--amber-ink);transform:rotate(-45deg)}
+.plan.feat{margin:26px 0 0;padding:44px clamp(24px,3vw,44px);border:0;border-radius:22px;color:var(--cream);background:radial-gradient(90% 140% at 100% 0,rgba(233,151,62,.26),transparent 60%),linear-gradient(#111c16,var(--night));box-shadow:0 40px 70px -36px rgba(11,19,15,.85)}
+.plan.feat .kind{display:inline-block;background:var(--amber);color:#1c1305;padding:5px 12px;border-radius:999px}
+.plan.feat .price small{color:rgba(246,239,223,.72)}
+.plan.feat li{color:rgba(246,239,223,.9)}
+.plan.feat li::before{border-color:var(--glow)}
+
+/* ─── the open door ─── */
+.begin{background:radial-gradient(ellipse 64% 60% at 74% 62%,rgba(233,151,62,.34),transparent 62%),linear-gradient(#0a1410,#15231b);color:var(--cream);overflow:hidden;padding-bottom:0}
+.begin-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:60px;align-items:end}
+.begin-copy{padding-bottom:clamp(90px,10vw,150px)}
+.begin h2{font-size:clamp(42px,6vw,88px);line-height:.96}
+.begin .lede{color:rgba(246,239,223,.86)}
+.begin .ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.doorway{position:relative;width:min(330px,70vw);aspect-ratio:5/9;margin:0 auto;perspective:2400px}
+.doorway .frame{position:absolute;inset:-18px -18px 0;border-radius:6px 6px 0 0;padding:0;background:linear-gradient(90deg,#d8cba8,#efe4c6 50%,#cbbd97);box-shadow:0 0 0 1px rgba(0,0,0,.2),0 30px 90px -10px rgba(233,151,62,.55)}
+.doorway .inside{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#ffe7b0,#f2b25e 45%,#b8732c 100%)}
+.doorway .inside::before{content:"";position:absolute;left:32%;top:16%;width:36%;height:22%;border:6px solid rgba(92,58,22,.55);border-radius:3px;background:rgba(255,240,205,.35)}
+.doorway .inside::after{content:"";position:absolute;left:18%;right:18%;bottom:0;height:34%;background:linear-gradient(#9b5f27,#7a4819);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);opacity:.7}
+.door{position:absolute;inset:0;transform-origin:0 50%;transform:rotateY(0);transition:transform 1.8s var(--ease) .15s;background:linear-gradient(90deg,#34493a,#3f5745 55%,#2e4133);border-radius:2px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+.door::before,.door::after{content:"";position:absolute;left:14%;right:14%;border-radius:3px;box-shadow:inset 2px 2px 3px rgba(0,0,0,.35),inset -1px -1px 2px rgba(255,255,255,.08)}
+.door::before{top:7%;height:38%} .door::after{bottom:7%;height:38%}
+.door .knob{position:absolute;right:11%;top:52%;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff1c9,#b7863f 60%,#6b4f22)}
+.doorway.open .door{transform:rotateY(-68deg)}
+/* the porch floor, and the light the open door throws across it */
+.floor{position:relative;height:clamp(90px,10vw,140px);margin-top:-1px;background:
+  linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55)),
+  repeating-linear-gradient(90deg,#584630 0 78px,#40321f 78px 80px,#63503a 80px 81px)}
+.floor::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 46% 130% at 74% 0,rgba(255,206,130,.62),rgba(255,190,110,.16) 55%,transparent 75%);opacity:0;transition:opacity 1.8s .5s}
+.begin.open .floor::before{opacity:1}
+.floor::after{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:linear-gradient(#8a7150,#4c3b27)}
+.email{display:inline-block;margin-top:24px;font-size:18px;color:var(--glow);text-decoration:none;border-bottom:1px solid rgba(246,200,137,.4);padding:10px 0}
+.email:hover{border-color:var(--glow)}
+
+/* ─── footer ─── */
+footer{background:var(--night);color:rgba(246,239,223,.72);padding:44px 0 calc(96px + env(safe-area-inset-bottom,0px));font-size:15.5px} /* room for the Ask a question button */
+.foot{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.foot nav{display:flex;flex-wrap:wrap;gap:4px 8px}
+.foot nav a{text-decoration:none;padding:12px 8px;min-height:44px;display:inline-flex;align-items:center}
+.foot nav a:hover{color:var(--glow)}
+
+/* ─── reveal ─── */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.print.rv{transform:translateY(26px) rotate(-5deg)} .print.rv.in{transform:rotate(-2.6deg)}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.print.rv{transform:rotate(-2.6deg)}html{scroll-behavior:auto}.door{transition-duration:.01s}.pane::after{transition:none}}
+
+/* ─── responsive ─── */
+@media (max-width:1100px){.links{display:none}.nav .btn.cta{display:none}.burger{display:grid;place-items:center}.nav .viewswitch.top{display:none}}
+@media (max-width:980px){
+  .begin-grid{grid-template-columns:1fr;gap:0}
+  .begin-copy{padding-bottom:56px}
+  .steps{grid-template-columns:1fr;gap:44px}
+  .steps::before{display:none}
+  .steps li{display:grid;grid-template-columns:auto 1fr;column-gap:24px;align-items:start}
+  .steps li .plaque{grid-row:1/3}
+  .steps h3{margin-top:6px}
+  .tiers{grid-template-columns:1fr;border:0;background:none;box-shadow:none;gap:22px}
+  .tier{border:1px solid rgba(28,41,32,.2);border-radius:22px;background:#fffdf8;padding:34px 28px 32px}
+  .tier.feat{margin:0;padding:60px 28px 34px;border-color:transparent}
+  .tier .badge{left:28px}
+  .types{grid-template-columns:1fr}
+  .types strong{padding:20px 0 6px}
+  .types span{border-left:0;padding:10px 0}
+  .types span:last-child{padding-bottom:20px}
+  .plan{grid-template-columns:minmax(0,1fr) auto;row-gap:20px;padding:30px 0}
+  .plan ul{grid-column:1/-1}
+  .plan .price{text-align:right}
+  .plan.feat{padding:32px 24px}
+  .doorway{width:min(210px,52vw)}
+  .letter-stage{grid-template-columns:1fr}
+  .print{width:min(270px,70%);margin:0 0 -54px 8px}
+  .page{padding-top:92px}
+}
+@media (max-width:760px){
+  body{font-size:17px}
+  .panes{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .casing{padding:10px}
+  .pane{min-height:0;padding:20px 15px 24px}
+  .pane h3{font-size:20px}
+  .pane p{font-size:15px;max-width:none}
+  .sill{margin:0 -8px;height:16px}
+  .window{margin-top:44px}
+  .work{padding-bottom:84px}
+  .work-grid{grid-template-columns:1fr;margin-top:44px;gap:40px}
+  .demo:nth-child(even){top:0}
+  .demo h3{font-size:24px}
+  .plan{grid-template-columns:1fr}
+  .plan .price{text-align:left}
+  .plaque{width:88px;height:110px}
+  .plaque b{font-size:72px}
+  section{padding:76px 0}
+  .letter{padding-top:26px}
+  .begin{padding-bottom:0}
+  .floor{height:80px}
+}
+/* phones, and tablets held upright: the drawing sits above the words instead of behind them */
+@media (max-width:760px),(orientation:portrait) and (max-width:1100px){
+  .hero{min-height:0;background:linear-gradient(#0a1410,#15231b 55%,#0a120d)}
+  .hero::after{display:none}
+  .hero-copy{min-height:0;padding-top:30px;padding-bottom:56px}
+  .scene{position:relative;inset:auto;height:auto;aspect-ratio:5/4;z-index:0;margin-top:64px}
+  .scene svg{height:100%}
+  .fireflies{top:64px;bottom:auto;height:auto;aspect-ratio:5/4}
+}
+@media (orientation:portrait) and (min-width:761px) and (max-width:1100px){.scene,.fireflies{aspect-ratio:16/10}.hero-copy{padding-top:44px;padding-bottom:80px}}
+</style>
+<noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 </head>
-<body class="standard">
-<a class="skip" href="standard.html#arrive">Skip to standard content</a>
-<header class="mast"><a class="brand" href="#arrive"><img src="assets/logo-nav-96.png" alt="" width="46" height="46"><span>Front Porch <em>Web</em></span></a>
-<nav class="desktop-nav" aria-label="Main navigation"><a href="#work" class="" data-at="0.49">Our work</a><a href="#about" class="" data-at="0.19">Studio</a><a href="#pricing" class="" data-at="0.75">Pricing</a><a href="https://frontporchwebllc.com/portal.html">Client login</a></nav>
-<div class="actions"><a class="button primary" href="https://frontporchwebllc.com/portal.html#start">Start a project <span aria-hidden="true">↗</span></a><button type="button" class="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="menu"><span></span><span></span></button></div>
-<nav id="menu" aria-label="All sections" hidden><a href="#arrive" class="" data-at="0.02">Welcome</a><a href="#about" class="" data-at="0.19">The studio</a><a href="#trust" class="" data-at="0.34">Our approach</a><a href="#work" class="" data-at="0.49">Sample work</a><a href="#process" class="" data-at="0.63">Process</a><a href="#pricing" class="" data-at="0.75">Pricing</a><a href="#hosting" class="" data-at="0.875">After launch</a><a href="#begin" class="" data-at="0.99">Get in touch</a><a href="index.html">3D porch tour <span aria-hidden="true">↗</span></a><a href="https://frontporchwebllc.com/portal.html">Client login <span aria-hidden="true">↗</span></a></nav></header>
-<main>
-<section id="arrive" class="chapter" data-start="0.00" data-end="0.148"><div class="sheet"><div class="copy"><div class="kicker"><b aria-hidden="true">✳</b> Independent web design studio</div>
-<h1>A home for<br><em>your story.</em></h1>
-<p class="lead">Custom websites for local businesses, adoptive families, and student-athletes.<span class="desktop-copy"> Designed by Sean, from the first conversation to launch.</span></p>
-<div class="ctas"><a class="button primary" href="https://frontporchwebllc.com/portal.html#start">Start a project <span aria-hidden="true">↗</span></a><a href="#work" class="text-link" data-at="0.49">Explore the work <span aria-hidden="true">↓</span></a></div>
-<div class="signature"><img src="assets/sean.jpg" alt="" width="43" height="43"><div><strong>Sean Willison</strong><small>Founder &amp; designer</small></div></div></div></div><div class="art"><svg viewBox="0 0 1600 1000" preserveAspectRatio="xMaxYMax slice">
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Front Porch Web home"><img src="assets/logo-nav-96.png" alt="" width="42" height="42"><span>Front Porch Web</span></a>
+    <nav class="links" aria-label="Primary">
+      <a href="#about">About</a><a href="#work">Our Work</a><a href="#process">Process</a><a href="#pricing">Pricing</a><a href="#hosting">Hosting</a><a href="portal.html">Client Login</a>
+    </nav>
+    <div class="viewswitch top" role="group" aria-label="Choose how to view this site"><a href="/">3D</a><span aria-current="page">Standard</span></div>
+    <a class="btn btn-amber cta" href="portal.html#start">Start Your Project</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+<div class="sheet" id="sheet" aria-hidden="true" inert>
+  <a href="#about">About</a><a href="#work">Our Work</a><a href="#process">Process</a><a href="#pricing">Pricing</a><a href="#hosting">Hosting</a><a href="portal.html">Client Login</a>
+  <a class="btn btn-amber" href="portal.html#start">Start Your Project</a>
+  <div class="viewswitch" role="group" aria-label="Choose how to view this site"><a href="/">3D view</a><span aria-current="page">Standard</span></div>
+</div>
+
+<main id="main" tabindex="-1">
+<section class="hero" id="top">
+  <div class="scene" id="scene" aria-hidden="true">
+    <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMaxYMax slice">
       <defs>
         <linearGradient id="sky" x1="0" y1="0" x2="0" y2="706" gradientUnits="userSpaceOnUse">
           <stop offset="0" stop-color="#0b1511"/><stop offset=".3" stop-color="#17261d"/><stop offset=".55" stop-color="#3d3f24"/>
@@ -135,17 +477,180 @@
       </g>
       </g>
       <path class="par" data-d="14" d="M40.0,130.0 L68.9,248.3 L53.5,247.6 L88.2,366.6 L60.6,366.9 L110.6,484.9 L69.3,483.7 L157.9,603.1 L94.5,606.1 L176.1,721.4 L95.2,721.3 L209.7,839.7 L126.2,839.5 L222.2,958.0 L57.1,958.0 L57.1,1030.0 L22.9,1030.0 L22.9,958.0 L-142.2,958.0 L-46.2,839.5 L-129.7,839.7 L-15.2,721.3 L-96.1,721.4 L-14.5,606.1 L-77.9,603.1 L10.7,483.7 L-30.6,484.9 L19.4,366.9 L-8.2,366.6 L26.5,247.6 L11.1,248.3 Z M250.0,280.0 L271.7,396.5 L260.9,397.8 L293.2,513.1 L269.4,511.9 L323.9,629.6 L282.6,628.2 L347.4,746.1 L290.1,747.7 L386.2,862.7 L319.7,861.3 L379.0,979.2 L263.5,979.2 L263.5,1040.0 L236.5,1040.0 L236.5,979.2 L121.0,979.2 L180.3,861.3 L113.8,862.7 L209.9,747.7 L152.6,746.1 L217.4,628.2 L176.1,629.6 L230.6,511.9 L206.8,513.1 L239.1,397.8 L228.3,396.5 Z" fill="#0a120d"/>
-    </svg><a href="index.html">Explore the 3D porch <span aria-hidden="true">↗</span></a></div></section>
-<section id="about" class="chapter" data-start="0.088" data-end="0.30"><div class="sheet"><div class="copy"><p class="kicker">The studio</p><h2>Meet <em>Sean.</em></h2><div class="founder"><img src="assets/sean.jpg" alt="Sean Willison, founder of Front Porch Web"><div><p>When Sean’s family was hoping to adopt, his mom built a website to introduce them. Hearing how much work it took gave Sean the idea for Front Porch Web.</p><p>Today he designs websites for families, local businesses, and athletes, alongside studying aviation in high school.</p></div></div></div></div></section>
-<section id="trust" class="chapter" data-start="0.24" data-end="0.445"><div class="sheet"><div class="copy"><p class="kicker">Our approach</p><h2>One designer.<br><em>Start to finish.</em></h2><dl class="outline"><div><dt>A price up front</dt><dd>You know the project cost before you commit.</dd></div><div><dt>A preview before launch</dt><dd>Review the full website with Sean and request edits.</dd></div><div><dt>A site you own</dt><dd>Choose your own host or ask Sean to look after it.</dd></div></dl></div></div></section>
-<section id="work" class="chapter" data-start="0.385" data-end="0.598"><div class="sheet"><div class="copy"><p class="kicker">The portfolio</p><h2>Sample <em>work.</em></h2><p class="intro">Open a live demo to explore the design.</p><div class="work-grid"><a class="sample" href="https://frontporchwebllc.com/demos/hartman-plumbing/" target="_blank" rel="noopener"><img src="assets/work/hartman-plumbing.webp" width="1200" height="750" alt="" loading="lazy"><span><small>Local business</small><strong>Hartman Plumbing</strong></span><span aria-hidden="true">↗</span></a><a class="sample" href="https://frontporchwebllc.com/demos/bennett-family/" target="_blank" rel="noopener"><img src="assets/work/bennett-family-adoption.webp" width="1200" height="750" alt="" loading="lazy"><span><small>Adoption profile</small><strong>The Bennett Family</strong></span><span aria-hidden="true">↗</span></a><a class="sample" href="https://frontporchwebllc.com/demos/fresh-cut-lawn-care/" target="_blank" rel="noopener"><img src="assets/work/dunn-right.webp" width="1200" height="750" alt="" loading="lazy"><span><small>Local business</small><strong>Fresh Cut Lawn Care</strong></span><span aria-hidden="true">↗</span></a><a class="sample" href="https://frontporchwebllc.com/athletes/gavin-mcgee/" target="_blank" rel="noopener"><img src="assets/work/gavin-mcgee.webp" width="1200" height="750" alt="" loading="lazy"><span><small>Student-athlete</small><strong>College recruiting profile</strong></span><span aria-hidden="true">↗</span></a></div></div></div></section>
-<section id="process" class="chapter" data-start="0.538" data-end="0.735"><div class="sheet"><div class="copy"><p class="kicker">The process</p><h2>From hello<br><em>to launch.</em></h2><ol class="steps"><li><div><h3>Tell Sean about your project</h3><p>Answer a short questionnaire and share your photos.</p></div></li><li><div><h3>Explore your preview</h3><p>Most sites are ready to review in 2–4 days. Walk through yours and request changes.</p></div></li><li><div><h3>Give the go-ahead</h3><p>When you’re happy with the design, Sean publishes your site.</p></div></li></ol></div></div></section>
-<section id="pricing" class="chapter" data-start="0.675" data-end="0.853"><div class="sheet"><div class="copy"><p class="kicker">One-time projects</p><h2>Website <em>pricing.</em></h2><p class="intro">Compare business packages. Select a plan to see what’s included.</p><div class="plan-list"><details class="plan"><summary><span>Starter</span><strong><small>from </small>$350</strong><i aria-hidden="true"></i></summary><p>Up to 4 sections, a contact form, and one round of revisions.</p></details><details class="plan"><summary><span>Standard</span><strong><small>from </small>$600</strong><i aria-hidden="true"></i></summary><p>Up to 8 sections, a contact form, photo gallery, Google SEO, social links, and two rounds of revisions.</p></details><details class="plan"><summary><span>Premium</span><strong><small>from </small>$850</strong><i aria-hidden="true"></i></summary><p>All the sections you need, a contact form, gallery, blog, booking, full SEO, analytics, priority support, and three rounds of revisions.</p></details></div><p class="fine">Adoption profiles from $300 · Athlete profiles $250 ($350 in 3D) · Personal sites from $350.</p><p class="fine">Each plan includes mobile design and a custom domain. Final pricing depends on project type. Pay 50% to begin and the balance before launch.</p></div></div></section>
-<section id="hosting" class="chapter" data-start="0.793" data-end="0.97"><div class="sheet"><div class="copy"><p class="kicker">After launch</p><h2>Hosting <em>&amp; care.</em></h2><p class="intro">Run the site yourself or choose a monthly plan.</p><div class="plan-list"><details class="plan"><summary><span>Self-managed</span><strong>Yours to run</strong><i aria-hidden="true"></i></summary><p>We help you set up hosting and a domain in your own name. No ongoing fee to Front Porch Web.</p></details><details class="plan"><summary><span>Website Health</span><strong>$10 / month</strong><i aria-hidden="true"></i></summary><p>Hosting, domain, security, and repairs. We quote content changes individually and start once you approve.</p></details><details class="plan"><summary><span>Care Package</span><strong>$30 / month</strong><i aria-hidden="true"></i></summary><p>Website Health plus about an hour of text and photo updates each month. Athlete profiles include a monthly stats refresh for approval.</p></details></div><p class="fine">Cancel either monthly plan anytime. Sean can hand over the site or take it offline. Repairs are included. New pages and redesigns are quoted separately.</p></div></div></section>
-<section id="begin" class="chapter" data-start="0.91" data-end="1.065"><div class="sheet"><div class="copy"><p class="kicker">Get in touch</p><h2>Tell me about<br><em>your project.</em></h2><p class="lead">What would you like people to know when they find you online? Share a little about yourself, or email Sean a question.</p><div class="ctas"><a class="button primary" href="https://frontporchwebllc.com/portal.html#start">Start a project <span aria-hidden="true">↗</span></a></div><a class="email" href="mailto:frontporchwebllc@gmail.com">frontporchwebllc@gmail.com</a><footer>© 2026 Front Porch Web, LLC<br><a href="https://frontporchwebllc.com/terms.html">Terms &amp; refunds</a> · <a href="https://frontporchwebllc.com/privacy.html">Privacy</a></footer></div></div></section>
+    </svg>
+  </div>
+  <canvas class="fireflies" id="fireflies" aria-hidden="true"></canvas>
+
+  <div class="wrap hero-copy">
+    <p class="eyebrow rv">Websites Built on Trust</p>
+    <h1 class="rv">When someone looks you up, give them a reason to <em>choose you.</em></h1>
+    <p class="lede rv">Websites for local businesses, adoptive families, and student-athletes &mdash; built so the person on the other end finds someone real. Honest prices, no surprises.</p>
+    <div class="ctas rv">
+      <a class="btn btn-amber" href="portal.html#start">Start Your Project <span class="arr" aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-line" href="#work">See Our Work</a>
+    </div>
+    <p class="note rv">Simple one-time project pricing &middot; most sites ready to preview in 2&ndash;4 days</p>
+  </div>
+</section>
+
+<section class="letter" id="about">
+  <div class="wrap letter-stage">
+    <figure class="print rv">
+      <img src="assets/sean.jpg" alt="Sean Willison, founder of Front Porch Web" width="800" height="800">
+      <figcaption>Sean &middot; Founder</figcaption>
+    </figure>
+    <div class="page rv">
+      <p class="eyebrow">Why &ldquo;Front Porch&rdquo;?</p>
+      <h2>Websites Built on <em>Trust</em></h2>
+      <div class="story">
+        <p>Hi, I am Sean, a high school junior studying aviation and someone who loves learning about flight and technology. Being part of an adoptive family, I have heard about how much time and effort my mom put into building a website as we were waiting to grow our family. Hearing this story, along with my own love of technology, inspired me to create a platform where families and small organizations can more easily and economically share stories online.</p>
+        <p>I named it Front Porch because a front porch is where neighbors stop by, stories get shared, and trust is built one honest conversation at a time. That&rsquo;s how I want to work with you. You&rsquo;ll see the site before it goes live, you&rsquo;ll know the price before you commit, and you can always just ask me a question and get a straight answer. Whether you run a local business, are growing your family, or are a student chasing a goal, I&rsquo;d be honored to help you tell your story well.</p>
+        <p class="sig">&mdash; Sean, Founder</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="promises" id="trust">
+  <div class="wrap">
+    <p class="eyebrow rv">The Front Porch Difference</p>
+    <h2 class="rv">Why <em>Front Porch?</em></h2>
+    <div class="window rv">
+      <div class="casing">
+        <div class="panes">
+          <div class="pane"><h3>Honest pricing</h3><p>Published right here &mdash; no hidden fees.</p></div>
+          <div class="pane"><h3>Preview before launch</h3><p>See the full site before it goes live.</p></div>
+          <div class="pane"><h3>No surprises</h3><p>What we quote is what you pay.</p></div>
+          <div class="pane"><h3>Built by the founder</h3><p>Sean designs every site personally &mdash; never outsourced.</p></div>
+          <div class="pane"><h3>You own your website</h3><p>It&rsquo;s yours to keep and take anywhere.</p></div>
+          <div class="pane"><h3>Built around your story</h3><p>Designed for you &mdash; never from a template.</p></div>
+        </div>
+      </div>
+      <div class="sill" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<div class="board" aria-hidden="true"></div>
+
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="work-head">
+      <div>
+        <p class="eyebrow rv">Sample Designs</p>
+        <h2 class="rv">Explore sample <em>websites.</em></h2>
+      </div>
+      <p class="honest rv">These examples demonstrate the style and quality you can expect while we build our client portfolio. Each one opens the live demo.</p>
+    </div>
+    <div class="work-grid">
+      <a class="demo rv" href="demos/bennett-family/" target="_blank" rel="noopener">
+        <div class="shot"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>frontporchwebllc.com/demos/bennett-family</span></div><div class="img"><img src="assets/work/bennett-family-adoption.webp" alt="The Bennett Family adoption profile homepage" width="1200" height="750" loading="lazy"></div></div>
+        <div class="meta"><div><p class="kind">Adoption Profile</p><h3>The Bennett Family</h3></div><span class="go" aria-hidden="true">&#8599;</span></div>
+      </a>
+      <a class="demo rv" href="demos/fresh-cut-lawn-care/" target="_blank" rel="noopener">
+        <div class="shot"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>frontporchwebllc.com/demos/fresh-cut-lawn-care</span></div><div class="img"><img src="assets/work/dunn-right.webp" alt="Fresh Cut Lawn Care homepage" width="1200" height="750" loading="lazy"></div></div>
+        <div class="meta"><div><p class="kind">Local Business</p><h3>Fresh Cut Lawn Care</h3></div><span class="go" aria-hidden="true">&#8599;</span></div>
+      </a>
+      <a class="demo rv" href="demos/hartman-plumbing/" target="_blank" rel="noopener">
+        <div class="shot"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>frontporchwebllc.com/demos/hartman-plumbing</span></div><div class="img"><img src="assets/work/hartman-plumbing.webp" alt="Hartman Plumbing homepage" width="1200" height="750" loading="lazy"></div></div>
+        <div class="meta"><div><p class="kind">Local Business</p><h3>Hartman Plumbing</h3></div><span class="go" aria-hidden="true">&#8599;</span></div>
+      </a>
+      <a class="demo rv" href="athletes/gavin-mcgee/" target="_blank" rel="noopener">
+        <div class="shot"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>frontporchwebllc.com/athletes/gavin-mcgee</span></div><div class="img"><img src="assets/work/gavin-mcgee.webp" alt="Gavin McGee college recruiting profile homepage" width="1200" height="750" loading="lazy"></div></div>
+        <div class="meta"><div><p class="kind">Student-Athlete</p><h3>College Recruiting Profile</h3></div><span class="go" aria-hidden="true">&#8599;</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+<div class="board" aria-hidden="true"></div>
+
+<section class="process" id="process">
+  <div class="wrap">
+    <p class="eyebrow rv">Simple Process</p>
+    <h2 class="rv">Up and running in <em>three easy steps.</em></h2>
+    <ol class="steps">
+      <li class="rv"><div class="plaque" aria-hidden="true"><i></i><b>1</b><i></i></div><h3>Fill out our questionnaire</h3><p>Answer a few quick questions and upload your photos.</p></li>
+      <li class="rv"><div class="plaque" aria-hidden="true"><i></i><b>2</b><i></i></div><h3>We build your site</h3><p>Ready to preview in 2&ndash;4 days. You see the full site before anything goes live.</p></li>
+      <li class="rv"><div class="plaque" aria-hidden="true"><i></i><b>3</b><i></i></div><h3>Review and launch</h3><p>When you are happy, we publish.</p></li>
+    </ol>
+  </div>
+</section>
+<div class="board" aria-hidden="true"></div>
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <p class="eyebrow rv">Simple Pricing</p>
+    <h2 class="rv">Honest prices. <em>No surprises.</em></h2>
+    <div class="tiers rv">
+      <div class="tier">
+        <h3>Starter</h3>
+        <div class="price">$350</div><p class="per">one-time project</p>
+        <ul><li>Up to 4 sections</li><li>Contact form so customers can reach you</li><li>1 round of revisions</li></ul>
+      </div>
+      <div class="tier feat">
+        <span class="badge">Most Popular</span>
+        <h3>Standard</h3>
+        <div class="price">$600</div><p class="per">one-time project</p>
+        <ul><li>Up to 8 sections</li><li>Contact form + photo gallery</li><li>2 rounds of revisions</li><li>Google SEO + social media links</li></ul>
+      </div>
+      <div class="tier">
+        <h3>Premium</h3>
+        <div class="price">$850</div><p class="per">one-time project</p>
+        <ul><li>All the sections your story needs</li><li>Contact form + photo gallery</li><li>3 rounds of revisions</li><li>Full SEO + visitor analytics</li><li>Blog you update yourself</li><li>Online booking + priority support</li></ul>
+      </div>
+    </div>
+    <div class="types rv">
+      <strong>Not a business?</strong>
+      <span>Adoption profiles from <b>$300</b></span>
+      <span>Student-athlete recruiting profiles <b>$250</b>, or <b>$350</b> in 3D</span>
+      <span>Personal sites from <b>$350</b></span>
+    </div>
+    <p class="terms rv">Every plan includes a mobile-friendly design and your own custom domain. Final pricing depends on your project type &mdash; 50% due upfront, 50% on completion, before your site goes live.</p>
+  </div>
+</section>
+
+<section class="hosting" id="hosting">
+  <div class="wrap">
+    <p class="eyebrow rv">After Launch</p>
+    <h2 class="rv">Hosting &amp; <em>Care Plan.</em></h2>
+    <p class="lede rv">Every site needs a home and a domain name. After your site launches, you choose:</p>
+    <div class="plans">
+      <div class="plan rv"><div><p class="kind">Yours to run</p><h3>Take it with you</h3></div><p class="price">$0 <small>a month</small></p>
+        <ul><li>We&rsquo;ll help you set up your own hosting and domain</li><li>The site is yours to run</li></ul></div>
+      <div class="plan rv"><div><p class="kind">Kept online</p><h3>Website Health</h3></div><p class="price">$10 <small>a month</small></p>
+        <ul><li>Hosting, your domain, and keeping your site online</li><li>We keep it secure and fix anything that breaks</li><li>Need a change? Quoted up front, based on the size of the job</li><li>Cancel anytime &mdash; we&rsquo;ll hand the site over to you, or take it offline</li></ul></div>
+      <div class="plan feat rv"><div><p class="kind">Changes Included</p><h3>Care Package</h3></div><p class="price">$30 <small>a month</small></p>
+        <ul><li>Everything in Website Health</li><li>Small updates (text &amp; photo changes) whenever you need them</li><li>Athlete profiles: stats refreshed every month, and you approve each change</li><li>Cancel anytime &mdash; we&rsquo;ll hand the site over to you, or take it offline</li></ul></div>
+    </div>
+    <p class="terms rv">Small updates means text and photo changes, about an hour of work a month. On Website Health, each change is quoted before we start, based on how much work it takes, and nothing is charged until you say yes. Fixing anything that breaks is always free. Want changes most months? The Care Package covers them for $30 a month. New pages or a redesign are quoted separately.</p>
+  </div>
+</section>
+
+<section class="begin" id="begin">
+  <div class="wrap begin-grid">
+    <div class="begin-copy">
+      <h2 class="rv">Ready to tell <em>your story?</em></h2>
+      <p class="lede rv">Fill out the questionnaire, upload your photos, and see a full preview before anything goes live.</p>
+      <div class="ctas rv"><a class="btn btn-amber" href="portal.html#start">Start Your Project <span class="arr" aria-hidden="true">&rarr;</span></a></div>
+      <a class="email rv" href="mailto:frontporchwebllc@gmail.com">frontporchwebllc@gmail.com</a>
+    </div>
+    <div class="doorway-wrap">
+      <div class="doorway" id="doorway" aria-hidden="true"><div class="frame"></div><div class="inside"></div><div class="door"><span class="knob"></span></div></div>
+    </div>
+  </div>
+  <div class="floor" aria-hidden="true"></div>
+</section>
 </main>
-<script type="application/ld+json">
-{
+
+<footer>
+  <div class="wrap foot">
+    <span>&copy; 2026 Front Porch Web, LLC. All rights reserved.</span>
+    <nav aria-label="Footer">
+      <a href="terms.html">Terms &amp; Refunds</a><a href="privacy.html">Privacy</a><a href="portal.html">Client Login</a><a href="/">Switch to 3D view</a>
+    </nav>
+  </div>
+</footer>
+
+<script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "@id": "https://frontporchwebllc.com/#business",
@@ -156,7 +661,10 @@
   "image": "https://frontporchwebllc.com/assets/logo.png",
   "email": "frontporchwebllc@gmail.com",
   "description": "Front Porch Web builds custom, mobile-friendly websites for local businesses, adoptive families and student-athletes. Honest prices, no surprises.",
-  "founder": { "@type": "Person", "name": "Sean Willison" },
+  "founder": {
+    "@type": "Person",
+    "name": "Sean Willison"
+  },
   "priceRange": "$350-$850",
   "serviceType": "Website design, hosting and maintenance for small businesses",
   "hasOfferCatalog": {
@@ -210,8 +718,67 @@
       }
     ]
   }
-}
+}</script>
+<script>
+(function(){
+  var root=document.documentElement, reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* nav: transparent over the dusk, solid once you are reading */
+  var nav=document.getElementById('nav');
+  function onScroll(){nav.classList.toggle('solid',scrollY>40)}
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* mobile sheet */
+  var burger=document.getElementById('burger'), sheet=document.getElementById('sheet');
+  function setSheet(open){sheet.classList.toggle('open',open);sheet.setAttribute('aria-hidden',String(!open));sheet.inert=!open;burger.setAttribute('aria-expanded',String(open));document.body.style.overflow=open?'hidden':''}
+  burger.addEventListener('click',function(){setSheet(!sheet.classList.contains('open'))});
+  sheet.addEventListener('click',function(e){if(e.target.closest('a'))setSheet(false)});
+  addEventListener('keydown',function(e){if(e.key==='Escape')setSheet(false)});
+
+  /* reveals */
+  var rv=[].slice.call(document.querySelectorAll('.rv'));
+  if(reduce||!('IntersectionObserver' in window)){rv.forEach(function(el){el.classList.add('in')})}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+    rv.forEach(function(el,i){if(el.closest('.hero'))el.style.transitionDelay=(i*90)+'ms';io.observe(el)})}
+
+  /* the porch light: someone is home. Decorative ambient motion keeps running
+     under reduced-motion by house rule; the one-shot flicker is part of it. */
+  var hero=document.querySelector('.hero');
+  setTimeout(function(){hero.classList.add('lit')},(document.fonts&&document.fonts.status!=='loaded')?900:600);
+
+  /* the door opens when you reach the end of the visit */
+  var door=document.getElementById('doorway');
+  if('IntersectionObserver' in window){new IntersectionObserver(function(es,o){if(es[0].isIntersecting){door.classList.add('open');door.closest('section').classList.add('open');o.disconnect()}},{threshold:.5}).observe(door)}else{door.classList.add('open');door.closest('section').classList.add('open')}
+
+  /* parallax on the tree layers, pointer only */
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+    var layers=[].slice.call(document.querySelectorAll('.par'));
+    hero.addEventListener('pointermove',function(e){var x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
+      layers.forEach(function(l){var d=+l.dataset.d;l.style.transform='translate('+(-x*d)+'px,'+(-y*d*.5)+'px)'})});
+  }
+
+  /* fireflies over the lawn, and a few moths that find the lamp once it is lit */
+  var cv=document.getElementById('fireflies'), ctx=cv.getContext('2d'), lamp=document.getElementById('lamp-glass');
+  var W=0,H=0,dpr=Math.min(devicePixelRatio||1,2), flies=[], moths=[], running=true;
+  function size(){var r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  function seed(){var n=W<760?16:34;flies=[];for(var i=0;i<n;i++)flies.push({x:Math.random()*W,y:H*(.45+Math.random()*.5),a:Math.random()*6.28,s:.12+Math.random()*.25,p:Math.random()*6.28,r:1.1+Math.random()*1.4});
+    moths=[];for(var j=0;j<5;j++)moths.push({a:Math.random()*6.28,s:.9+Math.random()*1.2,rx:14+Math.random()*26,ry:8+Math.random()*18})}
+  size();seed();addEventListener('resize',function(){size();seed()});
+  new IntersectionObserver(function(es){running=es[0].isIntersecting;if(running)requestAnimationFrame(tick)}).observe(hero);
+  var last=performance.now();
+  function tick(now){if(!running)return;var dt=Math.min(.05,(now-last)/1000);last=now;ctx.clearRect(0,0,W,H);
+    for(var i=0;i<flies.length;i++){var f=flies[i];f.a+=(Math.random()-.5)*.6*dt*6;f.x+=Math.cos(f.a)*f.s*28*dt;f.y+=Math.sin(f.a)*f.s*14*dt;
+      if(f.x<-10)f.x=W+10;if(f.x>W+10)f.x=-10;if(f.y<H*.4)f.a=1.3;if(f.y>H)f.a=-1.3;
+      f.p+=dt*(1.2+f.s*3);var g=Math.max(0,Math.sin(f.p));if(g<.02)continue;
+      var gr=ctx.createRadialGradient(f.x,f.y,0,f.x,f.y,f.r*6);gr.addColorStop(0,'rgba(255,236,160,'+(.9*g)+')');gr.addColorStop(1,'rgba(246,200,137,0)');
+      ctx.fillStyle=gr;ctx.beginPath();ctx.arc(f.x,f.y,f.r*6,0,6.29);ctx.fill()}
+    if(hero.classList.contains('lit')){var lr=lamp.getBoundingClientRect(),cr=cv.getBoundingClientRect(),lx=lr.left+lr.width/2-cr.left,ly=lr.top+lr.height/2-cr.top,k=Math.max(.45,lr.width/22);
+      for(var j=0;j<moths.length;j++){var m=moths[j];m.a+=m.s*dt*3;var mx=lx+Math.cos(m.a)*m.rx*k,my=ly+Math.sin(m.a*1.3)*m.ry*k;
+        ctx.fillStyle='rgba(255,244,214,.75)';ctx.beginPath();ctx.arc(mx,my,1.3,0,6.29);ctx.fill()}}
+    requestAnimationFrame(tick)}
+  requestAnimationFrame(tick);
+})();
 </script>
-<script defer src="js/studio.js?v=1"></script>
-<script defer src="js/chat.js?v=5"></script>
-</body></html>
+<script src="js/chat.js?v=5" defer></script>
+</body>
+</html>
