@@ -24,18 +24,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,100,0..1;1,9..144,400..700,100,0..1&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/porch.css?v=5">
-<link rel="stylesheet" href="css/porch-remake.css?v=6">
+<link rel="stylesheet" href="css/studio.css?v=1">
 </head>
-<body>
-<noscript>
-  <div style="position:fixed;inset:0;z-index:100;background:#0a120e;color:#FAF5EC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:30px;font-family:Georgia,serif">
-    <h1 style="font-weight:500">Front Porch Web</h1>
-    <p style="opacity:.8">This animated experience needs JavaScript.</p>
-    <a href="standard.html" style="color:#F6C889;font-weight:600">Open the standard view &rarr;</a>
-  </div>
-</noscript>
-
+<body class="tour">
+<noscript><a class="no-js" href="standard.html">Read the standard site →</a></noscript>
 <div id="loader">
   <div class="word">FRONT PORCH</div>
   <div class="tag" id="loadTag">An Evening Visit</div>
@@ -91,196 +83,32 @@
 </script>
 
 
-<canvas id="scene" aria-label="An immersive forest path leading to a warmly lit front porch"></canvas><div class="chapter-meter" aria-hidden="true"><span id="chapter-number">01 / 08</span><span id="chapter-name">ARRIVE</span></div>
-
-<header class="hud-top">
-  <a class="brand" href="#top">
-    <img src="assets/logo-nav-96.png" width="39" height="39" alt="Front Porch Web, LLC logo">
-    <span>Front Porch Web</span>
-  </a>
-  <div class="hud-right">
-    <nav class="topnav" aria-label="Sections">
-      <a class="nav-scroll" href="#about" data-at="0.19">About</a>
-      <a class="nav-scroll" href="#work" data-at="0.48">Our Work</a>
-      <a class="nav-scroll" href="#process" data-at="0.63">Process</a>
-      <a class="nav-scroll" href="#pricing" data-at="0.75">Pricing</a>
-      <a class="nav-scroll" href="#hosting" data-at="0.875">Hosting</a>
-      <a href="portal.html">Client Login</a>
-    </nav>
-    <a class="nav-cta" href="portal.html#start">Start Your Project</a>
-    <a class="classic-link" href="standard.html">Standard Site</a>
-  </div>
-</header>
-
-<nav class="rail" id="rail" aria-label="Chapters"></nav>
-
-<div class="hint" id="hint">Scroll to explore<span class="line"></span></div>
-
-
-
-
-<section id="arrive" class="chapter" data-start="0.00" data-end="0.148">
-  <div class="inner">
-    <p class="eyebrow">Websites Built on Trust</p>
-    <h1>When someone looks you up, give them a reason to <em>choose you.</em></h1>
-    <p class="lede">Websites for local businesses, adoptive families, and student-athletes &mdash; built so the person on the other end finds someone real. Honest prices, no surprises.</p>
-    <div class="cta-row" style="justify-content:flex-start">
-      <a class="btn btn-amber" href="portal.html#start">Start Your Project</a>
-      <a class="btn btn-ghost nav-scroll" href="#work" data-at="0.48">See Our Work</a>
-    </div>
-    <p class="footer-line">Simple one-time project pricing &middot; most sites ready to preview in 2&ndash;4 days</p>
-  </div>
-</section>
-
-
-<section id="about" class="chapter chapter-about" data-start="0.088" data-end="0.30">
-  <div class="inner wide">
-    <p class="eyebrow">Why &ldquo;Front Porch&rdquo;?</p>
-    <h2>Websites Built on Trust</h2>
-    <div class="about-row">
-      <img class="about-photo" src="assets/sean.jpg" alt="Sean, founder of Front Porch Web">
-      <div class="about-story">
-        <p class="lede" style="margin-top:0">Hi, I am Sean, a high school junior studying aviation and someone who loves learning about flight and technology. Being part of an adoptive family, I have heard about how much time and effort my mom put into building a website as we were waiting to grow our family. Hearing this story, along with my own love of technology, inspired me to create a platform where families and small organizations can more easily and economically share stories online.</p>
-        <p class="lede" style="margin-top:14px">I named it Front Porch because a front porch is where neighbors stop by, stories get shared, and trust is built one honest conversation at a time. That&rsquo;s how I want to work with you. You&rsquo;ll see the site before it goes live, you&rsquo;ll know the price before you commit, and you can always just ask me a question and get a straight answer. Whether you run a local business, are growing your family, or are a student chasing a goal, I&rsquo;d be honored to help you tell your story well.</p>
-        <p class="attrib">&mdash; Sean, Founder</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section id="trust" class="chapter" data-start="0.24" data-end="0.445">
-  <div class="inner wide">
-    <p class="eyebrow">The Front Porch Difference</p>
-    <h2>Why <em>Front Porch?</em></h2>
-    <div class="why-grid">
-      <div class="why-item" data-sub="0"><h3>Honest pricing</h3><p>Published right here — no hidden fees.</p></div>
-      <div class="why-item" data-sub="1"><h3>Preview before launch</h3><p>See the full site before it goes live.</p></div>
-      <div class="why-item" data-sub="2"><h3>No surprises</h3><p>What we quote is what you pay.</p></div>
-      <div class="why-item" data-sub="3"><h3>Built by the founder</h3><p>Sean designs every site personally &mdash; never outsourced.</p></div>
-      <div class="why-item" data-sub="4"><h3>You own your website</h3><p>It's yours to keep and take anywhere.</p></div>
-      <div class="why-item" data-sub="5"><h3>Built around your story</h3><p>Designed for you — never from a template.</p></div>
-    </div>
-  </div>
-</section>
-
-
-<section id="work" class="chapter chapter-work align-left" data-start="0.385" data-end="0.598">
-  <div class="inner">
-    <p class="eyebrow">Sample Designs</p>
-    <h2>Explore sample <em>websites.</em></h2>
-    <p class="lede">These examples demonstrate the style and quality you can expect while we build our client portfolio.</p>
-    <ul class="work-shots">
-      <li><a href="demos/bennett-family/" target="_blank" rel="noopener"><img src="assets/work/bennett-family-adoption.webp" alt="The Bennett Family homepage" width="1200" height="750" loading="lazy"><span class="ws"><span class="ws-kind">Adoption Profile</span><span class="ws-name">The Bennett Family &#8599;</span></span></a></li>
-      <li><a href="demos/fresh-cut-lawn-care/" target="_blank" rel="noopener"><img src="assets/work/dunn-right.webp" alt="Fresh Cut Lawn Care homepage" width="1200" height="750" loading="lazy"><span class="ws"><span class="ws-kind">Local Business</span><span class="ws-name">Fresh Cut Lawn Care &#8599;</span></span></a></li>
-      <li><a href="demos/hartman-plumbing/" target="_blank" rel="noopener"><img src="assets/work/hartman-plumbing.webp" alt="Hartman Plumbing homepage" width="1200" height="750" loading="lazy"><span class="ws"><span class="ws-kind">Local Business</span><span class="ws-name">Hartman Plumbing &#8599;</span></span></a></li>
-      <li><a href="athletes/gavin-mcgee/" target="_blank" rel="noopener"><img src="assets/work/gavin-mcgee.webp" alt="Gavin McGee college recruiting profile homepage" width="1200" height="750" loading="lazy"><span class="ws"><span class="ws-kind">Student-Athlete</span><span class="ws-name">College Recruiting Profile &#8599;</span></span></a></li>
-    </ul>
-    <p class="work-hint">Tap any sample to open the live demo</p>
-  </div>
-</section>
-
-
-<section id="process" class="chapter align-left" data-start="0.538" data-end="0.735">
-  <div class="inner">
-    <p class="eyebrow">Simple Process</p>
-    <h2>Up and running in <em>three easy steps.</em></h2>
-    <div class="steps">
-      <div class="step" data-sub="0"><span class="n">01</span><span class="t"><b>Fill out our questionnaire</b><span>Answer a few quick questions and upload your photos.</span></span></div>
-      <div class="step" data-sub="1"><span class="n">02</span><span class="t"><b>We build your site</b><span>Ready to preview in 2&ndash;4 days. You see the full site before anything goes live.</span></span></div>
-      <div class="step" data-sub="2"><span class="n">03</span><span class="t"><b>Review and launch</b><span>When you are happy, we publish.</span></span></div>
-    </div>
-  </div>
-</section>
-
-
-<section id="pricing" class="chapter chapter-pricing" data-start="0.675" data-end="0.853">
-  <div class="inner wide">
-    <p class="eyebrow">Simple Pricing</p>
-    <h2>Honest prices. <em>No surprises.</em></h2>
-    <div class="price-cards">
-      <div class="pcard">
-        <div class="pname">Starter</div>
-        <div class="pprice"><small>from</small> $350<span> one-time project</span></div>
-        <ul><li>Up to 4 sections</li><li>Contact form so customers can reach you</li><li>1 round of revisions</li></ul>
-      </div>
-      <div class="pcard feat">
-        <span class="badge-feat">Most Popular</span>
-        <div class="pname">Standard</div>
-        <div class="pprice"><small>from</small> $600<span> one-time project</span></div>
-        <ul><li>Up to 8 sections</li><li>Contact form + photo gallery</li><li>2 rounds of revisions</li><li>Google SEO + social media links</li></ul>
-      </div>
-      <div class="pcard">
-        <div class="pname">Premium</div>
-        <div class="pprice"><small>from</small> $850<span> one-time project</span></div>
-        <ul><li>All the sections your story needs</li><li>Contact form + photo gallery</li><li>3 rounds of revisions</li><li>Full SEO + visitor analytics</li><li>Blog you update yourself</li><li>Online booking + priority support</li></ul>
-      </div>
-    </div>
-    <p class="pricing-note"><strong>Not a business?</strong> Adoption profiles from $300, student-athlete recruiting profiles $250 (or $350 in 3D), personal sites from $350.<br>Every plan includes a mobile-friendly design and your own custom domain. Final pricing depends on your project type — 50% due upfront, 50% on completion, before your site goes live.</p>
-  </div>
-</section>
-
-
-<section id="hosting" class="chapter chapter-pricing" data-start="0.793" data-end="0.97">
-  <div class="inner wide">
-    <p class="eyebrow">After Launch</p>
-    <h2>Hosting &amp; <em>Care Plan.</em></h2>
-    <p class="lede" style="margin-inline:auto;max-width:54ch;text-align:center">Every site needs a home and a domain name. After your site launches, you choose:</p>
-    <div class="price-cards">
-      <div class="pcard">
-        <div class="pname">Take it with you</div>
-        <div class="pprice" style="font-size:20px">Yours to run<span> nothing more to pay us</span></div>
-        <ul><li>We&rsquo;ll help you set up your own hosting and domain</li><li>The site is yours to run</li></ul>
-      </div>
-      <div class="pcard">
-        <div class="pname">Website Health</div>
-        <div class="pprice">$10<span> a month</span></div>
-        <ul><li>Hosting, your domain, and keeping your site online</li><li>We keep it secure and fix anything that breaks</li><li>Need a change? Quoted up front, based on the size of the job</li><li>Cancel anytime &mdash; we&rsquo;ll hand the site over to you, or take it offline</li></ul>
-      </div>
-      <div class="pcard feat">
-        <span class="badge-feat">Changes Included</span>
-        <div class="pname">Care Package</div>
-        <div class="pprice">$30<span> a month</span></div>
-        <ul><li>Everything in Website Health</li><li>Small updates (text &amp; photo changes) whenever you need them</li><li>Athlete profiles: stats refreshed every month, and you approve each change</li><li>Cancel anytime &mdash; we&rsquo;ll hand the site over to you, or take it offline</li></ul>
-      </div>
-    </div>
-    <p class="pricing-note">Small updates means text and photo changes, about an hour of work a month. On Website Health, each change is quoted before we start, based on how much work it takes, and nothing is charged until you say yes. Fixing anything that breaks is always free. Want changes most months? The Care Package covers them for $30 a month. New pages or a redesign are quoted separately.</p>
-  </div>
-</section>
-
-
-<section id="begin" class="chapter align-center" data-start="0.91" data-end="1.065">
-  <div class="inner">
-    <h2>Ready to tell <em>your story?</em></h2>
-    <p class="lede">Fill out the questionnaire, upload your photos, and see a full preview before anything goes live.</p>
-    <div class="cta-row">
-      <a class="btn btn-amber" href="portal.html#start">Start Your Project</a>
-      <!-- Matches the classic site's closing pair: the questionnaire, and a way
-           to just ask a question. Somebody who arrived from a cold email often
-           wants the second one first. -->
-      <a class="btn btn-ghost" href="mailto:frontporchwebllc@gmail.com">frontporchwebllc@gmail.com</a>
-    </div>
-    <p class="classic-note">Prefer a simpler page? <a href="standard.html">Switch to the standard view</a>.</p>
-    <p class="footer-line">
-      <a href="terms.html">Terms &amp; Refunds</a> &middot;
-      <a href="privacy.html">Privacy</a>
-    </p>
-    <p class="footer-line">&copy; 2026 Front Porch Web, LLC. All rights reserved.</p>
-  </div>
-</section>
-
-<div class="vignette"></div>
-<div class="grain"></div>
-
-<div id="fallback">
-  <h1>This little world needs WebGL.</h1>
-  <p>Your browser could not start the 3D scene.</p>
-  <a class="btn btn-amber" href="standard.html">Open the standard view</a>
-</div>
-
+<canvas id="scene" aria-label="An immersive forest path leading to a warmly lit front porch"></canvas><div class="vignette"></div><div class="grain"></div>
+<a class="skip" href="standard.html#arrive">Skip to standard content</a>
+<header class="mast"><a class="brand" href="#arrive"><img src="assets/logo-nav-96.png" alt="" width="46" height="46"><span>Front Porch <em>Web</em></span></a>
+<nav class="desktop-nav" aria-label="Main navigation"><a href="#work" class="nav-scroll " data-at="0.49">Our work</a><a href="#about" class="nav-scroll " data-at="0.19">Studio</a><a href="#pricing" class="nav-scroll " data-at="0.75">Pricing</a><a href="https://frontporchwebllc.com/portal.html">Client login</a></nav>
+<div class="actions"><a class="button primary" href="https://frontporchwebllc.com/portal.html#start">Start a project <span aria-hidden="true">↗</span></a><button type="button" class="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="menu"><span></span><span></span></button></div>
+<nav id="menu" aria-label="All sections" hidden><a href="#arrive" class="nav-scroll " data-at="0.02">Welcome</a><a href="#about" class="nav-scroll " data-at="0.19">The studio</a><a href="#trust" class="nav-scroll " data-at="0.34">Our approach</a><a href="#work" class="nav-scroll " data-at="0.49">Sample work</a><a href="#process" class="nav-scroll " data-at="0.63">Process</a><a href="#pricing" class="nav-scroll " data-at="0.75">Pricing</a><a href="#hosting" class="nav-scroll " data-at="0.875">After launch</a><a href="#begin" class="nav-scroll " data-at="0.99">Get in touch</a><a href="standard.html">Standard view <span aria-hidden="true">↗</span></a><a href="https://frontporchwebllc.com/portal.html">Client login <span aria-hidden="true">↗</span></a></nav></header>
+<main>
+<section id="arrive" class="chapter" data-start="0.00" data-end="0.148"><div class="sheet"><div class="copy"><div class="kicker"><b aria-hidden="true">✳</b> Independent web design studio</div>
+<h1>A home for<br><em>your story.</em></h1>
+<p class="lead">Custom websites for local businesses, adoptive families, and student-athletes.<span class="desktop-copy"> Designed by Sean, from the first conversation to launch.</span></p>
+<div class="ctas"><a class="button primary" href="https://frontporchwebllc.com/portal.html#start">Start a project <span aria-hidden="true">↗</span></a><a href="#work" class="nav-scroll text-link" data-at="0.49">Explore the work <span aria-hidden="true">↓</span></a></div>
+<div class="signature"><img src="assets/sean.jpg" alt="" width="43" height="43"><div><strong>Sean Willison</strong><small>Founder &amp; designer</small></div></div></div></div></section>
+<section id="about" class="chapter" data-start="0.088" data-end="0.30"><div class="sheet"><div class="copy"><p class="kicker">The studio</p><h2>Meet <em>Sean.</em></h2><div class="founder"><img src="assets/sean.jpg" alt="Sean Willison, founder of Front Porch Web"><div><p>When Sean’s family was hoping to adopt, his mom built a website to introduce them. Hearing how much work it took gave Sean the idea for Front Porch Web.</p><p>Today he designs websites for families, local businesses, and athletes, alongside studying aviation in high school.</p></div></div></div></div></section>
+<section id="trust" class="chapter" data-start="0.24" data-end="0.445"><div class="sheet"><div class="copy"><p class="kicker">Our approach</p><h2>One designer.<br><em>Start to finish.</em></h2><dl class="outline"><div><dt>A price up front</dt><dd>You know the project cost before you commit.</dd></div><div><dt>A preview before launch</dt><dd>Review the full website with Sean and request edits.</dd></div><div><dt>A site you own</dt><dd>Choose your own host or ask Sean to look after it.</dd></div></dl></div></div></section>
+<section id="work" class="chapter" data-start="0.385" data-end="0.598"><div class="sheet"><div class="copy"><p class="kicker">The portfolio</p><h2>Sample <em>work.</em></h2><p class="intro">Open a live demo to explore the design.</p><div class="work-grid"><a class="sample" href="https://frontporchwebllc.com/demos/hartman-plumbing/" target="_blank" rel="noopener"><img src="assets/work/hartman-plumbing.webp" width="1200" height="750" alt="" loading="lazy"><span><small>Local business</small><strong>Hartman Plumbing</strong></span><span aria-hidden="true">↗</span></a><a class="sample" href="https://frontporchwebllc.com/demos/bennett-family/" target="_blank" rel="noopener"><img src="assets/work/bennett-family-adoption.webp" width="1200" height="750" alt="" loading="lazy"><span><small>Adoption profile</small><strong>The Bennett Family</strong></span><span aria-hidden="true">↗</span></a><a class="sample" href="https://frontporchwebllc.com/demos/fresh-cut-lawn-care/" target="_blank" rel="noopener"><img src="assets/work/dunn-right.webp" width="1200" height="750" alt="" loading="lazy"><span><small>Local business</small><strong>Fresh Cut Lawn Care</strong></span><span aria-hidden="true">↗</span></a><a class="sample" href="https://frontporchwebllc.com/athletes/gavin-mcgee/" target="_blank" rel="noopener"><img src="assets/work/gavin-mcgee.webp" width="1200" height="750" alt="" loading="lazy"><span><small>Student-athlete</small><strong>College recruiting profile</strong></span><span aria-hidden="true">↗</span></a></div></div></div></section>
+<section id="process" class="chapter" data-start="0.538" data-end="0.735"><div class="sheet"><div class="copy"><p class="kicker">The process</p><h2>From hello<br><em>to launch.</em></h2><ol class="steps"><li><div><h3>Tell Sean about your project</h3><p>Answer a short questionnaire and share your photos.</p></div></li><li><div><h3>Explore your preview</h3><p>Most sites are ready to review in 2–4 days. Walk through yours and request changes.</p></div></li><li><div><h3>Give the go-ahead</h3><p>When you’re happy with the design, Sean publishes your site.</p></div></li></ol></div></div></section>
+<section id="pricing" class="chapter" data-start="0.675" data-end="0.853"><div class="sheet"><div class="copy"><p class="kicker">One-time projects</p><h2>Website <em>pricing.</em></h2><p class="intro">Compare business packages. Select a plan to see what’s included.</p><div class="plan-list"><details class="plan"><summary><span>Starter</span><strong><small>from </small>$350</strong><i aria-hidden="true"></i></summary><p>Up to 4 sections, a contact form, and one round of revisions.</p></details><details class="plan"><summary><span>Standard</span><strong><small>from </small>$600</strong><i aria-hidden="true"></i></summary><p>Up to 8 sections, a contact form, photo gallery, Google SEO, social links, and two rounds of revisions.</p></details><details class="plan"><summary><span>Premium</span><strong><small>from </small>$850</strong><i aria-hidden="true"></i></summary><p>All the sections you need, a contact form, gallery, blog, booking, full SEO, analytics, priority support, and three rounds of revisions.</p></details></div><p class="fine">Adoption profiles from $300 · Athlete profiles $250 ($350 in 3D) · Personal sites from $350.</p><p class="fine">Each plan includes mobile design and a custom domain. Final pricing depends on project type. Pay 50% to begin and the balance before launch.</p></div></div></section>
+<section id="hosting" class="chapter" data-start="0.793" data-end="0.97"><div class="sheet"><div class="copy"><p class="kicker">After launch</p><h2>Hosting <em>&amp; care.</em></h2><p class="intro">Run the site yourself or choose a monthly plan.</p><div class="plan-list"><details class="plan"><summary><span>Self-managed</span><strong>Yours to run</strong><i aria-hidden="true"></i></summary><p>We help you set up hosting and a domain in your own name. No ongoing fee to Front Porch Web.</p></details><details class="plan"><summary><span>Website Health</span><strong>$10 / month</strong><i aria-hidden="true"></i></summary><p>Hosting, domain, security, and repairs. We quote content changes individually and start once you approve.</p></details><details class="plan"><summary><span>Care Package</span><strong>$30 / month</strong><i aria-hidden="true"></i></summary><p>Website Health plus about an hour of text and photo updates each month. Athlete profiles include a monthly stats refresh for approval.</p></details></div><p class="fine">Cancel either monthly plan anytime. Sean can hand over the site or take it offline. Repairs are included. New pages and redesigns are quoted separately.</p></div></div></section>
+<section id="begin" class="chapter" data-start="0.91" data-end="1.065"><div class="sheet"><div class="copy"><p class="kicker">Get in touch</p><h2>Tell me about<br><em>your project.</em></h2><p class="lead">What would you like people to know when they find you online? Share a little about yourself, or email Sean a question.</p><div class="ctas"><a class="button primary" href="https://frontporchwebllc.com/portal.html#start">Start a project <span aria-hidden="true">↗</span></a></div><a class="email" href="mailto:frontporchwebllc@gmail.com">frontporchwebllc@gmail.com</a><footer>© 2026 Front Porch Web, LLC<br><a href="https://frontporchwebllc.com/terms.html">Terms &amp; refunds</a> · <a href="https://frontporchwebllc.com/privacy.html">Privacy</a></footer></div></div></section>
+</main>
+<button type="button" class="scene-credit" aria-pressed="false"><span class="live-mark"></span><span class="scene-title">An evening visit <i> / </i></span><span id="scene-action">View full scene ↗</span></button>
+<div class="tour-bar"><div class="meter"><span id="chapter-number">01 / 08</span><span id="chapter-name">ARRIVE</span></div><nav id="rail" aria-label="Tour chapters"></nav><div class="tour-tools"><a href="standard.html">Standard view ↗</a><button type="button" id="previous" aria-label="Previous chapter">←</button><button type="button" id="next" aria-label="Next chapter">→</button></div></div>
+<div class="walk-hint" id="hint">Scroll to explore <span>↓</span></div>
+<div id="fallback"><p>Read the studio site in the standard view.</p><a class="button primary" href="standard.html">Continue to the site →</a></div>
 <div id="runway"></div>
-
-<script type="application/ld+json">
+<script type="module" src="js/scene.js?v=11"></script><script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -348,8 +176,6 @@
   }
 }
 </script>
-
-<script type="module" src="js/scene.js?v=11"></script>
-<script src="js/chat.js?v=5" defer></script>
-</body>
-</html>
+<script defer src="js/studio.js?v=1"></script>
+<script defer src="js/chat.js?v=5"></script>
+</body></html>
