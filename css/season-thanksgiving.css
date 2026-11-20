@@ -1,0 +1,13 @@
+/* Thanksgiving skin for the 3D homepage. Loaded after porch-remake.css; only
+   recolours. Harvest gold replaces amber, night goes warm umber, the featured
+   plan turns cranberry. */
+:root{--amber:#eda23a;--amber-soft:#f6c67a;--night:#1a100b}
+.btn-amber,.nav-cta{background:linear-gradient(180deg,#f4b552,#e2902a 55%,#b9651a);box-shadow:0 4px 18px #b9651a73}
+.btn-amber:hover,.nav-cta:hover{background:linear-gradient(180deg,#f8c56c,#eb9e36 55%,#c9731f);box-shadow:0 8px 30px #e2902a99}
+.pcard.feat{background:#5a1f1ab8;border-color:#eda23a8c}
+.rail button.on{box-shadow:0 0 13px #eda23acc}
+.hud-top{background:linear-gradient(#1a100b99,#0000)}
+.scene-shade{background:linear-gradient(90deg,#140b07cc 0%,#140b0787 28%,#140b0714 57%,#0000 78%)}
+@media (max-width:700px){.scene-shade{background:linear-gradient(#0000,#140b0745 35%,#140b07d6)}}
+#loader .word::after{content:" \1F342";font-size:.8em}
+@media (max-width:700px){.eyebrow{color:#ffe7bd;text-shadow:0 1px 8px #000d,0 0 2px #000a}}
